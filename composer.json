@@ -1,0 +1,40 @@
+{
+    "name": "jensostertag/php-framework",
+    "description": "Powerful and feature-rich PHP framework designed to simplify web development",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.2",
+        "eftec/bladeone": "4.13.*",
+        "phpmailer/phpmailer": "~v6.9.1",
+        "jensostertag/curl-adapter": "~1.0.0",
+        "jensostertag/geocoding-util": "~1.0.0",
+        "jensostertag/uploadhelper": "~1.0.0",
+        "jensostertag/csvreader": "~1.0.0",
+        "ext-pdo": "*",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-apcu": "*"
+    },
+    "require-dev": {
+        "pestphp/pest": "~2.33.4"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2"
+        },
+        "vendor-dir": "project/src/lib/vendor",
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "docker compose -f docker-compose-dev.yml up"
+        ],
+        "test": "project/src/lib/vendor/bin/pest tests",
+        "build": "project/src/lib/build/build.sh",
+        "tailwindcss": "project/src/lib/tailwindcss/tailwindcss.sh",
+        "tailwindcss-compile": "project/src/lib/tailwindcss/tailwindcss.sh --input htdocs/static/css/base.css --output htdocs/static/css/style.css --minify"
+    }
+}

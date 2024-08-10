@@ -1,0 +1,11 @@
+RewriteEngine On
+RewriteBase /
+
+# Leave all requests to static files
+RewriteRule ^static/.*$ - [L]
+
+# Rewrite all requests from deploy to deployment/deploy.php
+RewriteRule deploy deployment/deploy.php [L]
+
+# Rewrite all other requests to routes-handler.php
+RewriteRule ^.*$ routes-handler.php [L]

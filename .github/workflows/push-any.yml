@@ -1,0 +1,36 @@
+name: "Push to any except main branch"
+
+on:
+    push:
+        branches:
+          - "**"
+          - "!main"
+    workflow_dispatch:
+
+jobs:
+    test:
+      runs-on: "ubuntu-latest"
+      steps:
+        - name: "Checkout"
+          uses: "actions/checkout@v4"
+
+        - name: "Validate composer.json and composer.lock"
+          run: |
+              composer validate --strict
+
+        - name: "Cache composer packages"
+          id: "composer-cache"
+          uses: "actions/cache@v4"
+          with:
+              path: "project/src/lib/vendor"
+              key: "${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}"
+              restore-keys: |
+                  ${{ runner.os }}-php-
+
+        - name: "Install composer packages"
+          run: |
+              composer install --no-interaction --ignore-platform-reqs
+
+        - name: "Run tests"
+          run: |
+              composer run-script test

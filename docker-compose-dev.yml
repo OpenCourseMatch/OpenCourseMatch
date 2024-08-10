@@ -1,0 +1,44 @@
+version: "3"
+
+volumes:
+    database:
+        driver: "local"
+
+networks:
+    app:
+
+services:
+    database:
+        image: "mysql:8.2"
+        restart: "no"
+        environment:
+            TZ: "Europe/Berlin" # ADJUST
+            MYSQL_ROOT_PASSWORD: "root"
+            MYSQL_DATABASE: "framework-app"
+            MYSQL_USER: "framework-app"
+            MYSQL_PASSWORD: "framework-app"
+        volumes:
+            - "database:/var/lib/mysql"
+        ports:
+            - "3306:3306"
+        networks:
+            - "app"
+
+    app:
+        build:
+            context: "."
+            dockerfile: "Dockerfile-dev"
+        restart: "no"
+        environment:
+            TZ: "Europe/Berlin" # ADJUST
+        volumes:
+            - "./framework:/app/framework"
+            - "./htdocs:/app/htdocs"
+            - "./project:/app/project"
+            - "./secrets:/app/secrets"
+            - "./app-logs:/app/logs"
+            - "./app-files:/app/files"
+        ports:
+            - "3000:80"
+        networks:
+            - "app"

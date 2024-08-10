@@ -1,0 +1,9 @@
+charset_map koi8-r windows-1251 {
+    80 88; # U+20AC EURO SIGN
+
+    95 95; # U+2022 BULLET
+
+    9A A0; # U+00A0 NO-BREAK SPACE
+
+    9E B7; # U+00B7 MIDDLE DOT
+}

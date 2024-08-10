@@ -1,0 +1,25 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    root /app/htdocs;
+
+    index index.php index.html index.htm;
+
+    location ~* /static/ {
+        rewrite ^(.*)/static/(.*)$ /static/$2 break;
+    }
+
+    location /deploy {
+        rewrite ^(.*)/deploy$ /deployment/deploy.php last;
+    }
+
+    location / {
+        rewrite ^/(.*)$ /routes-handler.php last;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass 127.0.0.1:9000;
+    }
+}

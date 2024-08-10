@@ -1,0 +1,28 @@
+# Ignore git repositories
+.git/
+
+# Ignore PhpStorm files
+.idea/
+
+# Ignore composer files
+vendor/
+
+# Ignore files that contain sensible information such as passwords or secret keys
+/secrets/*.secret.json
+
+# Ignore log files
+/logs/
+/app-logs/
+
+# Ignore user uploads
+/files/
+/app-files/
+
+# Ignore backup files
+/database-backup/
+
+# Ignore template cache files
+/project/template-cache/
+
+# Ignore compiled TailwindCSS files
+/htdocs/static/css/style.css

@@ -1,0 +1,49 @@
+version: "3"
+
+volumes:
+    database:
+        driver: "local"
+
+networks:
+    app:
+
+services:
+    database:
+        image: "mysql:8.2"
+        restart: "always"
+        environment:
+            TZ: "Europe/Berlin" # ADJUST
+            MYSQL_ROOT_PASSWORD: "root" # ADJUST
+            MYSQL_DATABASE: "framework-app" # ADJUST
+            MYSQL_USER: "framework-app" # ADJUST
+            MYSQL_PASSWORD: "framework-app" # ADJUST
+        volumes:
+            - "database:/var/lib/mysql"
+        networks:
+            - "app"
+
+    app:
+        image: "ghcr.io/jensostertag/php-framework:latest" # ADJUST
+        restart: "always"
+        environment:
+            TZ: "Europe/Berlin" # ADJUST
+        volumes:
+            - "./secrets:/app/secrets"
+            - "./app-logs:/app/logs"
+            - "./app-files:/app/files"
+        ports:
+            - "80:80"
+        networks:
+            - "app"
+
+    backup:
+        image: "ghcr.io/jensostertag/mysql-backup:latest"
+        restart: "always"
+        environment:
+            TZ: "Europe/Berlin" # ADJUST
+            DB_HOST: "database"
+            DB_USER: "framework-app" # ADJUST
+            DB_PASS: "framework-app" # ADJUST
+            DB_DATABASE: "framework-app" # ADJUST
+        volumes:
+            - "./database-backup:/backup"
