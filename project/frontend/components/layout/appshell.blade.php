@@ -134,21 +134,32 @@
             </div>
 
             <div class="flex flex-wrap justify-between gap-2 mt-2 text-sm">
-                <div class="flex flex-wrap gap-1 text-sm">
-                    <span>
-                        &copy;&nbsp;2020&nbsp;-&nbsp;{{ (new DateTime())->format("Y") }}
-                    </span>
-                    <span>
-                        <a href="https://github.com/OpenCourseMatch/OpenCourseMatch/graphs/contributors"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="text-primary hover:text-primary-effect transition-all">
-                            OpenCourseMatch contributors
-                        </a>
-                    </span>
+                <div class="flex flex-col text-sm">
+                    <p>
+                        Licensed under the
+                        <span class="inline-flex">
+                            <a href="https://github.com/OpenCourseMatch/OpenCourseMatch/blob/main/LICENSE"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="text-primary hover:text-primary-effect transition-all">
+                                MIT License
+                            </a>.
+                        </span>
+                    </p>
+                    <p>
+                        Built with ❤️ and lack of 🛏️ by
+                        <span class="inline-flex">
+                            <a href="https://github.com/OpenCourseMatch/OpenCourseMatch/graphs/contributors"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="text-primary hover:text-primary-effect transition-all">
+                                OpenCourseMatch contributors
+                            </a>.
+                        </span>
+                    </p>
                 </div>
 
-                <span class="inline-flex items-center gap-1 inline-block float-right text-xs">
+                <div class="inline-flex items-center gap-1 inline-block float-right text-xs">
                     <svg class="fill-current animate-spin h-3"
                          viewBox="0 0 356 356"
                          xmlns="http://www.w3.org/2000/svg"
@@ -158,7 +169,7 @@
                         </g>
                     </svg>
                     {{ t("Version:") }} {{ Config::$PROJECT_SETTINGS["PROJECT_VERSION"] }}
-                </span>
+                </div>
             </div>
         </footer>
     </body>
