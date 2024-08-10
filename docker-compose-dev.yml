@@ -14,9 +14,9 @@ services:
         environment:
             TZ: "Europe/Berlin" # ADJUST
             MYSQL_ROOT_PASSWORD: "root"
-            MYSQL_DATABASE: "framework-app"
-            MYSQL_USER: "framework-app"
-            MYSQL_PASSWORD: "framework-app"
+            MYSQL_DATABASE: "opencoursematch"
+            MYSQL_USER: "opencoursematch"
+            MYSQL_PASSWORD: "opencoursematch"
         volumes:
             - "database:/var/lib/mysql"
         ports:

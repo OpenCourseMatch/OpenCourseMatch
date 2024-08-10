@@ -8,48 +8,48 @@ module.exports = {
             transparent: 'transparent',
             current: 'currentColor',
             "background": {
-                DEFAULT: "#ffffff",
-                "header": "#ffffff",
-                "footer": "#ffffff",
+                DEFAULT: "#ebfff4",
+                "header": "#ebfff4",
+                "footer": "#ebfff4",
             },
             "font": {
-                DEFAULT: "#000000",
-                "light": "#aaaaaa",
-                "invert": "#ffffff",
-                "header": "#000000",
+                DEFAULT: "#333333",
+                "light": "#666666",
+                "invert": "#fffdf7",
+                "header": "#333333",
                 "footer": "#666666"
             },
             "gray": {
-                DEFAULT: "#aaaaaa",
+                DEFAULT: "#999999",
                 "light": "#dddddd",
                 "dark": "#666666",
                 "effect": "#666666",
-                "font": "#ffffff"
+                "font": "#fffdf7"
             },
             "primary": {
-                DEFAULT: "#2f7cff",
-                "effect": "#275fda",
-                "font": "#ffffff"
+                DEFAULT: "#00a34c",
+                "effect": "#007236",
+                "font": "#ebfff4"
             },
             "secondary": {
-                DEFAULT: "#ff2f7c",
-                "effect": "#da275f",
-                "font": "#ffffff"
+                DEFAULT: "#f1c400",
+                "effect": "#b89600",
+                "font": "#333333"
             },
             "danger": {
                 DEFAULT: "#f45c4a",
                 "effect": "#e14332",
-                "font": "#ffffff"
+                "font": "#feeeec"
             },
             "warning": {
-                DEFAULT: "#f3c033",
-                "effect": "#d9ac1e",
-                "font": "#ffffff"
+                DEFAULT: "#f1c400",
+                "effect": "#b89600",
+                "font": "#333333"
             },
             "safe": {
                 DEFAULT: "#4dbb5f",
                 "effect": "#13942c",
-                "font": "#ffffff"
+                "font": "#f0f9f2"
             },
             "infomessage": {
                 "none": {
@@ -61,8 +61,8 @@ module.exports = {
                     "background": "#275fda33"
                 },
                 "warning": {
-                    "border": "#f3c033ff",
-                    "background": "#f3c03344"
+                    "border": "#f1c400",
+                    "background": "#f1c40044"
                 },
                 "error": {
                     "border": "#f45c4aff",

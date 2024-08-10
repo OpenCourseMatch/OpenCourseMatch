@@ -13,17 +13,17 @@ services:
         restart: "always"
         environment:
             TZ: "Europe/Berlin" # ADJUST
-            MYSQL_ROOT_PASSWORD: "root" # ADJUST
-            MYSQL_DATABASE: "framework-app" # ADJUST
-            MYSQL_USER: "framework-app" # ADJUST
-            MYSQL_PASSWORD: "framework-app" # ADJUST
+            MYSQL_ROOT_PASSWORD: "opencoursematch" # ADJUST
+            MYSQL_DATABASE: "opencoursematch"
+            MYSQL_USER: "opencoursematch"
+            MYSQL_PASSWORD: "opencoursematch" # ADJUST
         volumes:
             - "database:/var/lib/mysql"
         networks:
             - "app"
 
     app:
-        image: "ghcr.io/jensostertag/php-framework:latest" # ADJUST
+        image: "ghcr.io/opencoursematch/opencoursematch:latest"
         restart: "always"
         environment:
             TZ: "Europe/Berlin" # ADJUST
@@ -42,8 +42,8 @@ services:
         environment:
             TZ: "Europe/Berlin" # ADJUST
             DB_HOST: "database"
-            DB_USER: "framework-app" # ADJUST
-            DB_PASS: "framework-app" # ADJUST
-            DB_DATABASE: "framework-app" # ADJUST
+            DB_USER: "opencoursematch"
+            DB_PASS: "opencoursematch" # ADJUST
+            DB_DATABASE: "opencoursematch"
         volumes:
             - "./database-backup:/backup"

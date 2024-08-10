@@ -1,6 +1,6 @@
 {
-    "name": "jensostertag/php-framework",
-    "description": "Powerful and feature-rich PHP framework designed to simplify web development",
+    "name": "opencoursematch/opencoursematch",
+    "description": "Open-source web application designed to automate the assignment of participants to different courses depending on the participants preferences.",
     "license": "MIT",
     "require": {
         "php": ">=8.2",

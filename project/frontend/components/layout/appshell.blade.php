@@ -121,7 +121,7 @@
             {!! $slot !!}
         </main>
 
-        <footer class="min-h-24 px-content-padding-sm md:px-content-padding-md lg:px-content-padding-lg bg-background-header text-font-footer">
+        <footer class="mb-4 px-content-padding-sm md:px-content-padding-md lg:px-content-padding-lg bg-background-header text-font-footer">
             <hr class="my-4">
             <div class="flex justify-start items-center uppercase">
                 <img src="{{ Router::staticFilePath("img/logo.svg") }}"
@@ -134,12 +134,17 @@
             </div>
 
             <div class="flex flex-wrap justify-between gap-2 mt-2 text-sm">
-                <div class="flex flex-wrap gap-1 text-xs">
+                <div class="flex flex-wrap gap-1 text-sm">
                     <span>
                         &copy;&nbsp;2020&nbsp;-&nbsp;{{ (new DateTime())->format("Y") }}
                     </span>
                     <span>
-                        {{ Config::$PROJECT_SETTINGS["PROJECT_AUTHOR"] }}
+                        <a href="https://github.com/OpenCourseMatch/OpenCourseMatch/graphs/contributors"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="text-primary hover:text-primary-effect transition-all">
+                            OpenCourseMatch contributors
+                        </a>
                     </span>
                 </div>
 
