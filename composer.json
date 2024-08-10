@@ -1,6 +1,6 @@
 {
     "name": "opencoursematch/opencoursematch",
-    "description": "Open-source web application designed to automate the assignment of participants to different courses depending on the participants preferences.",
+    "description": "OpenCourseMatch is an open-source web application designed to automate the assignment of participants to courses depending on the participants' preferences and the courses' requirements.",
     "license": "MIT",
     "require": {
         "php": ">=8.2",
@@ -10,6 +10,7 @@
         "jensostertag/geocoding-util": "~1.0.0",
         "jensostertag/uploadhelper": "~1.0.0",
         "jensostertag/csvreader": "~1.0.0",
+        "erusev/parsedown": "~1.7.4",
         "ext-pdo": "*",
         "ext-curl": "*",
         "ext-json": "*",

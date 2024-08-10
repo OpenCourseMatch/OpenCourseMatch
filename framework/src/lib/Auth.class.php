@@ -23,6 +23,7 @@ class Auth {
             return $user;
         }
 
+        self::logout();
         return null;
     }
 

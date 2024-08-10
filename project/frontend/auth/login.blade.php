@@ -1,10 +1,6 @@
 @component("components.layout.authshell")
     <p class="mb-2">
-        {{ t("Don't have an account yet?") }}
-        <a class="text-primary hover:text-primary-effect cursor-pointer transition-all"
-           href="{{ Router::generate("auth-register") }}">
-            {{ t("Click here to register.") }}
-        </a>
+        {{ t("Please enter your account credentials to log in.") }}
     </p>
 
     <form method="post" action="{{ Router::generate("auth-login-action") }}">
@@ -40,10 +36,5 @@
         <button class="{{ TailwindUtil::button(true) }} w-full mb-2">
             {{ t("Log in") }}
         </button>
-
-        <a class="text-sm text-gray hover:text-gray-effect cursor-pointer transition-all"
-           href="{{ Router::generate("auth-recovery-request") }}">
-            {{ t("Forgot password?") }}
-        </a>
     </form>
 @endcomponent

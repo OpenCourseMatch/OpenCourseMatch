@@ -136,6 +136,15 @@
             <div class="flex flex-wrap justify-between gap-2 mt-2 text-sm">
                 <div class="flex flex-col text-sm">
                     <p>
+                        Using
+                        <span class="inline-flex">
+                            <a href="{{ Router::generate("libraries") }}"
+                               class="text-primary hover:text-primary-effect transition-all">
+                                these software dependencies
+                            </a>.
+                        </span>
+                    </p>
+                    <p>
                         Licensed under the
                         <span class="inline-flex">
                             <a href="https://github.com/OpenCourseMatch/OpenCourseMatch/blob/main/LICENSE"
