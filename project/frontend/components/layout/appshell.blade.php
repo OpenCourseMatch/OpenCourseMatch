@@ -181,5 +181,10 @@
                 </div>
             </div>
         </footer>
+
+        <script type="module">
+            import ButtonLoad from "{{ Router::staticFilePath("js/ButtonLoad.js") }}";
+            ButtonLoad.init();
+        </script>
     </body>
 </html>

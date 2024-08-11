@@ -1,11 +1,36 @@
 {
+    "Dashboard": "Dashboard",
+    "Account settings": "Account settings",
+    "Manage your personal info, security settings, and account preferences.": "Manage your personal info, security settings, and account preferences.",
+    "Change password": "Change password",
+    "Update your account password.": "Update your account password.",
+    "Please fill out all the required fields.": "Please fill out all the required fields.",
+    "The password does not meet the requirements.": "The password does not meet the requirements.",
+    "The passwords do not match.": "The passwords do not match.",
+    "The current password is incorrect.": "The current password is incorrect.",
+    "Your password has been updated.": "Your password has been updated.",
+
+    "Statistics": "Statistics",
+
+    "Manage accounts": "Manage accounts",
+
+    "Manage courses": "Manage courses",
+
+    "Course assignment": "Course assignment",
+
+    "Settings": "Settings",
+
+    "About OpenCourseMatch": "About OpenCourseMatch",
+
     "The requested resource could not be found.": "The requested resource could not be found.",
     "There was an error with your request.": "There was an error with your request.",
     "Logged in as": "Logged in as",
-    "Please enter your account credentials to log in.": "Please enter your account credentials to log in.",
     "Log in": "Log in",
     "Log out": "Log out",
     "Username": "Username",
     "Password": "Password",
+    "Please enter your account credentials to log in.": "Please enter your account credentials to log in.",
+    "No users were registered yet. An administrator account has been created.": "No users were registered yet. An administrator account has been created.",
+    "An account with these credentials does not exist.": "An account with these credentials does not exist.",
     "Version:": "Version:"
 }

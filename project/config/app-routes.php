@@ -9,6 +9,11 @@ Router::addRoute("POST", "/translations-api", "translations/api.php", "translati
 // Dashboard
 Router::addRoute("GET", "/dashboard", "dashboard.php", "dashboard");
 
+// Account settings
+Router::addRoute("GET", "/account-settings", "account-settings/account-settings.php", "account-settings");
+Router::addRoute("GET", "/account-settings/change-password", "account-settings/change-password.php", "account-settings-change-password");
+Router::addRoute("POST", "/account-settings/change-password", "account-settings/change-password-action.php", "account-settings-change-password-action");
+
 // Authentication
 Router::addRoute("GET", "/auth/login", "auth/login.php", "auth-login");
 Router::addRoute("POST", "/auth/login", "auth/login-action.php", "auth-login-action");
