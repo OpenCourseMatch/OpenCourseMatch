@@ -5,12 +5,13 @@
 
     <a id="create-group"
        href="{{ Router::generate("groups-create") }}"
-       class="{{ TailwindUtil::button() }}">
+       class="{{ TailwindUtil::button() }} gap-2">
+        @include("components.icons.plus")
         {{ t("Create group") }}
     </a>
 
     <div class="overflow-x-auto">
-        <table id="groups-table" class="stripe">
+        <table id="groups-table" class="stripe" data-table-ajax="{{ Router::generate("groups-overview-table") }}">
             <thead>
                 <tr>
                     <th>{{ t("Group name") }}</th>
@@ -18,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                {{-- TODO --}}
+                {{-- Contents filled by groups/overview.js --}}
             </tbody>
         </table>
     </div>

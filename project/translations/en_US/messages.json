@@ -16,8 +16,13 @@
     "Groups": "Groups",
     "Customize user groups to model the participation requirements of the courses.": "Customize user groups to model the participation requirements of the courses.",
     "Create group": "Create group",
+    "Edit group": "Edit group",
     "Group name": "Group name",
     "Group clearance": "Group clearance",
+    "The group that should be edited does not exist.": "The group that should be edited does not exist.",
+    "The group that should be deleted does not exist.": "The group that should be deleted does not exist.",
+    "The group has been saved.": "The group has been saved.",
+    "The group has been deleted.": "The group has been deleted.",
 
     "Manage courses": "Manage courses",
 
@@ -31,6 +36,8 @@
     "No entries": "No entries",
     "Back": "Back",
     "Next": "Next",
+    "Confirm": "Confirm",
+    "Abort": "Abort",
 
     "The requested resource could not be found.": "The requested resource could not be found.",
     "There was an error with your request.": "There was an error with your request.",

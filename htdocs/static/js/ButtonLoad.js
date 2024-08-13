@@ -9,6 +9,12 @@ export const ButtonLoad = {
                 ButtonLoad.load(element);
             });
         });
+
+        $(window).on("unload", () => {
+            $("button[type=\"submit\"]").each((index, element) => {
+                ButtonLoad.unload(element);
+            });
+        });
     },
 
     load: (element) => {

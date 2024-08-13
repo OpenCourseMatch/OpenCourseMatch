@@ -12,6 +12,16 @@ export const GroupsOverview = {
                 }
             },
             order: [[1, "asc"]],
+            ajax: {
+                url: $("#groups-table").data("table-ajax"),
+                dataSrc: "",
+                type: "POST"
+            },
+            autoWidth: false,
+            columns: [
+                { data: "name" },
+                { data: "clearance" }
+            ]
         });
 
         let filter = $("#groups-table_filter input");
@@ -22,7 +32,7 @@ export const GroupsOverview = {
         filterContainer.append(createButton);
 
         $("#groups-table tbody").on("click", "tr", function() {
-            window.location.href = $(this).data("href");
+            window.location.href = table.row(this).data().editHref;
         });
     }
 };
