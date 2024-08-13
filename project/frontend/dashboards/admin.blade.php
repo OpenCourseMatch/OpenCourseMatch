@@ -13,7 +13,12 @@
     {{ t("Manage accounts") }}
 </h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    {{-- Groups --}}
+    @include("components.dashboardlink", [
+        "icon" => "components.icons.group",
+        "href" => Router::generate("groups-overview"),
+        "title" => t("Groups"),
+        "description" => t("Customize user groups to model the participation requirements of the courses.")
+    ])
     {{-- Participants and tutors --}}
     {{-- Helpers --}}
     {{-- Administrators --}}

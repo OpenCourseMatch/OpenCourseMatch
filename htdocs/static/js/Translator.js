@@ -10,7 +10,6 @@ const initTranslator = (translationAjax) => {
                 variables: variables
             },
             success: (response) => {
-                console.log(response);
                 return response;
             }
         });

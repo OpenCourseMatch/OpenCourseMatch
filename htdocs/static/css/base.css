@@ -1,4 +1,6 @@
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /*
  *  Import font by a link:
@@ -33,5 +35,93 @@
     }
 }
 
-@tailwind components;
-@tailwind utilities;
+@layer components {
+    /*
+     * DataTables custom styling
+     */
+    /* Show content in primary color */
+    .dataTables_wrapper {
+        @apply w-full text-font;
+    }
+
+    .dataTables_wrapper .dataTable {
+        @apply w-full;
+    }
+
+    /* Move search bar to the left and style it */
+    .dataTables_wrapper .dataTables_filter {
+        @apply float-none text-left flex items-center justify-between;
+    }
+
+    .dataTables_wrapper .dataTables_filter .button {
+        @apply m-0;
+    }
+
+    /* Style search bar */
+    .dataTables_wrapper .dataTables_filter input {
+        @apply m-0 px-2 py-1 bg-transparent border border-gray outline-primary rounded placeholder:text-font-light;
+    }
+
+    /* Move pagination to the center */
+    .dataTables_wrapper .dataTables_paginate {
+        @apply float-none text-center;
+    }
+
+    /* Style pagination buttons */
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        @apply m-0 px-4 py-2 inline-flex justify-around border transition-all text-font bg-transparent border-gray cursor-pointer;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        @apply text-primary-font bg-primary border-primary;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+        @apply text-gray bg-transparent border-gray cursor-default;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        @apply bg-gray-light border-gray;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        @apply text-primary-font bg-primary border-primary;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+        @apply bg-transparent border-gray shadow-none;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.previous {
+        @apply rounded-l;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.next {
+        @apply rounded-r;
+    }
+
+    /* Gray bottom border after table head */
+    .dataTables_wrapper table.dataTable > thead > tr > th {
+        @apply p-2 border-b border-gray text-left;
+    }
+
+    /* Remove bottom border after table body */
+    .dataTables_wrapper table.dataTable {
+        @apply mb-2 border-none;
+    }
+
+    /* Highlight even rows */
+    .dataTables_wrapper table.dataTable tbody tr.even {
+        @apply bg-gray-light;
+    }
+
+    /* Pointer cursor for rows with links */
+    .dataTables_wrapper table.dataTable tbody tr[data-href] {
+        @apply cursor-pointer;
+    }
+
+    /* Highlight rows with links on hover */
+    .dataTables_wrapper table.dataTable tbody tr[data-href]:hover {
+        @apply bg-gray-light;
+    }
+}

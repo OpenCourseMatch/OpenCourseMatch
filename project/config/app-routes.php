@@ -14,6 +14,9 @@ Router::addRoute("GET", "/account-settings", "account-settings/account-settings.
 Router::addRoute("GET", "/account-settings/change-password", "account-settings/change-password.php", "account-settings-change-password");
 Router::addRoute("POST", "/account-settings/change-password", "account-settings/change-password-action.php", "account-settings-change-password-action");
 
+// Group management
+Router::addRoute("GET", "/groups", "groups/overview.php", "groups-overview");
+
 // Authentication
 Router::addRoute("GET", "/auth/login", "auth/login.php", "auth-login");
 Router::addRoute("POST", "/auth/login", "auth/login-action.php", "auth-login-action");
