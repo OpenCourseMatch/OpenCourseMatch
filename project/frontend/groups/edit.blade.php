@@ -58,7 +58,7 @@
 
     @include("components.modals.defaultabort")
     <script type="module">
-        import GroupsEdit from "{{ Router::staticFilePath("js/groups/edit.js") }}";
-        GroupsEdit.init();
+        import GroupEdit from "{{ Router::staticFilePath("js/groups/edit.js") }}";
+        GroupEdit.init();
     </script>
 @endcomponent

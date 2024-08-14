@@ -1,6 +1,6 @@
 import Modal from "../Modal.js";
 
-export const GroupsEdit = {
+export const GroupEdit = {
     init: () => {
         Modal.init();
 
@@ -18,4 +18,4 @@ export const GroupsEdit = {
     }
 };
 
-export default GroupsEdit;
+export default GroupEdit;

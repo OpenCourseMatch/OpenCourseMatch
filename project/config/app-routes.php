@@ -22,6 +22,14 @@ Router::addRoute("GET", "/groups/edit/{i:groupId}", "groups/edit.php", "groups-e
 Router::addRoute("POST", "/groups/save", "groups/save.php", "groups-save");
 Router::addRoute("GET", "/groups/delete/{i:groupId}", "groups/delete.php", "groups-delete");
 
+// User management
+Router::addRoute("GET", "/users", "users/overview.php", "users-overview");
+Router::addRoute("POST", "/users-table", "users/overview-table.php", "users-overview-table");
+Router::addRoute("GET", "/users/edit", "users/edit.php", "users-create");
+Router::addRoute("GET", "/users/edit/{i:userId}", "users/edit.php", "users-edit");
+Router::addRoute("POST", "/users/save", "users/save.php", "users-save");
+Router::addRoute("GET", "/users/delete/{i:userId}", "users/delete.php", "users-delete");
+
 // Authentication
 Router::addRoute("GET", "/auth/login", "auth/login.php", "auth-login");
 Router::addRoute("POST", "/auth/login", "auth/login-action.php", "auth-login-action");

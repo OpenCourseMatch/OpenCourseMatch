@@ -15,7 +15,6 @@
                    name="username"
                    id="username"
                    placeholder="{{ t("Username") }}"
-                   pattern="(?!.*\.\.)(?!.*\.$)[^\W][\w.]{2,15}"
                    required>
         </div>
 

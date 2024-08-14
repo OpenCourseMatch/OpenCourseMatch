@@ -19,7 +19,12 @@
         "title" => t("Groups"),
         "description" => t("Customize user groups to model the participation requirements of the courses.")
     ])
-    {{-- Participants and tutors --}}
+    @include("components.dashboardlink", [
+        "icon" => "components.icons.user",
+        "href" => Router::generate("users-overview"),
+        "title" => t("Participants and tutors"),
+        "description" => t("Manage accounts of participants and tutors.")
+    ])
     {{-- Helpers --}}
     {{-- Administrators --}}
 </div>

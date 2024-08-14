@@ -1,5 +1,7 @@
 <?php
 
+$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+
 $groups = Group::dao()->getObjects();
 
 $groups = array_map(function($group) {

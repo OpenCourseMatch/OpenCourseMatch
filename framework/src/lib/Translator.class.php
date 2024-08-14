@@ -42,6 +42,8 @@ class Translator {
 
                 if(isset($translations[$message])) {
                     $message = $translations[$message];
+                } else {
+                    Logger::getLogger("Translator")->warn("Translation not found: \"{$message}\"");
                 }
 
                 fseek(self::$translationFile, 0);
@@ -51,6 +53,8 @@ class Translator {
             $translations = apcu_fetch(self::$locale . "-" . self::$domain);
             if(isset($translations[$message])) {
                 $message = $translations[$message];
+            } else {
+                Logger::getLogger("Translator")->warn("Translation not found: \"{$message}\"");
             }
         }
 
