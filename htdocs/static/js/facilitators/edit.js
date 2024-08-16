@@ -1,13 +1,13 @@
 import Modal from "../Modal.js";
 
-export const UsersEdit = {
+export const FacilitatorsEdit = {
     init: () => {
         Modal.init();
 
         $("#delete-user").on("click", () => {
             Modal.open({
-                title: "Delete user",
-                text: "Do you really want to delete this user?",
+                title: "Delete facilitator",
+                text: "Do you really want to delete this facilitator?",
                 confirm: "Delete"
             }, (confirm) => {
                 if(confirm) {
@@ -18,4 +18,4 @@ export const UsersEdit = {
     }
 };
 
-export default UsersEdit;
+export default FacilitatorsEdit;

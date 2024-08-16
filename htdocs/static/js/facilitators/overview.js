@@ -1,4 +1,4 @@
-export const FacilitatorsOverview = {
+export const UsersOverview = {
     init: () => {
         const table = new DataTable("#users-table", {
             dom: "ftp",
@@ -37,4 +37,4 @@ export const FacilitatorsOverview = {
     }
 };
 
-export default FacilitatorsOverview;
+export default UsersOverview;

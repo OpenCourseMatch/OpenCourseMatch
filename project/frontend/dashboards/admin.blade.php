@@ -25,7 +25,12 @@
         "title" => t("Participants and tutors"),
         "description" => t("Manage accounts of participants and tutors.")
     ])
-    {{-- Helpers --}}
+    @include("components.dashboardlink", [
+        "icon" => "components.icons.user",
+        "href" => Router::generate("facilitators-overview"),
+        "title" => t("Facilitators"),
+        "description" => t("Manage accounts of facilitators.")
+    ])
     {{-- Administrators --}}
 </div>
 

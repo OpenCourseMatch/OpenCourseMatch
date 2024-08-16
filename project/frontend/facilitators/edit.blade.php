@@ -1,13 +1,13 @@
-@component("components.layout.appshell", ["title" => t("Participants and tutors")])
+@component("components.layout.appshell", ["title" => t("Facilitators")])
     <h1 class="mb-2">
         @if(!empty($user))
-            {{ t("Edit user") }} „{{ $user->getUsername() }}”
+            {{ t("Edit facilitator") }} „{{ $user->getUsername() }}”
         @else
-            {{ t("Create user") }}
+            {{ t("Create facilitator") }}
         @endif
     </h1>
 
-    <form method="post" action="{{ Router::generate("users-save") }}">
+    <form method="post" action="{{ Router::generate("facilitators-save") }}">
         @if(!empty($user))
             <input type="hidden" name="userId" value="{{ $user->getId() }}">
         @endif
@@ -40,26 +40,6 @@
         </div>
 
         <div class="{{ TailwindUtil::inputGroup() }} mb-2">
-            <label for="group" class="{{ TailwindUtil::$inputLabel }}" data-required>
-                {{ t("Group") }}
-            </label>
-            <select id="group"
-                    name="group"
-                    class="{{ TailwindUtil::$input }}"
-                    required>
-                <option value="0">{{ t("Default group") }}</option>
-                @foreach($groups as $group)
-                    <option value="{{ $group->getId() }}"
-                            @if(!empty($user) && $user->getGroup() === $group->getId())
-                                selected
-                            @endif>
-                        {{ $group->getName() }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="{{ TailwindUtil::inputGroup() }} mb-2">
             <label for="password" class="{{ TailwindUtil::$inputLabel }}">
                 {{ t("Password") }}
                 @if(!empty($user))
@@ -76,8 +56,6 @@
                    placeholder="{{ t("Password") }}">
         </div>
 
-        {{-- TODO: Leading course selection --}}
-
         <button type="submit" class="{{ TailwindUtil::button() }} gap-2">
             @include("components.icons.buttonload")
             @include("components.icons.save")
@@ -88,7 +66,7 @@
             <button type="button"
                     id="delete-user"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
-                    data-delete-href="{{ Router::generate("users-delete", ["userId" => $user->getId()]) }}">
+                    data-delete-href="{{ Router::generate("facilitators-delete", ["userId" => $user->getId()]) }}">
                 @include("components.icons.delete")
                 {{ t("Delete") }}
             </button>
@@ -97,7 +75,7 @@
 
     @include("components.modals.defaultabort")
     <script type="module">
-        import UsersEdit from "{{ Router::staticFilePath("js/users/edit.js") }}";
-        UsersEdit.init();
+        import FacilitatorsEdit from "{{ Router::staticFilePath("js/facilitators/edit.js") }}";
+        FacilitatorsEdit.init();
     </script>
 @endcomponent

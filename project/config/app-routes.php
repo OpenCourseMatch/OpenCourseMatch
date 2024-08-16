@@ -16,7 +16,7 @@ Router::addRoute("POST", "/account-settings/change-password", "account-settings/
 
 // Group management
 Router::addRoute("GET", "/groups", "groups/overview.php", "groups-overview");
-Router::addRoute("POST", "/groups-table", "groups/overview-table.php", "groups-overview-table");
+Router::addRoute("POST", "/groups/table", "groups/overview-table.php", "groups-overview-table");
 Router::addRoute("GET", "/groups/edit", "groups/edit.php", "groups-create");
 Router::addRoute("GET", "/groups/edit/{i:groupId}", "groups/edit.php", "groups-edit");
 Router::addRoute("POST", "/groups/save", "groups/save.php", "groups-save");
@@ -24,11 +24,19 @@ Router::addRoute("GET", "/groups/delete/{i:groupId}", "groups/delete.php", "grou
 
 // User management
 Router::addRoute("GET", "/users", "users/overview.php", "users-overview");
-Router::addRoute("POST", "/users-table", "users/overview-table.php", "users-overview-table");
+Router::addRoute("POST", "/users/table", "users/overview-table.php", "users-overview-table");
 Router::addRoute("GET", "/users/edit", "users/edit.php", "users-create");
 Router::addRoute("GET", "/users/edit/{i:userId}", "users/edit.php", "users-edit");
 Router::addRoute("POST", "/users/save", "users/save.php", "users-save");
 Router::addRoute("GET", "/users/delete/{i:userId}", "users/delete.php", "users-delete");
+
+// Facilitator management
+Router::addRoute("GET", "/facilitators", "facilitators/overview.php", "facilitators-overview");
+Router::addRoute("POST", "/facilitators/table", "facilitators/overview-table.php", "facilitators-overview-table");
+Router::addRoute("GET", "/facilitators/edit", "facilitators/edit.php", "facilitators-create");
+Router::addRoute("GET", "/facilitators/edit/{i:userId}", "facilitators/edit.php", "facilitators-edit");
+Router::addRoute("POST", "/facilitators/save", "facilitators/save.php", "facilitators-save");
+Router::addRoute("GET", "/facilitators/delete/{i:userId}", "facilitators/delete.php", "facilitators-delete");
 
 // Authentication
 Router::addRoute("GET", "/auth/login", "auth/login.php", "auth-login");

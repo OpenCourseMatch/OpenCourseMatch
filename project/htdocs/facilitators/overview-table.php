@@ -1,14 +1,14 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
 
 $users = User::dao()->getObjects([
-    "permissionLevel" => PermissionLevel::USER->value
+    "permissionLevel" => PermissionLevel::FACILITATOR->value
 ]);
 
 $users = array_map(function($account) {
     $array = $account->toArray();
-    $array["editHref"] = Router::generate("users-edit", ["userId" => $account->getId()]);
+    $array["editHref"] = Router::generate("facilitators-edit", ["userId" => $account->getId()]);
     unset($array["id"]);
     unset($array["password"]);
     unset($array["email"]);

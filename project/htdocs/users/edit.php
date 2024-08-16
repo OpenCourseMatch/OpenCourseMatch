@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::HELPER->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router::generate("index"));
 
 if(isset($_GET["userId"]) && is_numeric($_GET["userId"])) {
     $userId = intval($_GET["userId"]);

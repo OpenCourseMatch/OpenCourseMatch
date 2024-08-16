@@ -16,7 +16,7 @@
         @include("dashboards.user")
     @endauth
     @auth(1)
-        @include("dashboards.helper")
+        @include("dashboards.facilitator")
     @endauth
     @auth(2)
         @include("dashboards.admin")
