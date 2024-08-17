@@ -26,6 +26,11 @@
 
     <script type="module">
         import UserOverview from "{{ Router::staticFilePath("js/users/overview.js") }}";
-        UserOverview.init();
+        UserOverview.init({
+            "Search...": "{{ t("Search...") }}",
+            "No entries": "{{ t("No entries") }}",
+            "Back": "{{ t("Back") }}",
+            "Next": "{{ t("Next") }}"
+        });
     </script>
 @endcomponent

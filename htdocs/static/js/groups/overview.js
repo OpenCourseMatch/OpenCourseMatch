@@ -1,14 +1,14 @@
 export const GroupsOverview = {
-    init: () => {
+    init: (translations) => {
         const table = new DataTable("#groups-table", {
             dom: "ftp",
             language: {
                 sSearch: "",
-                sSearchPlaceholder: "Search...",
-                sZeroRecords: "No entries",
+                sSearchPlaceholder: translations["Search..."],
+                sZeroRecords: translations["No entries"],
                 oPaginate: {
-                    sPrevious: "Back",
-                    sNext: "Next"
+                    sPrevious: translations["Back"],
+                    sNext: translations["Next"]
                 }
             },
             order: [[1, "asc"]],

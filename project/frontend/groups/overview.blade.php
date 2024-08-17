@@ -26,6 +26,11 @@
 
     <script type="module">
         import GroupOverview from "{{ Router::staticFilePath("js/groups/overview.js") }}";
-        GroupOverview.init();
+        GroupOverview.init({
+            "Search...": "{{ t("Search...") }}",
+            "No entries": "{{ t("No entries") }}",
+            "Back": "{{ t("Back") }}",
+            "Next": "{{ t("Next") }}"
+        });
     </script>
 @endcomponent
