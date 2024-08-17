@@ -1,4 +1,4 @@
-import Modal from "../Modal.js";
+import * as Modal from "../Modal.js";
 import { t } from "../Translator.js";
 
 export const GroupEdit = {

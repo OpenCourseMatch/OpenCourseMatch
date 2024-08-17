@@ -81,7 +81,7 @@
     </form>
 
     <script type="module">
-        import PasswordStrength from "{{ Router::staticFilePath("js/auth/PasswordStrength.js") }}";
+        import * as PasswordStrength from "{{ Router::staticFilePath("js/auth/PasswordStrength.js") }}";
         PasswordStrength.init("new-password");
     </script>
 @endcomponent

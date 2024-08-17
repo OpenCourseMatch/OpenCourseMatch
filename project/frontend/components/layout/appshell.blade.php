@@ -110,7 +110,7 @@
             <div class="header-sidebar-background hidden absolute left-0 top-0 w-full h-full z-100 backdrop-blur"></div>
 
             <script type="module">
-                import Sidebar from "{{ Router::staticFilePath("js/Sidebar.js") }}";
+                import * as Sidebar from "{{ Router::staticFilePath("js/Sidebar.js") }}";
                 Sidebar.init();
             </script>
         </header>
@@ -183,7 +183,7 @@
         </footer>
 
         <script type="module">
-            import ButtonLoad from "{{ Router::staticFilePath("js/ButtonLoad.js") }}";
+            import * as ButtonLoad from "{{ Router::staticFilePath("js/ButtonLoad.js") }}";
             ButtonLoad.init();
         </script>
     </body>
