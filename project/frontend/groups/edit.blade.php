@@ -1,4 +1,7 @@
-@component("components.layout.appshell", ["title" => t("Groups")])
+@component("components.layout.appshell", [
+    "title" => t("Groups"),
+    "breadcrumbs" => $breadcrumbs ?? []
+])
     <h1 class="mb-2">
         @if(!empty($group))
             {{ t("Edit group") }} „{{ $group->getName() }}”

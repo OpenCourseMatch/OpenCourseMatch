@@ -1,4 +1,7 @@
-@component("components.layout.appshell", ["title" => t("Account settings")])
+@component("components.layout.appshell", [
+    "title" => t("Account settings"),
+    "breadcrumbs" => $breadcrumbs ?? []
+])
     <h1 class="mb-2">
         {{ t("Account settings") }}
     </h1>

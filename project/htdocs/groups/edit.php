@@ -11,4 +11,23 @@ if(isset($_GET["groupId"]) && is_numeric($_GET["groupId"])) {
     }
 }
 
-echo Blade->run("groups.edit", ["group" => $group ?? null]);
+$breadcrumbs = [
+    [
+        "name" => t("Dashboard"),
+        "link" => Router::generate("dashboard"),
+        "iconComponent" => "components.icons.dashboard"
+    ],
+    [
+        "name" => t("Groups"),
+        "link" => Router::generate("groups-overview")
+    ],
+    [
+        "name" => t(isset($group) ? "Edit group" : "Create group"),
+        "link" => Router::generate(isset($group) ? "groups-edit" : "groups-create", isset($group) ? ["groupId" => $group->getId()] : [])
+    ]
+];
+
+echo Blade->run("groups.edit", [
+    "breadcrumbs" => $breadcrumbs,
+    "group" => $group ?? null
+]);

@@ -11,6 +11,23 @@ if(isset($_GET["userId"]) && is_numeric($_GET["userId"])) {
     }
 }
 
+$breadcrumbs = [
+    [
+        "name" => t("Dashboard"),
+        "link" => Router::generate("dashboard"),
+        "iconComponent" => "components.icons.dashboard"
+    ],
+    [
+        "name" => t("Facilitators"),
+        "link" => Router::generate("facilitators-overview")
+    ],
+    [
+        "name" => t(isset($account) ? "Edit facilitator" : "Create facilitator"),
+        "link" => Router::generate(isset($account) ? "facilitators-edit" : "facilitators-create", isset($account) ? ["userId" => $account->getId()] : [])
+    ]
+];
+
 echo Blade->run("facilitators.edit", [
+    "breadcrumbs" => $breadcrumbs,
     "user" => $account ?? null
 ]);

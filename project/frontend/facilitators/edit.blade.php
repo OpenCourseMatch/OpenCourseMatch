@@ -1,4 +1,7 @@
-@component("components.layout.appshell", ["title" => t("Facilitators")])
+@component("components.layout.appshell", [
+    "title" => t("Facilitators"),
+    "breadcrumbs" => $breadcrumbs ?? []
+])
     <h1 class="mb-2">
         @if(!empty($user))
             {{ t("Edit facilitator") }} „{{ $user->getUsername() }}”

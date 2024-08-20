@@ -12,5 +12,27 @@
         ])
             {{ t("Dashboard") }}
         @endcomponent
+        @component("components.layout.sidebarlistitem", [
+            "href" => Router::generate("account-settings"),
+        ])
+            {{ t("Account settings") }}
+        @endcomponent
+    @endauth
+    @auth(2)
+        @component("components.layout.sidebarlistitem", [
+            "href" => Router::generate("groups-overview"),
+        ])
+            {{ t("Groups") }}
+        @endcomponent
+        @component("components.layout.sidebarlistitem", [
+            "href" => Router::generate("users-overview"),
+        ])
+            {{ t("Participants and tutors") }}
+        @endcomponent
+        @component("components.layout.sidebarlistitem", [
+            "href" => Router::generate("facilitators-overview"),
+        ])
+            {{ t("Facilitators") }}
+        @endcomponent
     @endauth
 </ul>
