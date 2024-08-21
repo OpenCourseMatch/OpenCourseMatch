@@ -23,7 +23,7 @@
         "platform": {
             "php": "8.2"
         },
-        "vendor-dir": "project/src/lib/vendor",
+        "vendor-dir": "vendor",
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
@@ -31,11 +31,11 @@
     "scripts": {
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "docker compose -f docker-compose-dev.yml up"
+            "docker compose -f docker-compose-dev.yml up --build"
         ],
-        "test": "project/src/lib/vendor/bin/pest tests",
-        "build": "project/src/lib/build/build.sh",
-        "tailwindcss": "project/src/lib/tailwindcss/tailwindcss.sh",
-        "tailwindcss-compile": "project/src/lib/tailwindcss/tailwindcss.sh --input htdocs/static/css/base.css --output htdocs/static/css/style.css --minify"
+        "test": "vendor/bin/pest tests",
+        "build": "framework/src/lib/build/build.sh",
+        "tailwindcss": "framework/src/lib/tailwindcss/tailwindcss.sh",
+        "tailwindcss-compile": "framework/src/lib/tailwindcss/tailwindcss.sh --input src/static/css/base.css --output src/static/css/style.css --minify"
     }
 }

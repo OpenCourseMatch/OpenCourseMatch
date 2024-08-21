@@ -1,7 +1,7 @@
 @component("components.layout.appshell")
     {{-- Content from /static/md/index.md --}}
     @include("components.markdown", [
-        "path" => __APP_DIR__ . "/htdocs/static/md/index.md"
+        "path" => __APP_DIR__ . "/public/static/md/index.md"
     ])
 
     <a class="{{ TailwindUtil::button() }} mt-2 flex gap-2"

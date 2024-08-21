@@ -1,6 +1,6 @@
 <?php
 
-// Project directory: The directory where the project is located in the filesystem
+// Application directory: The directory where the application is located in the filesystem
 chdir("../../");
 const __APP_DIR__ = __DIR__ . "/../..";
 

@@ -19,17 +19,17 @@ COPY ./docker/entrypoint.sh /app
 # Adjust permissions
 RUN mkdir -p /app/logs && \
     mkdir -p /app/files && \
-    mkdir -p /app/project/template-cache && \
+    mkdir -p /app/template-cache && \
     chown -R nginx:nginx /app/logs && \
     chown -R nginx:nginx /app/files && \
-    chown -R nginx:nginx /app/project/template-cache && \
+    chown -R nginx:nginx /app/template-cache && \
     chmod 777 /app/logs && \
     chmod 777 /app/files && \
-    chmod 777 /app/project/template-cache && \
+    chmod 777 /app/template-cache && \
     chmod +x /app/entrypoint.sh
 
 # Setup crontab
-RUN crontab -u nginx /app/project/cronjobs/.crontab
+RUN crontab -u nginx /app/src/cronjobs/.crontab
 
 # Run composer build
 RUN cd /app && composer build

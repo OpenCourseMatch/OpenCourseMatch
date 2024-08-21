@@ -1,3 +1,7 @@
+# Link src/static to public/static
+rm public/static
+ln -s ../src/static public/static
+
 # Install composer dependencies
 composer install --no-dev --no-interaction
 
@@ -5,5 +9,5 @@ composer install --no-dev --no-interaction
 composer tailwindcss-compile
 
 # Create template cache directory
-mkdir -p project/template-cache
-chmod 777 project/template-cache
+mkdir -p template-cache
+chmod 777 template-cache

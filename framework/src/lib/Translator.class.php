@@ -1,7 +1,7 @@
 <?php
 
 class Translator {
-    const TRANSLATIONS_PATH = __APP_DIR__ . "/project/translations";
+    const TRANSLATIONS_PATH = __APP_DIR__ . "/src/translations";
 
     private static string $domain = "messages";
     private static string $locale = "en_US";
@@ -42,8 +42,6 @@ class Translator {
 
                 if(isset($translations[$message])) {
                     $message = $translations[$message];
-                } else {
-                    Logger::getLogger("Translator")->warn("Translation not found: \"{$message}\"");
                 }
 
                 fseek(self::$translationFile, 0);
@@ -53,8 +51,6 @@ class Translator {
             $translations = apcu_fetch(self::$locale . "-" . self::$domain);
             if(isset($translations[$message])) {
                 $message = $translations[$message];
-            } else {
-                Logger::getLogger("Translator")->warn("Translation not found: \"{$message}\"");
             }
         }
 

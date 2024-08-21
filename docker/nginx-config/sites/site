@@ -2,7 +2,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    root /app/htdocs;
+    root /app/public;
 
     index index.php index.html index.htm;
 

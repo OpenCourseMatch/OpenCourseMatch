@@ -10,4 +10,4 @@
 # * * * * * command to be executed
 #
 # Example:
-# * * * * * php /app/project/cronjobs/cronjob-example.php
+# * * * * * php /app/src/cronjobs/cronjob-example.php

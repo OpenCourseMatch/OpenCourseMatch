@@ -30,7 +30,7 @@ class Router {
         foreach($methods as $method) {
             self::$routes[$method][$route] = [
                 "route" => $route,
-                "routeTo" => __APP_DIR__ . "/project/htdocs/" . $routeTo,
+                "routeTo" => __APP_DIR__ . "/src/pages/" . $routeTo,
                 "name" => $name,
                 "params" => $params
             ];
@@ -44,7 +44,7 @@ class Router {
      * @return string Route
      */
     public static function generate(string $name, array $params = [], bool $withHostUrl = false): string {
-        $urlPrefix = $withHostUrl ? rtrim(Config::$PROJECT_SETTINGS["PROJECT_URL"], "/") : "";
+        $urlPrefix = $withHostUrl ? rtrim(Config::$APP_SETTINGS["APP_URL"], "/") : "";
 
         foreach(self::$routes as $method => $routes) {
             foreach($routes as $route => $routeData) {
@@ -105,7 +105,7 @@ class Router {
         // GET parameters are set differently
         $uri = explode("?", $uri)[0];
         // Remove the root directory from the URI
-        // This is required if the project is not located in the server's root directory
+        // This is required if the application is not located in the server's root directory
         if(str_starts_with($uri, Config::$ROUTER_SETTINGS["ROUTER_BASE_URI"])) {
             $uri = substr($uri, strlen(Config::$ROUTER_SETTINGS["ROUTER_BASE_URI"]));
         }
@@ -218,7 +218,7 @@ class Router {
      * @return string
      */
     public static function getCalledURL(): string {
-        return rtrim(Config::$PROJECT_SETTINGS["PROJECT_URL"], "/") . "/" . ltrim($_SERVER["REQUEST_URI"], "/");
+        return rtrim(Config::$APP_SETTINGS["APP_URL"], "/") . "/" . ltrim($_SERVER["REQUEST_URI"], "/");
     }
 
     /**

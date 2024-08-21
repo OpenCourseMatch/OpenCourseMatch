@@ -6,8 +6,8 @@ class Config {
     // Router settings
     public static array $ROUTER_SETTINGS;
 
-    // Project settings
-    public static array $PROJECT_SETTINGS = [];
+    // Application settings
+    public static array $APP_SETTINGS = [];
 
     // Menu settings
     public static array $MENU_SETTINGS;
@@ -32,20 +32,20 @@ class Config {
 
     /**
      * Stores some placeholder config values
-     * They are overridden by project/config/app-config.php
+     * They are overridden by src/config/app-config.php
      */
     public static function init(): void {
         self::$ROUTER_SETTINGS = [
             "ROUTER_BASE_URI" => "/"
         ];
 
-        self::$PROJECT_SETTINGS = [
-            "PROJECT_NAME" => "Project",
-            "WEBSITE_TITLE" => "Project",
-            "PROJECT_URL" => "https://domain.com",
-            "PROJECT_FAVICON" => Router::staticFilePath("img/favicon.png"),
-            "PROJECT_AUTHOR" => "Author",
-            "PROJECT_VERSION" => "1.0.0"
+        self::$APP_SETTINGS = [
+            "APP_NAME" => "Application",
+            "WEBSITE_TITLE" => "Application",
+            "APP_URL" => "http://localhost:3000",
+            "APP_FAVICON" => Router::staticFilePath("img/favicon.png"),
+            "APP_AUTHOR" => "Author",
+            "APP_VERSION" => "1.0.0"
         ];
 
         self::$MENU_SETTINGS = [

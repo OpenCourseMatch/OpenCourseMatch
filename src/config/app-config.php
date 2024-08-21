@@ -3,14 +3,14 @@
 // Router settings
 Config::$ROUTER_SETTINGS["ROUTER_BASE_URI"] = Config::configSecret()["ROUTER_SETTINGS"]["ROUTER_BASE_URI"] ?? "/";
 
-// Project settings
-Config::$PROJECT_SETTINGS["PROJECT_NAME"] = Config::configSecret()["PROJECT_SETTINGS"]["PROJECT_NAME"] ?? "OpenCourseMatch";
-Config::$PROJECT_SETTINGS["WEBSITE_TITLE"] = Config::configSecret()["PROJECT_SETTINGS"]["WEBSITE_TITLE"] ?? "OpenCourseMatch";
-Config::$PROJECT_SETTINGS["PROJECT_URL"] = Config::configSecret()["PROJECT_SETTINGS"]["PROJECT_URL"] ?? "http://localhost:3000";
-Config::$PROJECT_SETTINGS["PROJECT_FAVICON"] = Config::configSecret()["PROJECT_SETTINGS"]["PROJECT_FAVICON"] ?? Router::staticFilePath("img/logo.svg");
-Config::$PROJECT_SETTINGS["PROJECT_AUTHOR"] = Config::configSecret()["PROJECT_SETTINGS"]["PROJECT_AUTHOR"] ?? "OpenCourseMatch contributors";
-Config::$PROJECT_SETTINGS["PROJECT_VERSION"] = Config::configSecret()["PROJECT_SETTINGS"]["PROJECT_VERSION"] ?? "3.0.0";
-Config::$PROJECT_SETTINGS["TIMEZONE"] = Config::configSecret()["PROJECT_SETTINGS"]["TIMEZONE"] ?? "Europe/Berlin";
+// Application settings
+Config::$APP_SETTINGS["APP_NAME"] = Config::configSecret()["APP_SETTINGS"]["APP_NAME"] ?? "OpenCourseMatch";
+Config::$APP_SETTINGS["WEBSITE_TITLE"] = Config::configSecret()["APP_SETTINGS"]["WEBSITE_TITLE"] ?? "OpenCourseMatch";
+Config::$APP_SETTINGS["APP_URL"] = Config::configSecret()["APP_SETTINGS"]["APP_URL"] ?? "http://localhost:3000";
+Config::$APP_SETTINGS["APP_FAVICON"] = Config::configSecret()["APP_SETTINGS"]["APP_FAVICON"] ?? Router::staticFilePath("img/logo.svg");
+Config::$APP_SETTINGS["APP_AUTHOR"] = Config::configSecret()["APP_SETTINGS"]["APP_AUTHOR"] ?? "OpenCourseMatch contributors";
+Config::$APP_SETTINGS["APP_VERSION"] = Config::configSecret()["APP_SETTINGS"]["APP_VERSION"] ?? "3.0.0";
+Config::$APP_SETTINGS["TIMEZONE"] = Config::configSecret()["APP_SETTINGS"]["TIMEZONE"] ?? "Europe/Berlin";
 
 // Menu settings
 Config::$MENU_SETTINGS["MENU_SIDEBAR"] = [
@@ -58,10 +58,7 @@ Config::$MAIL_SETTINGS["MAIL_REDIRECT_ALL_MAILS_TO"] = Config::configSecret()["M
 Config::$CLASS_LOADER_SETTINGS["CLASS_LOADER_IGNORE_FILES"][] = "Config.class.php";
 Config::$CLASS_LOADER_SETTINGS["CLASS_LOADER_IGNORE_FILES"][] = "Logger.class.php";
 Config::$CLASS_LOADER_SETTINGS["CLASS_LOADER_IGNORE_FILES"][] = "ClassLoader.class.php";
-Config::$CLASS_LOADER_SETTINGS["CLASS_LOADER_IMPORT_PATHS"][] = __APP_DIR__ . "/project/src/lib/";
-Config::$CLASS_LOADER_SETTINGS["CLASS_LOADER_IMPORT_PATHS"][] = __APP_DIR__ . "/project/src/enum/";
-Config::$CLASS_LOADER_SETTINGS["CLASS_LOADER_IMPORT_PATHS"][] = __APP_DIR__ . "/project/src/object/";
-Config::$CLASS_LOADER_SETTINGS["CLASS_LOADER_IMPORT_PATHS"][] = __APP_DIR__ . "/project/src/dao/";
+Config::$CLASS_LOADER_SETTINGS["CLASS_LOADER_IMPORT_PATHS"][] = __APP_DIR__ . "/src/lib/";
 
 // SEO settings
 Config::$SEO_SETTINGS["SEO_DEFAULT_DESCRIPTION"] = Config::configSecret()["SEO_SETTINGS"]["SEO_DEFAULT_DESCRIPTION"] ?? "OpenCourseMatch";

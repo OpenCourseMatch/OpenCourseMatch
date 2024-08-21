@@ -1,5 +1,5 @@
-# Ignore git repositories
-.git/
+# Ignore .ini files
+*.ini
 
 # Ignore PhpStorm files
 .idea/
@@ -22,7 +22,10 @@ vendor/
 /database-backup/
 
 # Ignore template cache files
-/project/template-cache/
+template-cache/
 
 # Ignore compiled TailwindCSS files
-/htdocs/static/css/style.css
+/src/static/css/style.css
+
+# Ignore symlink from src/static to public/static
+/public/static

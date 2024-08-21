@@ -1,7 +1,7 @@
 <?php
 
 // Autoload Composer libraries
-require_once(__APP_DIR__ . "/project/src/lib/vendor/autoload.php");
+require_once(__APP_DIR__ . "/vendor/autoload.php");
 
 // ClassLoader
 require_once(__APP_DIR__ . "/framework/src/ClassLoader.class.php");
@@ -19,10 +19,10 @@ $classLoader->loadClass(__APP_DIR__ . "/framework/src/Router.class.php");
 // Configuration files
 require_once(__APP_DIR__ . "/framework/config/Config.class.php");
 Config::init();
-require_once(__APP_DIR__ . "/project/config/app-config.php");
+require_once(__APP_DIR__ . "/src/config/app-config.php");
 
 // Initialize routes
-require_once(__APP_DIR__ . "/project/config/app-routes.php");
+require_once(__APP_DIR__ . "/src/config/app-routes.php");
 
 // Load enums
 $classLoader->loadEnums(__APP_DIR__ . "/framework/src/enum/");
@@ -46,7 +46,7 @@ unset($classLoader);
 
 // Setup Composer libraries
 use eftec\bladeone\BladeOne;
-const Blade = new BladeOne(__APP_DIR__ . "/project/frontend", __APP_DIR__ . "/project/template-cache", BladeOne::MODE_DEBUG);
+const Blade = new BladeOne(__APP_DIR__ . "/src/templates", __APP_DIR__ . "/template-cache", BladeOne::MODE_DEBUG);
 
 // Setup logger
 $sendEmailHandler = function(string $message) {
@@ -55,7 +55,7 @@ $sendEmailHandler = function(string $message) {
     }
 
     $mail = new Mail();
-    $mail->setSubject("[" . Config::$PROJECT_SETTINGS["PROJECT_NAME"] . "] Error report")
+    $mail->setSubject("[" . Config::$APP_SETTINGS["APP_NAME"] . "] Error report")
         ->setTextBody($message);
     foreach(Config::$LOG_SETTINGS["LOG_ERROR_REPORT"] as $recipient) {
         $mail->addRecipient($recipient);
@@ -82,4 +82,4 @@ set_exception_handler(function($exception) {
 });
 
 // Setup timezone
-date_default_timezone_set(Config::$PROJECT_SETTINGS["TIMEZONE"]);
+date_default_timezone_set(Config::$APP_SETTINGS["TIMEZONE"]);

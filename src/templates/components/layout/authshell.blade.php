@@ -7,16 +7,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         {{-- Browser tab --}}
-        <title>@if(!empty($title)){{ $title }} - @endif{{ Config::$PROJECT_SETTINGS["PROJECT_NAME"] }}</title>
-        <link rel="icon" href="{{ Config::$PROJECT_SETTINGS["PROJECT_FAVICON"] }}" type="image/x-icon">
+        <title>@if(!empty($title)){{ $title }} - @endif{{ Config::$APP_SETTINGS["APP_NAME"] }}</title>
+        <link rel="icon" href="{{ Config::$APP_SETTINGS["APP_FAVICON"] }}" type="image/x-icon">
 
         {{-- Basic SEO --}}
         <meta name="description" content="{{ SEO::getDescription() }}">
         <meta name="keywords" content="{{ SEO::getKeywords() }}">
-        <meta name="author" content="{{ Config::$PROJECT_SETTINGS["PROJECT_AUTHOR"] }}">
+        <meta name="author" content="{{ Config::$APP_SETTINGS["APP_AUTHOR"] }}">
 
         {{-- OpenGraph SEO --}}
-        <meta property="og:title" content="@if(!empty($title)){{ $title }} - @endif{{ Config::$PROJECT_SETTINGS["PROJECT_NAME"] }}">
+        <meta property="og:title" content="@if(!empty($title)){{ $title }} - @endif{{ Config::$APP_SETTINGS["APP_NAME"] }}">
         <meta property="og:description" content="{{ SEO::getDescription() }}">
         <meta property="og:image" content="{{ SEO::getImagePreview() }}">
         <meta property="og:url" content="{{ Router::getCalledURL() }}">
@@ -27,7 +27,7 @@
 
         {{-- Twitter SEO --}}
         <meta name="twitter:card" content="summary">
-        <meta name="twitter:title" content="@if(!empty($title)){{ $title }} - @endif{{ Config::$PROJECT_SETTINGS["PROJECT_NAME"] }}">
+        <meta name="twitter:title" content="@if(!empty($title)){{ $title }} - @endif{{ Config::$APP_SETTINGS["APP_NAME"] }}">
         <meta name="twitter:description" content="{{ SEO::getDescription() }}">
         <meta name="twitter:image" content="{{ SEO::getImagePreview() }}">
         <meta name="twitter:url" content="{{ Router::getCalledURL() }}">
@@ -54,13 +54,13 @@
             <div class="w-10/12 sm:w-2/3 md:w-1/2 overflow-y-auto">
                 <header class="mb-8">
                     {{-- Logo --}}
-                    <a href="{{ Config::$PROJECT_SETTINGS["PROJECT_URL"] }}">
+                    <a href="{{ Config::$APP_SETTINGS["APP_URL"] }}">
                         <img src="{{ Router::staticFilePath("img/logo.svg") }}"
                              alt="Logo"
                              class="w-auto h-16 mb-8 rounded"
                         >
                         <h1>
-                            {{ Config::$PROJECT_SETTINGS["PROJECT_NAME"] }}
+                            {{ Config::$APP_SETTINGS["APP_NAME"] }}
                         </h1>
                     </a>
                 </header>

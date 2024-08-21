@@ -33,11 +33,12 @@ services:
             TZ: "Europe/Berlin" # ADJUST
         volumes:
             - "./framework:/app/framework"
-            - "./htdocs:/app/htdocs"
-            - "./project:/app/project"
+            - "./public:/app/public"
+            - "./src:/app/src"
             - "./secrets:/app/secrets"
             - "./app-logs:/app/logs"
             - "./app-files:/app/files"
+            - "./vendor:/app/vendor"
         ports:
             - "3000:80"
         networks:

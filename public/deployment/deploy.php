@@ -3,7 +3,7 @@
 // Read deploy-config.json file
 $config = json_decode(file_get_contents("deploy-config.json"), true);
 
-define("PROJECT_NAME", $config["projectName"]);
+define("APPLICATION_NAME", $config["applicationName"]);
 define("MAIL_LOGS_TO", $config["mailLogsTo"]);
 
 header("Content-Type: text/plain");
@@ -62,7 +62,7 @@ function sendLog(string $shortLog, string $detailedLog, bool $successful): void 
 
     // Send mails
     foreach(MAIL_LOGS_TO as $mail) {
-        $subject = ($successful ? "[SUCCESS] " : "[FAILURE] ") . " Deployment of " . PROJECT_NAME;
+        $subject = ($successful ? "[SUCCESS] " : "[FAILURE] ") . " Deployment of " . APPLICATION_NAME;
         mail($mail, $subject, $detailedLog);
     }
 
