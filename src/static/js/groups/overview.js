@@ -11,6 +11,7 @@ export const GroupsOverview = {
                 sSearch: "",
                 sSearchPlaceholder: translations["Search..."],
                 sZeroRecords: translations["No entries"],
+                emptyTable: translations["No entries"],
                 oPaginate: {
                     sPrevious: translations["Back"],
                     sNext: translations["Next"]

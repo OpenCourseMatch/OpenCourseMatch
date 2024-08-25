@@ -31,6 +31,7 @@
         import UserOverview from "{{ Router::staticFilePath("js/users/overview.js") }}";
         UserOverview.init({
             "Search...": "{{ t("Search...") }}",
+            "Loading...": "{{ t("Loading...") }}",
             "No entries": "{{ t("No entries") }}",
             "Back": "{{ t("Back") }}",
             "Next": "{{ t("Next") }}"

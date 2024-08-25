@@ -31,6 +31,7 @@
         import FacilitatorOverview from "{{ Router::staticFilePath("js/facilitators/overview.js") }}";
         FacilitatorOverview.init({
             "Search...": "{{ t("Search...") }}",
+            "Loading...": "{{ t("Loading...") }}",
             "No entries": "{{ t("No entries") }}",
             "Back": "{{ t("Back") }}",
             "Next": "{{ t("Next") }}"
