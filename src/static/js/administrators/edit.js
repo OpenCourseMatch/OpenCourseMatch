@@ -1,28 +1,28 @@
 import * as Modal from "../Modal.js";
 import { t } from "../Translator.js";
 
-export const GroupsEdit = {
+export const AdministratorsEdit = {
     init: async () => {
         Modal.init();
 
         const translations = await Promise.all([
-            t("Delete group"),
-            t("Do you really want to delete this group?"),
+            t("Delete administrator"),
+            t("Do you really want to delete this administrator?"),
             t("Delete")
         ])
 
-        $("#delete-group").on("click", () => {
+        $("#delete-user").on("click", () => {
             Modal.open({
                 title: translations[0],
                 text: translations[1],
                 confirm: translations[2]
             }, (confirm) => {
                 if(confirm) {
-                    window.location.href = $("#delete-group").data("delete-href");
+                    window.location.href = $("#delete-user").data("delete-href");
                 }
             });
         });
     }
 };
 
-export default GroupsEdit;
+export default AdministratorsEdit;

@@ -38,6 +38,14 @@ Router::addRoute("GET", "/facilitators/edit/{i:userId}", "facilitators/edit.php"
 Router::addRoute("POST", "/facilitators/save", "facilitators/save.php", "facilitators-save");
 Router::addRoute("GET", "/facilitators/delete/{i:userId}", "facilitators/delete.php", "facilitators-delete");
 
+// Administrator management
+Router::addRoute("GET", "/administrators", "administrators/overview.php", "administrators-overview");
+Router::addRoute("POST", "/administrators/table", "administrators/overview-table.php", "administrators-overview-table");
+Router::addRoute("GET", "/administrators/edit", "administrators/edit.php", "administrators-create");
+Router::addRoute("GET", "/administrators/edit/{i:userId}", "administrators/edit.php", "administrators-edit");
+Router::addRoute("POST", "/administrators/save", "administrators/save.php", "administrators-save");
+Router::addRoute("GET", "/administrators/delete/{i:userId}", "administrators/delete.php", "administrators-delete");
+
 // Authentication
 Router::addRoute("GET", "/auth/login", "auth/login.php", "auth-login");
 Router::addRoute("POST", "/auth/login", "auth/login-action.php", "auth-login-action");

@@ -31,7 +31,12 @@
         "title" => t("Facilitators"),
         "description" => t("Manage accounts of facilitators.")
     ])
-    {{-- Administrators --}}
+    @include("components.dashboardlink", [
+        "icon" => "components.icons.user",
+        "href" => Router::generate("administrators-overview"),
+        "title" => t("Administrators"),
+        "description" => t("Manage accounts of administrators.")
+    ])
 </div>
 
 <h2 class="mt-4 mb-2">

@@ -60,6 +60,16 @@
     "The facilitator that should be deleted does not exist.": "The facilitator that should be deleted does not exist.",
     "The facilitator has been saved.": "The facilitator has been saved.",
     "The facilitator has been deleted.": "The facilitator has been deleted.",
+    "Administrators": "Administrators",
+    "Manage accounts of administrators.": "Manage accounts of administrators.",
+    "Create administrator": "Create administrator",
+    "Edit administrator": "Edit administrator",
+    "Delete administrator": "Delete administrator",
+    "Do you really want to delete this administrator?": "Do you really want to delete this administrator?",
+    "The administrator that should be edited does not exist.": "The administrator that should be edited does not exist.",
+    "The administrator that should be deleted does not exist.": "The administrator that should be deleted does not exist.",
+    "The administrator has been saved.": "The administrator has been saved.",
+    "The administrator has been deleted.": "The administrator has been deleted.",
 
     "Manage courses": "Manage courses",
 

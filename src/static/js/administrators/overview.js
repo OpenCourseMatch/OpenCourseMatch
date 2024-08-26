@@ -1,5 +1,5 @@
-export const UsersOverview = {
-    init: async (translations) => {
+export const AdministratorsOverview = {
+    init: (translations) => {
         const table = new DataTable("#users-table", {
             layout: {
                 topStart: "search",
@@ -45,4 +45,4 @@ export const UsersOverview = {
     }
 };
 
-export default UsersOverview;
+export default AdministratorsOverview;

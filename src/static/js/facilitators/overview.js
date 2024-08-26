@@ -1,4 +1,4 @@
-export const UsersOverview = {
+export const FacilitatorsOverview = {
     init: (translations) => {
         const table = new DataTable("#users-table", {
             layout: {
@@ -45,4 +45,4 @@ export const UsersOverview = {
     }
 };
 
-export default UsersOverview;
+export default FacilitatorsOverview;
