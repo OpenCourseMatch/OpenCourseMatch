@@ -27,8 +27,10 @@ export const UsersOverview = {
             },
             autoWidth: false,
             columns: [
+                { data: "username" },
                 { data: "firstName" },
-                { data: "lastName" }
+                { data: "lastName" },
+                { data: "group" }
             ]
         });
 

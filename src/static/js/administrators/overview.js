@@ -27,6 +27,7 @@ export const AdministratorsOverview = {
             },
             autoWidth: false,
             columns: [
+                { data: "username" },
                 { data: "firstName" },
                 { data: "lastName" }
             ]

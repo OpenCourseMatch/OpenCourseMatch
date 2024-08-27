@@ -27,6 +27,7 @@ export const FacilitatorsOverview = {
             },
             autoWidth: false,
             columns: [
+                { data: "username" },
                 { data: "firstName" },
                 { data: "lastName" }
             ]

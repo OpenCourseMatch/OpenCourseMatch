@@ -17,8 +17,10 @@
         <table id="users-table" class="stripe" data-table-ajax="{{ Router::generate("users-overview-table") }}">
             <thead>
                 <tr>
+                    <th>{{ t("Username") }}</th>
                     <th>{{ t("First name") }}</th>
                     <th>{{ t("Last name") }}</th>
+                    <th>{{ t("Group") }}</th>
                 </tr>
             </thead>
             <tbody>

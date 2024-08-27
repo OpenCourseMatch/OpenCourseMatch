@@ -9,6 +9,12 @@ $users = User::dao()->getObjects([
 $users = array_map(function($account) {
     $array = $account->toArray();
     $array["editHref"] = Router::generate("users-edit", ["userId" => $account->getId()]);
+    $group = Group::dao()->getObject(["id" => $account->getGroup()]);
+    if($group instanceof Group) {
+        $array["group"] = $group->getName();
+    } else {
+        $array["group"] = t("Default group");
+    }
     unset($array["id"]);
     unset($array["password"]);
     unset($array["email"]);

@@ -17,6 +17,7 @@
         <table id="users-table" class="stripe" data-table-ajax="{{ Router::generate("facilitators-overview-table") }}">
             <thead>
                 <tr>
+                    <th>{{ t("Username") }}</th>
                     <th>{{ t("First name") }}</th>
                     <th>{{ t("Last name") }}</th>
                 </tr>
