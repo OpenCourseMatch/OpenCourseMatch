@@ -28,8 +28,8 @@
     </div>
 
     <script type="module">
-        import GroupOverview from "{{ Router::staticFilePath("js/groups/overview.js") }}";
-        GroupOverview.init({
+        import * as GroupsOverview from "{{ Router::staticFilePath("js/groups/overview.js") }}";
+        GroupsOverview.init({
             "Search...": "{{ t("Search...") }}",
             "Loading...": "{{ t("Loading...") }}",
             "No entries": "{{ t("No entries") }}",

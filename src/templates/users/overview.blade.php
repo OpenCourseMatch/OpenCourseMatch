@@ -30,8 +30,8 @@
     </div>
 
     <script type="module">
-        import UserOverview from "{{ Router::staticFilePath("js/users/overview.js") }}";
-        UserOverview.init({
+        import * as UsersOverview from "{{ Router::staticFilePath("js/users/overview.js") }}";
+        UsersOverview.init({
             "Search...": "{{ t("Search...") }}",
             "Loading...": "{{ t("Loading...") }}",
             "No entries": "{{ t("No entries") }}",

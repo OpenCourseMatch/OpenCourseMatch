@@ -1,28 +1,26 @@
 import * as Modal from "../Modal.js";
 import { t } from "../Translator.js";
 
-export const AdministratorsEdit = {
-    init: async () => {
-        Modal.init();
+export const init = async () => {
+    Modal.init();
 
-        const translations = await Promise.all([
-            t("Delete administrator"),
-            t("Do you really want to delete this administrator?"),
-            t("Delete")
-        ])
+    const translations = await Promise.all([
+        t("Delete administrator"),
+        t("Do you really want to delete this administrator?"),
+        t("Delete")
+    ])
 
-        $("#delete-user").on("click", () => {
-            Modal.open({
-                title: translations[0],
-                text: translations[1],
-                confirm: translations[2]
-            }, (confirm) => {
-                if(confirm) {
-                    window.location.href = $("#delete-user").data("delete-href");
-                }
-            });
+    $("#delete-user").on("click", () => {
+        Modal.open({
+            title: translations[0],
+            text: translations[1],
+            confirm: translations[2]
+        }, (confirm) => {
+            if(confirm) {
+                window.location.href = $("#delete-user").data("delete-href");
+            }
         });
-    }
-};
+    });
+}
 
-export default AdministratorsEdit;
+export default { init };

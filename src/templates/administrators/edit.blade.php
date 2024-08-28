@@ -78,7 +78,7 @@
 
     @include("components.modals.defaultabort")
     <script type="module">
-        import AdministratorsEdit from "{{ Router::staticFilePath("js/administrators/edit.js") }}";
+        import * as AdministratorsEdit from "{{ Router::staticFilePath("js/administrators/edit.js") }}";
         AdministratorsEdit.init();
     </script>
 @endcomponent

@@ -29,7 +29,7 @@
     </div>
 
     <script type="module">
-        import FacilitatorsOverview from "{{ Router::staticFilePath("js/facilitators/overview.js") }}";
+        import * as FacilitatorsOverview from "{{ Router::staticFilePath("js/facilitators/overview.js") }}";
         FacilitatorsOverview.init({
             "Search...": "{{ t("Search...") }}",
             "Loading...": "{{ t("Loading...") }}",

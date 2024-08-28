@@ -100,7 +100,7 @@
 
     @include("components.modals.defaultabort")
     <script type="module">
-        import UsersEdit from "{{ Router::staticFilePath("js/users/edit.js") }}";
+        import * as UsersEdit from "{{ Router::staticFilePath("js/users/edit.js") }}";
         UsersEdit.init();
     </script>
 @endcomponent

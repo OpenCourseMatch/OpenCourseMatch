@@ -78,7 +78,7 @@
 
     @include("components.modals.defaultabort")
     <script type="module">
-        import FacilitatorsEdit from "{{ Router::staticFilePath("js/facilitators/edit.js") }}";
+        import * as FacilitatorsEdit from "{{ Router::staticFilePath("js/facilitators/edit.js") }}";
         FacilitatorsEdit.init();
     </script>
 @endcomponent

@@ -29,7 +29,7 @@
     </div>
 
     <script type="module">
-        import AdministratorsOverview from "{{ Router::staticFilePath("js/administrators/overview.js") }}";
+        import * as AdministratorsOverview from "{{ Router::staticFilePath("js/administrators/overview.js") }}";
         AdministratorsOverview.init({
             "Search...": "{{ t("Search...") }}",
             "Loading...": "{{ t("Loading...") }}",
