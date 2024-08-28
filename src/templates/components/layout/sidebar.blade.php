@@ -34,5 +34,10 @@
         ])
             {{ t("Facilitators") }}
         @endcomponent
+        @component("components.layout.sidebarlistitem", [
+            "href" => Router::generate("administrators-overview"),
+        ])
+            {{ t("Administrators") }}
+        @endcomponent
     @endauth
 </ul>
