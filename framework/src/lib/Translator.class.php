@@ -18,6 +18,10 @@ class Translator {
         self::openTranslationFile();
     }
 
+    public static function getLocaleForHtmlLang(): string {
+        return str_replace("_", "-", self::$locale);
+    }
+
     private static function openTranslationFile(): void {
         if(self::$translationFile && is_resource(self::$translationFile)) {
             fclose(self::$translationFile);

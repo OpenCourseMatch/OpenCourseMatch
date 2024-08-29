@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-full">
+<html lang="{{ Translator::getLocaleForHtmlLang() }}" class="h-full">
     <head>
         {{-- Encoding --}}
         <meta charset="utf-8">
