@@ -25,10 +25,11 @@ CREATE TABLE IF NOT EXISTS `Group` (
 # Course table
 CREATE TABLE IF NOT EXISTS `Course` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(255) NOT NULL,
-    `maxParticipants` INT NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
+    `organizer` VARCHAR(255) NULL,
     `minClearance` INT NOT NULL,
     `maxClearance` INT NULL,
+    `maxParticipants` INT NOT NULL,
     `created` DATETIME NOT NULL,
     `updated` DATETIME NOT NULL,
     PRIMARY KEY (`id`)

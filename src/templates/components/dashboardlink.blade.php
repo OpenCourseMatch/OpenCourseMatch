@@ -9,7 +9,9 @@
         </div>
 
         @if(isset($external) && $external)
-            @include("components.icons.externalurl")
+            @include("components.icons.externalurl", [
+                "class" => ""
+            ])
         @endif
     </div>
 

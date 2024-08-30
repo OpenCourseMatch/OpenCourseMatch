@@ -46,6 +46,14 @@ Router::addRoute("GET", "/administrators/edit/{i:userId}", "administrators/edit.
 Router::addRoute("POST", "/administrators/save", "administrators/save.php", "administrators-save");
 Router::addRoute("GET", "/administrators/delete/{i:userId}", "administrators/delete.php", "administrators-delete");
 
+// Course management
+Router::addRoute("GET", "/courses", "courses/overview.php", "courses-overview");
+Router::addRoute("POST", "/courses/table", "courses/overview-table.php", "courses-overview-table");
+Router::addRoute("GET", "/courses/edit", "courses/edit.php", "courses-create");
+Router::addRoute("GET", "/courses/edit/{i:courseId}", "courses/edit.php", "courses-edit");
+Router::addRoute("POST", "/courses/save", "courses/save.php", "courses-save");
+Router::addRoute("GET", "/courses/delete/{i:courseId}", "courses/delete.php", "courses-delete");
+
 // Authentication
 Router::addRoute("GET", "/auth/login", "auth/login.php", "auth-login");
 Router::addRoute("POST", "/auth/login", "auth/login-action.php", "auth-login-action");

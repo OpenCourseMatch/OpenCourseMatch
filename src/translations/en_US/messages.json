@@ -72,6 +72,22 @@
     "The administrator has been deleted.": "The administrator has been deleted.",
 
     "Manage courses": "Manage courses",
+    "Courses": "Courses",
+    "Manage the available courses.": "Manage the available courses.",
+    "Title": "Title",
+    "Organizer": "Organizer",
+    "Minimum required clearance": "Minimum required clearance",
+    "Maximum allowed clearance": "Maximum allowed clearance",
+    "Maximum participants": "Maximum participants",
+    "Create course": "Create course",
+    "Edit course": "Edit course",
+    "Delete course": "Delete course",
+    "Do you really want to delete this course?": "Do you really want to delete this course?",
+    "The course that should be edited does not exist.": "The course that should be edited does not exist.",
+    "The course that should be deleted does not exist.": "The course that should be deleted does not exist.",
+    "The course has been saved.": "The course has been saved.",
+    "The course has been deleted.": "The course has been deleted.",
+    "The minimum clearance level must be lower than the maximum clearance level.": "The minimum clearance level must be lower than the maximum clearance level.",
 
     "Course assignment": "Course assignment",
 

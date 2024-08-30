@@ -43,7 +43,12 @@
     {{ t("Manage courses") }}
 </h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    {{-- Courses --}}
+    @include("components.dashboardlink", [
+        "icon" => "components.icons.course",
+        "href" => Router::generate("courses-overview"),
+        "title" => t("Courses"),
+        "description" => t("Manage the available courses.")
+    ])
 </div>
 
 <h2 class="mt-4 mb-2">
