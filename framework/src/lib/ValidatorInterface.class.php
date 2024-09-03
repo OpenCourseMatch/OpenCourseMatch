@@ -2,7 +2,7 @@
 
 namespace validation;
 
-interface InputValidator {
+interface ValidatorInterface {
     public function __construct(bool $required);
 
     public function validate(mixed &$input): bool;

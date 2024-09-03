@@ -2,7 +2,7 @@
 
 namespace validation;
 
-class StringValidator implements InputValidator {
+class StringValidator implements ValidatorInterface {
     private bool $required;
     private ?int $minLength;
     private ?int $maxLength;

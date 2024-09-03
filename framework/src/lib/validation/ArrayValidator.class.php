@@ -2,15 +2,15 @@
 
 namespace validation;
 
-class ArrayValidator implements InputValidator {
+class ArrayValidator implements ValidatorInterface {
     private bool $required;
-    private ?InputValidator $itemsValidator;
+    private ?ValidatorInterface $itemsValidator;
     private ?int $minLength;
     private ?int $maxLength;
 
     public function __construct(
         bool $required = false,
-        InputValidator $itemsValidator = null,
+        ValidatorInterface $itemsValidator = null,
         ?int $minLength = null,
         ?int $maxLength = null
     ) {

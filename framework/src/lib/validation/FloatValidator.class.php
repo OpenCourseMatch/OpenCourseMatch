@@ -2,7 +2,7 @@
 
 namespace validation;
 
-class FloatValidator implements InputValidator {
+class FloatValidator implements ValidatorInterface {
     private bool $required;
     private ?int $minValue;
     private ?int $maxValue;
