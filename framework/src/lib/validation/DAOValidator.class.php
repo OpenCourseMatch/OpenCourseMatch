@@ -2,16 +2,19 @@
 
 namespace validation;
 
-class SelectionValidator implements ValidatorInterface {
+class DAOValidator implements ValidatorInterface {
     private bool $required;
-    private array $options;
+    private \GenericObjectDAO $objectDAO;
 
     public function __construct(
         bool $required = false,
-        array $options = []
+        ?\GenericObjectDAO $objectDAO = null
     ) {
         $this->required = $required;
-        $this->options = $options;
+        $this->objectDAO = \GenericObject::dao();
+        if($objectDAO !== null) {
+            $this->objectDAO = $objectDAO;
+        }
     }
 
     public function validate(mixed &$input): bool {
@@ -20,11 +23,14 @@ class SelectionValidator implements ValidatorInterface {
         if(!isset($input)) {
             return !$this->required;
         } else {
-            if(!isset($input)) {
+            if(!is_numeric($input)) {
                 return false;
             }
 
-            if(!in_array($input, $this->options, true)) {
+            $intval = intval($input);
+
+            $object = $this->objectDAO->getObject(["id" => $intval]);
+            if(!$object instanceof \GenericObject) {
                 return false;
             }
 
@@ -32,9 +38,9 @@ class SelectionValidator implements ValidatorInterface {
         }
     }
 
-    public function getValidatedValue(mixed &$input): mixed {
+    public function getValidatedValue(mixed &$input): ?\GenericObject {
         if($this->validate($input)) {
-            return $input ?? null;
+            return $this->objectDAO->getObject(["id" => $input]);
         }
 
         throw new ValidationException("Invalid input");
