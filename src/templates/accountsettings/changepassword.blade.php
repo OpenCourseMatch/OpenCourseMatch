@@ -15,6 +15,8 @@
                    name="current-password"
                    id="current-password"
                    placeholder="{{ t("Current password") }}"
+                   minlength="8"
+                   maxlength="256"
                    required>
         </div>
 
@@ -29,6 +31,8 @@
                    name="new-password"
                    id="new-password"
                    placeholder="{{ t("New password") }}"
+                   minlength="8"
+                   maxlength="256"
                    required>
         </div>
 
@@ -43,6 +47,8 @@
                    name="new-password-repeat"
                    id="new-password-repeat"
                    placeholder="{{ t("New password (repeat)") }}"
+                   minlength="8"
+                   maxlength="256"
                    required>
         </div>
 

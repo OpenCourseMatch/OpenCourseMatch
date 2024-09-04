@@ -1,8 +1,8 @@
 # Settings table
 CREATE TABLE IF NOT EXISTS `Settings` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `key` VARCHAR(255) NOT NULL,
-    `value` VARCHAR(511) NOT NULL,
+    `key` VARCHAR(256) NOT NULL,
+    `value` VARCHAR(512) NOT NULL,
     `created` DATETIME NOT NULL,
     `updated` DATETIME NOT NULL,
     PRIMARY KEY (`id`),
@@ -15,7 +15,7 @@ INSERT INTO Settings VALUE (NULL, 'coursesAssigned', 'false', NOW(), NOW());
 # Group table
 CREATE TABLE IF NOT EXISTS `Group` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(255) NOT NULL,
+    `name` VARCHAR(256) NOT NULL,
     `clearance` INT NOT NULL,
     `created` DATETIME NOT NULL,
     `updated` DATETIME NOT NULL,
@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS `Group` (
 # Course table
 CREATE TABLE IF NOT EXISTS `Course` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `title` VARCHAR(255) NOT NULL,
-    `organizer` VARCHAR(255) NULL,
+    `title` VARCHAR(256) NOT NULL,
+    `organizer` VARCHAR(256) NULL,
     `minClearance` INT NOT NULL,
     `maxClearance` INT NULL,
     `maxParticipants` INT NOT NULL,
@@ -38,17 +38,17 @@ CREATE TABLE IF NOT EXISTS `Course` (
 # User table
 CREATE TABLE IF NOT EXISTS `User` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `username` VARCHAR(255) NOT NULL,
-    `password` VARCHAR(255) NOT NULL,
-    `email` VARCHAR(255) NOT NULL,
+    `username` VARCHAR(256) NOT NULL,
+    `password` VARCHAR(256) NOT NULL,
+    `email` VARCHAR(256) NOT NULL,
     `emailVerified` TINYINT NOT NULL DEFAULT 0,
     `permissionLevel` INT NOT NULL,
-    `firstName` VARCHAR(63) NOT NULL,
-    `lastName` VARCHAR(63) NOT NULL,
+    `firstName` VARCHAR(64) NOT NULL,
+    `lastName` VARCHAR(64) NOT NULL,
     `group` INT NULL,
     `leadingCourse` INT NULL,
     `lastLogin` TIMESTAMP NULL,
-    `oneTimePassword` VARCHAR(255) NULL,
+    `oneTimePassword` VARCHAR(256) NULL,
     `oneTimePasswordExpiration` DATETIME NULL,
     `created` DATETIME NOT NULL,
     `updated` DATETIME NOT NULL,

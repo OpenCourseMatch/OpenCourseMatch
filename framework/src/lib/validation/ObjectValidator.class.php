@@ -14,7 +14,7 @@ class ObjectValidator implements ValidatorInterface {
     ) {
         $this->required = $required;
         $this->fieldsValidator = $fieldsValidator;
-        $this->allowUnspecifiedFields = $fieldsValidator;
+        $this->allowUnspecifiedFields = $allowUnspecifiedFields;
     }
 
     public function validate(mixed &$input): bool {
@@ -45,7 +45,7 @@ class ObjectValidator implements ValidatorInterface {
         }
     }
 
-    public function getValidatedValue(mixed &$input): ?string {
+    public function getValidatedValue(mixed &$input): ?array {
         if($this->validate($input)) {
             return $input ?? null;
         }

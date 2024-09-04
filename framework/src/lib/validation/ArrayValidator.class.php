@@ -50,7 +50,7 @@ class ArrayValidator implements ValidatorInterface {
         }
     }
 
-    public function getValidatedValue(mixed &$input): ?string {
+    public function getValidatedValue(mixed &$input): ?array {
         if($this->validate($input)) {
             return $input ?? null;
         }

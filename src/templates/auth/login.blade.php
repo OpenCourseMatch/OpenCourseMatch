@@ -15,6 +15,8 @@
                    name="username"
                    id="username"
                    placeholder="{{ t("Username") }}"
+                   minlength="5"
+                   maxlength="256"
                    required>
         </div>
 
@@ -29,6 +31,8 @@
                    name="password"
                    id="password"
                    placeholder="{{ t("Password") }}"
+                   minlength="8"
+                   maxlength="256"
                    required>
         </div>
 

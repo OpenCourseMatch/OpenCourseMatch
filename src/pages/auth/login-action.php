@@ -6,7 +6,13 @@ if(Auth::isLoggedIn()) {
 }
 
 // Check whether form fields are given
-if(empty($_POST["username"]) || empty($_POST["password"])) {
+$validation = new validation\ObjectValidator(true, [
+    "username" => new validation\StringValidator(true, 5, 256),
+    "password" => new validation\StringValidator(true, 8, 256)
+]);
+try {
+    $post = $validation->getValidatedValue($_POST);
+} catch(validation\ValidationException $e) {
     new InfoMessage(t("Please enter your account credentials to log in."), InfoMessageType::ERROR);
     Comm::redirect(Router::generate("auth-login"));
 }
@@ -16,9 +22,9 @@ if(count(User::dao()->getObjects([], "id", true, 1)) === 0) {
     new InfoMessage(t("No users were registered yet. An administrator account has been created."), InfoMessageType::SUCCESS);
 
     $user = new User();
-    $user->setUsername($_POST["username"]);
-    $user->setPassword($_POST["password"]);
-    $user->setEmail($_POST["username"]);
+    $user->setUsername($post["username"]);
+    $user->setPassword($post["password"]);
+    $user->setEmail($post["username"]);
     $user->setEmailVerified(true);
     $user->setPermissionLevel(PermissionLevel::ADMIN->value);
     $user->setFirstName("Admin");
@@ -29,12 +35,14 @@ if(count(User::dao()->getObjects([], "id", true, 1)) === 0) {
     $user->setOneTimePassword(null);
     $user->setOneTimePasswordExpiration(null);
     User::dao()->save($user);
+
+    Logger::getLogger("Login")->info("An initial administrator account has been created.");
 }
 
-$user = User::dao()->login($_POST["username"], false, $_POST["password"]);
+$user = User::dao()->login($post["username"], false, $post["password"]);
 
 if(!$user instanceof GenericUser) {
-    Logger::getLogger("Login")->info("User \"{$_POST["username"]}\" failed to log in: " . ($user === 0 ? "User not found" : ($user === 1 ? "Password incorrect" : "Email not verified")));
+    Logger::getLogger("Login")->info("User \"{$post["username"]}\" failed to log in: " . ($user === 0 ? "User not found" : ($user === 1 ? "Password incorrect" : "Email not verified")));
     new InfoMessage(t("An account with these credentials does not exist."), InfoMessageType::ERROR);
     Comm::redirect(Router::generate("auth-login"));
 }
@@ -45,6 +53,6 @@ $user->setOneTimePassword(null);
 $user->setOneTimePasswordExpiration(null);
 User::dao()->save($user);
 
-Logger::getLogger("Login")->info("User \"{$_POST["username"]}\" has logged in (User ID {$user->getId()})");
+Logger::getLogger("Login")->info("User \"{$post["username"]}\" has logged in (User ID {$user->getId()})");
 Auth::login($user);
 Comm::redirect(Router::generate("index"));
