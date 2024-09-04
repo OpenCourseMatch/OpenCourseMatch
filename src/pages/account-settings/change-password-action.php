@@ -2,15 +2,18 @@
 
 $user = Auth::enforceLogin(PermissionLevel::USER->value, Router::generate("index"));
 
-$validation = new validation\ObjectValidator(true, [
-    "current-password" => new validation\StringValidator(true, 8, 256),
-    "new-password" => new validation\StringValidator(true, 8, 256),
-    "new-password-repeat" => new validation\StringValidator(true, 8, 256),
+$validation = \validation\ObjectValidator::create(true, [
+    "current-password" => \validation\StringValidator::create(true, 8, 256)
+        ->setErrorMessage(t("Please fill out all the required fields.")),
+    "new-password" => \validation\StringValidator::create(true, 8, 256)
+        ->setErrorMessage(t("Please fill out all the required fields.")),
+    "new-password-repeat" => \validation\StringValidator::create(true, 8, 256)
+        ->setErrorMessage(t("Please fill out all the required fields."))
 ]);
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(validation\ValidationException $e) {
-    new InfoMessage(t("Please fill out all the required fields."), InfoMessageType::ERROR);
+    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     Comm::redirect(Router::generate("account-settings-change-password"));
 }
 

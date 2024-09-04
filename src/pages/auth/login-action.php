@@ -6,14 +6,16 @@ if(Auth::isLoggedIn()) {
 }
 
 // Check whether form fields are given
-$validation = new validation\ObjectValidator(true, [
-    "username" => new validation\StringValidator(true, 5, 256),
-    "password" => new validation\StringValidator(true, 8, 256)
-]);
+$validation = \validation\ObjectValidator::create(true, [
+    "username" => \validation\StringValidator::create(true, 5, 256)
+                      ->setErrorMessage(t("Please enter your account credentials to log in.")),
+    "password" => \validation\StringValidator::create(true, 8, 256)
+                      ->setErrorMessage(t("Please enter your account credentials to log in.")),
+])->setErrorMessage(t("Please enter your account credentials to log in."));
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(validation\ValidationException $e) {
-    new InfoMessage(t("Please enter your account credentials to log in."), InfoMessageType::ERROR);
+    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     Comm::redirect(Router::generate("auth-login"));
 }
 

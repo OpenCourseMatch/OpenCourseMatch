@@ -2,41 +2,35 @@
 
 namespace validation;
 
-class SelectionValidator implements ValidatorInterface {
+class SelectionValidator extends GenericValidator implements ValidatorInterface {
     private bool $required;
     private array $options;
 
-    public function __construct(
+    private function __construct() {}
+
+    public static function create(
         bool $required = false,
         array $options = []
-    ) {
-        $this->required = $required;
-        $this->options = $options;
-    }
-
-    public function validate(mixed &$input): bool {
-        // If the input is not set, the validation fails if the input is required
-        // Otherwise, check whether all constraints are satisfied
-        if(!isset($input)) {
-            return !$this->required;
-        } else {
-            if(!isset($input)) {
-                return false;
-            }
-
-            if(!in_array($input, $this->options, true)) {
-                return false;
-            }
-
-            return true;
-        }
+    ): self {
+        $validator = new self();
+        $validator->required = $required;
+        $validator->options = $options;
+        return $validator;
     }
 
     public function getValidatedValue(mixed &$input): mixed {
-        if($this->validate($input)) {
-            return $input ?? null;
+        // If the input is not set, the validation fails if the input is required
+        // Otherwise, check whether all constraints are satisfied
+        if(!isset($input)) {
+            if($this->required) {
+                throw new ValidationException([], parent::getErrorMessage());
+            }
+        } else {
+            if(!in_array($input, $this->options, true)) {
+                throw new ValidationException([], parent::getErrorMessage());
+            }
         }
 
-        throw new ValidationException("Invalid input");
+        return $input ?? null;
     }
 }

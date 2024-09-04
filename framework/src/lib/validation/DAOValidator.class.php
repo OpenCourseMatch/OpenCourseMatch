@@ -2,19 +2,20 @@
 
 namespace validation;
 
-class DAOValidator implements ValidatorInterface {
+class DAOValidator extends GenericValidator implements ValidatorInterface {
     private bool $required;
     private \GenericObjectDAO $objectDAO;
 
-    public function __construct(
+    private function __construct() {}
+
+    public static function create(
         bool $required = false,
         ?\GenericObjectDAO $objectDAO = null
-    ) {
-        $this->required = $required;
-        $this->objectDAO = \GenericObject::dao();
-        if($objectDAO !== null) {
-            $this->objectDAO = $objectDAO;
-        }
+    ): self {
+        $validator = new self();
+        $validator->required = $required;
+        $validator->objectDAO = $objectDAO;
+        return $validator;
     }
 
     public function validate(mixed &$input): bool {
@@ -39,10 +40,25 @@ class DAOValidator implements ValidatorInterface {
     }
 
     public function getValidatedValue(mixed &$input): ?\GenericObject {
-        if($this->validate($input)) {
-            return $this->objectDAO->getObject(["id" => $input]);
+        // If the input is not set, the validation fails if the input is required
+        // Otherwise, check whether all constraints are satisfied
+        if(!isset($input)) {
+            if($this->required) {
+                throw new ValidationException([], parent::getErrorMessage());
+            }
+        } else {
+            if(!is_numeric($input)) {
+                throw new ValidationException([], parent::getErrorMessage());
+            }
+
+            $intval = intval($input);
+
+            $object = $this->objectDAO->getObject(["id" => $intval]);
+            if(!$object instanceof \GenericObject) {
+                throw new ValidationException([], parent::getErrorMessage());
+            }
         }
 
-        throw new ValidationException("Invalid input");
+        return $object ?? null;
     }
 }

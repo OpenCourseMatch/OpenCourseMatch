@@ -2,50 +2,48 @@
 
 namespace validation;
 
-class FloatValidator implements ValidatorInterface {
+class FloatValidator extends GenericValidator implements ValidatorInterface {
     private bool $required;
     private ?int $minValue;
     private ?int $maxValue;
 
-    public function __construct(
+    private function __construct() {}
+
+    public static function create(
         bool $required = false,
         ?int $minValue = null,
         ?int $maxValue = null
-    ) {
-        $this->required = $required;
-        $this->minValue = $minValue;
-        $this->maxValue = $maxValue;
+    ): self {
+        $validator = new self();
+        $validator->required = $required;
+        $validator->minValue = $minValue;
+        $validator->maxValue = $maxValue;
+        return $validator;
     }
 
-    public function validate(mixed &$input): bool {
+    public function getValidatedValue(mixed &$input): ?float {
         // If the input is not set, the validation fails if the input is required
         // Otherwise, check whether all constraints are satisfied
         if(!isset($input)) {
-            return !$this->required;
+            if($this->required) {
+                throw new ValidationException([], parent::getErrorMessage());
+            }
         } else {
             if(!is_float($input)) {
-                return false;
+                throw new ValidationException([], parent::getErrorMessage());
             }
 
             $floatval = floatval($input);
 
             if(isset($this->minValue) && $floatval < $this->minValue) {
-                return false;
+                throw new ValidationException([], parent::getErrorMessage());
             }
 
             if(isset($this->maxValue) && $floatval > $this->maxValue) {
-                return false;
+                throw new ValidationException([], parent::getErrorMessage());
             }
-
-            return true;
-        }
-    }
-
-    public function getValidatedValue(mixed &$input): ?float {
-        if($this->validate($input)) {
-            return floatval($input) ?? null;
         }
 
-        throw new ValidationException("Invalid input");
+        return floatval($input) ?? null;
     }
 }

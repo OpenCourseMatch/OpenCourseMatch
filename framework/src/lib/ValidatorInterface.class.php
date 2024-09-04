@@ -3,8 +3,10 @@
 namespace validation;
 
 interface ValidatorInterface {
-    public function __construct(bool $required);
+    public static function create(bool $required);
 
-    public function validate(mixed &$input): bool;
+    /**
+     * @throws ValidationException
+     */
     public function getValidatedValue(mixed &$input): mixed;
 }

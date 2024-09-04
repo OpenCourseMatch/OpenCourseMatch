@@ -2,59 +2,59 @@
 
 namespace validation;
 
-class ArrayValidator implements ValidatorInterface {
+class ArrayValidator extends GenericValidator implements ValidatorInterface {
     private bool $required;
     private ?ValidatorInterface $itemsValidator;
     private ?int $minLength;
     private ?int $maxLength;
 
-    public function __construct(
+    private function __construct() {}
+
+    public static function create(
         bool $required = false,
         ValidatorInterface $itemsValidator = null,
         ?int $minLength = null,
         ?int $maxLength = null
-    ) {
-        $this->required = $required;
-        $this->itemsValidator = $itemsValidator;
-        $this->minLength = $minLength;
-        $this->maxLength = $maxLength;
+    ): self {
+        $validator = new self();
+        $validator->required = $required;
+        $validator->itemsValidator = $itemsValidator;
+        $validator->minLength = $minLength;
+        $validator->maxLength = $maxLength;
+        return $validator;
     }
 
-    public function validate(mixed &$input): bool {
+    public function getValidatedValue(mixed &$input): ?array {
         // If the input is not set, the validation fails if the input is required
         // Otherwise, check whether all constraints are satisfied
         if(!isset($input)) {
-            return !$this->required;
+            if($this->required) {
+                throw new ValidationException([], parent::getErrorMessage());
+            }
         } else {
             if(!is_array($input)) {
-                return false;
+                throw new ValidationException([], parent::getErrorMessage());
             }
 
             if(isset($this->itemsValidator)) {
                 foreach($input as $item) {
-                    if(!$this->itemsValidator->validate($item)) {
-                        return false;
+                    try {
+                        $this->itemsValidator->getValidatedValue($item);
+                    } catch(ValidationException $e) {
+                        throw new ValidationException([], $e->getMessage());
                     }
                 }
             }
 
             if(isset($this->minLength) && count($input) < $this->minLength) {
-                return false;
+                throw new Validationexception([], parent::getErrorMessage());
             }
 
             if(isset($this->maxLength) && count($input) > $this->maxLength) {
-                return false;
+                throw new Validationexception([], parent::getErrorMessage());
             }
-
-            return true;
-        }
-    }
-
-    public function getValidatedValue(mixed &$input): ?array {
-        if($this->validate($input)) {
-            return $input ?? null;
         }
 
-        throw new ValidationException("Invalid input");
+        return $input ?? null;
     }
 }

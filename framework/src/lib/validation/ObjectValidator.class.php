@@ -2,54 +2,57 @@
 
 namespace validation;
 
-class ObjectValidator implements ValidatorInterface {
+class ObjectValidator extends GenericValidator implements ValidatorInterface {
     private bool $required;
+    /** @var ValidatorInterface[]|null */
     private ?array $fieldsValidator;
     private ?bool $allowUnspecifiedFields;
 
-    public function __construct(
+    private function __construct() {}
+
+    public static function create(
         bool $required = false,
         array $fieldsValidator = null,
         ?bool $allowUnspecifiedFields = null,
-    ) {
-        $this->required = $required;
-        $this->fieldsValidator = $fieldsValidator;
-        $this->allowUnspecifiedFields = $allowUnspecifiedFields;
+    ): self {
+        $validator = new self();
+        $validator->required = $required;
+        $validator->fieldsValidator = $fieldsValidator;
+        $validator->allowUnspecifiedFields = $allowUnspecifiedFields;
+        return $validator;
     }
 
-    public function validate(mixed &$input): bool {
+    public function getValidatedValue(mixed &$input): ?array {
         // If the input is not set, the validation fails if the input is required
         // Otherwise, check whether all constraints are satisfied
         if(!isset($input)) {
-            return !$this->required;
+            if($this->required) {
+                throw new ValidationException([], parent::getErrorMessage());
+            }
         } else {
             if(!is_array($input)) {
-                return false;
+                throw new ValidationException([], parent::getErrorMessage());
             }
 
             if(isset($this->fieldsValidator)) {
                 foreach($input as $key => $item) {
-                    // If no additional fields are allowed, fail if there is no key in the attributes validator array
+                    // If no additional fields are allowed, fail if there is no key in the fields validator array
                     if(!isset($this->fieldsValidator[$key]) && $this->allowUnspecifiedFields) {
-                        return false;
+                        throw new ValidationException([], parent::getErrorMessage());
                     }
 
                     // Check whether the field is valid
-                    if(!$this->fieldsValidator[$key]->validate($item)) {
-                        return false;
+                    try {
+                        $this->fieldsValidator[$key]->getValidatedValue($item);
+                    } catch(ValidationException $e) {
+                        throw new ValidationException([$key], $e->getMessage());
                     }
+
+                    // TODO: Check whether all required fields were set
                 }
             }
-
-            return true;
-        }
-    }
-
-    public function getValidatedValue(mixed &$input): ?array {
-        if($this->validate($input)) {
-            return $input ?? null;
         }
 
-        throw new ValidationException("Invalid input");
+        return $input ?? null;
     }
 }
