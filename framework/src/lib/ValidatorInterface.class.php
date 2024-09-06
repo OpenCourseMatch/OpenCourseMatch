@@ -3,7 +3,7 @@
 namespace validation;
 
 interface ValidatorInterface {
-    public static function create(bool $required);
+    public static function create();
 
     /**
      * @throws ValidationException
