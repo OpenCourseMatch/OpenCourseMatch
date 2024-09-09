@@ -124,3 +124,57 @@ test("Validate positive floats", function() use ($data, $validators) {
             ->and(fn() => $validators["array"]->getValidatedValue($float))->toThrow(\validation\ValidationException::class);
     }
 });
+
+test("Validate empty string", function() use ($data, $validators) {
+    expect($validators["required1"]->getValidatedValue($data["case7"]))->toEqual("")
+        ->and(fn() => $validators["required2"]->getValidatedValue($data["case7"]))->toThrow(\validation\ValidationException::class)
+        ->and($validators["string"]->getValidatedValue($data["case7"]))->toEqual("")
+        ->and(fn() => $validators["integer"]->getValidatedValue($data["case7"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["float"]->getValidatedValue($data["case7"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["array"]->getValidatedValue($data["case7"]))->toThrow(\validation\ValidationException::class);
+});
+
+test("Validate non-empty string", function() use ($data, $validators) {
+    expect($validators["required1"]->getValidatedValue($data["case8"]))->toEqual("Hello, World!")
+        ->and($validators["required2"]->getValidatedValue($data["case8"]))->toEqual("Hello, World!")
+        ->and($validators["string"]->getValidatedValue($data["case8"]))->toEqual("Hello, World!")
+        ->and(fn() => $validators["integer"]->getValidatedValue($data["case8"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["float"]->getValidatedValue($data["case8"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["array"]->getValidatedValue($data["case8"]))->toThrow(\validation\ValidationException::class);
+});
+
+test("Validate empty array", function() use ($data, $validators) {
+    expect($validators["required1"]->getValidatedValue($data["case9"]))->toEqual([])
+        ->and(fn() => $validators["required2"]->getValidatedValue($data["case9"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["string"]->getValidatedValue($data["case9"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["integer"]->getValidatedValue($data["case9"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["float"]->getValidatedValue($data["case9"]))->toThrow(\validation\ValidationException::class)
+        ->and($validators["array"]->getValidatedValue($data["case9"]))->toEqual([]);
+});
+
+test("Validate non-empty array", function() use ($data, $validators) {
+    expect($validators["required1"]->getValidatedValue($data["case10"]))->toEqual(["Hello, World!"])
+        ->and($validators["required2"]->getValidatedValue($data["case10"]))->toEqual(["Hello, World!"])
+        ->and(fn() => $validators["string"]->getValidatedValue($data["case10"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["integer"]->getValidatedValue($data["case10"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["float"]->getValidatedValue($data["case10"]))->toThrow(\validation\ValidationException::class)
+        ->and($validators["array"]->getValidatedValue($data["case10"]))->toEqual(["Hello, World!"]);
+});
+
+test("Validate empty object", function() use ($data, $validators) {
+    expect($validators["required1"]->getValidatedValue($data["case12"]))->toEqual($data["case12"])
+        ->and($validators["required2"]->getValidatedValue($data["case12"]))->toEqual($data["case12"])
+        ->and(fn() => $validators["string"]->getValidatedValue($data["case12"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["integer"]->getValidatedValue($data["case12"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["float"]->getValidatedValue($data["case12"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["array"]->getValidatedValue($data["case12"]))->toThrow(\validation\ValidationException::class);
+});
+
+test("Validate non-empty object", function() use ($data, $validators) {
+    expect($validators["required1"]->getValidatedValue($data["case13"]))->toEqual($data["case13"])
+        ->and($validators["required2"]->getValidatedValue($data["case13"]))->toEqual($data["case13"])
+        ->and(fn() => $validators["string"]->getValidatedValue($data["case13"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["integer"]->getValidatedValue($data["case13"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["float"]->getValidatedValue($data["case13"]))->toThrow(\validation\ValidationException::class)
+        ->and(fn() => $validators["array"]->getValidatedValue($data["case13"]))->toThrow(\validation\ValidationException::class);
+});
