@@ -16,11 +16,11 @@ class IsRequired extends GenericValidator implements ValidatorInterface {
     public function getValidatedValue(mixed &$input): mixed {
         if($this->checkWithEmpty) {
             if(empty($input)) {
-                throw new ValidationException([], parent::getErrorMessage());
+                parent::failValidation();
             }
         } else {
             if(!isset($input)) {
-                throw new ValidationException([], parent::getErrorMessage());
+                parent::failValidation();
             }
         }
 

@@ -32,27 +32,97 @@ $data = [
 
     // Check objects
     "case12" => new stdClass(),
-    "case13" => new DateFormatter()
+    "case13" => new DateFormatter(),
+
+    // Check simulated post validator
+    "case14" => [
+        "successful" => [
+            [
+                "field1" => "Hello"
+            ],
+            [
+                "field1" => "Hello",
+                "field2" => 1
+            ],
+            [
+                "field1" => "Hello",
+                "field2" => null
+            ]
+        ],
+        "failing" => [
+            [
+                "field1" => ""
+            ],
+            [
+                "field1" => "This is a very long text"
+            ],
+            [
+                "field1" => 3.14
+            ],
+            [
+                "field0" => "Hello"
+            ],
+            [
+                "field1" => "Hello",
+                "field2" => "Hello"
+            ],
+            [
+                "field1" => "Hello",
+                "field2" => []
+            ],
+            [
+                "field2" => 1
+            ]
+        ]
+    ]
 ];
 
 $validators = [
     "required1" => \validation\Validator::create([
-        new \validation\IsRequired()
+        \validation\IsRequired::create()
     ]),
     "required2" => \validation\Validator::create([
-        new \validation\IsRequired(true)
+        \validation\IsRequired::create(true)
     ]),
     "string" => \validation\Validator::create([
-        new \validation\IsString()
+        \validation\IsRequired::create(),
+        \validation\IsString::create()
     ]),
     "integer" => \validation\Validator::create([
-        new \validation\IsInteger()
+        \validation\IsRequired::create(),
+        \validation\IsInteger::create()
     ]),
     "float" => \validation\Validator::create([
-        new \validation\IsFloat()
+        \validation\IsRequired::create(),
+        \validation\IsFloat::create()
     ]),
     "array" => \validation\Validator::create([
-        new \validation\IsArray()
+        \validation\IsRequired::create(),
+        \validation\IsArray::create()
+    ]),
+    "nestedArray" => \validation\Validator::create([
+        \validation\IsRequired::create(),
+        \validation\IsArray::create(),
+        \validation\HasChildren::create([
+            \validation\Validator::create([
+
+            ])
+        ])
+    ]),
+    "simulatedPostValidator" => \validation\Validator::create([
+        \validation\IsRequired::create(),
+        \validation\IsArray::create(),
+        \validation\HasChildren::create([
+            "field1" => \validation\Validator::create([
+                \validation\IsRequired::create(),
+                \validation\IsString::create(),
+                \validation\MinLength::create(4),
+                \validation\MaxLength::create(8),
+            ]),
+            "field2" => \validation\Validator::create([
+                \validation\IsInteger::create()
+            ])
+        ])
     ])
 ];
 
@@ -177,4 +247,20 @@ test("Validate non-empty object", function() use ($data, $validators) {
         ->and(fn() => $validators["integer"]->getValidatedValue($data["case13"]))->toThrow(\validation\ValidationException::class)
         ->and(fn() => $validators["float"]->getValidatedValue($data["case13"]))->toThrow(\validation\ValidationException::class)
         ->and(fn() => $validators["array"]->getValidatedValue($data["case13"]))->toThrow(\validation\ValidationException::class);
+});
+
+test("Validate simulated post data", function() use ($data, $validators) {
+    $successful = $data["case14"]["successful"];
+    $failing = $data["case14"]["failing"];
+
+    foreach($successful as $d) {
+        $expected = $d;
+        $expected["field1"] = $d["field1"] ?? null;
+        $expected["field2"] = $d["field2"] ?? null;
+        expect($validators["simulatedPostValidator"]->getValidatedValue($d))->toEqual($expected);
+    }
+
+    foreach($failing as $d) {
+        expect(fn() => $validators["simulatedPostValidator"]->getValidatedValue($d))->toThrow(\validation\ValidationException::class);
+    }
 });

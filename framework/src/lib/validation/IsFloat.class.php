@@ -11,7 +11,7 @@ class IsFloat extends GenericValidator implements ValidatorInterface {
 
     public function getValidatedValue(mixed &$input): mixed {
         if(!is_float($input)) {
-            throw new ValidationException([], parent::getErrorMessage());
+            parent::failValidation();
         }
 
         return floatval($input);

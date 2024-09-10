@@ -11,7 +11,7 @@ class IsString extends GenericValidator implements ValidatorInterface {
 
     public function getValidatedValue(mixed &$input): mixed {
         if(!is_string($input)) {
-            throw new ValidationException([], parent::getErrorMessage());
+            parent::failValidation();
         }
 
         return $input;

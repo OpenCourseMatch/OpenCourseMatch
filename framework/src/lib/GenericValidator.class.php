@@ -13,4 +13,8 @@ class GenericValidator {
         $this->errorMessage = $message;
         return $this;
     }
+
+    public function failValidation(bool $isCritical = false): void {
+        throw new ValidationException($this->getErrorMessage(), $isCritical);
+    }
 }

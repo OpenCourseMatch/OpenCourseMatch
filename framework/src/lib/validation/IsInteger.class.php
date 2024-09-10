@@ -11,7 +11,7 @@ class IsInteger extends GenericValidator implements ValidatorInterface {
 
     public function getValidatedValue(mixed &$input): mixed {
         if(!is_numeric($input)) {
-            throw new ValidationException([], parent::getErrorMessage());
+            parent::failValidation();
         }
 
         return intval($input);

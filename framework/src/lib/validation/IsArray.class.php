@@ -11,7 +11,7 @@ class IsArray extends GenericValidator implements ValidatorInterface {
 
     public function getValidatedValue(mixed &$input): mixed {
         if(!is_array($input)) {
-            throw new ValidationException([], parent::getErrorMessage());
+            parent::failValidation();
         }
 
         return $input;

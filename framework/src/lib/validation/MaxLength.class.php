@@ -15,9 +15,9 @@ class MaxLength extends GenericValidator implements ValidatorInterface {
 
     public function getValidatedValue(mixed &$input): mixed {
         if(is_string($input) && strlen($input) > $this->maxLength) {
-            throw new ValidationException([], parent::getErrorMessage());
+            parent::failValidation();
         } else if(is_array($input) && count($input) > $this->maxLength) {
-            throw new ValidationException([], parent::getErrorMessage());
+            parent::failValidation();
         }
 
         return $input;
