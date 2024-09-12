@@ -2,14 +2,25 @@
 
 $user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router::generate("index"));
 
-if(isset($_GET["userId"]) && is_numeric($_GET["userId"])) {
-    $userId = intval($_GET["userId"]);
-    $account = User::dao()->getObject(["id" => $userId, "permissionLevel" => PermissionLevel::USER->value]);
-    if(!$account instanceof User) {
-        new InfoMessage(t("The user that should be edited does not exist."), InfoMessageType::ERROR);
-        Comm::redirect(Router::generate("users-overview"));
-    }
+$validation = \validation\Validator::create([
+    \validation\IsRequired::create(),
+    \validation\IsArray::create(),
+    \validation\HasChildren::create([
+        "user" => \validation\Validator::create([
+            \validation\IsInDatabase::create(User::dao(), [
+                "permissionLevel" => PermissionLevel::USER->value,
+            ])->setErrorMessage(t("The user that should be edited does not exist."))
+        ])
+    ])
+]);
+try {
+    $get = $validation->getValidatedValue($_GET);
+} catch(\validation\ValidationException $e) {
+    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    Comm::redirect(Router::generate("users-overview"));
 }
+
+$account = $get["user"];
 
 $groups = Group::dao()->getObjects();
 

@@ -26,9 +26,9 @@ Router::addRoute("GET", "/groups/delete/{i:groupId}", "groups/delete.php", "grou
 Router::addRoute("GET", "/users", "users/overview.php", "users-overview");
 Router::addRoute("POST", "/users/table", "users/overview-table.php", "users-overview-table");
 Router::addRoute("GET", "/users/edit", "users/edit.php", "users-create");
-Router::addRoute("GET", "/users/edit/{i:userId}", "users/edit.php", "users-edit");
+Router::addRoute("GET", "/users/edit/{i:user}", "users/edit.php", "users-edit");
 Router::addRoute("POST", "/users/save", "users/save.php", "users-save");
-Router::addRoute("GET", "/users/delete/{i:userId}", "users/delete.php", "users-delete");
+Router::addRoute("GET", "/users/delete/{i:user}", "users/delete.php", "users-delete");
 
 // Facilitator management
 Router::addRoute("GET", "/facilitators", "facilitators/overview.php", "facilitators-overview");

@@ -12,7 +12,7 @@
 
     <form method="post" action="{{ Router::generate("users-save") }}">
         @if(!empty($user))
-            <input type="hidden" name="userId" value="{{ $user->getId() }}">
+            <input type="hidden" name="user" value="{{ $user->getId() }}">
         @endif
 
         <div class="flex flex-col md:flex-row gap-2 mb-2">
@@ -26,6 +26,8 @@
                        class="{{ TailwindUtil::$input }}"
                        value="{{ !empty($user) ? $user->getFirstName() : "" }}"
                        placeholder="{{ t("First name") }}"
+                       minlength="1"
+                       maxlength="64"
                        required>
             </div>
             <div class="{{ TailwindUtil::inputGroup() }}">
@@ -38,19 +40,20 @@
                        class="{{ TailwindUtil::$input }}"
                        value="{{ !empty($user) ? $user->getLastName() : "" }}"
                        placeholder="{{ t("Last name") }}"
+                       minlength="1"
+                       maxlength="64"
                        required>
             </div>
         </div>
 
         <div class="{{ TailwindUtil::inputGroup() }} mb-2">
-            <label for="group" class="{{ TailwindUtil::$inputLabel }}" data-required>
+            <label for="group" class="{{ TailwindUtil::$inputLabel }}">
                 {{ t("Group") }}
             </label>
             <select id="group"
                     name="group"
-                    class="{{ TailwindUtil::$input }}"
-                    required>
-                <option value="0">{{ t("Default group") }}</option>
+                    class="{{ TailwindUtil::$input }}">
+                <option value="">{{ t("Default group") }}</option>
                 @foreach($groups as $group)
                     <option value="{{ $group->getId() }}"
                             @if(!empty($user) && $user->getGroup() === $group->getId())
@@ -76,6 +79,8 @@
                    type="password"
                    class="{{ TailwindUtil::$input }}"
                    value=""
+                   minlength="8"
+                   maxlength="256"
                    placeholder="{{ t("Password") }}">
         </div>
 
@@ -91,7 +96,7 @@
             <button type="button"
                     id="delete-user"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
-                    data-delete-href="{{ Router::generate("users-delete", ["userId" => $user->getId()]) }}">
+                    data-delete-href="{{ Router::generate("users-delete", ["user" => $user->getId()]) }}">
                 @include("components.icons.delete")
                 {{ t("Delete") }}
             </button>

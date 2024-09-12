@@ -21,7 +21,7 @@ class IsInDatabase extends GenericValidator implements ValidatorInterface {
 
     public function getValidatedValue(mixed &$input): mixed {
         if(!is_numeric($input)) {
-            parent::failValidation();
+            return null;
         }
 
         $objectId = intval($input);
