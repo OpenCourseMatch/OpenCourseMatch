@@ -6,11 +6,23 @@ if(Auth::isLoggedIn()) {
 }
 
 // Check whether form fields are given
-$validation = \validation\ObjectValidator::create(true, [
-    "username" => \validation\StringValidator::create(true, 5, 256)
-                      ->setErrorMessage(t("Please enter your account credentials to log in.")),
-    "password" => \validation\StringValidator::create(true, 8, 256)
-                      ->setErrorMessage(t("Please enter your account credentials to log in.")),
+$validation = \validation\Validator::create([
+    \validation\IsRequired::create(),
+    \validation\IsArray::create(),
+    \validation\HasChildren::create([
+        "username" => \validation\Validator::create([
+            \validation\IsRequired::create(),
+            \validation\IsString::create(),
+            \validation\MinLength::create(5),
+            \validation\MaxLength::create(256),
+        ]),
+        "password" => \validation\Validator::create([
+            \validation\IsRequired::create(),
+            \validation\IsString::create(),
+            \validation\MinLength::create(8),
+            \validation\MaxLength::create(256),
+        ])
+    ])
 ])->setErrorMessage(t("Please enter your account credentials to log in."));
 try {
     $post = $validation->getValidatedValue($_POST);
