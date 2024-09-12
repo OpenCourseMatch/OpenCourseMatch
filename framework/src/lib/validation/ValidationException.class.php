@@ -4,7 +4,7 @@ namespace validation;
 
 class ValidationException extends \Exception {
 
-    public function __construct(string $message = "Invalid input") {
+    public function __construct(?string $message = null) {
         parent::__construct($message);
     }
 }

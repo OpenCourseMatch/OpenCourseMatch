@@ -23,7 +23,15 @@ class HasChildren extends GenericValidator implements ValidatorInterface {
          * @var ValidatorInterface $validator
          */
         foreach($this->children as $key => $validator) {
-            $output[$key] = $validator->getValidatedValue($input[$key]);
+            try {
+                $output[$key] = $validator->getValidatedValue($input[$key]);
+            } catch(ValidationException $e) {
+                if($e->getMessage() !== null) {
+                    throw $e;
+                } else {
+                    parent::failValidation();
+                }
+            }
         }
 
         if($this->allowAdditionalFields) {

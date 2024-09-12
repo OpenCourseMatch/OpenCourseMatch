@@ -3,9 +3,9 @@
 namespace validation;
 
 class GenericValidator {
-    private string $errorMessage = "";
+    private ?string $errorMessage = null;
 
-    public function getErrorMessage(): string {
+    public function getErrorMessage(): ?string {
         return $this->errorMessage;
     }
 
@@ -14,7 +14,7 @@ class GenericValidator {
         return $this;
     }
 
-    public function failValidation(bool $isCritical = false): void {
-        throw new ValidationException($this->getErrorMessage(), $isCritical);
+    public function failValidation(): void {
+        throw new ValidationException($this->getErrorMessage());
     }
 }
