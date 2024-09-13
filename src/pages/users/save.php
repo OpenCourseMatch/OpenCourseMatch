@@ -33,13 +33,13 @@ $validation = \validation\Validator::create([
             \validation\MaxLength::create(256)
         ])
     ])
-])->setErrorMessage(t("Please fill out all the required fields"));
+])->setErrorMessage(t("Please fill out all the required fields."));
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     if(isset($_POST["user"])) {
-        Comm::redirect(Router::generate("users-edit", ["userId" => $_POST["userId"]]));
+        Comm::redirect(Router::generate("users-edit", ["user" => $_POST["user"]]));
     } else {
         Comm::redirect(Router::generate("users-create"));
     }
