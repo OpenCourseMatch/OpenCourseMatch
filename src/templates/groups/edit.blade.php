@@ -12,7 +12,7 @@
 
     <form method="post" action="{{ Router::generate("groups-save") }}">
         @if(!empty($group))
-            <input type="hidden" name="groupId" value="{{ $group->getId() }}">
+            <input type="hidden" name="group" value="{{ $group->getId() }}">
         @endif
 
         <div class="{{ TailwindUtil::inputGroup() }} mb-2">
@@ -25,6 +25,8 @@
                    class="{{ TailwindUtil::$input }}"
                    value="{{ !empty($group) ? $group->getName() : "" }}"
                    placeholder="{{ t("Group name") }}"
+                   minlength="1"
+                   maxlength="256"
                    required>
         </div>
 
@@ -52,7 +54,7 @@
             <button type="button"
                     id="delete-group"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
-                    data-delete-href="{{ Router::generate("groups-delete", ["groupId" => $group->getId()]) }}">
+                    data-delete-href="{{ Router::generate("groups-delete", ["group" => $group->getId()]) }}">
                 @include("components.icons.delete")
                 {{ t("Delete") }}
             </button>

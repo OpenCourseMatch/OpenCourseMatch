@@ -18,9 +18,9 @@ Router::addRoute("POST", "/account-settings/change-password", "account-settings/
 Router::addRoute("GET", "/groups", "groups/overview.php", "groups-overview");
 Router::addRoute("POST", "/groups/table", "groups/overview-table.php", "groups-overview-table");
 Router::addRoute("GET", "/groups/edit", "groups/edit.php", "groups-create");
-Router::addRoute("GET", "/groups/edit/{i:groupId}", "groups/edit.php", "groups-edit");
+Router::addRoute("GET", "/groups/edit/{i:group}", "groups/edit.php", "groups-edit");
 Router::addRoute("POST", "/groups/save", "groups/save.php", "groups-save");
-Router::addRoute("GET", "/groups/delete/{i:groupId}", "groups/delete.php", "groups-delete");
+Router::addRoute("GET", "/groups/delete/{i:group}", "groups/delete.php", "groups-delete");
 
 // User management
 Router::addRoute("GET", "/users", "users/overview.php", "users-overview");

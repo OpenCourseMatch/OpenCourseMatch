@@ -2,14 +2,23 @@
 
 $user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
 
-if(isset($_GET["groupId"]) && is_numeric($_GET["groupId"])) {
-    $groupId = intval($_GET["groupId"]);
-    $group = Group::dao()->getObject(["id" => $groupId]);
-    if(!$group instanceof Group) {
-        new InfoMessage(t("The group that should be edited does not exist."), InfoMessageType::ERROR);
-        Comm::redirect(Router::generate("groups-overview"));
-    }
+$validation = \validation\Validator::create([
+    \validation\IsRequired::create(),
+    \validation\IsArray::create(),
+    \validation\HasChildren::create([
+        "group" => \validation\Validator::create([
+            \validation\IsInDatabase::create(Group::dao())->setErrorMessage(t("The group that should be edited does not exist."))
+        ])
+    ])
+]);
+try {
+    $get = $validation->getValidatedValue($_GET);
+} catch(\validation\ValidationException $e) {
+    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    Comm::redirect(Router::generate("groups-overview"));
 }
+
+$group = $get["group"];
 
 $breadcrumbs = [
     [
@@ -23,7 +32,7 @@ $breadcrumbs = [
     ],
     [
         "name" => t(isset($group) ? "Edit group" : "Create group"),
-        "link" => Router::generate(isset($group) ? "groups-edit" : "groups-create", isset($group) ? ["groupId" => $group->getId()] : [])
+        "link" => Router::generate(isset($group) ? "groups-edit" : "groups-create", isset($group) ? ["group" => $group->getId()] : [])
     ]
 ];
 
