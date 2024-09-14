@@ -12,7 +12,7 @@
 
     <form method="post" action="{{ Router::generate("facilitators-save") }}">
         @if(!empty($user))
-            <input type="hidden" name="userId" value="{{ $user->getId() }}">
+            <input type="hidden" name="user" value="{{ $user->getId() }}">
         @endif
 
         <div class="flex flex-col md:flex-row gap-2 mb-2">
@@ -26,6 +26,8 @@
                        class="{{ TailwindUtil::$input }}"
                        value="{{ !empty($user) ? $user->getFirstName() : "" }}"
                        placeholder="{{ t("First name") }}"
+                       minlength="1"
+                       maxlength="64"
                        required>
             </div>
             <div class="{{ TailwindUtil::inputGroup() }}">
@@ -38,6 +40,8 @@
                        class="{{ TailwindUtil::$input }}"
                        value="{{ !empty($user) ? $user->getLastName() : "" }}"
                        placeholder="{{ t("Last name") }}"
+                       minlength="1"
+                       maxlength="64"
                        required>
             </div>
         </div>
@@ -56,6 +60,8 @@
                    type="password"
                    class="{{ TailwindUtil::$input }}"
                    value=""
+                   minlength="8"
+                   maxlength="256"
                    placeholder="{{ t("Password") }}">
         </div>
 
@@ -69,7 +75,7 @@
             <button type="button"
                     id="delete-user"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
-                    data-delete-href="{{ Router::generate("facilitators-delete", ["userId" => $user->getId()]) }}">
+                    data-delete-href="{{ Router::generate("facilitators-delete", ["user" => $user->getId()]) }}">
                 @include("components.icons.delete")
                 {{ t("Delete") }}
             </button>

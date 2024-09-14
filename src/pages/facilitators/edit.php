@@ -2,14 +2,25 @@
 
 $user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
 
-if(isset($_GET["userId"]) && is_numeric($_GET["userId"])) {
-    $userId = intval($_GET["userId"]);
-    $account = User::dao()->getObject(["id" => $userId, "permissionLevel" => PermissionLevel::FACILITATOR->value]);
-    if(!$account instanceof User) {
-        new InfoMessage(t("The facilitator that should be edited does not exist."), InfoMessageType::ERROR);
-        Comm::redirect(Router::generate("facilitators-overview"));
-    }
+$validation = \validation\Validator::create([
+    \validation\IsRequired::create(),
+    \validation\IsArray::create(),
+    \validation\HasChildren::create([
+        "user" => \validation\Validator::create([
+            \validation\IsInDatabase::create(User::dao(), [
+                "permissionLevel" => PermissionLevel::FACILITATOR->value,
+            ])->setErrorMessage(t("The facilitator that should be edited does not exist."))
+        ])
+    ])
+]);
+try {
+    $get = $validation->getValidatedValue($_GET);
+} catch(\validation\ValidationException $e) {
+    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    Comm::redirect(Router::generate("facilitators-overview"));
 }
+
+$account = $get["user"];
 
 $breadcrumbs = [
     [
@@ -23,7 +34,7 @@ $breadcrumbs = [
     ],
     [
         "name" => t(isset($account) ? "Edit facilitator" : "Create facilitator"),
-        "link" => Router::generate(isset($account) ? "facilitators-edit" : "facilitators-create", isset($account) ? ["userId" => $account->getId()] : [])
+        "link" => Router::generate(isset($account) ? "facilitators-edit" : "facilitators-create", isset($account) ? ["user" => $account->getId()] : [])
     ]
 ];
 
