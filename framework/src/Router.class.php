@@ -64,11 +64,11 @@ class Router {
 
                                 $route = str_replace("{" . $routeData["params"][$paramName] . ":" . $paramName . "}", $paramValue, $route);
                                 $requiredParams = array_diff($requiredParams, [$paramName]);
-                            } else if($routeData["params"][$paramName] == "f" && is_float($paramValue)) {
+                            } else if($routeData["params"][$paramName] == "f" && is_numeric($paramValue)) {
                                 $paramValue = floatval($paramValue);
                                 $route = str_replace("{" . $routeData["params"][$paramName] . ":" . $paramName . "}", $paramValue, $route);
                                 $requiredParams = array_diff($requiredParams, [$paramName]);
-                            } else if($routeData["params"][$paramName] == "i" && is_int($paramValue)) {
+                            } else if($routeData["params"][$paramName] == "i" && is_numeric($paramValue)) {
                                 $paramValue = intval($paramValue);
                                 $route = str_replace("{" . $routeData["params"][$paramName] . ":" . $paramName . "}", $paramValue, $route);
                                 $requiredParams = array_diff($requiredParams, [$paramName]);

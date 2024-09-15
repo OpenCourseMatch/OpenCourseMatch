@@ -25,7 +25,9 @@ try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    if(isset($_POST["group"])) {
+    if(isset($_POST["group"]) && !isset($post["group"])) {
+        Comm::redirect(Router::generate("groups-overview"));
+    } else if(isset($_POST["group"])) {
         Comm::redirect(Router::generate("groups-edit", ["group" => $_POST["group"]]));
     } else {
         Comm::redirect(Router::generate("groups-create"));
