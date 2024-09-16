@@ -12,7 +12,7 @@
 
     <form method="post" action="{{ Router::generate("courses-save") }}">
         @if(!empty($course))
-            <input type="hidden" name="courseId" value="{{ $course->getId() }}">
+            <input type="hidden" name="course" value="{{ $course->getId() }}">
         @endif
 
         <div class="{{ TailwindUtil::inputGroup() }} mb-2">
@@ -25,6 +25,7 @@
                    class="{{ TailwindUtil::$input }}"
                    value="{{ !empty($course) ? $course->getTitle() : "" }}"
                    placeholder="{{ t("Title") }}"
+                   maxlength="256"
                    required>
         </div>
 
@@ -37,6 +38,7 @@
                    type="text"
                    class="{{ TailwindUtil::$input }}"
                    value="{{ !empty($course) ? $course->getOrganizer() ?? "" : "" }}"
+                   maxlength="256"
                    placeholder="{{ t("Organizer") }}">
         </div>
 
@@ -91,7 +93,7 @@
             <button type="button"
                     id="delete-course"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
-                    data-delete-href="{{ Router::generate("courses-delete", ["courseId" => $course->getId()]) }}">
+                    data-delete-href="{{ Router::generate("courses-delete", ["course" => $course->getId()]) }}">
                 @include("components.icons.delete")
                 {{ t("Delete") }}
             </button>

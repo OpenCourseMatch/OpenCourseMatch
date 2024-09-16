@@ -6,7 +6,7 @@ $courses = Course::dao()->getObjects();
 
 $courses = array_map(function($course) {
     $array = $course->toArray();
-    $array["editHref"] = Router::generate("courses-edit", ["courseId" => $course->getId()]);
+    $array["editHref"] = Router::generate("courses-edit", ["course" => $course->getId()]);
     unset($array["id"]);
     unset($array["created"]);
     unset($array["updated"]);

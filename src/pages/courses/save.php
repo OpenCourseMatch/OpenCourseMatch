@@ -2,30 +2,52 @@
 
 $user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router::generate("index"));
 
-if(isset($_POST["courseId"]) && is_numeric($_POST["courseId"])) {
-    $courseId = intval($_POST["courseId"]);
-    $course = Course::dao()->getObject(["id" => $courseId]);
-    if(!$course instanceof Course) {
-        new InfoMessage(t("The course that should be edited does not exist."), InfoMessageType::ERROR);
+$validation = \validation\Validator::create([
+    \validation\IsRequired::create(),
+    \validation\IsArray::create(),
+    \validation\HasChildren::create([
+        "course" => \validation\Validator::create([
+            \validation\IsInDatabase::create(Course::dao())->setErrorMessage(t("The course that should be edited does not exist."))
+        ]),
+        "title" => \validation\Validator::create([
+            \validation\IsRequired::create(true),
+            \validation\IsString::create(),
+            \validation\MaxLength::create(256),
+        ]),
+        "organizer" => \validation\Validator::create([
+            \validation\NullOnEmpty::create(),
+            \validation\IsString::create(),
+            \validation\MaxLength::create(256)
+        ]),
+        "minClearance" => \validation\Validator::create([
+            \validation\IsRequired::create(),
+            \validation\IsInteger::create()
+        ]),
+        "maxClearance" => \validation\Validator::create([
+            \validation\NullOnEmpty::create(),
+            \validation\IsInteger::create()
+        ]),
+        "maxParticipants" => \validation\Validator::create([
+            \validation\IsRequired::create(),
+            \validation\IsInteger::create()
+            // TODO: Minimum value
+        ])
+    ])
+])->setErrorMessage(t("Please fill out all the required fields."));
+try {
+    $post = $validation->getValidatedValue($_POST);
+} catch(\validation\ValidationException $e) {
+    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    if(isset($_POST["course"]) && !isset($post["course"])) {
         Comm::redirect(Router::generate("courses-overview"));
-    }
-} else {
-    $course = new Course();
-}
-
-if(empty($_POST["title"]) || empty($_POST["minClearance"]) || !is_numeric($_POST["minClearance"]) || empty($_POST["maxParticipants"]) || !is_numeric($_POST["maxParticipants"]) || intval($_POST["maxParticipants"]) < 0) {
-    new InfoMessage(t("Please fill out all the required fields."), InfoMessageType::ERROR);
-    if(isset($courseId)) {
-        Comm::redirect(Router::generate("courses-edit", ["courseId" => $courseId]));
+    } else if(isset($_POST["course"])) {
+        Comm::redirect(Router::generate("courses-edit", ["course" => $_POST["course"]]));
     } else {
         Comm::redirect(Router::generate("courses-create"));
     }
 }
 
-$minClearance = intval($_POST["minClearance"]);
-$maxClearance = !empty($_POST["maxClearance"]) && is_numeric($_POST["maxClearance"]) ? intval($_POST["maxClearance"]) : null;
-
-if($minClearance > $maxClearance) {
+if(isset($post["maxClearance"]) && $post["minClearance"] > $post["maxClearance"]) {
     new InfoMessage(t("The minimum clearance level must be lower than the maximum clearance level."), InfoMessageType::ERROR);
     if(isset($courseId)) {
         Comm::redirect(Router::generate("courses-edit", ["courseId" => $courseId]));
@@ -34,11 +56,16 @@ if($minClearance > $maxClearance) {
     }
 }
 
-$course->setTitle($_POST["title"]);
-$course->setOrganizer(!empty($_POST["organizer"]) ? $_POST["organizer"] : null);
-$course->setMinClearance(intval($_POST["minClearance"]));
-$course->setMaxClearance(!empty($_POST["maxClearance"]) && is_numeric($_POST["maxClearance"]) ? intval($_POST["maxClearance"]) : null);
-$course->setMaxParticipants(intval($_POST["maxParticipants"]));
+$course = new Course();
+if(isset($post["course"])) {
+    $course = $post["course"];
+}
+
+$course->setTitle($post["title"]);
+$course->setOrganizer($post["organizer"]);
+$course->setMinClearance($post["minClearance"]);
+$course->setMaxClearance($post["maxClearance"]);
+$course->setMaxParticipants($post["maxParticipants"]);
 Course::dao()->save($course);
 
 new InfoMessage(t("The course has been saved."), InfoMessageType::SUCCESS);
