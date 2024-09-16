@@ -38,7 +38,7 @@ try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    if(isset($_POST["course"]) && !isset($post["course"])) {
+    if(isset($_POST["course"]) && !Course::dao()->hasId($_POST["course"])) {
         Comm::redirect(Router::generate("courses-overview"));
     } else if(isset($_POST["course"])) {
         Comm::redirect(Router::generate("courses-edit", ["course" => $_POST["course"]]));

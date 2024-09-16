@@ -33,7 +33,7 @@ try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    if(isset($_POST["user"]) && !isset($post["user"])) {
+    if(isset($_POST["user"]) && !User::dao()->hasId($_POST["user"])) {
         Comm::redirect(Router::generate("administrators-overview"));
     } else if(isset($_POST["user"])) {
         Comm::redirect(Router::generate("administrators-edit", ["user" => $_POST["user"]]));
