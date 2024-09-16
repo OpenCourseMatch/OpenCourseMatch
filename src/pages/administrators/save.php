@@ -12,15 +12,13 @@ $validation = \validation\Validator::create([
             ])->setErrorMessage(t("The administrator that should be edited does not exist."))
         ]),
         "firstName" => \validation\Validator::create([
-            \validation\IsRequired::create(),
+            \validation\IsRequired::create(true),
             \validation\IsString::create(),
-            \validation\MinLength::create(1),
             \validation\MaxLength::create(64),
         ]),
         "lastName" => \validation\Validator::create([
-            \validation\IsRequired::create(),
+            \validation\IsRequired::create(true),
             \validation\IsString::create(),
-            \validation\MinLength::create(1),
             \validation\MaxLength::create(64),
         ]),
         "password" => \validation\Validator::create([
@@ -50,19 +48,19 @@ if(isset($post["user"])) {
 }
 
 if($account->getUsername() === "") {
-    $username = User::dao()->generateUsername($_POST["firstName"], $_POST["lastName"]);
+    $username = User::dao()->generateUsername($post["firstName"], $post["lastName"]);
     $account->setUsername($username);
     $account->setEmail($username);
 }
-if(!empty($_POST["password"])) {
-    $account->setPassword($_POST["password"]);
+if(!empty($post["password"])) {
+    $account->setPassword($post["password"]);
 } else if($account->getPassword() === "") {
     $account->setPassword(User::dao()->generatePassword());
 }
 $account->setEmailVerified(true);
 $account->setPermissionLevel(PermissionLevel::ADMIN->value);
-$account->setFirstName($_POST["firstName"]);
-$account->setLastName($_POST["lastName"]);
+$account->setFirstName($post["firstName"]);
+$account->setLastName($post["lastName"]);
 $account->setGroup(null);
 $account->setLeadingCourse(null);
 $account->setLastLogin(null);

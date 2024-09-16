@@ -12,15 +12,13 @@ $validation = \validation\Validator::create([
             ])->setErrorMessage(t("The user that should be edited does not exist."))
         ]),
         "firstName" => \validation\Validator::create([
-            \validation\IsRequired::create(),
+            \validation\IsRequired::create(true),
             \validation\IsString::create(),
-            \validation\MinLength::create(1),
             \validation\MaxLength::create(64),
         ]),
         "lastName" => \validation\Validator::create([
-            \validation\IsRequired::create(),
+            \validation\IsRequired::create(true),
             \validation\IsString::create(),
-            \validation\MinLength::create(1),
             \validation\MaxLength::create(64),
         ]),
         "group" => \validation\Validator::create([

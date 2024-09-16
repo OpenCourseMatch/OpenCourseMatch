@@ -10,7 +10,7 @@
        href="{{ Router::generate("administrators-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">
         @include("components.icons.plus")
-        {{ t("Create facilitator") }}
+        {{ t("Create administrator") }}
     </a>
 
     <div class="overflow-x-auto">

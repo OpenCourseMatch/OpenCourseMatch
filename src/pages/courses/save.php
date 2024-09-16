@@ -49,8 +49,8 @@ try {
 
 if(isset($post["maxClearance"]) && $post["minClearance"] > $post["maxClearance"]) {
     new InfoMessage(t("The minimum clearance level must be lower than the maximum clearance level."), InfoMessageType::ERROR);
-    if(isset($courseId)) {
-        Comm::redirect(Router::generate("courses-edit", ["courseId" => $courseId]));
+    if(isset($post["course"])) {
+        Comm::redirect(Router::generate("courses-edit", ["course" => $post["course"]->getId()]));
     } else {
         Comm::redirect(Router::generate("courses-create"));
     }

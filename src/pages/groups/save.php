@@ -10,9 +10,8 @@ $validation = \validation\Validator::create([
             \validation\IsInDatabase::create(Group::dao())->setErrorMessage(t("The group that should be edited does not exist."))
         ]),
         "name" => \validation\Validator::create([
-            \validation\IsRequired::create(),
+            \validation\IsRequired::create(true),
             \validation\IsString::create(),
-            \validation\MinLength::create(1),
             \validation\MaxLength::create(256),
         ]),
         "clearance" => \validation\Validator::create([

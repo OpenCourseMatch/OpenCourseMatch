@@ -25,7 +25,6 @@
                    class="{{ TailwindUtil::$input }}"
                    value="{{ !empty($group) ? $group->getName() : "" }}"
                    placeholder="{{ t("Group name") }}"
-                   minlength="1"
                    maxlength="256"
                    required>
         </div>
@@ -40,7 +39,6 @@
                    class="{{ TailwindUtil::$input }}"
                    value="{{ !empty($group) ? $group->getClearance() : "" }}"
                    placeholder="{{ t("Clearance level") }}"
-                   step="1"
                    required>
         </div>
 

@@ -26,7 +26,6 @@
                        class="{{ TailwindUtil::$input }}"
                        value="{{ !empty($user) ? $user->getFirstName() : "" }}"
                        placeholder="{{ t("First name") }}"
-                       minlength="1"
                        maxlength="64"
                        required>
             </div>
@@ -40,7 +39,6 @@
                        class="{{ TailwindUtil::$input }}"
                        value="{{ !empty($user) ? $user->getLastName() : "" }}"
                        placeholder="{{ t("Last name") }}"
-                       minlength="1"
                        maxlength="64"
                        required>
             </div>
