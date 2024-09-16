@@ -2,24 +2,51 @@
 
 $user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
 
-if(isset($_POST["userId"]) && is_numeric($_POST["userId"])) {
-    $userId = intval($_POST["userId"]);
-    $account = User::dao()->getObject(["id" => $userId, "permissionLevel" => PermissionLevel::ADMIN->value]);
-    if(!$account instanceof User) {
-        new InfoMessage(t("The administrator that should be edited does not exist."), InfoMessageType::ERROR);
+$validation = \validation\Validator::create([
+    \validation\IsRequired::create(),
+    \validation\IsArray::create(),
+    \validation\HasChildren::create([
+        "user" => \validation\Validator::create([
+            \validation\IsInDatabase::create(User::dao(), [
+                "permissionLevel" => PermissionLevel::ADMIN->value
+            ])->setErrorMessage(t("The administrator that should be edited does not exist."))
+        ]),
+        "firstName" => \validation\Validator::create([
+            \validation\IsRequired::create(),
+            \validation\IsString::create(),
+            \validation\MinLength::create(1),
+            \validation\MaxLength::create(64),
+        ]),
+        "lastName" => \validation\Validator::create([
+            \validation\IsRequired::create(),
+            \validation\IsString::create(),
+            \validation\MinLength::create(1),
+            \validation\MaxLength::create(64),
+        ]),
+        "password" => \validation\Validator::create([
+            \validation\NullOnEmpty::create(),
+            \validation\IsString::create(),
+            \validation\MinLength::create(8),
+            \validation\MaxLength::create(256)
+        ])
+    ])
+])->setErrorMessage(t("Please fill out all the required fields."));
+try {
+    $post = $validation->getValidatedValue($_POST);
+} catch(\validation\ValidationException $e) {
+    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    if(isset($_POST["user"]) && !isset($post["user"])) {
         Comm::redirect(Router::generate("administrators-overview"));
-    }
-} else {
-    $account = new User();
-}
-
-if(empty($_POST["firstName"]) || empty($_POST["lastName"])) {
-    new InfoMessage(t("Please fill out all the required fields."), InfoMessageType::ERROR);
-    if(isset($userId)) {
-        Comm::redirect(Router::generate("administrators-edit", ["userId" => $userId]));
+    } else if(isset($_POST["user"])) {
+        Comm::redirect(Router::generate("administrators-edit", ["user" => $_POST["user"]]));
     } else {
         Comm::redirect(Router::generate("administrators-create"));
     }
+}
+
+$account = new User();
+if(isset($post["user"])) {
+    $account = $post["user"];
 }
 
 if($account->getUsername() === "") {
