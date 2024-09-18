@@ -26,7 +26,7 @@ class HasChildren extends GenericValidator implements ValidatorInterface {
             try {
                 $output[$key] = $validator->getValidatedValue($input[$key]);
             } catch(ValidationException $e) {
-                if($e->getMessage() !== null) {
+                if($e->getMessage() !== PHP_EOL) {
                     throw $e;
                 } else {
                     parent::failValidation();

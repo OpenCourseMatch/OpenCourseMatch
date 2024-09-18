@@ -4,7 +4,7 @@ namespace validation;
 
 class ValidationException extends \Exception {
 
-    public function __construct(?string $message = null) {
+    public function __construct($message = PHP_EOL) {
         parent::__construct($message);
     }
 }
