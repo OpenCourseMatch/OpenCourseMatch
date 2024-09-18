@@ -29,8 +29,8 @@ $validation = \validation\Validator::create([
         ]),
         "maxParticipants" => \validation\Validator::create([
             \validation\IsRequired::create(),
-            \validation\IsInteger::create()
-            // TODO: Minimum value
+            \validation\IsInteger::create(),
+            \validation\MinValue::create(1)
         ])
     ])
 ])->setErrorMessage(t("Please fill out all the required fields."));
