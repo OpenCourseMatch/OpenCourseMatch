@@ -29,6 +29,10 @@ $validation = \validation\Validator::create([
             \validation\IsString::create(),
             \validation\MinLength::create(8),
             \validation\MaxLength::create(256)
+        ]),
+        "leadingCourse" => \validation\Validator::create([
+            \validation\NullOnEmpty::create(),
+            \validation\IsInDatabase::create(Course::dao())
         ])
     ])
 ])->setErrorMessage(t("Please fill out all the required fields."));
@@ -51,6 +55,7 @@ if(isset($post["user"])) {
 }
 
 $groupId = isset($post["group"]) ? $post["group"]->getId() : null;
+$leadingCourseId = isset($post["leadingCourse"]) ? $post["leadingCourse"]->getId() : null;
 
 if($account->getUsername() === "") {
     $username = User::dao()->generateUsername($post["firstName"], $post["lastName"]);
@@ -67,7 +72,7 @@ $account->setPermissionLevel(PermissionLevel::USER->value);
 $account->setFirstName($post["firstName"]);
 $account->setLastName($post["lastName"]);
 $account->setGroup($groupId);
-// TODO: Leading course
+$account->setLeadingCourse($leadingCourseId);
 $account->setLastLogin(null);
 $account->setOneTimePassword(null);
 $account->setOneTimePasswordExpiration(null);
