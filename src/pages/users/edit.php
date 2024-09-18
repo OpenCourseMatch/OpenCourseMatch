@@ -23,6 +23,7 @@ try {
 $account = $get["user"];
 
 $groups = Group::dao()->getObjects();
+$courses = Course::dao()->getObjects();
 
 $breadcrumbs = [
     [
@@ -43,5 +44,6 @@ $breadcrumbs = [
 echo Blade->run("users.edit", [
     "breadcrumbs" => $breadcrumbs,
     "user" => $account ?? null,
-    "groups" => $groups
+    "groups" => $groups,
+    "courses" => $courses
 ]);

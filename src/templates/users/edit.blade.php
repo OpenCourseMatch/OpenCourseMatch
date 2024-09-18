@@ -82,7 +82,27 @@
                    placeholder="{{ t("Password") }}">
         </div>
 
-        {{-- TODO: Leading course selection --}}
+            <div class="{{ TailwindUtil::inputGroup() }} mb-2">
+                <label for="leadingCourse" class="{{ TailwindUtil::$inputLabel }}">
+                    {{ t("Leading course (optional)") }}
+                </label>
+                <select id="leadingCourse"
+                        name="leadingCourse"
+                        class="{{ TailwindUtil::$input }}">
+                    <option value="">-</option>
+                    @foreach($courses as $course)
+                        <option value="{{ $course->getId() }}"
+                                @if(!empty($user) && $user->getLeadingCourse() === $course->getId())
+                                    selected
+                                @endif>
+                            {{ $course->getTitle() }}
+                            @if($course->getOrganizer() !== null)
+                                ({{ $course->getOrganizer() }})
+                            @endif
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
         <button type="submit" class="{{ TailwindUtil::button() }} gap-2">
             @include("components.icons.buttonload")
