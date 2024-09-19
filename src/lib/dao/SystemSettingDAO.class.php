@@ -11,8 +11,8 @@ class SystemSettingDAO extends GenericObjectDAO {
     }
 
     public function set(string $key, string $value): void {
-        $object = $this->get($key);
-        if($object === null) {
+        $object = $this->getObject(["key" => $key]);
+        if(!$object instanceof SystemSetting) {
             $object = new SystemSetting();
             $object->setKey($key);
         }
@@ -35,11 +35,11 @@ class SystemSettingDAO extends GenericObjectDAO {
             "voteCount" => [
                 "value" => "3",
                 "name" => t("Vote count"),
-                "description" => t("The number of courses that a user has to choose"),
+                "description" => t("The number of courses that the participants have to choose"),
                 "validation" => \validation\Validator::create([
                     \validation\MaxLength::create(512),
                     \validation\IsInteger::create(),
-                    \validation\MinValue::create(1)
+                    \validation\MinValue::create(1)->setErrorMessage(t("The participants have to choose at least one course."))
                 ])
             ]
         ];
