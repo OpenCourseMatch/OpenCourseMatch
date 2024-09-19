@@ -67,6 +67,9 @@ $user->setOneTimePassword(null);
 $user->setOneTimePasswordExpiration(null);
 User::dao()->save($user);
 
+// Check default values for system settings
+SystemSetting::dao()->setDefaults();
+
 Logger::getLogger("Login")->info("User \"{$post["username"]}\" has logged in (User ID {$user->getId()})");
 Auth::login($user);
 Comm::redirect(Router::generate("index"));

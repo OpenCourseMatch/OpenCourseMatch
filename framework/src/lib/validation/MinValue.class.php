@@ -9,8 +9,8 @@ class MinValue extends GenericValidator implements ValidatorInterface {
         $this->minValue = $minValue;
     }
 
-    public static function create(int $minLength = null): ValidatorInterface {
-        return new self($minLength);
+    public static function create(int $minValue = null): ValidatorInterface {
+        return new self($minValue);
     }
 
     public function getValidatedValue(mixed &$input): mixed {

@@ -1,5 +1,5 @@
-# Settings table
-CREATE TABLE IF NOT EXISTS `Settings` (
+# System status table
+CREATE TABLE IF NOT EXISTS `SystemStatus` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `key` VARCHAR(256) NOT NULL,
     `value` VARCHAR(512) NOT NULL,
@@ -8,9 +8,19 @@ CREATE TABLE IF NOT EXISTS `Settings` (
     PRIMARY KEY (`id`),
     UNIQUE KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-INSERT INTO Settings VALUE (NULL, 'defaultMaxParticipants', '5', NOW(), NOW());
-INSERT INTO Settings VALUE (NULL, 'userLoginAllowed', 'true', NOW(), NOW());
-INSERT INTO Settings VALUE (NULL, 'coursesAssigned', 'false', NOW(), NOW());
+INSERT INTO SystemStatus VALUE (NULL, 'userLoginAllowed', 'true', NOW(), NOW());
+INSERT INTO SystemStatus VALUE (NULL, 'coursesAssigned', 'false', NOW(), NOW());
+
+# System setting table
+CREATE TABLE IF NOT EXISTS `SystemSetting` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `key` VARCHAR(256) NOT NULL,
+    `value` VARCHAR(512) NOT NULL,
+    `created` DATETIME NOT NULL,
+    `updated` DATETIME NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 # Group table
 CREATE TABLE IF NOT EXISTS `Group` (

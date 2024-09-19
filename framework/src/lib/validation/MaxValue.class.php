@@ -9,8 +9,8 @@ class MaxValue extends GenericValidator implements ValidatorInterface {
         $this->maxValue = $maxValue;
     }
 
-    public static function create(int $minLength = null): ValidatorInterface {
-        return new self($minLength);
+    public static function create(int $maxValue = null): ValidatorInterface {
+        return new self($maxValue);
     }
 
     public function getValidatedValue(mixed &$input): mixed {

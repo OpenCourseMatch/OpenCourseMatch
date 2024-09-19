@@ -65,7 +65,12 @@
     {{ t("Settings") }}
 </h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    {{-- General settings --}}
+    @include("components.dashboardlink", [
+        "icon" => "components.icons.gear",
+        "href" => Router::generate("system-settings"),
+        "title" => t("System settings"),
+        "description" => t("Configure OpenCourseMatch to your organizations' needs.")
+    ])
     {{-- Reset all data --}}
 </div>
 
