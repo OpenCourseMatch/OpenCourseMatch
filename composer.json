@@ -14,7 +14,9 @@
         "ext-pdo": "*",
         "ext-curl": "*",
         "ext-json": "*",
-        "ext-apcu": "*"
+        "ext-apcu": "*",
+        "dompdf/dompdf": "^3.0",
+        "chillerlan/php-qrcode": "^5.0"
     },
     "require-dev": {
         "pestphp/pest": "~2.33.4"
