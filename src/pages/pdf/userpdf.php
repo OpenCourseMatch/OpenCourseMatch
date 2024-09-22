@@ -10,11 +10,18 @@ $user = User::dao()->getObject([
 
 $logoSrc = base64_encode(file_get_contents(__APP_DIR__ . "/src/static/img/logo.svg"));
 
+$qrOptions = new \chillerlan\QRCode\QROptions([
+    "addQuietzone" => false
+]);
+
+
 $loginQrCode = new \chillerlan\QRCode\QRCode();
+$loginQrCode->setOptions($qrOptions);
 $loginQrCodeData = $loginQrCode->render(Config::$APP_SETTINGS["APP_URL"]);
 
 $creatorQrCode = new \chillerlan\QRCode\QRCode();
-$creatorQrCodeData = $creatorQrCode->render(DateFormatter::technicalDate() . PHP_EOL . $user->getId());
+$creatorQrCode->setOptions($qrOptions);
+$creatorQrCodeData = $creatorQrCode->render(DateFormatter::technicalDateTime() . PHP_EOL . $user->getId());
 
 $html = Blade->run("pdf.userpdf", [
     "user" => $user,

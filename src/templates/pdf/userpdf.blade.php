@@ -12,7 +12,6 @@
             top: -3cm;
             left: 0;
             right: 0;
-            background-color: lightblue;
             height: 3cm;
         }
 
@@ -21,8 +20,7 @@
             bottom: -3cm;
             left: 0;
             right: 0;
-            background-color: lightblue;
-            height: 2cm;
+            height: 2.25cm;
         }
     </style>
 </head>
@@ -47,8 +45,6 @@
         <hr style="margin-top: 1em; border: none; background-color: black;">
     </header>
 
-    <img src="{{ $creatorQrCodeData }}">
-
     <p>
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
     </p>
@@ -57,11 +53,20 @@
 
     <footer>
         <hr style="border: none; background-color: black;">
-        <h2 style="margin: 0;">
-            {{ Config::$APP_SETTINGS["APP_NAME"] }}
-        </h2>
-        <p style="margin: 0;">
-            Licensed under the MIT License.
-        </p>
+        <table style="border-collapse: collapse; border: none; margin: 0; padding: 0; width: 100%;">
+            <tr style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
+                <td style="border-collapse: collapse; border: none; margin: 0; padding: 0; vertical-align: bottom;">
+                    <h2 style="margin: 0;">
+                        {{ Config::$APP_SETTINGS["APP_NAME"] }}
+                    </h2>
+                    <p style="margin: 0;">
+                        Licensed under the MIT License.
+                    </p>
+                </td>
+                <td style="border-collapse: collapse; border: none; margin: 0; padding: 0; width: 4em; height: 4em; vertical-align: bottom;">
+                    <img src="{{ $creatorQrCodeData }}" alt="Generation details" style="width: 4em; height: 4em;">
+                </td>
+            </tr>
+        </table>
     </footer>
 </body>
