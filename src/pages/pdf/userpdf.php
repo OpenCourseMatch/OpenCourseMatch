@@ -8,42 +8,18 @@ $user = User::dao()->getObject([
     "id" => $userId
 ]);
 
-$logoSrc = base64_encode(file_get_contents(__APP_DIR__ . "/src/static/img/logo.svg"));
-
-$qrOptions = new \chillerlan\QRCode\QROptions([
-    "addQuietzone" => false
-]);
-
+$qrOptions = PDF::getQrOptionsForPdf();
 
 $loginQrCode = new \chillerlan\QRCode\QRCode();
 $loginQrCode->setOptions($qrOptions);
 $loginQrCodeData = $loginQrCode->render(Config::$APP_SETTINGS["APP_URL"]);
 
-$creatorQrCode = new \chillerlan\QRCode\QRCode();
-$creatorQrCode->setOptions($qrOptions);
-$creatorQrCodeData = $creatorQrCode->render(DateFormatter::technicalDateTime() . PHP_EOL . $user->getId());
-
-$html = Blade->run("pdf.userpdf", [
-    "user" => $user,
-    "logoSrc" => $logoSrc,
-    "loginQrCodeData" => $loginQrCodeData,
-    "creatorQrCodeData" => $creatorQrCodeData,
-    "title" => t("User details")
-]);
-
-//echo $creatorQrCodeData;
-
-//echo $html;
-//exit;
-
-$pdf = new Dompdf();
-$options = $pdf->getOptions();
-$pdf->setOptions($options);
-$pdf->loadHtml($html);
-$pdf->setPaper("A4", "portrait");
-$pdf->render();
-$pdf->stream("dompdf_out.pdf", array("Attachment" => false));
-
-
-
-exit(0);
+$pdf = new PDF(
+    $user,
+    t("User details"),
+    "pdf.userpdf",
+    [
+        "loginQrCodeData" => $loginQrCodeData
+    ]
+);
+$pdf->stream();

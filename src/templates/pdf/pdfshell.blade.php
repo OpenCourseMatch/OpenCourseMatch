@@ -28,6 +28,10 @@
                 right: 0;
                 height: 2.25cm;
             }
+
+            .page-break {
+                page-break-after: always;
+            }
         </style>
     </head>
 
@@ -36,7 +40,7 @@
             <table style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
                 <tr style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
                     <td style="border-collapse: collapse; border: none; margin: 0; padding: 0; height: 5.5em; width: 7em; vertical-align: top;">
-                        <img src="data:image/svg+xml;base64, {!! $logoSrc !!}" alt="Logo" style="width: 4.640625em; height: 3.28125em; margin: 0; padding: 0;">
+                        <img src="data:image/svg+xml;base64, {!! $logoData !!}" alt="Logo" style="width: 4.640625em; height: 3.28125em; margin: 0; padding: 0;">
                     </td>
                     <td style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
                         <h1 style="margin: 0;">
@@ -68,7 +72,7 @@
                         </p>
                     </td>
                     <td style="border-collapse: collapse; border: none; margin: 0; padding: 0; width: 4em; height: 4em; vertical-align: bottom;">
-                        <img src="{{ $creatorQrCodeData }}" alt="Generation details" style="width: 4em; height: 4em;">
+                        <img src="{!! $creatorQrCodeData !!}" alt="Generation details" style="width: 4em; height: 4em;">
                     </td>
                 </tr>
             </table>
