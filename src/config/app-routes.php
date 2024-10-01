@@ -62,5 +62,3 @@ Router::addRoute("POST", "/system-settings/save", "system-settings/system-settin
 Router::addRoute("GET", "/auth/login", "auth/login.php", "auth-login");
 Router::addRoute("POST", "/auth/login", "auth/login-action.php", "auth-login-action");
 Router::addRoute("GET", "/auth/logout", "auth/logout.php", "auth-logout");
-
-Router::addRoute("GET", "/pdf/userpdf/{i:user}", "pdf/userpdf.php", "pdf-userpdf");
