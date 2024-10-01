@@ -27,7 +27,8 @@ $html = Blade->run("pdf.userpdf", [
     "user" => $user,
     "logoSrc" => $logoSrc,
     "loginQrCodeData" => $loginQrCodeData,
-    "creatorQrCodeData" => $creatorQrCodeData
+    "creatorQrCodeData" => $creatorQrCodeData,
+    "title" => t("User details")
 ]);
 
 //echo $creatorQrCodeData;
@@ -37,7 +38,6 @@ $html = Blade->run("pdf.userpdf", [
 
 $pdf = new Dompdf();
 $options = $pdf->getOptions();
-$options->setIsRemoteEnabled(true);
 $pdf->setOptions($options);
 $pdf->loadHtml($html);
 $pdf->setPaper("A4", "portrait");
