@@ -10,7 +10,7 @@
         @endif
     </h1>
 
-    <form method="post" action="{{ Router::generate("administrators-save") }}">
+    <form method="post" action="{{ Router::generate("administrators-save") }}" data-redirect="{{ Router::generate("administrators-overview") }}">
         @if(!empty($user))
             <input type="hidden" name="user" value="{{ $user->getId() }}">
         @endif
