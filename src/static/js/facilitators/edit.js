@@ -8,7 +8,7 @@ export const init = async () => {
         t("Delete facilitator"),
         t("Do you really want to delete this facilitator?"),
         t("Delete")
-    ])
+    ]);
 
     $("#delete-user").on("click", () => {
         Modal.open({

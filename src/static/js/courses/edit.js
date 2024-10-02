@@ -8,7 +8,7 @@ export const init = async () => {
         t("Delete course"),
         t("Do you really want to delete this course?"),
         t("Delete")
-    ])
+    ]);
 
     $("#delete-course").on("click", () => {
         Modal.open({

@@ -62,10 +62,14 @@ if($account->getUsername() === "") {
     $account->setUsername($username);
     $account->setEmail($username);
 }
+$password = null;
 if(!empty($post["password"])) {
-    $account->setPassword($post["password"]);
+    $password = $post["password"];
 } else if($account->getPassword() === "") {
-    $account->setPassword(User::dao()->generatePassword());
+    $password = User::dao()->generatePassword();
+}
+if($password !== null) {
+    $account->setPassword($password);
 }
 $account->setEmailVerified(true);
 $account->setPermissionLevel(PermissionLevel::USER->value);
@@ -79,4 +83,11 @@ $account->setOneTimePasswordExpiration(null);
 User::dao()->save($account);
 
 new InfoMessage(t("The user has been saved."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("users-overview"));
+
+header("Content-Type: application/pdf");
+$pdf = new PDF($user, t("Account credentials"), "pdf.accountcredentials", [
+    "account" => $account,
+    "password" => $password,
+    "loginQrCodeData" => QR::loginQrCode()
+]);
+$pdf->stream();

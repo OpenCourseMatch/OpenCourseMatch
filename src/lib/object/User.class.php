@@ -46,4 +46,8 @@ class User extends GenericUser {
     public function setLastLogin(?string $lastLogin): void {
         $this->lastLogin = $lastLogin;
     }
+
+    public function getFullName(): string {
+        return $this->getFirstName() . " " . $this->getLastName();
+    }
 }

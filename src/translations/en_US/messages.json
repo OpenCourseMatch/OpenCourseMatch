@@ -72,6 +72,12 @@
     "The administrator has been saved.": "The administrator has been saved.",
     "The administrator has been deleted.": "The administrator has been deleted.",
 
+    "Account credentials": "Account credentials",
+    "Account credentials for": "Account credentials for",
+    "Not changed": "Not changed",
+    "It's recommended to change the initial password after your first login. To do that, navigate to the account settings.": "It's recommended to change the initial password after your first login. To do that, navigate to the account settings.",
+    "Log in to your account by scanning this QR code": "Log in to your account by scanning this QR code",
+
     "Manage courses": "Manage courses",
     "Courses": "Courses",
     "Manage the available courses.": "Manage the available courses.",

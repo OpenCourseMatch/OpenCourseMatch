@@ -8,7 +8,7 @@ export const init = async () => {
         t("Delete administrator"),
         t("Do you really want to delete this administrator?"),
         t("Delete")
-    ])
+    ]);
 
     $("#delete-user").on("click", () => {
         Modal.open({

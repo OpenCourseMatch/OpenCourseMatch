@@ -8,7 +8,7 @@ export const init = async () => {
         t("Delete group"),
         t("Do you really want to delete this group?"),
         t("Delete")
-    ])
+    ]);
 
     $("#delete-group").on("click", () => {
         Modal.open({

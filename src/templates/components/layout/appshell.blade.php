@@ -49,6 +49,7 @@
         {{-- JavaScript --}}
         <script src="{{ Router::staticFilePath("js/lib/jquery.min.js") }}"></script>
         <script src="{{ Router::staticFilePath("js/lib/datatables.min.js") }}"></script>
+        <script src="{{ Router::staticFilePath("js/lib/download.min.js") }}"></script>
         <script src="{{ Router::staticFilePath("js/infomessage.js") }}"></script>
     </head>
     <body class="bg-background overflow-x-hidden">

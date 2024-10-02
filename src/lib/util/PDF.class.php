@@ -12,9 +12,6 @@ class PDF {
     ) {
         $logoData = base64_encode(file_get_contents(__APP_DIR__ . "/src/static/img/logo.svg"));
 
-        $qrOptions = new \chillerlan\QRCode\QROptions([
-            "addQuietzone" => false
-        ]);
         $creatorQrCode = new \chillerlan\QRCode\QRCode();
         $creatorQrCode->setOptions(self::getQrOptionsForPdf());
         $creatorQrCodeData = $creatorQrCode->render(DateFormatter::technicalDateTime() . PHP_EOL . $creatingUser->getId());
