@@ -30,7 +30,7 @@ export const init = async () => {
             setTimeout(() => {
                 window.location = $(this).attr("data-redirect");
             }, 500);
-        })
+        });
     });
 
     $("#delete-user").on("click", () => {

@@ -10,7 +10,7 @@
         @endif
     </h1>
 
-    <form method="post" action="{{ Router::generate("facilitators-save") }}">
+    <form method="post" action="{{ Router::generate("facilitators-save") }}" data-redirect="{{ Router::generate("facilitators-overview") }}">
         @if(!empty($user))
             <input type="hidden" name="user" value="{{ $user->getId() }}">
         @endif
