@@ -2,10 +2,17 @@ export const init = async () => {
     $("form").on("submit", function(event) {
         event.originalEvent.preventDefault();
 
+        let formData = new FormData();
+        formData.append("file", $("#file")[0].files[0]);
+        formData.append("group", $("#group").val());
+        formData.append("password", $("#password").val());
+
         $.ajax({
             url: $(this).attr("action"),
             type: "POST",
-            data: $(this).serialize(),
+            contentType: false,
+            processData: false,
+            data: formData,
             xhr: function() {
                 let xhr = new XMLHttpRequest()
                 xhr.responseType = "blob";

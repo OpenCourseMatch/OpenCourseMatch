@@ -86,8 +86,8 @@ new InfoMessage(t("The user has been saved."), InfoMessageType::SUCCESS);
 
 header("Content-Type: application/pdf");
 $pdf = new PDF($user, t("Account credentials"), "pdf.accountcredentials", [
-    "account" => $account,
-    "password" => $password,
+    "accounts" => [$account],
+    "passwords" => [$account->getId() => $password],
     "loginQrCodeData" => QR::loginQrCode()
 ]);
 $pdf->stream();

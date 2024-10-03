@@ -31,6 +31,7 @@ Router::addRoute("POST", "/users/save", "users/save.php", "users-save");
 Router::addRoute("GET", "/users/delete/{i:user}", "users/delete.php", "users-delete");
 
 Router::addRoute("GET", "/users/import", "users/import.php", "users-import");
+Router::addRoute("POST", "/users/import", "users/import-action.php", "users-import-action");
 
 // Facilitator management
 Router::addRoute("GET", "/facilitators", "facilitators/overview.php", "facilitators-overview");
