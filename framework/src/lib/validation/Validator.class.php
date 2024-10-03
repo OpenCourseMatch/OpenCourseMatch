@@ -48,10 +48,8 @@ class Validator extends GenericValidator implements ValidatorInterface {
 
         if($thrownException != null) {
             if($thrownException->getMessage() != null) {
-                var_dump($thrownException->getMessage());
                 throw $thrownException;
             } else {
-                var_dump(parent::getErrorMessage());
                 parent::failValidation();
             }
         }

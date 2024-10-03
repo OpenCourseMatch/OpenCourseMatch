@@ -3,7 +3,7 @@
 namespace validation;
 
 class GenericValidator {
-    private ?string $errorMessage = null;
+    private string $errorMessage = PHP_EOL;
 
     public function getErrorMessage(): ?string {
         return $this->errorMessage;

@@ -1,6 +1,6 @@
 @component("pdf.pdfshell")
     <h2>
-        {{ t("Account credentials for ") }} {{ $account->getFullName() }}
+        {{ t("Account credentials for") }} {{ $account->getFullName() }}
     </h2>
 
     {{-- TODO: Could remove the padding here... --}}
