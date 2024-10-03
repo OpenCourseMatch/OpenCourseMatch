@@ -4,7 +4,7 @@
 ])
     <h1 class="mb-2">
         @if(!empty($user))
-            {{ t("Edit administrator") }} „{{ $user->getUsername() }}”
+            {{ t("Edit administrator \$\$name\$\$", ["name" => $user->getFullName()]) }}
         @else
             {{ t("Create administrator") }}
         @endif

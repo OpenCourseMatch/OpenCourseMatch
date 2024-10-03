@@ -36,7 +36,7 @@ $breadcrumbs = [
         "link" => Router::generate("users-overview")
     ],
     [
-        "name" => t(isset($account) ? "Edit user" : "Create user"),
+        "name" => isset($account) ? t("Edit user \$\$name\$\$", ["name" => $account->getFullName()]) : t("Create user"),
         "link" => Router::generate(isset($account) ? "users-edit" : "users-create", isset($account) ? ["userId" => $account->getId()] : [])
     ]
 ];

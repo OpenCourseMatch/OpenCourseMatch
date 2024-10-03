@@ -4,7 +4,7 @@
 ])
     <h1 class="mb-2">
         @if(!empty($course))
-            {{ t("Edit course") }} „{{ $course->getTitle() }}”
+            {{ t("Edit course \$\$name\$\$", ["name" => $course->getTitle()]) }}
         @else
             {{ t("Create course") }}
         @endif

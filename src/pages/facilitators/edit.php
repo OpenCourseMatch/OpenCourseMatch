@@ -33,7 +33,7 @@ $breadcrumbs = [
         "link" => Router::generate("facilitators-overview")
     ],
     [
-        "name" => t(isset($account) ? "Edit facilitator" : "Create facilitator"),
+        "name" => isset($account) ? t("Edit facilitator \$\$name\$\$", ["name" => $account->getFullName()]) : t("Create facilitator"),
         "link" => Router::generate(isset($account) ? "facilitators-edit" : "facilitators-create", isset($account) ? ["user" => $account->getId()] : [])
     ]
 ];

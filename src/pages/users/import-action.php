@@ -86,7 +86,9 @@ foreach($csvData as $data) {
     $importedUsersPasswords[$account->getId()] = $password;
 }
 
-new InfoMessage(t("The users have been imported."), InfoMessageType::SUCCESS);
+new InfoMessage(t("\$\$count\$\$ users have been imported.", [
+    "count" => count($importedUsers)
+]), InfoMessageType::SUCCESS);
 
 header("Content-Type: application/pdf");
 $pdf = new PDF($user, t("Account credentials"), "pdf.accountcredentials", [

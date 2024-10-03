@@ -31,7 +31,7 @@ $breadcrumbs = [
         "link" => Router::generate("courses-overview")
     ],
     [
-        "name" => t(isset($course) ? "Edit course" : "Create course"),
+        "name" => isset($course) ? t("Edit course \$\$name\$\$", ["name" => $course->getTitle()]) : t("Create course"),
         "link" => Router::generate(isset($course) ? "courses-edit" : "courses-create", isset($course) ? ["courseId" => $course->getId()] : [])
     ]
 ];

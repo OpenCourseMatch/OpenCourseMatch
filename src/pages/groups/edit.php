@@ -31,7 +31,7 @@ $breadcrumbs = [
         "link" => Router::generate("groups-overview")
     ],
     [
-        "name" => t(isset($group) ? "Edit group" : "Create group"),
+        "name" => isset($group) ? t("Edit group \$\$name\$\$", ["name" => $group->getName()]) : t("Create group"),
         "link" => Router::generate(isset($group) ? "groups-edit" : "groups-create", isset($group) ? ["group" => $group->getId()] : [])
     ]
 ];

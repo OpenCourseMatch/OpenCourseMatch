@@ -4,7 +4,7 @@
 ])
     <h1 class="mb-2">
         @if(!empty($group))
-            {{ t("Edit group") }} „{{ $group->getName() }}”
+            {{ t("Edit group \$\$name\$\$", ["name" => $group->getName()]) }}
         @else
             {{ t("Create group") }}
         @endif

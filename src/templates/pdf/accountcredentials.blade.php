@@ -1,7 +1,9 @@
 @component("pdf.components.pdfshell")
     @foreach($accounts as $i => $account)
         <h2>
-            {{ t("Account credentials for") }} {{ $account->getFullName() }}
+            {{ t("Account credentials for \$\$name\$\$", [
+                   "name" => $account->getFullName()
+                ]) }}
         </h2>
 
         @include("pdf.components.accountcredentials", [
