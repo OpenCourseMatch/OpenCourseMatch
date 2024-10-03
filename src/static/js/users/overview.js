@@ -37,8 +37,8 @@ export const init = (translations) => {
     search.attr("type", "text");
 
     let searchLayoutRow = $("#users-table_wrapper .dt-search").closest(".dt-layout-row");
-    let createButton = $("#create-user");
-    searchLayoutRow.append(createButton);
+    let tableActions = $("#table-actions");
+    searchLayoutRow.append(tableActions);
 
     $("#users-table tbody").on("click", "tr", function() {
         window.location.href = table.row(this).data().editHref;

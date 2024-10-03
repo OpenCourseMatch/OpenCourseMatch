@@ -30,6 +30,8 @@ Router::addRoute("GET", "/users/edit/{i:user}", "users/edit.php", "users-edit");
 Router::addRoute("POST", "/users/save", "users/save.php", "users-save");
 Router::addRoute("GET", "/users/delete/{i:user}", "users/delete.php", "users-delete");
 
+Router::addRoute("GET", "/users/import", "users/import.php", "users-import");
+
 // Facilitator management
 Router::addRoute("GET", "/facilitators", "facilitators/overview.php", "facilitators-overview");
 Router::addRoute("POST", "/facilitators/table", "facilitators/overview-table.php", "facilitators-overview-table");

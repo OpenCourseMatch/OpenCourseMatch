@@ -6,12 +6,21 @@
         {{ t("Participants and tutors") }}
     </h1>
 
-    <a id="create-user"
-       href="{{ Router::generate("users-create") }}"
-       class="{{ TailwindUtil::button() }} gap-2">
-        @include("components.icons.plus")
-        {{ t("Create user") }}
-    </a>
+    <div id="table-actions" class="flex flex-col sm:flex-row gap-2">
+        <a id="create-user"
+           href="{{ Router::generate("users-create") }}"
+           class="{{ TailwindUtil::button() }} gap-2">
+            @include("components.icons.plus")
+            {{ t("Create user") }}
+        </a>
+
+        <a id="import-users"
+           href="{{ Router::generate("users-import") }}"
+           class="{{ TailwindUtil::button() }} gap-2">
+            @include("components.icons.import")
+            {{ t("Import users") }}
+        </a>
+    </div>
 
     <div class="overflow-x-auto">
         <table id="users-table" class="stripe" data-table-ajax="{{ Router::generate("users-overview-table") }}">
