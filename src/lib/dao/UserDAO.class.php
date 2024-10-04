@@ -27,7 +27,7 @@ class UserDAO extends GenericUserDAO {
     public function generatePassword(): string {
         $chars = "123456789abcdefhijkmnoprstuvwxyzABCDEFGHJKLMNPRSTUVWXYZ";
         $password = "";
-        for($i = 0; $i < 7; $i++) {
+        for($i = 0; $i < 8; $i++) {
             $password .= $chars[rand(0, strlen($chars) - 1)];
         }
 
