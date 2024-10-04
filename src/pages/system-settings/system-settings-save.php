@@ -26,6 +26,7 @@ try {
 
 foreach($defaultValues as $key => $value) {
     SystemSetting::dao()->set($key, strval($post[$key]));
+    Logger::getLogger("SystemSettings")->info("User {$user->getId()} ({$user->getFullName()}) changed the system setting \"{$key}\" to \"{$post[$key]}\"");
 }
 
 new InfoMessage(t("The system settings have been saved."), InfoMessageType::SUCCESS);

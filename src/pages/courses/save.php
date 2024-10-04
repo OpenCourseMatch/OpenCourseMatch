@@ -68,5 +68,7 @@ $course->setMaxClearance($post["maxClearance"]);
 $course->setMaxParticipants($post["maxParticipants"]);
 Course::dao()->save($course);
 
+Logger::getLogger("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the course {$course->getId()} ({$course->getTitle()})");
+
 new InfoMessage(t("The course has been saved."), InfoMessageType::SUCCESS);
 Comm::redirect(Router::generate("courses-overview"));

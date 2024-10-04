@@ -24,5 +24,8 @@ try {
 $account = $get["user"];
 
 User::dao()->delete($account);
+
+Logger::getLogger("Administrators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the administrator {$account->getId()} ({$account->getFullName()})");
+
 new InfoMessage(t("The administrator has been deleted."), InfoMessageType::SUCCESS);
 Comm::redirect(Router::generate("administrators-overview"));

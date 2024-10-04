@@ -82,6 +82,8 @@ $account->setOneTimePassword(null);
 $account->setOneTimePasswordExpiration(null);
 User::dao()->save($account);
 
+Logger::getLogger("Users")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the user {$account->getId()} ({$account->getFullName()})");
+
 new InfoMessage(t("The user has been saved."), InfoMessageType::SUCCESS);
 
 header("Content-Type: application/pdf");

@@ -22,5 +22,8 @@ try {
 $group = $get["group"];
 
 Group::dao()->delete($group);
+
+Logger::getLogger("Groups")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the group {$group->getId()} ({$group->getName()})");
+
 new InfoMessage(t("The group has been deleted."), InfoMessageType::SUCCESS);
 Comm::redirect(Router::generate("groups-overview"));

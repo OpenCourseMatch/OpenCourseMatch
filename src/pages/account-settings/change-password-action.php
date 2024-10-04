@@ -51,5 +51,7 @@ if(User::dao()->login($user->getUsername(), false, $post["current-password"]) !=
 $user->setPassword($post["new-password"]);
 User::dao()->save($user);
 
+Logger::getLogger("ChangePassword")->info("User {$user->getId()} ({$user->getFullName()}) changed their password");
+
 new InfoMessage(t("Your password has been updated."), InfoMessageType::SUCCESS);
 Comm::redirect(Router::generate("account-settings"));

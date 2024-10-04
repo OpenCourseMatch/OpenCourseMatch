@@ -42,5 +42,7 @@ $group->setName($post["name"]);
 $group->setClearance($post["clearance"]);
 Group::dao()->save($group);
 
+Logger::getLogger("Groups")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the group {$group->getId()} ({$group->getName()})");
+
 new InfoMessage(t("The group has been saved."), InfoMessageType::SUCCESS);
 Comm::redirect(Router::generate("groups-overview"));
