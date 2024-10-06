@@ -3,9 +3,12 @@
 class User extends GenericUser {
     public ?string $firstName = null;
     public ?string $lastName = null;
-    public ?int $group = null;
-    public ?int $leadingCourse = null;
+    public ?int $groupId = null;
+    public ?int $leadingCourseId = null;
     public ?string $lastLogin = null;
+
+    private ?Group $group = null;
+    private ?Course $leadingCourse = null;
 
     public function getFirstName(): ?string {
         return $this->firstName;
@@ -23,20 +26,20 @@ class User extends GenericUser {
         $this->lastName = $lastName;
     }
 
-    public function getGroup(): ?int {
-        return $this->group;
+    public function getGroupId(): ?int {
+        return $this->groupId;
     }
 
-    public function setGroup(?int $group): void {
-        $this->group = $group;
+    public function setGroupId(?int $groupId): void {
+        $this->groupId = $groupId;
     }
 
-    public function getLeadingCourse(): ?int {
-        return $this->leadingCourse;
+    public function getLeadingCourseId(): ?int {
+        return $this->leadingCourseId;
     }
 
-    public function setLeadingCourse(?int $leadingCourse): void {
-        $this->leadingCourse = $leadingCourse;
+    public function setLeadingCourseId(?int $leadingCourseId): void {
+        $this->leadingCourseId = $leadingCourseId;
     }
 
     public function getLastLogin(): ?string {
@@ -49,5 +52,21 @@ class User extends GenericUser {
 
     public function getFullName(): string {
         return $this->getFirstName() . " " . $this->getLastName();
+    }
+
+    public function getGroup(): ?Group {
+        if(!$this->group) {
+            $this->group = Group::dao()->getObject(["id" => $this->getGroupId()]);
+        }
+
+        return $this->group;
+    }
+
+    public function getLeadingCourse(): ?Course {
+        if(!$this->leadingCourse) {
+            $this->leadingCourse = Course::dao()->getObject(["id" => $this->getLeadingCourseId()]);
+        }
+
+        return $this->leadingCourse;
     }
 }

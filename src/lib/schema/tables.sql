@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS `User` (
     `permissionLevel` INT NOT NULL,
     `firstName` VARCHAR(64) NOT NULL,
     `lastName` VARCHAR(64) NOT NULL,
-    `group` INT NULL,
-    `leadingCourse` INT NULL,
+    `groupId` INT NULL,
+    `leadingCourseId` INT NULL,
     `lastLogin` TIMESTAMP NULL,
     `oneTimePassword` VARCHAR(256) NULL,
     `oneTimePasswordExpiration` DATETIME NULL,
@@ -64,6 +64,6 @@ CREATE TABLE IF NOT EXISTS `User` (
     `updated` DATETIME NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY (`username`),
-    FOREIGN KEY (`group`) REFERENCES `Group`(`id`) ON DELETE SET NULL,
-    FOREIGN KEY (`leadingCourse`) REFERENCES `Course`(`id`) ON DELETE SET NULL
+    FOREIGN KEY (`groupId`) REFERENCES `Group`(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`leadingCourseId`) REFERENCES `Course`(`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

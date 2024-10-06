@@ -54,7 +54,7 @@
                 <option value="">{{ t("Default group") }}</option>
                 @foreach($groups as $group)
                     <option value="{{ $group->getId() }}"
-                            @if(!empty($user) && $user->getGroup() === $group->getId())
+                            @if(!empty($user) && $user->getGroupId() === $group->getId())
                                 selected
                             @endif>
                         {{ $group->getName() }}
@@ -92,7 +92,7 @@
                     <option value="">-</option>
                     @foreach($courses as $course)
                         <option value="{{ $course->getId() }}"
-                                @if(!empty($user) && $user->getLeadingCourse() === $course->getId())
+                                @if(!empty($user) && $user->getLeadingCourseId() === $course->getId())
                                     selected
                                 @endif>
                             {{ $course->getTitle() }}

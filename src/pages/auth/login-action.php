@@ -43,8 +43,8 @@ if(count(User::dao()->getObjects([], "id", true, 1)) === 0) {
     $user->setPermissionLevel(PermissionLevel::ADMIN->value);
     $user->setFirstName("Admin");
     $user->setLastName("");
-    $user->setGroup(null);
-    $user->setLeadingCourse(null);
+    $user->setGroupId(null);
+    $user->setLeadingCourseId(null);
     $user->setLastLogin(null);
     $user->setOneTimePassword(null);
     $user->setOneTimePasswordExpiration(null);

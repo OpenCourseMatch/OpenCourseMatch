@@ -75,8 +75,8 @@ foreach($csvData as $data) {
     $account->setPermissionLevel(PermissionLevel::USER->value);
     $account->setFirstName($firstName);
     $account->setLastName($lastName);
-    $account->setGroup($groupId);
-    $account->setLeadingCourse($leadingCourseId);
+    $account->setGroupId($groupId);
+    $account->setLeadingCourseId($leadingCourseId);
     $account->setLastLogin(null);
     $account->setOneTimePassword(null);
     $account->setOneTimePasswordExpiration(null);
