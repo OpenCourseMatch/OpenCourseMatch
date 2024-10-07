@@ -46,4 +46,13 @@ class Course extends GenericObject {
     public function setMaxParticipants(?int $maxParticipants): void {
         $this->maxParticipants = $maxParticipants;
     }
+
+    public function canChooseProject(User $user): bool {
+        $userClearance = 0;
+        if($user->getGroup() !== null) {
+            $userClearance = $user->getGroup()->getClearance();
+        }
+
+        return $userClearance >= $this->getMinClearance() && $userClearance <= $this->getMaxClearance();
+    }
 }
