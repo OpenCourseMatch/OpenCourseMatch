@@ -8,7 +8,8 @@
 
     <form>
         @for($i = 0; $i < $voteCount; $i++)
-            <div id="choice-{{ $i }}" class="">
+            <input type="hidden" name="choice[]" value="" data-choice-index="{{ $i }}">
+            <div class="{{-- TODO: Add "hidden" class --}}" data-choice-index="{{ $i }}">
                 <h2>
                     {{ t("Choice") }} {{ $i + 1 }}
                 </h2>
@@ -24,4 +25,9 @@
             </div>
         @endfor
     </form>
+
+    <script type="module">
+        import * as Choice from "{{ Router::staticFilePath("js/choice/choice.js") }}";
+        Choice.init();
+    </script>
 @endcomponent
