@@ -3,6 +3,10 @@ export const init = () => {
         const choiceIndex = $(this).attr("data-choice-index");
         const courseId = $(this).attr("data-course-id");
 
+        if($(this).attr("data-chosen") !== undefined) {
+            return;
+        }
+
         const inputForChoiceIndex = $("input[data-choice-index=\"" + choiceIndex + "\"]");
         inputForChoiceIndex.val(courseId);
 
