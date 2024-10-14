@@ -9,7 +9,9 @@
     <form>
         @for($i = 0; $i < $voteCount; $i++)
             <input type="hidden" name="choice[]" value="" data-choice-index="{{ $i }}">
-            <div class="{{-- TODO: Add "hidden" class --}}" data-choice-index="{{ $i }}">
+            <div class="[&:not([data-active])]:hidden"
+                 data-choice-index="{{ $i }}"
+                 @if($i === 0) data-active @endif>
                 <h2>
                     {{ t("Choice") }} {{ $i + 1 }}
                 </h2>
