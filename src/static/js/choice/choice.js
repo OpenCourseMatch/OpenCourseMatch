@@ -12,6 +12,7 @@ export const init = () => {
 
         updateAvailableCourses();
         nextChoice();
+        revealSubmit();
     });
 
     $("button").on("click", function() {
@@ -25,6 +26,7 @@ export const init = () => {
     });
 
     updateAvailableCourses();
+    revealSubmit();
 }
 
 const updateAvailableCourses = () => {
@@ -74,6 +76,20 @@ const previousChoice = () => {
     if(previousChoice.length !== 0) {
         currentChoice.removeAttr("data-active");
         previousChoice.attr("data-active", "true");
+    }
+}
+
+const revealSubmit = () => {
+    const choiceInputs = $("input[name=\"choice[]\"]");
+    let allChosen = true;
+    choiceInputs.each((index, element) => {
+        if($(element).val() === "") {
+            allChosen = false;
+        }
+    });
+
+    if(allChosen) {
+        $("button[type=\"submit\"]").removeAttr("disabled");
     }
 }
 

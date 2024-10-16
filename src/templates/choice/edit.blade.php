@@ -9,7 +9,7 @@
     <form>
         @for($i = 0; $i < $voteCount; $i++)
             <input type="hidden" name="choice[]" value="" data-choice-index="{{ $i }}">
-            <div class="[&:not([data-active])]:hidden"
+            <div class="[&:not([data-active])]:hidden mb-2"
                  data-choice-index="{{ $i }}"
                  @if($i === 0) data-active @endif>
                 <h2 class="mb-2">
@@ -47,6 +47,12 @@
                 </div>
             </div>
         @endfor
+
+        <button type="submit"
+                class="{{ TailwindUtil::button() }} w-full"
+                disabled>
+            {{ t("Save selection") }}
+        </button>
     </form>
 
     <script type="module">
