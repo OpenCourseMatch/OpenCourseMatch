@@ -11,6 +11,17 @@ export const init = () => {
         inputForChoiceIndex.val(courseId);
 
         updateAvailableCourses();
+        nextChoice();
+    });
+
+    $("button").on("click", function() {
+        const action = $(this).attr("data-action");
+
+        if(action === "back") {
+            previousChoice();
+        } else if(action === "next") {
+            nextChoice();
+        }
     });
 
     updateAvailableCourses();
@@ -42,6 +53,28 @@ const setCourseAvailable = (courseId) => {
 
 const setCourseUnavailable = (courseId) => {
     $("[data-course-id=\"" + courseId + "\"]").attr("data-chosen", "true");
+}
+
+const nextChoice = () => {
+    const currentChoice = $("[data-active]");
+    const currentChoiceIndex = parseInt(currentChoice.attr("data-choice-index"))
+    const nextChoiceIndex = currentChoiceIndex + 1;
+    const nextChoice = $("[data-choice-index=\"" + nextChoiceIndex + "\"]");
+    if(nextChoice.length !== 0) {
+        currentChoice.removeAttr("data-active");
+        nextChoice.attr("data-active", "true");
+    }
+}
+
+const previousChoice = () => {
+    const currentChoice = $("[data-active]");
+    const currentChoiceIndex = parseInt(currentChoice.attr("data-choice-index"))
+    const previousChoiceIndex = currentChoiceIndex - 1;
+    const previousChoice = $("[data-choice-index=\"" + previousChoiceIndex + "\"]");
+    if(previousChoice.length !== 0) {
+        currentChoice.removeAttr("data-active");
+        previousChoice.attr("data-active", "true");
+    }
 }
 
 export default { init };

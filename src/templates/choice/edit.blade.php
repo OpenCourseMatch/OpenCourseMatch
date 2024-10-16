@@ -24,6 +24,27 @@
                         ])
                     @endforeach
                 </div>
+
+                <div class="flex w-full justify-between">
+                    @if($i > 0)
+                        <button type="button"
+                                class="{{ TailwindUtil::button(true) }}"
+                                data-action="back">
+                            {{ t("Back") }}
+                        </button>
+                    @else
+                        <span></span>
+                    @endif
+                    @if($i < $voteCount - 1)
+                        <button type="button"
+                                class="{{ TailwindUtil::button(true) }}"
+                                data-action="next">
+                            {{ t("Next") }}
+                        </button>
+                    @else
+                        <span></span>
+                    @endif
+                </div>
             </div>
         @endfor
     </form>
