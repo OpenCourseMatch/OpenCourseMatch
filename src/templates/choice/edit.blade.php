@@ -2,7 +2,7 @@
     "title" => t("Choose courses"),
     "breadcrumbs" => $breadcrumbs ?? []
 ])
-    <h1>
+    <h1 class="mb-2">
         {{ t("Choose courses") }}
     </h1>
 
@@ -12,11 +12,11 @@
             <div class="[&:not([data-active])]:hidden"
                  data-choice-index="{{ $i }}"
                  @if($i === 0) data-active @endif>
-                <h2>
+                <h2 class="mb-2">
                     {{ t("Choice") }} {{ $i + 1 }}
                 </h2>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-2">
                     @foreach($choosableCourses as $course)
                         @include("components.choice", [
                             "course" => $course,
