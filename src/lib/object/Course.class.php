@@ -47,7 +47,7 @@ class Course extends GenericObject {
         $this->maxParticipants = $maxParticipants;
     }
 
-    public function canChooseProject(User $user): bool {
+    public function canChooseCourse(User $user): bool {
         $userClearance = 0;
         if($user->getGroup() !== null) {
             $userClearance = $user->getGroup()->getClearance();

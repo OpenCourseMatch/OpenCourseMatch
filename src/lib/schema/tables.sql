@@ -67,3 +67,18 @@ CREATE TABLE IF NOT EXISTS `User` (
     FOREIGN KEY (`groupId`) REFERENCES `Group`(`id`) ON DELETE SET NULL,
     FOREIGN KEY (`leadingCourseId`) REFERENCES `Course`(`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+# Choice table
+CREATE TABLE IF NOT EXISTS `Choice` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `userId` INT NOT NULL,
+    `courseId` INT NOT NULL,
+    `priority` INT NOT NULL,
+    `created` DATETIME NOT NULL,
+    `updated` DATETIME NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`courseId`) REFERENCES `Course`(`id`) ON DELETE CASCADE,
+    UNIQUE KEY (`userId`, `courseId`),
+    UNIQUE KEY (`userId`, `priority`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

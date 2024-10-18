@@ -9,6 +9,7 @@ class User extends GenericUser {
 
     private ?Group $group = null;
     private ?Course $leadingCourse = null;
+    private ?array $chosenCourses = null;
 
     public function getFirstName(): ?string {
         return $this->firstName;
@@ -68,5 +69,13 @@ class User extends GenericUser {
         }
 
         return $this->leadingCourse;
+    }
+
+    public function getChosenCourses(): array {
+        if(!$this->chosenCourses) {
+            $this->chosenCourses = Choice::dao()->getObjects(["userId" => $this->getId()], "priority");
+        }
+
+        return $this->chosenCourses;
     }
 }
