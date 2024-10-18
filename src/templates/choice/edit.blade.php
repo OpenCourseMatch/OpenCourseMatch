@@ -6,7 +6,7 @@
         {{ t("Choose courses") }}
     </h1>
 
-    <form>
+    <form method="post" action="{{ Router::generate("choice-save") }}">
         @for($i = 0; $i < $voteCount; $i++)
             <input type="hidden" name="choice[]" value="" data-choice-index="{{ $i }}">
             <div class="[&:not([data-active])]:hidden mb-2"

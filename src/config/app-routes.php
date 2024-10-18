@@ -63,6 +63,7 @@ Router::addRoute("POST", "/system-settings/save", "system-settings/system-settin
 
 // Choice
 Router::addRoute("GET", "/choice", "choice/edit.php", "choice-edit");
+Router::addRoute("POST", "/choice/save", "choice/save.php", "choice-save");
 
 // Authentication
 Router::addRoute("GET", "/auth/login", "auth/login.php", "auth-login");

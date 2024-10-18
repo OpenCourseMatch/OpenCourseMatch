@@ -53,6 +53,7 @@ class Course extends GenericObject {
             $userClearance = $user->getGroup()->getClearance();
         }
 
-        return $userClearance >= $this->getMinClearance() && $userClearance <= $this->getMaxClearance();
+        $maxClearancePassed = $this->getMaxClearance() === null || $userClearance <= $this->getMaxClearance();
+        return $userClearance >= $this->getMinClearance() && $maxClearancePassed;
     }
 }
