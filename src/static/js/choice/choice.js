@@ -1,4 +1,8 @@
-export const init = () => {
+import { t } from "../Translator.js";
+
+let translations = [];
+
+export const init = async () => {
     $("[data-course-id]").on("click", function() {
         const choiceIndex = $(this).attr("data-choice-index");
         const courseId = $(this).attr("data-course-id");
@@ -25,6 +29,10 @@ export const init = () => {
         }
     });
 
+    translations = await Promise.all([
+        t("Choice")
+    ]);
+
     updateAvailableCourses();
     revealSubmit();
 }
@@ -44,17 +52,30 @@ const updateAvailableCourses = () => {
         setCourseAvailable(courseId);
     });
 
+    // Set chosen courses to be unavailable
     chosen.forEach((courseId) => {
         setCourseUnavailable(courseId);
-    })
+    });
 }
 
 const setCourseAvailable = (courseId) => {
-    $("[data-course-id=\"" + courseId + "\"]").removeAttr("data-chosen");
+    const choiceElement = $("[data-course-id=\"" + courseId + "\"]");
+    const choiceNote = choiceElement.find("[data-choice-note]");
+
+    choiceElement.removeAttr("data-chosen");
+    choiceNote.hide();
+    choiceNote.removeClass("hidden");
+    choiceNote.text("");
 }
 
 const setCourseUnavailable = (courseId) => {
-    $("[data-course-id=\"" + courseId + "\"]").attr("data-chosen", "true");
+    const choiceElement = $("[data-course-id=\"" + courseId + "\"]");
+    const choiceNote = choiceElement.find("[data-choice-note]");
+    const choiceIndex = parseInt($("input[value=\"" + courseId + "\"]").attr("data-choice-index"));
+
+    choiceElement.attr("data-chosen", "true");
+    choiceNote.text(translations[0] + " " + (choiceIndex + 1)).show();
+    choiceNote.show();
 }
 
 const nextChoice = () => {

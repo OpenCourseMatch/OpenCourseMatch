@@ -6,6 +6,7 @@
                 "class" => "w-2/3 h-2/3 fill-secondary-font"
             ])
         </div>
+        <span class="hidden px-2 py-1 bg-gray text-gray-font rounded-full" data-choice-note></span>
     </div>
 
     <p class="text-xl font-bold">
