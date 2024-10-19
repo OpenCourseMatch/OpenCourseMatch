@@ -8,7 +8,9 @@
 
     <form method="post" action="{{ Router::generate("choice-save") }}">
         @for($i = 0; $i < $voteCount; $i++)
-            <input type="hidden" name="choice[]" value="" data-choice-index="{{ $i }}">
+            <input type="hidden" name="choice[]"
+                   value="{{ $user->getChoice($i)?->getCourseId() ?? "" }}"
+                   data-choice-index="{{ $i }}">
             <div class="[&:not([data-active])]:hidden mb-2"
                  data-choice-index="{{ $i }}"
                  @if($i === 0) data-active @endif>

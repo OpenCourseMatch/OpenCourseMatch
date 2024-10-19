@@ -71,11 +71,22 @@ class User extends GenericUser {
         return $this->leadingCourse;
     }
 
-    public function getChosenCourses(): array {
+    public function getChoices(): array {
         if(!$this->chosenCourses) {
             $this->chosenCourses = Choice::dao()->getObjects(["userId" => $this->getId()], "priority");
         }
 
         return $this->chosenCourses;
+    }
+
+    public function getChoice(int $priority): ?Choice {
+        $chosenCourses = $this->getChoices();
+        foreach($chosenCourses as $chosenCourse) {
+            if($chosenCourse->getPriority() === $priority) {
+                return $chosenCourse;
+            }
+        }
+
+        return null;
     }
 }

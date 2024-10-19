@@ -12,5 +12,6 @@ $voteCount = intval(SystemSetting::dao()->get("voteCount"));
 
 echo Blade->run("choice.edit", [
     "choosableCourses" => $choosableCourses,
-    "voteCount" => $voteCount
+    "voteCount" => $voteCount,
+    "user" => $user
 ]);
