@@ -4,19 +4,10 @@ let translations = [];
 
 export const init = async () => {
     $("[data-course-id]").on("click", function() {
-        const choiceIndex = $(this).attr("data-choice-index");
         const courseId = $(this).attr("data-course-id");
+        const choiceIndex = parseInt($(this).attr("data-choice-index"));
 
-        if($(this).attr("data-chosen") !== undefined) {
-            return;
-        }
-
-        const inputForChoiceIndex = $("input[data-choice-index=\"" + choiceIndex + "\"]");
-        inputForChoiceIndex.val(courseId);
-
-        updateAvailableCourses();
-        nextChoice();
-        revealSubmit();
+        choose(courseId, choiceIndex);
     });
 
     $("button").on("click", function() {
@@ -33,11 +24,28 @@ export const init = async () => {
         t("Choice")
     ]);
 
-    updateAvailableCourses();
+    updateChosenCourses();
     revealSubmit();
 }
 
-const updateAvailableCourses = () => {
+const choose = (courseId, choiceIndex) => {
+    const inputForChoiceIndex = $("input[data-choice-index=\"" + choiceIndex + "\"]");
+
+    // Remove this course from all other choice indices
+    $("input[data-choice-index][value=\"" + courseId + "\"]").each((index, element) => {
+        console.log("B: " + $(element).attr("data-choice-index") + ", " + $(element).val());
+        $(element).val("");
+    });
+
+    // Select the course
+    inputForChoiceIndex.val(courseId);
+
+    updateChosenCourses();
+    nextChoice();
+    revealSubmit();
+}
+
+const updateChosenCourses = () => {
     const chosen = [];
     $("input[data-choice-index]").each((index, element) => {
         const courseId = $(element).val();
@@ -49,16 +57,16 @@ const updateAvailableCourses = () => {
     // Set all courses to be available
     $("[data-course-id]").each((index, element) => {
         const courseId = $(element).attr("data-course-id");
-        setCourseAvailable(courseId);
+        renderCourseUnchosen(courseId);
     });
 
     // Set chosen courses to be unavailable
     chosen.forEach((courseId) => {
-        setCourseUnavailable(courseId);
+        renderCourseChosen(courseId);
     });
 }
 
-const setCourseAvailable = (courseId) => {
+const renderCourseUnchosen = (courseId) => {
     const choiceElement = $("[data-course-id=\"" + courseId + "\"]");
     const choiceNote = choiceElement.find("[data-choice-note]");
 
@@ -68,12 +76,12 @@ const setCourseAvailable = (courseId) => {
     choiceNote.text("");
 }
 
-const setCourseUnavailable = (courseId) => {
+const renderCourseChosen = (courseId) => {
     const choiceElement = $("[data-course-id=\"" + courseId + "\"]");
     const choiceNote = choiceElement.find("[data-choice-note]");
     const choiceIndex = parseInt($("input[value=\"" + courseId + "\"]").attr("data-choice-index"));
 
-    choiceElement.attr("data-chosen", "true");
+    choiceElement.attr("data-chosen", choiceIndex);
     choiceNote.text(translations[0] + " " + (choiceIndex + 1)).show();
     choiceNote.show();
 }
@@ -111,6 +119,8 @@ const revealSubmit = () => {
 
     if(allChosen) {
         $("button[type=\"submit\"]").removeAttr("disabled");
+    } else {
+        $("button[type=\"submit\"]").attr("disabled", "true");
     }
 }
 
