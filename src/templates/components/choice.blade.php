@@ -1,4 +1,4 @@
-<div class="flex flex-col w-full p-4 gap-2 bg-primary bg-opacity-20 rounded border border-2 border-primary cursor-pointer hover:scale-[1.025] transition-all data-[chosen]:opacity-50"
+<div class="flex flex-col w-full p-4 gap-2 bg-primary bg-opacity-20 rounded border border-2 border-primary cursor-pointer hover:scale-[1.025] transition-all"
      data-choice-index="{{ $choice }}" data-course-id="{{ $course->getId() }}">
     <div class="flex items-center justify-between">
         <div class="flex items-center justify-center shrink-0 w-10 h-10 bg-secondary rounded-full">

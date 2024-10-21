@@ -33,7 +33,6 @@ const choose = (courseId, choiceIndex) => {
 
     // Remove this course from all other choice indices
     $("input[data-choice-index][value=\"" + courseId + "\"]").each((index, element) => {
-        console.log("B: " + $(element).attr("data-choice-index") + ", " + $(element).val());
         $(element).val("");
     });
 
