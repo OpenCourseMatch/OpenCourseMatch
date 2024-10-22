@@ -52,7 +52,7 @@
                     </td>
                 </tr>
             </table>
-            <hr style="margin-top: 1em; border: none; background-color: black;">
+            <hr style="margin-top: 1em; border: none; background-color: black; height: 1px;">
         </header>
 
         <main>
@@ -60,7 +60,7 @@
         </main>
 
         <footer>
-            <hr style="border: none; background-color: black;">
+            <hr style="border: none; background-color: black; height: 1px;">
             <table style="border-collapse: collapse; border: none; margin: 0; padding: 0; width: 100%;">
                 <tr style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
                     <td style="border-collapse: collapse; border: none; margin: 0; padding: 0; vertical-align: bottom;">
