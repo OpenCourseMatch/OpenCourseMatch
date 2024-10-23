@@ -73,7 +73,17 @@ class User extends GenericUser {
 
     public function getChoices(): array {
         if(!$this->chosenCourses) {
-            $this->chosenCourses = Choice::dao()->getObjects(["userId" => $this->getId()], "priority");
+            $chosenCourses = Choice::dao()->getObjects(["userId" => $this->getId()], "priority");
+            $voteCount = intval(SystemSetting::dao()->get("voteCount"));
+
+            $this->chosenCourses = [];
+            for($i = 0; $i < $voteCount; $i++) {
+                $this->chosenCourses[$i] = null;
+            }
+
+            foreach($chosenCourses as $chosenCourse) {
+                $this->chosenCourses[$chosenCourse->getPriority()] = $chosenCourse;
+            }
         }
 
         return $this->chosenCourses;
@@ -81,12 +91,6 @@ class User extends GenericUser {
 
     public function getChoice(int $priority): ?Choice {
         $chosenCourses = $this->getChoices();
-        foreach($chosenCourses as $chosenCourse) {
-            if($chosenCourse->getPriority() === $priority) {
-                return $chosenCourse;
-            }
-        }
-
-        return null;
+        return $chosenCourses[$priority];
     }
 }

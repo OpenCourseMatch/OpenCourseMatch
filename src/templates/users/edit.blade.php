@@ -82,27 +82,27 @@
                    placeholder="{{ t("Password") }}">
         </div>
 
-            <div class="{{ TailwindUtil::inputGroup() }} mb-2">
-                <label for="leadingCourse" class="{{ TailwindUtil::$inputLabel }}">
-                    {{ t("Leading course (optional)") }}
-                </label>
-                <select id="leadingCourse"
-                        name="leadingCourse"
-                        class="{{ TailwindUtil::$input }}">
-                    <option value="">-</option>
-                    @foreach($courses as $course)
-                        <option value="{{ $course->getId() }}"
-                                @if(!empty($user) && $user->getLeadingCourseId() === $course->getId())
-                                    selected
-                                @endif>
-                            {{ $course->getTitle() }}
-                            @if($course->getOrganizer() !== null)
-                                ({{ $course->getOrganizer() }})
-                            @endif
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+        <div class="{{ TailwindUtil::inputGroup() }} mb-2">
+            <label for="leadingCourse" class="{{ TailwindUtil::$inputLabel }}">
+                {{ t("Leading course (optional)") }}
+            </label>
+            <select id="leadingCourse"
+                    name="leadingCourse"
+                    class="{{ TailwindUtil::$input }}">
+                <option value="">-</option>
+                @foreach($courses as $course)
+                    <option value="{{ $course->getId() }}"
+                            @if(!empty($user) && $user->getLeadingCourseId() === $course->getId())
+                                selected
+                            @endif>
+                        {{ $course->getTitle() }}
+                        @if($course->getOrganizer() !== null)
+                            ({{ $course->getOrganizer() }})
+                        @endif
+                    </option>
+                @endforeach
+            </select>
+        </div>
 
         <button type="submit" class="{{ TailwindUtil::button() }} gap-2">
             @include("components.icons.buttonload")
@@ -120,6 +120,27 @@
             </button>
         @endif
     </form>
+
+    @if(!empty($user))
+        <h2 class="mt-4 mb-2">
+            {{ t("Chosen courses") }}
+        </h2>
+        <div class="flex flex-col gap-1">
+            @foreach($user->getChoices() as $i => $choice)
+                <span>
+                    <b>{{ t("Choice") }} {{ $i + 1 }}:</b>
+                    @if($choice instanceof Choice)
+                        <a class="text-primary hover:text-primary-effect underline transition-all"
+                           href="{{ Router::generate("courses-edit", ["course" => $choice->getCourseId()]) }}">
+                            {{ $choice->getCourse()->getTitle() }}
+                        </a>
+                    @else
+                        -
+                    @endif
+                </span>
+            @endforeach
+        </div>
+    @endif
 
     @include("components.modals.defaultabort")
     <script type="module">

@@ -5,6 +5,8 @@ class Choice extends GenericObject {
     public ?int $courseId = null;
     public ?int $priority = null;
 
+    private ?Course $course = null;
+
     public function getUserId(): ?int {
         return $this->userId;
     }
@@ -27,5 +29,13 @@ class Choice extends GenericObject {
 
     public function setPriority(?int $priority): void {
         $this->priority = $priority;
+    }
+
+    public function getCourse(): ?Course {
+        if(!$this->course) {
+            $this->course = Course::dao()->getObject(["id" => $this->getCourseId()]);
+        }
+
+        return $this->course;
     }
 }
