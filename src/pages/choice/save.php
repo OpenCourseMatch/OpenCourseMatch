@@ -51,7 +51,7 @@ foreach($post["choice"] as $i => $course) {
     }
 
     if(!$course->canChooseCourse($user)) {
-        new InfoMessage(t("You do not meet the requirements to participate in at least one of your chosen course."), InfoMessageType::ERROR);
+        new InfoMessage(t("You do not meet the requirements to participate in at least one of your chosen courses."), InfoMessageType::ERROR);
         Comm::redirect(Router::generate("choice-edit"));
     }
 

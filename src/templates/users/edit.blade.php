@@ -128,7 +128,7 @@
         <div class="flex flex-col gap-1">
             @foreach($user->getChoices() as $i => $choice)
                 <span>
-                    <b>{{ t("Choice") }} {{ $i + 1 }}:</b>
+                    <b>{{ t("Choice \$\$index\$\$", ["index" => $i + 1]) }}:</b>
                     @if($choice instanceof Choice)
                         <a class="text-primary hover:text-primary-effect underline transition-all"
                            href="{{ Router::generate("courses-edit", ["course" => $choice->getCourseId()]) }}">

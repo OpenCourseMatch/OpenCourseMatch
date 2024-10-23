@@ -15,7 +15,7 @@
                  data-choice-index="{{ $i }}"
                  @if($i === 0) data-active @endif>
                 <h2 class="mb-2">
-                    {{ t("Choice") }} {{ $i + 1 }}
+                    {{ t("Choice \$\$index\$\$", ["index" => $i + 1]) }}
                 </h2>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-2">
@@ -59,7 +59,7 @@
         <button type="submit"
                 class="{{ TailwindUtil::button() }} w-full"
                 disabled>
-            {{ t("Save selection") }}
+            {{ t("Save choices") }}
         </button>
     </form>
 

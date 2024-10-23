@@ -37,9 +37,9 @@
     "Last name": "Last name",
     "Group": "Group",
     "Default group": "Default group",
-    "Leading course (optional)": "Leading course (optional)",
     "Leave empty to generate automatically": "Leave empty to generate automatically",
     "Leave empty to keep old one": "Leave empty to keep old one",
+    "Leading course (optional)": "Leading course (optional)",
     "Participants and tutors": "Participants and tutors",
     "Manage accounts of participants and tutors.": "Manage accounts of participants and tutors.",
     "Create user": "Create user",
@@ -111,8 +111,15 @@
     "The system settings have been saved.": "The system settings have been saved.",
 
     "Choose courses": "Choose courses",
+    "Chosen courses": "Chosen courses",
     "Rank your favourite courses that you would like to participate in.": "Rank your favourite courses that you would like to participate in.",
     "Choosing courses is only available to participants and tutors.": "Choosing courses is only available to participants and tutors.",
+    "Choice $$index$$": "Choice $$index$$",
+    "Save choices": "Save choices",
+    "Your chosen courses have been saved.": "Your chosen courses have been saved.",
+    "Each course can only be chosen once.": "Each course can only be chosen once.",
+    "You do not meet the requirements to participate in at least one of your chosen courses.": "You do not meet the requirements to participate in at least one of your chosen courses.",
+
 
     "About OpenCourseMatch": "About OpenCourseMatch",
     "Bug reports and feature requests": "Bug reports and feature requests",

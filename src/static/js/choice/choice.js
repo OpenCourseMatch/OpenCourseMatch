@@ -21,7 +21,7 @@ export const init = async () => {
     });
 
     translations = await Promise.all([
-        t("Choice")
+        t("Choice $$index$$")
     ]);
 
     updateChosenCourses();
@@ -81,7 +81,7 @@ const renderCourseChosen = (courseId) => {
     const choiceIndex = parseInt($("input[value=\"" + courseId + "\"]").attr("data-choice-index"));
 
     choiceElement.attr("data-chosen", choiceIndex);
-    choiceNote.text(translations[0] + " " + (choiceIndex + 1)).show();
+    choiceNote.text(translations[0].replaceAll("$$index$$", choiceIndex + 1)).show();
     choiceNote.show();
 }
 
