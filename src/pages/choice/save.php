@@ -2,6 +2,11 @@
 
 $user = Auth::enforceLogin(PermissionLevel::USER->value, Router::generate("index"));
 
+if($user->getPermissionLevel() > PermissionLevel::USER->value) {
+    new InfoMessage(t("Choosing courses is only available to participants and tutors."), InfoMessageType::ERROR);
+    Comm::redirect(Router::generate("index"));
+}
+
 $voteCount = intval(SystemSetting::dao()->get("voteCount"));
 
 $singleChoiceValidation = \validation\Validator::create([
