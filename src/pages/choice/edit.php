@@ -9,9 +9,11 @@ if($user->getPermissionLevel() > PermissionLevel::USER->value) {
 
 $choosableCourses = Course::dao()->getChoosableCourses($user);
 $voteCount = intval(SystemSetting::dao()->get("voteCount"));
+$saveLink = Router::generate("choice-save");
 
 echo Blade->run("choice.edit", [
     "choosableCourses" => $choosableCourses,
     "voteCount" => $voteCount,
-    "user" => $user
+    "user" => $user,
+    "saveLink" => $saveLink
 ]);

@@ -61,9 +61,13 @@ Router::addRoute("GET", "/courses/delete/{i:course}", "courses/delete.php", "cou
 Router::addRoute("GET", "/system-settings", "system-settings/system-settings.php", "system-settings");
 Router::addRoute("POST", "/system-settings/save", "system-settings/system-settings-save.php", "system-settings-save");
 
-// Choice
+// Choice (for users)
 Router::addRoute("GET", "/choice", "choice/edit.php", "choice-edit");
 Router::addRoute("POST", "/choice/save", "choice/save.php", "choice-save");
+
+// Choice (for facilitators or administrators)
+Router::addRoute("GET", "/choice/others/{i:user}", "choice/others/edit.php", "choice-edit-others");
+Router::addRoute("POST", "/choice/others/save/{i:user}", "choice/others/save.php", "choice-save-others");
 
 // Authentication
 Router::addRoute("GET", "/auth/login", "auth/login.php", "auth-login");

@@ -125,7 +125,7 @@
         <h2 class="mt-4 mb-2">
             {{ t("Chosen courses") }}
         </h2>
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col gap-1 mb-2">
             @foreach($user->getChoices() as $i => $choice)
                 <span>
                     <b>{{ t("Choice \$\$index\$\$", ["index" => $i + 1]) }}:</b>
@@ -140,6 +140,11 @@
                 </span>
             @endforeach
         </div>
+
+        <a href="{{ Router::generate("choice-edit-others", ["user" => $user->getId()]) }}"
+           class="{{ TailwindUtil::button() }} gap-2">
+            @include("components.icons.edit")
+            {{ t("Edit choice") }}
     @endif
 
     @include("components.modals.defaultabort")

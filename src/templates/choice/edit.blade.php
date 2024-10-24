@@ -6,7 +6,7 @@
         {{ t("Choose courses") }}
     </h1>
 
-    <form method="post" action="{{ Router::generate("choice-save") }}">
+    <form method="post" action="{{ $saveLink }}">
         @for($i = 0; $i < $voteCount; $i++)
             <input type="hidden" name="choice[]"
                    value="{{ $user->getChoice($i)?->getCourseId() ?? "" }}"
