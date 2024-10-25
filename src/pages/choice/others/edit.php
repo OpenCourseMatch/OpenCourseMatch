@@ -26,9 +26,30 @@ $choosableCourses = Course::dao()->getChoosableCourses($account);
 $voteCount = intval(SystemSetting::dao()->get("voteCount"));
 $saveLink = Router::generate("choice-save-others", ["user" => $account->getId()]);
 
+$breadcrumbs = [
+    [
+        "name" => t("Dashboard"),
+        "link" => Router::generate("dashboard"),
+        "iconComponent" => "components.icons.dashboard"
+    ],
+    [
+        "name" => t("Participants and tutors"),
+        "link" => Router::generate("users-overview")
+    ],
+    [
+        "name" => isset($account) ? t("Edit user \$\$name\$\$", ["name" => $account->getFullName()]) : t("Create user"),
+        "link" => Router::generate(isset($account) ? "users-edit" : "users-create", isset($account) ? ["userId" => $account->getId()] : [])
+    ],
+    [
+        "name" => t("Edit choice"),
+        "link" => Router::generate("choice-edit-others", ["user" => $account->getId()])
+    ]
+];
+
 echo Blade->run("choice.edit", [
     "choosableCourses" => $choosableCourses,
     "voteCount" => $voteCount,
     "user" => $account,
-    "saveLink" => $saveLink
+    "saveLink" => $saveLink,
+    "breadcrumbs" => $breadcrumbs
 ]);

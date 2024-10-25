@@ -11,9 +11,22 @@ $choosableCourses = Course::dao()->getChoosableCourses($user);
 $voteCount = intval(SystemSetting::dao()->get("voteCount"));
 $saveLink = Router::generate("choice-save");
 
+$breadcrumbs = [
+    [
+        "name" => t("Dashboard"),
+        "link" => Router::generate("dashboard"),
+        "iconComponent" => "components.icons.dashboard"
+    ],
+    [
+        "name" => t("Choose courses"),
+        "link" => Router::generate("choice-edit")
+    ]
+];
+
 echo Blade->run("choice.edit", [
     "choosableCourses" => $choosableCourses,
     "voteCount" => $voteCount,
     "user" => $user,
-    "saveLink" => $saveLink
+    "saveLink" => $saveLink,
+    "breadcrumbs" => $breadcrumbs
 ]);
