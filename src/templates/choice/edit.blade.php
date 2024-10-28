@@ -60,7 +60,7 @@
                 class="{{ TailwindUtil::button() }} w-full"
                 disabled>
             @include("components.icons.buttonload")
-            {{ t("Save choices") }}
+            {{ t("Save choice") }}
         </button>
     </form>
 

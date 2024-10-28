@@ -115,11 +115,13 @@
     "Rank your favourite courses that you would like to participate in.": "Rank your favourite courses that you would like to participate in.",
     "Choosing courses is only available to participants and tutors.": "Choosing courses is only available to participants and tutors.",
     "Choice $$index$$": "Choice $$index$$",
-    "Save choices": "Save choices",
+    "Save choice": "Save choice",
     "Your chosen courses have been saved.": "Your chosen courses have been saved.",
     "Each course can only be chosen once.": "Each course can only be chosen once.",
     "You do not meet the requirements to participate in at least one of your chosen courses.": "You do not meet the requirements to participate in at least one of your chosen courses.",
-
+    "Edit choice": "Edit chocie",
+    "The user of which the choice should be edited does not exist.": "The user of which the choice should be edited does not exist.",
+    "The user's chosen courses have been saved.": "The user's chosen courses have been saved.",
 
     "About OpenCourseMatch": "About OpenCourseMatch",
     "Bug reports and feature requests": "Bug reports and feature requests",
