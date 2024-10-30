@@ -33,6 +33,10 @@ Router::addRoute("GET", "/users/delete/{i:user}", "users/delete.php", "users-del
 Router::addRoute("GET", "/users/import", "users/import.php", "users-import");
 Router::addRoute("POST", "/users/import", "users/import-action.php", "users-import-action");
 
+Router::addRoute("GET", "/users/group-actions", "users/group.php", "group-actions");
+Router::addRoute("POST", "/users/group-actions", "users/group-action.php", "group-actions-action");
+Router::addRoute("POST", "/users/group-actions/delete", "users/group-delete.php", "group-actions-delete");
+
 // Facilitator management
 Router::addRoute("GET", "/facilitators", "facilitators/overview.php", "facilitators-overview");
 Router::addRoute("POST", "/facilitators/table", "facilitators/overview-table.php", "facilitators-overview-table");

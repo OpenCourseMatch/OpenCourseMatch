@@ -20,6 +20,13 @@
             @include("components.icons.import")
             {{ t("Import users") }}
         </a>
+
+        <a id="group-actions"
+           href="{{ Router::generate("group-actions") }}"
+           class="{{ TailwindUtil::button() }} gap-2">
+            @include("components.icons.group")
+            {{ t("Group actions") }}
+        </a>
     </div>
 
     <div class="overflow-x-auto">
