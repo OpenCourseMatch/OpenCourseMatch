@@ -29,23 +29,23 @@
         <div class="flex flex-row gap-4">
             <div class="w-1/2">
                 <div class="{{ TailwindUtil::inputGroup() }} mb-2">
-                    <input id="reset-password"
-                           name="reset-password"
+                    <input id="resetPassword"
+                           name="resetPassword"
                            type="checkbox"
                            value="1"
                            class="{{ TailwindUtil::$checkbox }}">
-                    <label for="reset-password" class="{{ TailwindUtil::$inputLabel }}">
+                    <label for="resetPassword" class="{{ TailwindUtil::$inputLabel }}">
                         {{ t("Reset password") }}
                     </label>
                 </div>
 
-                <div class="{{ TailwindUtil::inputGroup() }} mb-2">
-                    <label for="new-password" class="{{ TailwindUtil::$inputLabel }}">
+                <div id="new-password-input" class="{{ TailwindUtil::inputGroup() }} mb-2 hidden">
+                    <label for="newPassword" class="{{ TailwindUtil::$inputLabel }}">
                         {{ t("New password") }}
                         ({{ t("Leave empty to generate automatically") }})
                     </label>
-                    <input id="new-password"
-                           name="new-password"
+                    <input id="newPassword"
+                           name="newPassword"
                            type="password"
                            class="{{ TailwindUtil::$input }}"
                            value=""
@@ -57,22 +57,22 @@
 
             <div class="w-1/2">
                 <div class="{{ TailwindUtil::inputGroup() }} mb-2">
-                    <input id="change-group"
-                           name="change-group"
+                    <input id="changeGroup"
+                           name="changeGroup"
                            type="checkbox"
                            value="1"
                            class="{{ TailwindUtil::$checkbox }}">
-                    <label for="change-group" class="{{ TailwindUtil::$inputLabel }}">
+                    <label for="changeGroup" class="{{ TailwindUtil::$inputLabel }}">
                         {{ t("Change group") }}
                     </label>
                 </div>
 
-                <div class="{{ TailwindUtil::inputGroup() }} mb-2">
-                    <label for="new-group" class="{{ TailwindUtil::$inputLabel }}">
+                <div id="new-group-selection" class="{{ TailwindUtil::inputGroup() }} mb-2 hidden">
+                    <label for="newGroup" class="{{ TailwindUtil::$inputLabel }}">
                         {{ t("New group") }}
                     </label>
-                    <select id="new-group"
-                            name="new-group"
+                    <select id="newGroup"
+                            name="newGroup"
                             class="{{ TailwindUtil::$input }}">
                         <option value="">{{ t("Default group") }}</option>
                         @foreach($groups as $group)
@@ -88,8 +88,6 @@
             </div>
         </div>
 
-
-
         <button type="submit" class="{{ TailwindUtil::button() }} gap-2">
             @include("components.icons.buttonload")
             @include("components.icons.save")
@@ -97,7 +95,7 @@
         </button>
 
         <button type="button"
-                id="delete-user"
+                id="delete-users"
                 class="{{ TailwindUtil::button(false, "danger") }} gap-2"
                 data-delete-href="{{ Router::generate("group-actions-delete") }}">
             @include("components.icons.delete")
@@ -107,6 +105,7 @@
 
     @include("components.modals.defaultabort")
     <script type="module">
-        {{-- TODO: Group actions js --}}
+        import * as GroupActions from "{{ Router::staticFilePath("js/users/group.js") }}";
+        GroupActions.init();
     </script>
 @endcomponent

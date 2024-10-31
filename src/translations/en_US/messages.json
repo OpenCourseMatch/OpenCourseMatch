@@ -76,6 +76,17 @@
     "The administrator has been saved.": "The administrator has been saved.",
     "The administrator has been deleted.": "The administrator has been deleted.",
 
+    "Group actions": "Group actions",
+    "Reset password": "Reset password",
+    "Change group": "Change group",
+    "New group": "New group",
+    "No actions were selected. No user data has been modified.": "No actions were selected. No user data has been modified.",
+    "No users were found in the selected group. The actions have not been executed.": "No users were found in the selected group. The actions have not been executed.",
+    "The actions have been executed for all users of the selected group.": "The actions have been executed for all users of the selected group.",
+    "Delete all users in group": "Delete all users in group",
+    "Do you really want to delete all users which are in this group?": "Do you really want to delete all users which are in this group?",
+    "The group itself will not be deleted.": "The group itself will not be deleted.",
+
     "Account credentials": "Account credentials",
     "Account credentials for $$name$$": "Account credentials for $$name$$",
     "Not changed": "Not changed",
