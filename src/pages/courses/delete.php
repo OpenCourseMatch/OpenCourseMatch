@@ -21,6 +21,7 @@ try {
 
 $course = $get["course"];
 
+$course->preDelete();
 Course::dao()->delete($course);
 
 Logger::getLogger("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the course {$course->getId()} ({$course->getTitle()})");

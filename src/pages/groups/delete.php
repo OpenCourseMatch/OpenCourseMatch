@@ -21,6 +21,7 @@ try {
 
 $group = $get["group"];
 
+$group->preDelete();
 Group::dao()->delete($group);
 
 Logger::getLogger("Groups")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the group {$group->getId()} ({$group->getName()})");

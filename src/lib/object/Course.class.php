@@ -59,4 +59,15 @@ class Course extends GenericObject {
 
         return $minClearancePassed && $maxClearancePassed && $notLeadingCoursePassed;
     }
+
+    public function preDelete(): void {
+        // Delete all choices for this course
+        $choices = Choice::dao()->getObjects(["courseId" => $this->getId()]);
+        foreach($choices as $choice) {
+            Choice::dao()->delete($choice);
+        }
+
+        // Delete all allocations for this course
+        // TODO
+    }
 }

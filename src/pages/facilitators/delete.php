@@ -23,6 +23,7 @@ try {
 
 $account = $get["user"];
 
+$account->preDelete();
 User::dao()->delete($account);
 
 Logger::getLogger("Facilitators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the facilitator {$account->getId()} ({$account->getFullName()})");

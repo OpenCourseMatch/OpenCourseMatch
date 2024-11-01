@@ -93,4 +93,17 @@ class User extends GenericUser {
         $chosenCourses = $this->getChoices();
         return $chosenCourses[$priority];
     }
+
+    public function preDelete(): void {
+        // Delete all choices
+        $choices = $this->getChoices();
+        foreach($choices as $choice) {
+            if($choice instanceof Choice) {
+                Choice::dao()->delete($choice);
+            }
+        }
+
+        // Delete allocation
+        // TODO
+    }
 }

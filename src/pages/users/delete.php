@@ -23,6 +23,7 @@ try {
 
 $account = $get["user"];
 
+$account->preDelete();
 User::dao()->delete($account);
 
 Logger::getLogger("Users")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
