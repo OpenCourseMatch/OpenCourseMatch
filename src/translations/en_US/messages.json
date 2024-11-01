@@ -86,6 +86,8 @@
     "Delete all users in group": "Delete all users in group",
     "Do you really want to delete all users which are in this group?": "Do you really want to delete all users which are in this group?",
     "The group itself will not be deleted.": "The group itself will not be deleted.",
+    "All users of the selected group have been deleted.": "All users of the selected group have been deleted.",
+    "The group of which the users should be deleted does not exist.": "The group of which the users should be deleted does not exist.",
 
     "Account credentials": "Account credentials",
     "Account credentials for $$name$$": "Account credentials for $$name$$",
