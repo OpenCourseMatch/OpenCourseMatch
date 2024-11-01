@@ -47,7 +47,7 @@ class Validator extends GenericValidator implements ValidatorInterface {
         }
 
         if($thrownException != null) {
-            if($thrownException->getMessage() != null) {
+            if($thrownException->getMessage() != PHP_EOL) {
                 throw $thrownException;
             } else {
                 parent::failValidation();

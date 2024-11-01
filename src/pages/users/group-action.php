@@ -40,17 +40,6 @@ if($post["resetPassword"] === null && $post["changeGroup"] === null) {
     exit;
 }
 
-if($post["resetPassword"] === "1") {
-    $oldGroup = $post["group"] ? $post["group"]->getId() : "DEFAULT";
-    Logger::getLogger("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the password for all users of the group {$oldGroup}");
-}
-
-if($post["changeGroup"] === "1") {
-    $oldGroup = $post["group"] ? $post["group"]->getId() : "DEFAULT";
-    $newGroup = $post["newGroup"] ? $post["newGroup"]->getId() : "DEFAULT";
-    Logger::getLogger("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is changing the group for all users of the group {$oldGroup} to {$newGroup}");
-}
-
 $group = $post["group"];
 $accounts = User::dao()->getObjects([
     "groupId" => $group?->getId(),
@@ -60,6 +49,17 @@ $accounts = User::dao()->getObjects([
 if(empty($accounts)) {
     new InfoMessage(t("No users were found in the selected group. The actions have not been executed."), InfoMessageType::WARNING);
     exit;
+}
+
+if($post["resetPassword"] === "1") {
+    $oldGroup = $post["group"] ? $post["group"]->getId() : "DEFAULT";
+    Logger::getLogger("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the password for all users of the group {$oldGroup}");
+}
+
+if($post["changeGroup"] === "1") {
+    $oldGroup = $post["group"] ? $post["group"]->getId() : "DEFAULT";
+    $newGroup = $post["newGroup"] ? $post["newGroup"]->getId() : "DEFAULT";
+    Logger::getLogger("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is changing the group for all users of the group {$oldGroup} to {$newGroup}");
 }
 
 $passwords = [];

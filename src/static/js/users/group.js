@@ -1,5 +1,6 @@
 import * as Modal from "../Modal.js";
 import { t } from "../Translator.js";
+import * as ButtonLoad from "../ButtonLoad.js";
 
 export const init = async () => {
     Modal.init();
@@ -61,7 +62,14 @@ export const init = async () => {
             confirm: translations[3]
         }, (confirm) => {
             if(confirm) {
-                window.location.href = $("#delete-users").data("delete-href");
+                ButtonLoad.load($("#delete-users")[0]);
+                $.ajax({
+                    url: $("#delete-users").attr("data-delete-href"),
+                    type: "POST",
+                    data: $("form").serialize()
+                }).done((data) => {
+                    window.location = $("#delete-users").attr("data-redirect");
+                });
             }
         });
     });

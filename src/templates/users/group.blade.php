@@ -97,7 +97,9 @@
         <button type="button"
                 id="delete-users"
                 class="{{ TailwindUtil::button(false, "danger") }} gap-2"
-                data-delete-href="{{ Router::generate("group-actions-delete") }}">
+                data-delete-href="{{ Router::generate("group-actions-delete") }}"
+                data-redirect="{{ Router::generate("users-overview") }}">
+            @include("components.icons.buttonload")
             @include("components.icons.delete")
             {{ t("Delete") }}
         </button>
