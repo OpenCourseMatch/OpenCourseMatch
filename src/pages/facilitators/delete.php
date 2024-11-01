@@ -11,9 +11,9 @@ $validation = \validation\Validator::create([
             \validation\IsInDatabase::create(User::dao(), [
                 "permissionLevel" => PermissionLevel::FACILITATOR->value
             ])
-        ])
+        ])->setErrorMessage(t("The facilitator that should be deleted does not exist."))
     ])
-])->setErrorMessage(t("The facilitator that should be deleted does not exist."));
+])->setErrorMessage(t("Please fill out all the required fields."));
 try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\validation\ValidationException $e) {

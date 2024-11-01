@@ -74,6 +74,7 @@
                     id="delete-user"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
                     data-delete-href="{{ Router::generate("facilitators-delete", ["user" => $user->getId()]) }}">
+                @include("components.icons.buttonload")
                 @include("components.icons.delete")
                 {{ t("Delete") }}
             </button>

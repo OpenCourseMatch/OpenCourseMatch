@@ -1,5 +1,6 @@
 import * as Modal from "../Modal.js";
 import { t } from "../Translator.js";
+import * as ButtonLoad from "../ButtonLoad.js";
 
 export const init = async () => {
     Modal.init();
@@ -40,7 +41,8 @@ export const init = async () => {
             confirm: translations[2]
         }, (confirm) => {
             if(confirm) {
-                window.location.href = $("#delete-user").data("delete-href");
+                ButtonLoad.load($("#delete-user"));
+                window.location.href = $("#delete-user").attr("data-delete-href");
             }
         });
     });

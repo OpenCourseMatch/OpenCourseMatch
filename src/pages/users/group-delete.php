@@ -15,7 +15,6 @@ $validation = \validation\Validator::create([
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\validation\ValidationException $e) {
-    var_dump($e);
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     exit;
 }

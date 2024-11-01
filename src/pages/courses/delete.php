@@ -9,9 +9,9 @@ $validation = \validation\Validator::create([
         "course" => \validation\Validator::create([
             \validation\IsRequired::create(),
             \validation\IsInDatabase::create(Course::dao())
-        ])
+        ])->setErrorMessage(t("The course that should be deleted does not exist."))
     ])
-])->setErrorMessage(t("The course that should be deleted does not exist."));
+])->setErrorMessage(t("Please fill out all the required fields."));
 try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\validation\ValidationException $e) {

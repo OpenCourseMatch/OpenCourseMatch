@@ -62,7 +62,7 @@ export const init = async () => {
             confirm: translations[3]
         }, (confirm) => {
             if(confirm) {
-                ButtonLoad.load($("#delete-users")[0]);
+                ButtonLoad.load($("#delete-users"));
                 $.ajax({
                     url: $("#delete-users").attr("data-delete-href"),
                     type: "POST",

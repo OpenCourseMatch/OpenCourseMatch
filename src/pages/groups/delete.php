@@ -9,9 +9,9 @@ $validation = \validation\Validator::create([
         "group" => \validation\Validator::create([
             \validation\IsRequired::create(),
             \validation\IsInDatabase::create(Group::dao())
-        ])
+        ])->setErrorMessage(t("The group that should be deleted does not exist."))
     ])
-])->setErrorMessage(t("The group that should be deleted does not exist."));
+])->setErrorMessage(t("Please fill out all the required fields."));
 try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\validation\ValidationException $e) {

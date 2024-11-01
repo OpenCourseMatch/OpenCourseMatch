@@ -53,6 +53,7 @@
                     id="delete-group"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
                     data-delete-href="{{ Router::generate("groups-delete", ["group" => $group->getId()]) }}">
+                @include("components.icons.buttonload")
                 @include("components.icons.delete")
                 {{ t("Delete") }}
             </button>

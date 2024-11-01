@@ -41,12 +41,13 @@ try {
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     if(isset($_POST["user"]) && !User::dao()->hasId($_POST["user"])) {
-        Comm::redirect(Router::generate("users-overview"));
+        // Comm::redirect(Router::generate("users-overview"));
     } else if(isset($_POST["user"])) {
-        Comm::redirect(Router::generate("users-edit", ["user" => $_POST["user"]]));
+        // Comm::redirect(Router::generate("users-edit", ["user" => $_POST["user"]]));
     } else {
-        Comm::redirect(Router::generate("users-create"));
+        // Comm::redirect(Router::generate("users-create"));
     }
+    exit;
 }
 
 $account = new User();

@@ -21,7 +21,7 @@ try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("users-import"));
+    exit;
 }
 
 $uploadHelper = new \jensostertag\UploadHelper\UploadHelper();
@@ -32,7 +32,7 @@ $uploadHelper->setInputName("file")
     ->handleUploadedFiles();
 if(!$uploadHelper->successful() || empty($uploadHelper->getFiles())) {
     new InfoMessage(t("Please fill out all the required fields."), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("users-import"));
+    exit;
 }
 $files = $uploadHelper->getFiles();
 
@@ -47,7 +47,7 @@ $csvData = $csv->getData();
 foreach($csvData as $data) {
     if(!is_array($data) || sizeof($data) !== 2) {
         new InfoMessage(t("The CSV file is not formatted correctly."), InfoMessageType::ERROR);
-        Comm::redirect(Router::generate("users-import"));
+        exit;
     }
 }
 

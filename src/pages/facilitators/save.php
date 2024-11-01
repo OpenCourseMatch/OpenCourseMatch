@@ -34,12 +34,13 @@ try {
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     if(isset($_POST["user"]) && !User::dao()->hasId($_POST["user"])) {
-        Comm::redirect(Router::generate("facilitators-overview"));
+        // Comm::redirect(Router::generate("facilitators-overview"));
     } else if(isset($_POST["user"])) {
-        Comm::redirect(Router::generate("facilitators-edit", ["user" => $_POST["user"]]));
+        // Comm::redirect(Router::generate("facilitators-edit", ["user" => $_POST["user"]]));
     } else {
-        Comm::redirect(Router::generate("facilitators-create"));
+        // Comm::redirect(Router::generate("facilitators-create"));
     }
+    exit;
 }
 
 $account = new User();

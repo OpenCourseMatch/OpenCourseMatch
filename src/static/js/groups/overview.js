@@ -20,7 +20,7 @@ export const init = (translations) => {
         pagingType: "simple_numbers",
         order: [[1, "asc"]],
         ajax: {
-            url: $("#groups-table").data("table-ajax"),
+            url: $("#groups-table").attr("data-table-ajax"),
             dataSrc: "",
             type: "POST"
         },
