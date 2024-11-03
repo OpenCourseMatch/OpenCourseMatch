@@ -69,18 +69,34 @@
             </div>
         </div>
 
-        <div class="{{ TailwindUtil::inputGroup() }} mb-2">
-            <label for="maxParticipants" class="{{ TailwindUtil::$inputLabel }}" data-required>
-                {{ t("Maximum participants") }}
-            </label>
-            <input id="maxParticipants"
-                   name="maxParticipants"
-                   type="number"
-                   min="1"
-                   class="{{ TailwindUtil::$input }}"
-                   value="{{ !empty($course) ? $course->getMaxParticipants() : "" }}"
-                   placeholder="{{ t("Maximum participants") }}"
-                   required>
+        <div class="flex flex-col md:flex-row gap-2 mb-2">
+            <div class="{{ TailwindUtil::inputGroup() }}">
+                <label for="minParticipants" class="{{ TailwindUtil::$inputLabel }}" data-required>
+                    {{ t("Minimum participants") }}
+                </label>
+                <input id="minParticipants"
+                       name="minParticipants"
+                       type="number"
+                       min="0"
+                       class="{{ TailwindUtil::$input }}"
+                       value="{{ !empty($course) ? $course->getMinParticipants() : "" }}"
+                       placeholder="{{ t("Minimum participants") }}"
+                       required>
+            </div>
+
+            <div class="{{ TailwindUtil::inputGroup() }}">
+                <label for="maxParticipants" class="{{ TailwindUtil::$inputLabel }}" data-required>
+                    {{ t("Maximum participants") }}
+                </label>
+                <input id="maxParticipants"
+                       name="maxParticipants"
+                       type="number"
+                       min="1"
+                       class="{{ TailwindUtil::$input }}"
+                       value="{{ !empty($course) ? $course->getMaxParticipants() : "" }}"
+                       placeholder="{{ t("Maximum participants") }}"
+                       required>
+            </div>
         </div>
 
         <button type="submit" class="{{ TailwindUtil::button() }} gap-2">

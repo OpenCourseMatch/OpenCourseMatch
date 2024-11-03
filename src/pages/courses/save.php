@@ -27,6 +27,11 @@ $validation = \validation\Validator::create([
             \validation\NullOnEmpty::create(),
             \validation\IsInteger::create()
         ]),
+        "minParticipants" => \validation\Validator::create([
+            \validation\IsRequired::create(),
+            \validation\IsInteger::create(),
+            \validation\MinValue::create(0)
+        ]),
         "maxParticipants" => \validation\Validator::create([
             \validation\IsRequired::create(),
             \validation\IsInteger::create(),
@@ -56,6 +61,15 @@ if(isset($post["maxClearance"]) && $post["minClearance"] > $post["maxClearance"]
     }
 }
 
+if(isset($post["maxParticipants"]) && $post["minParticipants"] > $post["maxParticipants"]) {
+    new InfoMessage(t("The minimum number of participants must be lower than the maximum number of participants."), InfoMessageType::ERROR);
+    if(isset($post["course"])) {
+        Comm::redirect(Router::generate("courses-edit", ["course" => $post["course"]->getId()]));
+    } else {
+        Comm::redirect(Router::generate("courses-create"));
+    }
+}
+
 $course = new Course();
 if(isset($post["course"])) {
     $course = $post["course"];
@@ -65,6 +79,7 @@ $course->setTitle($post["title"]);
 $course->setOrganizer($post["organizer"]);
 $course->setMinClearance($post["minClearance"]);
 $course->setMaxClearance($post["maxClearance"]);
+$course->setMinParticipants($post["minParticipants"]);
 $course->setMaxParticipants($post["maxParticipants"]);
 Course::dao()->save($course);
 

@@ -102,6 +102,7 @@
     "Organizer": "Organizer",
     "Minimum required clearance": "Minimum required clearance",
     "Maximum allowed clearance": "Maximum allowed clearance",
+    "Minimum participants": "Minimum participants",
     "Maximum participants": "Maximum participants",
     "Create course": "Create course",
     "Edit course $$name$$": "Edit course „$$name$$”",
@@ -112,6 +113,7 @@
     "The course has been saved.": "The course has been saved.",
     "The course has been deleted.": "The course has been deleted.",
     "The minimum clearance level must be lower than the maximum clearance level.": "The minimum clearance level must be lower than the maximum clearance level.",
+    "The minimum number of participants must be lower than the maximum number of participants.": "The minimum number of participants must be lower than the maximum number of participants.",
 
     "Course assignment": "Course assignment",
 

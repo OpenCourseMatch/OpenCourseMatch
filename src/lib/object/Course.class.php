@@ -5,6 +5,7 @@ class Course extends GenericObject {
     public ?string $organizer = null;
     public ?int $minClearance = null;
     public ?int $maxClearance = null;
+    public ?int $minParticipants = null;
     public ?int $maxParticipants = null;
 
     public function getTitle(): ?string {
@@ -37,6 +38,14 @@ class Course extends GenericObject {
 
     public function setMaxClearance(?int $maxClearance): void {
         $this->maxClearance = $maxClearance;
+    }
+
+    public function getMinParticipants(): ?int {
+        return $this->minParticipants;
+    }
+
+    public function setMinParticipants(?int $minParticipants): void {
+        $this->minParticipants = $minParticipants;
     }
 
     public function getMaxParticipants(): ?int {

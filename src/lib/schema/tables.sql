@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `Course` (
     `organizer` VARCHAR(256) NULL,
     `minClearance` INT NOT NULL,
     `maxClearance` INT NULL,
+    `minParticipants` INT NOT NULL DEFAULT 0,
     `maxParticipants` INT NOT NULL,
     `created` DATETIME NOT NULL,
     `updated` DATETIME NOT NULL,
