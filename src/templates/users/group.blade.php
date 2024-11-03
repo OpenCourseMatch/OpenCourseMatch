@@ -26,8 +26,8 @@
             </select>
         </div>
 
-        <div class="flex flex-row gap-4">
-            <div class="w-1/2">
+        <div class="flex flex-col md:flex-row md:gap-4">
+            <div class="w-full md:w-1/2">
                 <div class="{{ TailwindUtil::inputGroup() }} mb-2">
                     <input id="resetPassword"
                            name="resetPassword"
@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <div class="w-1/2">
+            <div class="w-full md:w-1/2">
                 <div class="{{ TailwindUtil::inputGroup() }} mb-2">
                     <input id="changeGroup"
                            name="changeGroup"
