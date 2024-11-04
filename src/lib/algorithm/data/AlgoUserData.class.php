@@ -42,6 +42,10 @@ class AlgoUserData {
     private array $interestedCourses = [];
     private bool $interestedCoursesLoaded = false;
 
+    private ?AlgoCourseData $allocatedCourse = null;
+    private bool $allocatedAsLeader = false;
+    private bool $allocated = false;
+
     public function loadLeadingCourse(): void {
         if($this->databaseObject->getLeadingCourse() === null) {
             $this->leadingCourseLoaded = true;
@@ -75,9 +79,46 @@ class AlgoUserData {
         $this->interestedCoursesLoaded = true;
     }
 
+    public function getCoursePriority(AlgoCourseData $course): ?int {
+        if(!$this->interestedCoursesLoaded) {
+            throw new AllocationAlgorithmException("Trying to access course priority although interested courses have not been loaded yet");
+        }
+
+        return array_search($course, $this->interestedCourses, true);
+    }
+
     public function getAllocationProbability(array $withoutCourses = []): float {
+        if(!$this->interestedCoursesLoaded) {
+            throw new AllocationAlgorithmException("Trying to access allocation probability although interested courses have not been loaded yet");
+        }
+
         return array_sum(array_map(function(AlgoCourseData $course) {
             return 1 / $course->getRelativeInterestRate();
         }, array_diff($this->interestedCourses, $withoutCourses)));
+    }
+    public function allocateToCourse(AlgoCourseData $course, bool $asLeader = false): void {
+        $this->allocatedCourse = $course;
+        $this->allocatedAsLeader = $asLeader;
+        $this->allocated = true;
+    }
+
+    public function isAllocated(): bool {
+        return $this->allocated;
+    }
+
+    public function getAllocatedCourse(): AlgoCourseData {
+        if(!$this->allocated) {
+            throw new AllocationAlgorithmException("Trying to access allocated course although user has not been allocated yet");
+        }
+
+        return $this->allocatedCourse;
+    }
+
+    public function isAllocatedAsLeader(): bool {
+        if(!$this->allocated) {
+            throw new AllocationAlgorithmException("Trying to access allocated leader status although user has not been allocated yet");
+        }
+
+        return $this->allocatedAsLeader;
     }
 }
