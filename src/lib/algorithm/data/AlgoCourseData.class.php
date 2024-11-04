@@ -13,7 +13,7 @@ class AlgoCourseData {
         $data->id = $course->getId();
         $data->minClearance = $course->getMinClearance();
         $data->maxClearance = $course->getMaxClearance();
-        // TODO: Min participants
+        $data->minParticipants = $course->getMinParticipants();
         $data->maxParticipants = $course->getMaxParticipants();
 
         self::$instances[$course->getId()] = $data;
@@ -46,6 +46,8 @@ class AlgoCourseData {
 
     /* @var AlgoUserData[] $interestedUsers Filled in AlgoUserData::loadChosenCourses */
     private array $interestedUsers = [];
+
+    /** @var AlgoUserData[] $participants */
     private array $participants = [];
 
     public function addCourseLeader(AlgoUserData $user): void {
@@ -57,6 +59,6 @@ class AlgoCourseData {
     }
 
     public function getRelativeInterestRate(): float {
-        return count($this->interestedUsers) / $this->maxParticipants;
+        return (count($this->interestedUsers) - count($this->participants)) / $this->maxParticipants;
     }
 }

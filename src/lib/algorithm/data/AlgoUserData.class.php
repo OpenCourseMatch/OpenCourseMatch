@@ -36,17 +36,28 @@ class AlgoUserData {
     public int $clearance;
 
     private ?AlgoCourseData $leadingCourse = null;
+    private bool $leadingCourseLoaded = false;
 
     /** @var AlgoCourseData[] $interestedCourses */
     private array $interestedCourses = [];
+    private bool $interestedCoursesLoaded = false;
 
     public function loadLeadingCourse(): void {
         if($this->databaseObject->getLeadingCourse() === null) {
+            $this->leadingCourseLoaded = true;
             return;
         }
 
         $this->leadingCourse = AlgoCourseData::getCourse($this->databaseObject->getLeadingCourse()->getId());
         $this->leadingCourse->addCourseLeader($this);
+    }
+
+    public function getLeadingCourse(): ?AlgoCourseData {
+        if(!$this->leadingCourseLoaded) {
+            throw new AllocationAlgorithmException("Trying to access leading course although it has not been loaded yet");
+        }
+
+        return $this->leadingCourse;
     }
 
     public function loadChosenCourses(): void {
@@ -60,5 +71,13 @@ class AlgoUserData {
             $this->interestedCourses[$priority] = $course;
             $course->addInterestedUser($this);
         }
+
+        $this->interestedCoursesLoaded = true;
+    }
+
+    public function getAllocationProbability(array $withoutCourses = []): float {
+        return array_sum(array_map(function(AlgoCourseData $course) {
+            return 1 / $course->getRelativeInterestRate();
+        }, array_diff($this->interestedCourses, $withoutCourses)));
     }
 }

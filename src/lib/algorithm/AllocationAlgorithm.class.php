@@ -16,6 +16,7 @@ class AllocationAlgorithm {
         $this->linkUsersToCourses();
 
         // TODO: Continue...
+
     }
 
     private function loadCoursesFromDatabase(): void {
@@ -37,7 +38,12 @@ class AllocationAlgorithm {
     private function linkUsersToCourses(): void {
         foreach($this->users as $user) {
             $user->loadLeadingCourse();
-            $user->loadChosenCourses();
+            // Skip loading interested courses for course leaders for now.
+            // We assume that their courses take place.
+            // If we notice later in the algorithm that a course has too few participants, we will load the interested courses for its course leaders then.
+            if($user->getLeadingCourse() === null) {
+                $user->loadChosenCourses();
+            }
         }
     }
 }
