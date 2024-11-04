@@ -25,6 +25,16 @@ class AllocationAlgorithm {
         foreach($this->getSortedCourses() as $course) {
             $course->coarseUserAllocation();
         }
+
+        // Allocate unallocated users by finding allocation chains
+        foreach($this->getUnallocatedUsers(true) as $user) {
+            $allocationChain = $user->findAllocationChain();
+            if(empty($allocationChain)) {
+                continue;
+            }
+
+            // TODO: Implement allocation chain reallocation
+        }
     }
 
     private function loadCoursesFromDatabase(): void {

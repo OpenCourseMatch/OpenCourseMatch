@@ -58,6 +58,14 @@ class AlgoCourseData {
         $this->interestedUsers[] = $user;
     }
 
+    public function addParticipant(AlgoUserData $user): void {
+        $this->participants[] = $user;
+    }
+
+    public function getParticipants(): array {
+        return $this->participants;
+    }
+
     public function isSpaceLeft(): bool {
         return count($this->participants) < $this->maxParticipants;
     }
@@ -94,7 +102,7 @@ class AlgoCourseData {
         // Iterate over the sorted users and try to allocate them to the course
         foreach($sortedUsers as $user) {
             if($this->isSpaceLeft() && !$user->isAllocated()) {
-                $this->participants[] = $user;
+                $this->addParticipant($user);
                 $user->allocateToCourse($this);
             }
         }
