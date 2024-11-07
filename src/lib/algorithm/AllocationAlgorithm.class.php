@@ -33,8 +33,13 @@ class AllocationAlgorithm {
                 continue;
             }
 
-            // TODO: Implement allocation chain reallocation
+            // Allocate the user by reallocating the users in the allocation chain
+            foreach($allocationChain as $chainItem) {
+                AlgoUtil::setAllocation($chainItem["user"], $chainItem["course"]);
+            }
         }
+
+        // Fine-tune the allocation by reallocating users to courses with higher choice priority
     }
 
     private function loadCoursesFromDatabase(): void {

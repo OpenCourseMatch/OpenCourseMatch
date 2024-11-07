@@ -62,6 +62,12 @@ class AlgoCourseData {
         $this->participants[] = $user;
     }
 
+    public function removeParticipant(AlgoUserData $user): void {
+        $this->participants = array_filter($this->participants, function(AlgoUserData $participant) use ($user) {
+            return $participant !== $user;
+        });
+    }
+
     public function getParticipants(): array {
         return $this->participants;
     }
@@ -102,8 +108,7 @@ class AlgoCourseData {
         // Iterate over the sorted users and try to allocate them to the course
         foreach($sortedUsers as $user) {
             if($this->isSpaceLeft() && !$user->isAllocated()) {
-                $this->addParticipant($user);
-                $user->allocateToCourse($this);
+                AlgoUtil::setAllocation($user, $this);
             }
         }
     }
