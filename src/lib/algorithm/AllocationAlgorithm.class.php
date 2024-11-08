@@ -7,6 +7,11 @@ class AllocationAlgorithm {
     /** @var AlgoUserData[] $users */
     private array $users = [];
 
+    /**
+     * Run the course allocation algorithm
+     * @return void
+     * @throws AllocationAlgorithmException
+     */
     public function run() {
         //********************
         //* PHASE 0: Initialization
@@ -19,15 +24,15 @@ class AllocationAlgorithm {
         //* PHASE 1: Exploratory course allocation
         //***********+********
         // Reconstruct relationships between users and courses from database
-        $this->linkUsersToCourses(true);
+        $this->linkUsersToCourses(false);
 
         // Coarse allocation of users to courses
-        foreach($this->getSortedCourses() as $course) {
+        foreach($this->getCoursesSortedByRelativeInterestRate() as $course) {
             $course->coarseUserAllocation();
         }
 
         // Allocate unallocated users by finding allocation chains
-        foreach($this->getUnallocatedUsers(true) as $user) {
+        foreach($this->getUnallocatedUsers(false) as $user) {
             $allocationChain = $user->findAllocationChain();
             if(empty($allocationChain)) {
                 continue;
@@ -42,6 +47,10 @@ class AllocationAlgorithm {
         // Fine-tune the allocation by reallocating users to courses with higher choice priority
     }
 
+    /**
+     * Build an array of AlgoCourseData objects from the courses in the database
+     * @return void
+     */
     private function loadCoursesFromDatabase(): void {
         $courses = Course::dao()->getObjects();
         foreach($courses as $course) {
@@ -49,6 +58,10 @@ class AllocationAlgorithm {
         }
     }
 
+    /**
+     * Build an array of AlgoUserData objects from the users in the database
+     * @return void
+     */
     private function loadUsersFromDatabase(): void {
         $users = User::dao()->getObjects([
             "permissionLevel" => PermissionLevel::USER->value
@@ -58,17 +71,27 @@ class AllocationAlgorithm {
         }
     }
 
-    private function linkUsersToCourses(bool $ignoreCourseLeaders = false): void {
+    /**
+     * Load the leading course and chosen courses of all users
+     * @param bool $loadChoiceForCourseLeaders Whether the chosen courses of course leaders should be loaded
+     * @return void
+     * @throws AllocationAlgorithmException
+     */
+    private function linkUsersToCourses(bool $loadChoiceForCourseLeaders): void {
         foreach($this->users as $user) {
             $user->loadLeadingCourse();
             // In the exploratory phase, we do not need to load the chosen courses of course leaders
-            if(!$ignoreCourseLeaders || $user->getLeadingCourse() === null) {
+            if($loadChoiceForCourseLeaders || $user->getLeadingCourse() === null) {
                 $user->loadChosenCourses();
             }
         }
     }
 
-    public function getSortedCourses(): array {
+    /**
+     * Get all courses sorted by their relative interest rate in ascending order
+     * @return AlgoCourseData[]
+     */
+    public function getCoursesSortedByRelativeInterestRate(): array {
         $sortedCourses = $this->courses; // Shallow copy of the course array, so that it can be sorted in-place
         usort($sortedCourses, function(AlgoCourseData $a, AlgoCourseData $b) {
             return $a->getRelativeInterestRate() <=> $b->getRelativeInterestRate();
@@ -77,9 +100,15 @@ class AllocationAlgorithm {
         return $sortedCourses;
     }
 
-    public function getUnallocatedUsers(bool $ignoreCourseLeaders = false): array {
-        return array_filter($this->users, function(AlgoUserData $user) use ($ignoreCourseLeaders) {
-            return !$user->isAllocated() && (!$ignoreCourseLeaders || $user->getLeadingCourse() === null);
+    /**
+     * Get all users that have not been allocated to a course yet
+     * @param bool $includeCourseLeaders Whether (unallocated) course leaders should be included in the returned array
+     * @return AlgoUserData[]
+     * @throws AllocationAlgorithmException
+     */
+    public function getUnallocatedUsers(bool $includeCourseLeaders): array {
+        return array_filter($this->users, function(AlgoUserData $user) use ($includeCourseLeaders) {
+            return !$user->isAllocated() && ($includeCourseLeaders || $user->getLeadingCourse() === null);
         });
     }
 }
