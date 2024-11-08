@@ -45,6 +45,26 @@ class AllocationAlgorithm {
         }
 
         // Fine-tune the allocation by reallocating users to courses with higher choice priority
+        $iterations = 0;
+        do {
+            $swappedUsers = 0;
+            $iterations++;
+            foreach($this->getAllocatedUsersSortedByPriority() as $user) {
+                $currentPriority = $user->getCoursePriority($user->getAllocatedCourse());
+                foreach($user->getChosenCoursesWithHigherPriority($currentPriority) as $course) {
+                    if($course->isSpaceLeft()) {
+                        continue;
+                    }
+
+                    $swappedUsers++;
+                    AlgoUtil::setAllocation($user, $course);
+
+                    // Break the inner loop, because the user has been allocated to a chosen course with the highest priority which is still available
+                    // Because the chosen courses are indexed by priority, the highest priority is first
+                    break;
+                }
+            }
+        } while($swappedUsers > 0 || $iterations <= 10);
     }
 
     /**
@@ -110,5 +130,20 @@ class AllocationAlgorithm {
         return array_filter($this->users, function(AlgoUserData $user) use ($includeCourseLeaders) {
             return !$user->isAllocated() && ($includeCourseLeaders || $user->getLeadingCourse() === null);
         });
+    }
+
+    /**
+     * Get all users that have been allocated to a course, sorted by the choice priority of the course in descending order
+     * @return AlgoUserData[]
+     * @throws AllocationAlgorithmException
+     */
+    public function getAllocatedUsersSortedByPriority(): array {
+        $sortedUsers = array_filter($this->users, function(AlgoUserData $user) {
+            return $user->isAllocated();
+        }); // Filtered copy of the user array, so that it can be sorted in-place
+        usort($sortedUsers, function(AlgoUserData $a, AlgoUserData $b) {
+            return $b->getCoursePriority($b->getAllocatedCourse()) <=> $a->getCoursePriority($a->getAllocatedCourse());
+        });
+        return $sortedUsers;
     }
 }

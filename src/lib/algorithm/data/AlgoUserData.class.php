@@ -79,6 +79,17 @@ class AlgoUserData {
         $this->interestedCoursesLoaded = true;
     }
 
+    public function getChosenCoursesWithHigherPriority(int $priority): array {
+        if(!$this->interestedCoursesLoaded) {
+            throw new AllocationAlgorithmException("Trying to access chosen courses although they have not been loaded yet");
+        }
+
+        return array_filter($this->interestedCourses, function(AlgoCourseData $course) use ($priority) {
+            // This comparison here is "<" and not ">" because the priorities are in descending order (0 is the highest priority)
+            return $this->getCoursePriority($course) < $priority;
+        });
+    }
+
     public function getCoursePriority(AlgoCourseData $course): ?int {
         if(!$this->interestedCoursesLoaded) {
             throw new AllocationAlgorithmException("Trying to access course priority although interested courses have not been loaded yet");
