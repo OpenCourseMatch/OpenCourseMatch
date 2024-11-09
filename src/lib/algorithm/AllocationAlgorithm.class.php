@@ -65,6 +65,17 @@ class AllocationAlgorithm {
                 }
             }
         } while($swappedUsers > 0 || $iterations <= 10);
+
+        //********************
+        //* PHASE 2: Choose courses to be cancelled and reset choices and allocations
+        //********************
+        foreach($this->courses as $course) {
+            if(!$course->hasEnoughParticipants()) {
+                $course->setCancelled();
+            }
+            $course->resetUserLists();
+        }
+        $this->linkUsersToCourses(false);
     }
 
     /**
@@ -99,6 +110,7 @@ class AllocationAlgorithm {
      */
     private function linkUsersToCourses(bool $loadChoiceForCourseLeaders): void {
         foreach($this->users as $user) {
+            $user->resetLinkedObjects();
             $user->loadLeadingCourse();
             // In the exploratory phase, we do not need to load the chosen courses of course leaders
             if($loadChoiceForCourseLeaders || $user->getLeadingCourse() === null) {

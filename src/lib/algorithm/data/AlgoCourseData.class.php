@@ -50,6 +50,9 @@ class AlgoCourseData {
     /** @var AlgoUserData[] $participants */
     private array $participants = [];
 
+    /** @var bool $cancelled This variable is NOT reset */
+    private bool $cancelled = false;
+
     public function addCourseLeader(AlgoUserData $user): void {
         $this->courseLeaders[] = $user;
     }
@@ -72,8 +75,27 @@ class AlgoCourseData {
         return $this->participants;
     }
 
+    public function hasEnoughParticipants(): bool {
+        return count($this->participants) >= $this->minParticipants;
+    }
+
     public function isSpaceLeft(): bool {
+        // TODO: Exclude course leaders from the counted participants
         return count($this->participants) < $this->maxParticipants;
+    }
+
+    public function resetUserLists(): void {
+        $this->courseLeaders = [];
+        $this->interestedUsers = [];
+        $this->participants = [];
+    }
+
+    public function setCancelled(bool $cancelled = true): void {
+        $this->cancelled = $cancelled;
+    }
+
+    public function isCancelled(): bool {
+        return $this->cancelled;
     }
 
     public function getRelativeInterestRate(): float {

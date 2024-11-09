@@ -52,7 +52,12 @@ class AlgoUserData {
             return;
         }
 
-        $this->leadingCourse = AlgoCourseData::getCourse($this->databaseObject->getLeadingCourse()->getId());
+        $course = AlgoCourseData::getCourse($this->databaseObject->getLeadingCourse()->getId());
+        if($course->isCancelled()) {
+            return;
+        }
+
+        $this->leadingCourse = $course;
         $this->leadingCourse->addCourseLeader($this);
     }
 
@@ -72,6 +77,10 @@ class AlgoUserData {
             }
 
             $course = AlgoCourseData::getCourse($choice->getCourseId());
+            if($course->isCancelled()) {
+                return;
+            }
+
             $this->interestedCourses[$priority] = $course;
             $course->addInterestedUser($this);
         }
@@ -98,17 +107,17 @@ class AlgoUserData {
         return array_search($course, $this->interestedCourses, true);
     }
 
-    public function allocateToCourse(AlgoCourseData $course, bool $asLeader = false): void {
+    public function allocateToCourse(?AlgoCourseData $course, bool $asLeader = false): void {
         $this->allocatedCourse = $course;
         $this->allocatedAsLeader = $asLeader;
-        $this->allocated = true;
+        $this->allocated = $course instanceof AlgoCourseData;
     }
 
     public function isAllocated(): bool {
-        return $this->allocated;
+        return $this->allocated && $this->allocatedCourse instanceof AlgoCourseData;
     }
 
-    public function getAllocatedCourse(): AlgoCourseData {
+    public function getAllocatedCourse(): ?AlgoCourseData {
         if(!$this->allocated) {
             throw new AllocationAlgorithmException("Trying to access allocated course although user has not been allocated yet");
         }
@@ -122,6 +131,16 @@ class AlgoUserData {
         }
 
         return $this->allocatedAsLeader;
+    }
+
+    public function resetLinkedObjects(): void {
+        $this->leadingCourse = null;
+        $this->leadingCourseLoaded = false;
+        $this->interestedCourses = [];
+        $this->interestedCoursesLoaded = false;
+        $this->allocatedCourse = null;
+        $this->allocatedAsLeader = false;
+        $this->allocated = false;
     }
 
     public function getAllocationProbability(array $withoutCourses = []): float {
