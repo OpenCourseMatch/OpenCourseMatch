@@ -87,6 +87,7 @@ class Router {
             }
         }
 
+        Logger::getLogger("Router")->error("Could not find route with name \"{$name}\"");
         return $urlPrefix . Config::$ROUTER_SETTINGS["ROUTER_BASE_URI"];
     }
 
@@ -185,6 +186,7 @@ class Router {
                 if(self::getParameterFromString($paramValue, $paramType) !== null) {
                     $paramValue = self::getParameterFromString($paramValue, $paramType);
                 } else {
+                    Logger::getLogger("Router")->warn("Could not parse parameter \"{$paramName}\" with value \"{$paramValue}\" for route \"{$route}\"");
                     http_response_code(400);
                     Comm::redirect(Router::generate("400"));
                 }
