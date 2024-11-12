@@ -87,7 +87,6 @@ class Router {
             }
         }
 
-        Logger::getLogger("Router")->error("Could not find route with name \"{$name}\"");
         return $urlPrefix . Config::$ROUTER_SETTINGS["ROUTER_BASE_URI"];
     }
 
