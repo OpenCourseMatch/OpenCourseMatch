@@ -8,9 +8,9 @@ module.exports = {
             transparent: 'transparent',
             current: 'currentColor',
             "background": {
-                DEFAULT: "#ebfff4",
-                "header": "#ebfff4",
-                "footer": "#ebfff4",
+                DEFAULT: "#f5fff9",
+                "header": "#f5fff9",
+                "footer": "#f5fff9",
             },
             "font": {
                 DEFAULT: "#333333",
@@ -29,7 +29,7 @@ module.exports = {
             "primary": {
                 DEFAULT: "#00a34c",
                 "effect": "#007236",
-                "font": "#ebfff4"
+                "font": "#f5fff9"
             },
             "secondary": {
                 DEFAULT: "#f1c400",
