@@ -91,6 +91,56 @@ class AllocationAlgorithm {
             AlgoUtil::setAllocation($user, null);
         }
         $this->linkUsersToCourses(false);
+
+        //********************
+        //* PHASE 3: Confident course allocation
+        //********************
+        Logger::getLogger("AllocationAlgorithm")->info("PHASE 3: Confident course allocation");
+        // Coarse allocation of users to courses
+        Logger::getLogger("AllocationAlgorithm")->trace("Coarse allocation of users to courses");
+        foreach($this->getCoursesSortedByRelativeInterestRate() as $course) {
+            $course->coarseUserAllocation();
+        }
+        $this->logAllocation();
+
+        // Allocate unallocated users by finding allocation chains
+        Logger::getLogger("AllocationAlgorithm")->trace("Allocate unallocated users by finding allocation chains");
+        foreach($this->getUnallocatedUsers(false) as $user) {
+            $allocationChain = $user->findAllocationChain();
+            if(empty($allocationChain)) {
+                continue;
+            }
+
+            // Allocate the user by reallocating the users in the allocation chain
+            foreach($allocationChain as $chainItem) {
+                AlgoUtil::setAllocation($chainItem["user"], $chainItem["course"]);
+            }
+        }
+        $this->logAllocation();
+
+        // Fine-tune the allocation by reallocating users to courses with higher choice priority
+        Logger::getLogger("AllocationAlgorithm")->trace("Fine-tune the allocation by reallocating users to courses with higher choice priority");
+        $iterations = 0;
+        do {
+            $swappedUsers = 0;
+            $iterations++;
+            foreach($this->getAllocatedUsersSortedByPriority() as $user) {
+                $currentPriority = $user->getCoursePriority($user->getAllocatedCourse());
+                foreach($user->getChosenCoursesWithHigherPriority($currentPriority) as $course) {
+                    if(!$course->isSpaceLeft()) {
+                        continue;
+                    }
+
+                    $swappedUsers++;
+                    AlgoUtil::setAllocation($user, $course);
+
+                    // Break the inner loop, because the user has been allocated to a chosen course with the highest priority which is still available
+                    // Because the chosen courses are indexed by priority, the highest priority is first
+                    break;
+                }
+            }
+        } while($swappedUsers > 0 || $iterations <= 10);
+        $this->logAllocation();
     }
 
     /**
