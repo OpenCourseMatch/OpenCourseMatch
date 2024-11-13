@@ -13,25 +13,32 @@ class AllocationAlgorithm {
      * @throws AllocationAlgorithmException
      */
     public function run() {
+        Logger::getLogger("AllocationAlgorithm")->info("Starting allocation algorithm");
+
         //********************
         //* PHASE 0: Initialization
         //********************
+        Logger::getLogger("AllocationAlgorithm")->info("PHASE 0: Initialization");
         // Load data from database
         $this->loadCoursesFromDatabase();
         $this->loadUsersFromDatabase();
 
-        //********************
-        //* PHASE 1: Exploratory course allocation
-        //***********+********
         // Reconstruct relationships between users and courses from database
         $this->linkUsersToCourses(false);
 
+        //********************
+        //* PHASE 1: Exploratory course allocation
+        //***********+********
+        Logger::getLogger("AllocationAlgorithm")->info("PHASE 1: Exploratory course allocation");
         // Coarse allocation of users to courses
+        Logger::getLogger("AllocationAlgorithm")->trace("Coarse allocation of users to courses");
         foreach($this->getCoursesSortedByRelativeInterestRate() as $course) {
             $course->coarseUserAllocation();
         }
+        $this->logAllocation();
 
         // Allocate unallocated users by finding allocation chains
+        Logger::getLogger("AllocationAlgorithm")->trace("Allocate unallocated users by finding allocation chains");
         foreach($this->getUnallocatedUsers(false) as $user) {
             $allocationChain = $user->findAllocationChain();
             if(empty($allocationChain)) {
@@ -43,8 +50,10 @@ class AllocationAlgorithm {
                 AlgoUtil::setAllocation($chainItem["user"], $chainItem["course"]);
             }
         }
+        $this->logAllocation();
 
         // Fine-tune the allocation by reallocating users to courses with higher choice priority
+        Logger::getLogger("AllocationAlgorithm")->trace("Fine-tune the allocation by reallocating users to courses with higher choice priority");
         $iterations = 0;
         do {
             $swappedUsers = 0;
@@ -52,7 +61,7 @@ class AllocationAlgorithm {
             foreach($this->getAllocatedUsersSortedByPriority() as $user) {
                 $currentPriority = $user->getCoursePriority($user->getAllocatedCourse());
                 foreach($user->getChosenCoursesWithHigherPriority($currentPriority) as $course) {
-                    if($course->isSpaceLeft()) {
+                    if(!$course->isSpaceLeft()) {
                         continue;
                     }
 
@@ -65,15 +74,21 @@ class AllocationAlgorithm {
                 }
             }
         } while($swappedUsers > 0 || $iterations <= 10);
+        $this->logAllocation();
 
         //********************
         //* PHASE 2: Choose courses to be cancelled and reset choices and allocations
         //********************
+        Logger::getLogger("AllocationAlgorithm")->info("PHASE 2: Choose courses to be cancelled");
         foreach($this->courses as $course) {
             if(!$course->hasEnoughParticipants()) {
                 $course->setCancelled();
+                Logger::getLogger("AllocationAlgorithm")->trace("Course {$course->id} has been cancelled");
             }
             $course->resetUserLists();
+        }
+        foreach($this->users as $user) {
+            AlgoUtil::setAllocation($user, null);
         }
         $this->linkUsersToCourses(false);
     }
@@ -157,5 +172,32 @@ class AllocationAlgorithm {
             return $b->getCoursePriority($b->getAllocatedCourse()) <=> $a->getCoursePriority($a->getAllocatedCourse());
         });
         return $sortedUsers;
+    }
+
+    /**
+     * Output allocation statistics to the logfile
+     * @return void
+     * @throws AllocationAlgorithmException
+     */
+    public function logAllocation(): void {
+        $courseLeaders = 0;
+        foreach($this->courses as $course) {
+            if($course->isCancelled()) {
+                Logger::getLogger("AllocationAlgorithm")->info("Course {$course->id}: CANCELLED");
+                continue;
+            }
+
+            $courseLeaders += count($course->getCourseLeaders());
+
+            Logger::getLogger("AllocationAlgorithm")->info("Course {$course->id}: " . count($course->getParticipants()) . " / {$course->maxParticipants} (Min {$course->minParticipants})");
+        }
+
+        $message = "Users: ";
+        $message .= count($this->users) . " in total, ";
+        $message .= count($this->getUnallocatedUsers(true)) . " unallocated (including course leaders), ";
+        $message .= count($this->getUnallocatedUsers(false)) . " unallocated (excluding course leaders), ";
+        $message .= $courseLeaders . " course leaders";
+
+        Logger::getLogger("AllocationAlgorithm")->info($message);
     }
 }

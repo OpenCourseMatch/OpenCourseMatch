@@ -54,7 +54,13 @@ class AlgoCourseData {
     private bool $cancelled = false;
 
     public function addCourseLeader(AlgoUserData $user): void {
-        $this->courseLeaders[] = $user;
+        if(!in_array($user, $this->courseLeaders)) {
+            $this->courseLeaders[] = $user;
+        }
+    }
+
+    public function getCourseLeaders(): array {
+        return $this->courseLeaders;
     }
 
     public function addInterestedUser(AlgoUserData $user): void {
@@ -102,7 +108,20 @@ class AlgoCourseData {
         return (count($this->interestedUsers) - count($this->participants)) / $this->maxParticipants;
     }
 
+    public function getAllocationProbability(): float {
+        $relativeInterestRate = $this->getRelativeInterestRate();
+        if($relativeInterestRate === 0.0) {
+            return 1;
+        }
+
+        return 1 / $relativeInterestRate;
+    }
+
     public function coarseUserAllocation(): void {
+        if($this->isCancelled()) {
+            return;
+        }
+
         $sortedUsers = $this->interestedUsers; // Shallow copy of the user array, so that it can be sorted in-place
         uasort($sortedUsers, function(AlgoUserData $a, AlgoUserData $b) {
             // First sorting criterion: Remaining allocation probability

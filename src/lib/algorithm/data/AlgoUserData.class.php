@@ -54,11 +54,13 @@ class AlgoUserData {
 
         $course = AlgoCourseData::getCourse($this->databaseObject->getLeadingCourse()->getId());
         if($course->isCancelled()) {
+            $this->leadingCourseLoaded = true;
             return;
         }
 
         $this->leadingCourse = $course;
         $this->leadingCourse->addCourseLeader($this);
+        $this->leadingCourseLoaded = true;
     }
 
     public function getLeadingCourse(): ?AlgoCourseData {
@@ -78,7 +80,7 @@ class AlgoUserData {
 
             $course = AlgoCourseData::getCourse($choice->getCourseId());
             if($course->isCancelled()) {
-                return;
+                continue;
             }
 
             $this->interestedCourses[$priority] = $course;
@@ -148,9 +150,13 @@ class AlgoUserData {
             throw new AllocationAlgorithmException("Trying to access allocation probability although interested courses have not been loaded yet");
         }
 
+        $evaluatedCourses = array_filter($this->interestedCourses, function(AlgoCourseData $course) use ($withoutCourses) {
+            return !in_array($course, $withoutCourses, true);
+        });
+
         return array_sum(array_map(function(AlgoCourseData $course) {
-            return 1 / $course->getRelativeInterestRate();
-        }, array_diff($this->interestedCourses, $withoutCourses)));
+            return $course->getAllocationProbability();
+        }, $evaluatedCourses));
     }
 
     public function findAllocationChain(array $coursesInChain = [], int $depth = -1): array {
@@ -160,7 +166,9 @@ class AlgoUserData {
         }
 
         // Don't re-check the same courses again to prevent loops
-        $chosenCourses = array_diff($this->interestedCourses, $coursesInChain);
+        $chosenCourses = array_filter($this->interestedCourses, function(AlgoCourseData $course) use ($coursesInChain) {
+            return !in_array($course, $coursesInChain, true);
+        });
 
         // Add some randomness to the allocation
         shuffle($chosenCourses);
