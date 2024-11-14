@@ -57,6 +57,32 @@ class AllocationAlgorithm {
         $this->probabilityAllocation();
         $this->chainingAllocation();
         $this->enhanceallocation();
+
+        //********************
+        //* PHASE 4: Finalize allocation
+        //********************
+        Logger::getLogger("AllocationAlgorithm")->info("PHASE 4: Finalize allocation");
+        // Choose courses to be cancelled
+        Logger::getLogger("AllocationAlgorithm")->trace("Choose courses to be cancelled");
+        foreach($this->getCoursesSortedByRelativeInterestRate() as $course) {
+            if(!$course->hasEnoughParticipants() && !$course->isCancelled()) {
+                $course->setCancelled();
+                Logger::getLogger("AllocationAlgorithm")->trace("Course {$course->id} has been cancelled");
+
+                $users = array_merge($course->getParticipants(), $course->getCourseLeaders());
+                foreach($users as $user) {
+                    AlgoUtil::setAllocation($user, null);
+                }
+                $this->linkUsersToCourses(false, $users);
+
+                // Reset user lists of the course
+                $course->resetUserLists();
+            }
+        }
+
+        // Reallocate users to courses
+        $this->chainingAllocation();
+        $this->enhanceallocation();
     }
 
     /**
