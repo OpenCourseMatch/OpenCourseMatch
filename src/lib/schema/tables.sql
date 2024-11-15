@@ -83,3 +83,17 @@ CREATE TABLE IF NOT EXISTS `Choice` (
     UNIQUE KEY (`userId`, `courseId`),
     UNIQUE KEY (`userId`, `priority`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+# Allocation table
+CREATE TABLE IF NOT EXISTS `Allocation` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `userId` INT NOT NULL,
+    `courseId` INT NOT NULL,
+    `asCourseLeader` TINYINT NOT NULL DEFAULT 0,
+    `created` DATETIME NOT NULL,
+    `updated` DATETIME NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`courseId`) REFERENCES `Course`(`id`) ON DELETE CASCADE,
+    UNIQUE KEY (`userId`, `courseId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
