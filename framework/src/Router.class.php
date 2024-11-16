@@ -9,7 +9,7 @@ class Router {
      *                       Multiple methods can be separated with a pipe (|) character, without spaces or other symbols
      * @param string $route Route that should get called
      *                      GET parameters can be added to the route by using the following syntax: {type:name}
-     *                      Supported types are b (boolean), d (date (without time)), f (float), i (integer) and s (string)
+     *                      Supported types are b (boolean), f (float), i (integer) and s (string)
      *                      Names are used to identify the parameter within the $_GET array
      * @param string $routeTo File that should be executed when the route is called
      * @param string $name Name of the route
@@ -18,7 +18,7 @@ class Router {
     public static function addRoute(string $method, string $route, string $routeTo, string $name): void {
         // Retrieve Parameters from the Route
         $params = [];
-        preg_match_all("/\{([bdfis]:[a-zA-Z0-9]+)\}/", $route, $matches);
+        preg_match_all("/\{([bfis]:[a-zA-Z0-9]+)\}/", $route, $matches);
         foreach($matches[1] as $match) {
             $paramType = explode(":", $match)[0];
             $paramName = str_replace($paramType . ":", "", $match);
@@ -55,13 +55,6 @@ class Router {
                         if(isset($routeData["params"][$paramName])) {
                             if($routeData["params"][$paramName] == "b" && is_bool($paramValue)) {
                                 $paramValue = $paramValue ? "true" : "false";
-                                $route = str_replace("{" . $routeData["params"][$paramName] . ":" . $paramName . "}", $paramValue, $route);
-                                $requiredParams = array_diff($requiredParams, [$paramName]);
-                            } else if($routeData["params"][$paramName] == "d" && ($paramValue instanceof DateTime || DateTime::createFromFormat(Config::$DATETIME_SETTINGS["DATE_TECHNICAL"], $paramValue) !== false)) {
-                                if($paramValue instanceof DateTime) {
-                                    $paramValue = DateFormatter::technicalDate($paramValue);
-                                }
-
                                 $route = str_replace("{" . $routeData["params"][$paramName] . ":" . $paramName . "}", $paramValue, $route);
                                 $requiredParams = array_diff($requiredParams, [$paramName]);
                             } else if($routeData["params"][$paramName] == "f" && is_float($paramValue)) {
@@ -122,7 +115,7 @@ class Router {
                 $routeParts = explode("/", $route);
                 // Loop over all parts of the route and create a regex
                 foreach($routeParts as $part) {
-                    if(preg_match("/\{([bdfis]:[a-zA-Z0-9]+)\}/", $part)) {
+                    if(preg_match("/\{([bfis]:[a-zA-Z0-9]+)\}/", $part)) {
                         // The current route part is a parameter
                         // Add regex for the corresponding parameter type
                         $part = trim($part, "{}");
@@ -130,9 +123,6 @@ class Router {
                         switch($paramType) {
                             case "b":
                                 $regex .= "true|false\/";
-                                break;
-                            case "d":
-                                $regex .= DateFormatter::technicalDateRegex() . "\/";
                                 break;
                             case "f":
                                 $regex .= "[\d]+(\.[\d]+)?\/";
@@ -174,7 +164,7 @@ class Router {
         // Set the GET parameters
         // Loop over all parts of the route
         foreach(explode("/", $route) as $key => $part) {
-            if(preg_match("/\{([bdfis]:[a-zA-Z0-9]+)\}/", $part)) {
+            if(preg_match("/\{([bfis]:[a-zA-Z0-9]+)\}/", $part)) {
                 // The current route part is a parameter
                 // Retrieve the parameter type and name from the route part and the value from the URI
                 $part = trim($part, "{}");
@@ -236,7 +226,7 @@ class Router {
     /**
      * If parsing is possible, returns the parameter of the corresponding type from a string
      * @param mixed $value Value that should be parsed
-     * @param string $parameter Type of the parameter (b, d, f, i, s)
+     * @param string $parameter Type of the parameter (b, f, i, s)
      * @return mixed|null Parsed parameter or null if parsing is not possible
      */
     private static function getParameterFromString(mixed $value, string $parameter): mixed {
@@ -244,11 +234,6 @@ class Router {
             case "b":
                 if(filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null) {
                     return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-                }
-                break;
-            case "d":
-                if(DateTime::createFromFormat(Config::$DATETIME_SETTINGS["DATE_TECHNICAL"], $value) !== false) {
-                    return strval($value);
                 }
                 break;
             case "f":

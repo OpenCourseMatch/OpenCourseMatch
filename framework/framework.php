@@ -82,4 +82,4 @@ set_exception_handler(function($exception) {
 });
 
 // Setup timezone
-date_default_timezone_set(Config::$APP_SETTINGS["TIMEZONE"]);
+date_default_timezone_set("UTC");

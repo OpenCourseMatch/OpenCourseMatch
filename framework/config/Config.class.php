@@ -9,12 +9,6 @@ class Config {
     // Application settings
     public static array $APP_SETTINGS = [];
 
-    // Menu settings
-    public static array $MENU_SETTINGS;
-
-    // DateTime format settings
-    public static array $DATETIME_SETTINGS;
-
     // Log settings
     public static array $LOG_SETTINGS;
 
@@ -46,19 +40,6 @@ class Config {
             "APP_FAVICON" => Router::staticFilePath("img/favicon.png"),
             "APP_AUTHOR" => "Author",
             "APP_VERSION" => "1.0.0"
-        ];
-
-        self::$MENU_SETTINGS = [
-            "MENU_SIDEBAR" => []
-        ];
-
-        self::$DATETIME_SETTINGS = [
-            "DATE_TECHNICAL" => "Y-m-d",
-            "TIME_TECHNICAL" => "H:i:s",
-            "DATETIME_TECHNICAL" => "Y-m-d H:i:s",
-            "DATE_VISUAL" => "d.m.Y",
-            "TIME_VISUAL" => "H:i",
-            "DATETIME_VISUAL" => "d.m.Y H:i"
         ];
 
         self::$LOG_SETTINGS = [

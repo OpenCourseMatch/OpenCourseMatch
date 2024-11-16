@@ -7,7 +7,7 @@ class GenericUser extends GenericObject {
     public bool $emailVerified = false;
     public int $permissionLevel = 0;
     public ?string $oneTimePassword = null;
-    public ?string $oneTimePasswordExpiration = null;
+    public ?DateTimeImmutable $oneTimePasswordExpiration = null;
 
     /**
      * Returns the user's username
@@ -114,17 +114,17 @@ class GenericUser extends GenericObject {
 
     /**
      * Returns the user's one-time-password expiration date
-     * @return string|null
+     * @return DateTimeImmutable|null
      */
-    public function getOneTimePasswordExpiration(): ?string {
+    public function getOneTimePasswordExpiration(): ?DateTimeImmutable {
         return $this->oneTimePasswordExpiration;
     }
 
     /**
      * Sets the user's one-time-password expiration date
-     * @param string|null $oneTimePasswordExpiration
+     * @param DateTimeImmutable|null $oneTimePasswordExpiration
      */
-    public function setOneTimePasswordExpiration(?string $oneTimePasswordExpiration): void {
+    public function setOneTimePasswordExpiration(?DateTimeImmutable $oneTimePasswordExpiration): void {
         $this->oneTimePasswordExpiration = $oneTimePasswordExpiration;
     }
 }

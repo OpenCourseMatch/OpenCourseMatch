@@ -12,9 +12,11 @@ class PDF {
     ) {
         $logoData = base64_encode(file_get_contents(__APP_DIR__ . "/src/static/img/logo.svg"));
 
+        $formattedDate = (new DateTimeImmutable())->format(DateTimeInterface::RFC3339_EXTENDED);
+
         $creatorQrCode = new \chillerlan\QRCode\QRCode();
         $creatorQrCode->setOptions(self::getQrOptionsForPdf());
-        $creatorQrCodeData = $creatorQrCode->render(DateFormatter::technicalDateTime() . PHP_EOL . $creatingUser->getId());
+        $creatorQrCodeData = $creatorQrCode->render($formattedDate . PHP_EOL . $creatingUser->getId());
 
         $this->documentTitle = $title;
 

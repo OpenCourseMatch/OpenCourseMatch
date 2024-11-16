@@ -10,22 +10,6 @@ Config::$APP_SETTINGS["APP_URL"] = Config::configSecret()["APP_SETTINGS"]["APP_U
 Config::$APP_SETTINGS["APP_FAVICON"] = Config::configSecret()["APP_SETTINGS"]["APP_FAVICON"] ?? Router::staticFilePath("img/logo.svg");
 Config::$APP_SETTINGS["APP_AUTHOR"] = Config::configSecret()["APP_SETTINGS"]["APP_AUTHOR"] ?? "OpenCourseMatch contributors";
 Config::$APP_SETTINGS["APP_VERSION"] = Config::configSecret()["APP_SETTINGS"]["APP_VERSION"] ?? "3.0.0";
-Config::$APP_SETTINGS["TIMEZONE"] = Config::configSecret()["APP_SETTINGS"]["TIMEZONE"] ?? "Europe/Berlin";
-
-// Menu settings
-Config::$MENU_SETTINGS["MENU_SIDEBAR"] = [
-    "Home" => [
-        "route" => Router::generate("index")
-    ]
-];
-
-// Time format settings
-Config::$DATETIME_SETTINGS["DATE_TECHNICAL"] = "Y-m-d";
-Config::$DATETIME_SETTINGS["TIME_TECHNICAL"] = "H:i:s";
-Config::$DATETIME_SETTINGS["DATETIME_TECHNICAL"] = "Y-m-d H:i:s";
-Config::$DATETIME_SETTINGS["DATE_VISUAL"] = "d.m.Y";
-Config::$DATETIME_SETTINGS["TIME_VISUAL"] = "H:i";
-Config::$DATETIME_SETTINGS["DATETIME_VISUAL"] = "d.m.Y H:i";
 
 // Log settings
 Config::$LOG_SETTINGS["LOG_DIRECTORY"] = Config::configSecret()["LOG_SETTINGS"]["LOG_DIRECTORY"] ?? __APP_DIR__ . "/logs/";

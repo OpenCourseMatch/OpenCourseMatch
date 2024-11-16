@@ -102,8 +102,8 @@ enum DAOFilterType {
             case self::LESS_THAN_EQUALS:
             case self::LIKE:
                 if($filterValue !== null) {
-                    if($filterValue instanceof DateTime) {
-                        $date = $filterValue->format("Y-m-d H:i:s");
+                    if($filterValue instanceof DateTime || $filterValue instanceof DateTimeImmutable) {
+                        $date = $filterValue->format(DateTimeInterface::RFC3339_EXTENDED);
                         $stmt->bindValue(":{$key}", $date, PDO::PARAM_STR);
                     } else if(is_bool($filterValue)) {
                         $stmt->bindValue(":{$key}", $filterValue, PDO::PARAM_BOOL);
@@ -119,8 +119,8 @@ enum DAOFilterType {
                 if(is_array($filterValue)) {
                     foreach($filterValue as $filterValueKey => $filterValueValue) {
                         if($filterValueValue !== null) {
-                            if($filterValueValue instanceof DateTime) {
-                                $date = $filterValueValue->format("Y-m-d H:i:s");
+                            if($filterValueValue instanceof DateTime || $filterValue instanceof DateTimeImmutable) {
+                                $date = $filterValueValue->format(DateTimeInterface::RFC3339_EXTENDED);
                                 $stmt->bindValue(":{$key}_{$filterValueKey}", $date, PDO::PARAM_STR);
                             } else if(is_bool($filterValueValue)) {
                                 $stmt->bindValue(":{$key}_{$filterValueKey}", $filterValueValue, PDO::PARAM_BOOL);
@@ -132,8 +132,8 @@ enum DAOFilterType {
                         }
                     }
                 } else {
-                    if($filterValue instanceof DateTime) {
-                        $date = $filterValue->format("Y-m-d H:i:s");
+                    if($filterValue instanceof DateTime || $filterValue instanceof DateTimeImmutable) {
+                        $date = $filterValue->format(DateTimeInterface::RFC3339_EXTENDED);
                         $stmt->bindValue(":{$key}", $date, PDO::PARAM_STR);
                     } else if(is_bool($filterValue)) {
                         $stmt->bindValue(":{$key}", $filterValue, PDO::PARAM_BOOL);

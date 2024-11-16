@@ -4,13 +4,13 @@ class GenericObject {
     private static array $dao = [];
 
     public ?int $id;
-    public DateTime $created;
-    public DateTime $updated;
+    public DateTimeImmutable $created;
+    public DateTimeImmutable $updated;
 
     public function __construct() {
         $this->id = null;
-        $this->created = new DateTime();
-        $this->updated = new DateTime();
+        $this->created = new DateTimeImmutable();
+        $this->updated = new DateTimeImmutable();
     }
 
     /**
@@ -36,17 +36,33 @@ class GenericObject {
      * @return void
      */
     public function fromArray(array $data): void {
-        $classProperties = get_object_vars($this);
-        foreach($classProperties as $property => $value) {
-            if(array_key_exists($property, $data)) {
-                if($this->$property instanceof DateTime) {
-                    $this->$property = DateTime::createFromFormat("Y-m-d H:i:s", $data[$property]);
-                } else {
-                    $this->$property = $data[$property];
-                }
-            } else {
-                Logger::getLogger("GenericObject")->error("Critical: Property \"{$property}\" does not exist in Data Array");
+        $reflection = new ReflectionClass($this);
+
+        foreach($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
+            $propertyType = $property->getType();
+            $propertyName = $property->getName();
+
+            if(!array_key_exists($propertyName, $data)) {
+                Logger::getLogger("GenericObject")->error("Property \"{$propertyName}\" does not exist in Data Array");
+                continue;
             }
+
+            if($propertyType instanceof ReflectionNamedType) {
+                if($data[$propertyName] === null && $propertyType->allowsNull()) {
+                    $this->$propertyName = null;
+                    continue;
+                }
+
+                if($propertyType->getName() === DateTime::class) {
+                    $this->$propertyName = DateTime::createFromFormat("Y-m-d H:i:s.v", $data[$propertyName]);
+                    continue;
+                } else if($propertyType->getName() === DateTimeImmutable::class) {
+                    $this->$propertyName = DateTimeImmutable::createFromFormat("Y-m-d H:i:s.v", $data[$propertyName]);
+                    continue;
+                }
+            }
+
+            $this->$propertyName = $data[$propertyName];
         }
     }
 
@@ -82,33 +98,33 @@ class GenericObject {
 
     /**
      * Returns the object's creation date
-     * @return DateTime
+     * @return DateTimeImmutable
      */
-    public function getCreated(): DateTime {
+    public function getCreated(): DateTimeImmutable {
         return $this->created;
     }
 
     /**
      * Sets the object's creation date
-     * @param DateTime $created
+     * @param DateTimeImmutable $created
      */
-    public function setCreated(DateTime $created): void {
+    public function setCreated(DateTimeImmutable $created): void {
         $this->created = $created;
     }
 
     /**
      * Returns the object's last update date
-     * @return DateTime
+     * @return DateTimeImmutable
      */
-    public function getUpdated(): DateTime {
+    public function getUpdated(): DateTimeImmutable {
         return $this->updated;
     }
 
     /**
      * Sets the object's last update date
-     * @param DateTime $updated
+     * @param DateTimeImmutable $updated
      */
-    public function setUpdated(DateTime $updated): void {
+    public function setUpdated(DateTimeImmutable $updated): void {
         $this->updated = $updated;
     }
 }

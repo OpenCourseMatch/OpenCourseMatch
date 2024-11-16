@@ -5,7 +5,7 @@ class User extends GenericUser {
     public ?string $lastName = null;
     public ?int $groupId = null;
     public ?int $leadingCourseId = null;
-    public ?string $lastLogin = null;
+    public ?DateTimeImmutable $lastLogin = null;
 
     private ?Group $group = null;
     private ?Course $leadingCourse = null;
@@ -43,11 +43,11 @@ class User extends GenericUser {
         $this->leadingCourseId = $leadingCourseId;
     }
 
-    public function getLastLogin(): ?string {
+    public function getLastLogin(): ?DateTimeImmutable {
         return $this->lastLogin;
     }
 
-    public function setLastLogin(?string $lastLogin): void {
+    public function setLastLogin(?DateTimeImmutable $lastLogin): void {
         $this->lastLogin = $lastLogin;
     }
 

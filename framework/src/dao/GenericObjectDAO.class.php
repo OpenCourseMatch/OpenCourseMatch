@@ -32,8 +32,8 @@ class GenericObjectDAO {
 
                 $stmt = Database::getConnection()->prepare($sql);
                 foreach($objectProperties as $property => $value) {
-                    if($value instanceof DateTime) {
-                        $date = $value->format("Y-m-d H:i:s");
+                    if($value instanceof DateTime || $value instanceof DateTimeImmutable) {
+                        $date = $value->format(DateTimeInterface::RFC3339_EXTENDED);
                         $stmt->bindValue(":{$property}", $date, PDO::PARAM_STR);
                     } else if(is_bool($value)) {
                         $stmt->bindValue(":{$property}", $value, PDO::PARAM_BOOL);
@@ -63,8 +63,8 @@ class GenericObjectDAO {
                 $stmt = Database::getConnection()->prepare($sql);
                 foreach($objectProperties as $property => $value) {
                     if($property !== "created" && $property !== "id") {
-                        if($value instanceof DateTime) {
-                            $date = $value->format("Y-m-d H:i:s");
+                        if($value instanceof DateTime || $value instanceof DateTimeImmutable) {
+                            $date = $value->format(DateTimeInterface::RFC3339_EXTENDED);
                             $stmt->bindValue(":{$property}", $date, PDO::PARAM_STR);
                         } else if(is_bool($value)) {
                             $stmt->bindValue(":{$property}", $value, PDO::PARAM_BOOL);

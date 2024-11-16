@@ -62,7 +62,7 @@ if(!$user instanceof GenericUser) {
 }
 
 // Reset possibly existing one-time password
-$user->setLastLogin(DateFormatter::technicalDateTime());
+$user->setLastLogin(new DateTimeImmutable());
 $user->setOneTimePassword(null);
 $user->setOneTimePasswordExpiration(null);
 User::dao()->save($user);
