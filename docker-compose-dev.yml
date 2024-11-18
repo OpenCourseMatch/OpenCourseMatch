@@ -12,7 +12,7 @@ services:
         image: "mysql:8.2"
         restart: "no"
         environment:
-            TZ: "Europe/Berlin" # ADJUST
+            TZ: "UTC"
             MYSQL_ROOT_PASSWORD: "root"
             MYSQL_DATABASE: "opencoursematch"
             MYSQL_USER: "opencoursematch"
@@ -30,7 +30,7 @@ services:
             dockerfile: "Dockerfile-dev"
         restart: "no"
         environment:
-            TZ: "Europe/Berlin" # ADJUST
+            TZ: "UTC"
         volumes:
             - "./framework:/app/framework"
             - "./public:/app/public"

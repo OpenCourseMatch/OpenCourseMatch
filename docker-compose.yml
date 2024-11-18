@@ -12,7 +12,7 @@ services:
         image: "mysql:8.2"
         restart: "always"
         environment:
-            TZ: "Europe/Berlin" # ADJUST
+            TZ: "UTC"
             MYSQL_ROOT_PASSWORD: "opencoursematch" # ADJUST
             MYSQL_DATABASE: "opencoursematch"
             MYSQL_USER: "opencoursematch"
@@ -26,7 +26,7 @@ services:
         image: "ghcr.io/opencoursematch/opencoursematch:latest"
         restart: "always"
         environment:
-            TZ: "Europe/Berlin" # ADJUST
+            TZ: "UTC"
         volumes:
             - "./secrets:/app/secrets"
             - "./app-logs:/app/logs"
@@ -40,7 +40,7 @@ services:
         image: "ghcr.io/jensostertag/mysql-backup:latest"
         restart: "always"
         environment:
-            TZ: "Europe/Berlin" # ADJUST
+            TZ: "UTC"
             DB_HOST: "database"
             DB_USER: "opencoursematch"
             DB_PASS: "opencoursematch" # ADJUST

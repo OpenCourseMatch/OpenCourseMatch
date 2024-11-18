@@ -75,7 +75,9 @@
 
         <script type="module">
             import * as ButtonLoad from "{{ Router::staticFilePath("js/ButtonLoad.js") }}";
+            import * as DateFormatter from "{{ Router::staticFilePath("js/DateFormatter.js") }}";
             ButtonLoad.init();
+            DateFormatter.init();
         </script>
     </body>
 </html>
