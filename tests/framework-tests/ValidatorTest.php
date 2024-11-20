@@ -31,7 +31,7 @@ $data = [
 
     // Check objects
     "case12" => new stdClass(),
-    "case13" => new DateFormatter(),
+    "case13" => new GenericObject(),
 
     // Check simulated post validator
     "case14" => [
