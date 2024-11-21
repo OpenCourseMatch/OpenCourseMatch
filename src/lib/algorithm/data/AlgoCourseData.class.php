@@ -86,8 +86,10 @@ class AlgoCourseData {
     }
 
     public function isSpaceLeft(): bool {
-        // TODO: Exclude course leaders from the counted participants
-        return count($this->participants) < $this->maxParticipants;
+        $participantsWithoutCourseLeaders = array_filter($this->participants, function(AlgoUserData $participant) {
+            return $participant->getLeadingCourse() !== $this;
+        });
+        return count($participantsWithoutCourseLeaders) < $this->maxParticipants;
     }
 
     public function resetUserLists(): void {
