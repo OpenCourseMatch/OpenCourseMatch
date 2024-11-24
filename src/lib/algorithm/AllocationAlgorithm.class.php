@@ -13,12 +13,18 @@ class AllocationAlgorithm {
      * @throws AllocationAlgorithmException
      */
     public function run() {
+        // Set the allocation algorithm status to running
+        AlgoUtil::setAllocationStatus(false);
+
         Logger::getLogger("AllocationAlgorithm")->info("Starting allocation algorithm");
 
         //********************
         //* PHASE 0: Initialization
         //********************
         Logger::getLogger("AllocationAlgorithm")->info("PHASE 0: Initialization");
+        // Delete old allocations from database
+        AlgoUtil::resetDatabaseAllocations();
+
         // Load data from database
         $this->loadCoursesFromDatabase();
         $this->loadUsersFromDatabase();
@@ -83,6 +89,19 @@ class AllocationAlgorithm {
         // Reallocate users to courses
         $this->chainingAllocation();
         $this->enhanceallocation();
+
+        //********************
+        //* PHASE 5: Save allocations to database
+        //********************
+        Logger::getLogger("AllocationAlgorithm")->info("PHASE 5: Save allocations to database");
+        foreach($this->users as $user) {
+            $user->saveAllocation();
+        }
+
+        // Set the allocation algorithm status to complete
+        AlgoUtil::setAllocationStatus(true);
+
+        Logger::getLogger("AllocationAlgorithm")->info("Completed allocation algorithm");
     }
 
     /**

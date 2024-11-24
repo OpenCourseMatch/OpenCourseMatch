@@ -69,6 +69,12 @@ class Course extends GenericObject {
         return $minClearancePassed && $maxClearancePassed && $notLeadingCoursePassed;
     }
 
+    public function isCancelled(): bool {
+        $algorithmComplete = SystemStatus::dao()->get("coursesAssigned") === "true";
+        $participants = Allocation::dao()->getObjects(["courseId" => $this->getId()]);
+        return $algorithmComplete && !empty($participants);
+    }
+
     public function preDelete(): void {
         // Delete all choices for this course
         $choices = Choice::dao()->getObjects(["courseId" => $this->getId()]);

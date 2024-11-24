@@ -215,25 +215,20 @@ class AlgoUserData {
         return [];
     }
 
-    public function canBeMovedToAnotherChosenCourse(array $ignoreCourses = []): ?AlgoCourseData {
-        if(!$this->allocated) {
-            throw new AllocationAlgorithmException("Trying to check if user can be moved to another chosen course although user has not been allocated yet");
+    public function saveAllocation(): void {
+        if($this->isAllocated()) {
+            $allocation = new Allocation();
+            $allocation->setUserId($this->id);
+            $allocation->setCourseId($this->getAllocatedCourse()->id);
+            Allocation::dao()->save($allocation);
+            return;
         }
 
-        foreach($this->interestedCourses as $priority => $course) {
-            if($course === $this->allocatedCourse) {
-                continue;
-            }
-
-            if(in_array($course, $ignoreCourses, true)) {
-                continue;
-            }
-
-            if($course->isSpaceLeft()) {
-                return $course;
-            }
+        if($this->getLeadingCourse() !== null && !$this->getLeadingCourse()->isCancelled()) {
+            $allocation = new Allocation();
+            $allocation->setUserId($this->id);
+            $allocation->setCourseId($this->getLeadingCourse()->id);
+            Allocation::dao()->save($allocation);
         }
-
-        return null;
     }
 }
