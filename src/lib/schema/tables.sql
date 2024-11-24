@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `SystemStatus` (
     UNIQUE KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 INSERT INTO SystemStatus VALUE (NULL, 'userLoginAllowed', 'true', NOW(), NOW());
+INSERT INTO SystemStatus VALUE (NULL, 'algorithmRunning', 'false', NOW(), NOW());
 INSERT INTO SystemStatus VALUE (NULL, 'coursesAssigned', 'false', NOW(), NOW());
 
 # System setting table
@@ -89,7 +90,6 @@ CREATE TABLE IF NOT EXISTS `Allocation` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `userId` INT NOT NULL,
     `courseId` INT NOT NULL,
-    `asCourseLeader` TINYINT NOT NULL DEFAULT 0,
     `created` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     PRIMARY KEY (`id`),
