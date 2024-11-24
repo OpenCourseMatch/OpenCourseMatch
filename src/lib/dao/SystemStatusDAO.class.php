@@ -11,7 +11,7 @@ class SystemStatusDAO extends GenericObjectDAO {
     }
 
     public function set(string $key, string $value): void {
-        $object = $this->get($key);
+        $object = $this->getObject(["key" => $key]);
         if($object === null) {
             $object = new SystemStatus();
             $object->setKey($key);
