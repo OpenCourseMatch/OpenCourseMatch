@@ -55,7 +55,14 @@
     {{ t("Course assignment") }}
 </h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    {{-- Assign courses to participants --}}
+    @if(SystemStatus::dao()->get("coursesAssigned") !== "true" && SystemStatus::dao()->get("algorithmRunning") !== "true")
+        @include("components.dashboardlink", [
+            "icon" => "components.icons.algorithm",
+            "href" => Router::generate("course-assignment"),
+            "title" => t("Run course assignment"),
+            "description" => t("Start the assignment algorithm to group participants to the courses based on their preferences.")
+        ])
+    @endif
     {{-- Edit course assignment --}}
     {{-- Print course assignment --}}
     {{-- Reset course assignment --}}

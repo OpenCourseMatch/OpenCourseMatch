@@ -61,6 +61,9 @@ Router::addRoute("GET", "/courses/edit/{i:course}", "courses/edit.php", "courses
 Router::addRoute("POST", "/courses/save", "courses/save.php", "courses-save");
 Router::addRoute("GET", "/courses/delete/{i:course}", "courses/delete.php", "courses-delete");
 
+// Course assignment
+Router::addRoute("GET", "/course-assignment", "assignment/algo/run.php", "course-assignment-run");
+
 // System settings
 Router::addRoute("GET", "/system-settings", "system-settings/system-settings.php", "system-settings");
 Router::addRoute("POST", "/system-settings/save", "system-settings/system-settings-save.php", "system-settings-save");

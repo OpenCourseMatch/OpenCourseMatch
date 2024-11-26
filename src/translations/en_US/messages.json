@@ -116,6 +116,14 @@
     "The minimum number of participants must be lower than the maximum number of participants.": "The minimum number of participants must be lower than the maximum number of participants.",
 
     "Course assignment": "Course assignment",
+    "Run course assignment": "Run course assignment",
+    "Start the assignment algorithm to group participants to the courses based on their preferences.": "Start the assignment algorithm to group participants to the courses based on their preferences.",
+    "Course assignment algorithm": "Course assignment algorithm",
+    "The course assignment algorithm has been started.": "The course assignment algorithm has been started.",
+    "You will be redirected automatically when the algorithm execution has finished.": "You will be redirected automatically when the algorithm execution has finished.",
+    "You may also leave this page.": "You may also leave this page.",
+    "The course assignment algorithm is currently running. Please wait until it has finished.": "The course assignment algorithm is currently running. Please wait until it has finished.",
+    "The courses have already been assigned. Please reset the course assignment before running the algorithm again.": "The courses have already been assigned. Please reset the course assignment before running the algorithm again.",
 
     "Settings": "Settings",
     "System settings": "System settings",
