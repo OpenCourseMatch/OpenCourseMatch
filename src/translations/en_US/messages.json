@@ -116,6 +116,7 @@
     "The minimum number of participants must be lower than the maximum number of participants.": "The minimum number of participants must be lower than the maximum number of participants.",
 
     "Course assignment": "Course assignment",
+    "The course assignment algorithm is currently running. Meanwhile, some actions from your dashboard might be unavailable.": "The course assignment algorithm is currently running. Meanwhile, some actions from your dashboard might be unavailable.",
     "Run course assignment": "Run course assignment",
     "Start the assignment algorithm to group participants to the courses based on their preferences.": "Start the assignment algorithm to group participants to the courses based on their preferences.",
     "Course assignment algorithm": "Course assignment algorithm",
