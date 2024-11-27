@@ -1,0 +1,19 @@
+<?php
+
+$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+
+$algorithmRunning = SystemStatus::dao()->get("algorithmRunning") === "true";
+$coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
+
+if($algorithmRunning) {
+    new InfoMessage(t("The course assignment algorithm is currently running. Please wait until it has finished."), InfoMessageType::ERROR);
+    Comm::redirect(Router::generate("index"));
+}
+
+if($coursesAssigned) {
+    // TODO: Redirect to course overview
+    Comm::redirect(Router::generate("index"));
+} else {
+    new InfoMessage(t("The course assignment algorithm has failed. Please try again later."), InfoMessageType::ERROR);
+    Comm::redirect(Router::generate("index"));
+}
