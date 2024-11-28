@@ -63,6 +63,8 @@ Router::addRoute("GET", "/courses/delete/{i:course}", "courses/delete.php", "cou
 
 // Course assignment
 Router::addRoute("GET", "/course-assignment", "assignment/algo/run.php", "course-assignment-run");
+Router::addRoute("GET", "/course-assignment/status", "assignment/algo/status.php", "course-assignment-status");
+Router::addRoute("GET", "/course-assignment/redirect", "assignment/algo/redirect.php", "course-assignment-redirect");
 
 // System settings
 Router::addRoute("GET", "/system-settings", "system-settings/system-settings.php", "system-settings");
