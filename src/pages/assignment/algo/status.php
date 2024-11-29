@@ -4,6 +4,6 @@ $user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("inde
 
 $algorithmRunning = SystemStatus::dao()->get("algorithmRunning") === "true";
 
-Comm::apiSendJson(HTTPResponses::$RESPONSE_CREATED, [
+Comm::apiSendJson(HTTPResponses::$RESPONSE_OK, [
     "running" => $algorithmRunning
 ]);
