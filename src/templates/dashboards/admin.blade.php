@@ -58,7 +58,7 @@
     @if(SystemStatus::dao()->get("coursesAssigned") !== "true" && SystemStatus::dao()->get("algorithmRunning") !== "true")
         @include("components.dashboardlink", [
             "icon" => "components.icons.algorithm",
-            "href" => Router::generate("course-assignment"),
+            "href" => Router::generate("course-assignment-run"),
             "title" => t("Run course assignment"),
             "description" => t("Start the assignment algorithm to group participants to the courses based on their preferences.")
         ])
