@@ -125,6 +125,7 @@
     "You may also leave this page.": "You may also leave this page.",
     "The course assignment algorithm is currently running. Please wait until it has finished.": "The course assignment algorithm is currently running. Please wait until it has finished.",
     "The courses have already been assigned. Please reset the course assignment before running the algorithm again.": "The courses have already been assigned. Please reset the course assignment before running the algorithm again.",
+    "An error has occurred whilst attempting to assign the courses to the participants. Please try again later.": "An error has occurred whilst attempting to assign the courses to the participants. Please try again later.",
 
     "Settings": "Settings",
     "System settings": "System settings",
