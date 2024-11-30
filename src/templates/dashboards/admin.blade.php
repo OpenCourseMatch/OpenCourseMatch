@@ -17,25 +17,29 @@
         "icon" => "components.icons.group",
         "href" => Router::generate("groups-overview"),
         "title" => t("Groups"),
-        "description" => t("Customize user groups to model the participation requirements of the courses.")
+        "description" => t("Customize user groups to model the participation requirements of the courses."),
+        "danger" => false
     ])
     @include("components.dashboardlink", [
         "icon" => "components.icons.user",
         "href" => Router::generate("users-overview"),
         "title" => t("Participants and tutors"),
-        "description" => t("Manage accounts of participants and tutors.")
+        "description" => t("Manage accounts of participants and tutors."),
+        "danger" => false
     ])
     @include("components.dashboardlink", [
         "icon" => "components.icons.user",
         "href" => Router::generate("facilitators-overview"),
         "title" => t("Facilitators"),
-        "description" => t("Manage accounts of facilitators.")
+        "description" => t("Manage accounts of facilitators."),
+        "danger" => false
     ])
     @include("components.dashboardlink", [
         "icon" => "components.icons.user",
         "href" => Router::generate("administrators-overview"),
         "title" => t("Administrators"),
-        "description" => t("Manage accounts of administrators.")
+        "description" => t("Manage accounts of administrators."),
+        "danger" => false
     ])
 </div>
 
@@ -47,7 +51,8 @@
         "icon" => "components.icons.course",
         "href" => Router::generate("courses-overview"),
         "title" => t("Courses"),
-        "description" => t("Manage the available courses.")
+        "description" => t("Manage the available courses."),
+        "danger" => false
     ])
 </div>
 
@@ -60,12 +65,21 @@
             "icon" => "components.icons.algorithm",
             "href" => Router::generate("course-assignment-run"),
             "title" => t("Run course assignment"),
-            "description" => t("Start the assignment algorithm to group participants to the courses based on their preferences.")
+            "description" => t("Start the assignment algorithm to group participants to the courses based on their preferences."),
+            "danger" => false
         ])
     @endif
     {{-- Edit course assignment --}}
     {{-- Print course assignment --}}
-    {{-- Reset course assignment --}}
+    @if(SystemStatus::dao()->get("coursesAssigned") === "true")
+        @include("components.dashboardlink", [
+            "icon" => "components.icons.reset",
+            "href" => Router::generate("course-assignment-reset"),
+            "title" => t("Reset course assignment"),
+            "description" => t("Reset the course assignment to re-run the assignment algorithm."),
+            "danger" => true
+        ])
+    @endif
 </div>
 
 <h2 class="mt-4 mb-2">
@@ -76,7 +90,8 @@
         "icon" => "components.icons.gear",
         "href" => Router::generate("system-settings"),
         "title" => t("System settings"),
-        "description" => t("Configure OpenCourseMatch to your organizations' needs.")
+        "description" => t("Configure OpenCourseMatch to your organizations' needs."),
+        "danger" => false
     ])
     {{-- Reset all data --}}
 </div>
@@ -90,7 +105,8 @@
         "href" => "https://github.com/OpenCourseMatch/OpenCourseMatch/issues/new/choose",
         "title" => t("Bug reports and feature requests"),
         "description" => t("Found a bug or have an idea to improve OpenCourseMatch? Please create an issue in our GitHub repository."),
-        "external" => true
+        "external" => true,
+        "danger" => false
     ])
     {{-- Changelog --}}
 </div>

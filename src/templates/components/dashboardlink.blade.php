@@ -1,4 +1,5 @@
-<a class="flex flex-col w-full p-4 gap-2 bg-primary bg-opacity-20 rounded border border-2 border-primary hover:scale-[1.025] transition-all"
+<a class="flex flex-col w-full p-4 gap-2 bg-opacity-20 rounded border border-2 hover:scale-[1.025] transition-all
+    @if(!isset($danger) || !$danger) bg-primary border-primary @else bg-danger border-danger @endif"
    href="{{ $href }}"
    @if(isset($external) && $external) target="_blank" @endif>
     <div class="flex items-center justify-between">
