@@ -6,7 +6,8 @@
         "icon" => "components.icons.course",
         "href" => Router::generate("choice-edit"),
         "title" => t("Choose courses"),
-        "description" => t("Rank your favourite courses that you would like to participate in.")
+        "description" => t("Rank your favourite courses that you would like to participate in."),
+        "danger" => false
     ])
 </div>
 
@@ -19,7 +20,8 @@
         "href" => "https://github.com/OpenCourseMatch/OpenCourseMatch/issues/new/choose",
         "title" => t("Bug reports and feature requests"),
         "description" => t("Found a bug or have an idea to improve OpenCourseMatch? Please create an issue in our GitHub repository."),
-        "external" => true
+        "external" => true,
+        "danger" => false
     ])
     {{-- Changelog --}}
 </div>
