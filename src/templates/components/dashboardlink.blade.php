@@ -4,15 +4,13 @@
    @if(isset($external) && $external) target="_blank" @endif>
     <div class="flex items-center justify-between">
         <div class="flex items-center justify-center shrink-0 w-10 h-10 bg-secondary rounded-full">
-            @include($icon, [
+            @component($icon, [
                 "class" => "w-2/3 h-2/3 fill-secondary-font"
-            ])
+            ])@endcomponent
         </div>
 
         @if(isset($external) && $external)
-            @include("components.icons.externalurl", [
-                "class" => ""
-            ])
+            @component("components.icons.externalurl")@endcomponent
         @endif
     </div>
 
