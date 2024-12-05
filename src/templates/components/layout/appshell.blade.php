@@ -117,9 +117,9 @@
         </header>
 
         <main class="px-content-padding-sm mt-4 md:px-content-padding-md lg:px-content-padding-lg min-h-[90vh]">
-            @include("components.layout.breadcrumbs", [
+            @component("components.layout.breadcrumbs", [
                 "breadcrumbs" => $breadcrumbs ?? []
-            ])
+            ])@endcomponent
 
             @include("components.layout.infomessagelist")
 

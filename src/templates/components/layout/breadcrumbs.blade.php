@@ -6,9 +6,7 @@
             >
                 <div class="inline-flex justify-center inline-block">
                     @if(isset($breadcrumb["iconComponent"]))
-                        @include($breadcrumb["iconComponent"], [
-                            "class" => ""
-                        ])
+                        @component($breadcrumb["iconComponent"])@endcomponent
                     @endif
 
                     {{ $breadcrumb["name"] }}
