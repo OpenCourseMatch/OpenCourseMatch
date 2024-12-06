@@ -20,10 +20,10 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-2">
                     @foreach($choosableCourses as $course)
-                        @include("components.choice", [
+                        @component("components.choice", [
                             "course" => $course,
                             "choice" => $i
-                        ])
+                        ])@endcomponent
                     @endforeach
                 </div>
 

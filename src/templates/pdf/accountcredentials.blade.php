@@ -6,11 +6,11 @@
                 ]) }}
         </h2>
 
-        @include("pdf.components.accountcredentials", [
+        @component("pdf.components.accountcredentials", [
             "account" => $account,
             "password" => $passwords[$account->getId()] ?? null,
             "loginQrCodeData" => $loginQrCodeData
-        ])
+        ])@endcomponent
 
         @if($i < count($accounts) - 1)
             <div class="page-break"></div>
