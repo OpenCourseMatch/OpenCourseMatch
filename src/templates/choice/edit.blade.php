@@ -59,7 +59,7 @@
         <button type="submit"
                 class="{{ TailwindUtil::button() }} w-full"
                 disabled>
-            @include("components.icons.buttonload")
+            @component("components.icons.buttonload")@endcomponent
             {{ t("Save choice") }}
         </button>
     </form>

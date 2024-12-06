@@ -9,7 +9,7 @@
     <a id="create-user"
        href="{{ Router::generate("facilitators-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">
-        @include("components.icons.plus")
+        @component("components.icons.plus")@endcomponent
         {{ t("Create facilitator") }}
     </a>
 

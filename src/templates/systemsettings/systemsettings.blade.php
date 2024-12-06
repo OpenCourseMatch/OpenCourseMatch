@@ -24,8 +24,8 @@
         @endforeach
 
         <button type="submit" class="{{ TailwindUtil::button() }} gap-2">
-            @include("components.icons.buttonload")
-            @include("components.icons.save")
+            @component("components.icons.buttonload")@endcomponent
+            @component("components.icons.save")@endcomponent
             {{ t("Save") }}
         </button>
     </form>

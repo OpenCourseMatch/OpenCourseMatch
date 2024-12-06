@@ -99,11 +99,11 @@
                 </div>
 
                 {{-- Account information --}}
-                @include("components.layout.accountinfo")
+                @component("components.layout.accountinfo")@endcomponent
 
                 {{-- Sidebar navigation list --}}
                 <nav>
-                    @include("components.layout.sidebar")
+                    @component("components.layout.sidebar")@endcomponent
                 </nav>
             </div>
 
@@ -121,7 +121,7 @@
                 "breadcrumbs" => $breadcrumbs ?? []
             ])@endcomponent
 
-            @include("components.layout.infomessagelist")
+            @component("components.layout.infomessagelist")@endcomponent
 
             {!! $slot !!}
         </main>

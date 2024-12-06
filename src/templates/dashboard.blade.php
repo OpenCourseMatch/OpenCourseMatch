@@ -16,12 +16,12 @@
     </div>
 
     @auth(0)
-        @include("dashboards.user")
+        @component("dashboards.user")@endcomponent
     @endauth
     @auth(1)
-        @include("dashboards.facilitator")
+        @component("dashboards.facilitator")@endcomponent
     @endauth
     @auth(2)
-        @include("dashboards.admin")
+        @component("dashboards.admin")@endcomponent
     @endauth
 @endcomponent

@@ -81,7 +81,7 @@
 
         <button class="{{ TailwindUtil::button(true) }} w-full mb-2 gap-2"
                 type="submit">
-            @include("components.icons.buttonload")
+            @component("components.icons.buttonload")@endcomponent
             {{ t("Change password") }}
         </button>
     </form>

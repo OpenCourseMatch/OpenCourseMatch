@@ -65,7 +65,7 @@
                     </a>
                 </header>
 
-                @include("components.layout.infomessagelist")
+                @component("components.layout.infomessagelist")@endcomponent
 
                 <main>
                     {!! $slot !!}

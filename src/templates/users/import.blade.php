@@ -51,13 +51,13 @@
         </div>
 
         <button type="submit" class="{{ TailwindUtil::button() }} gap-2">
-            @include("components.icons.buttonload")
-            @include("components.icons.import")
+            @component("components.icons.buttonload")@endcomponent
+            @component("components.icons.import")@endcomponent
             {{ t("Import") }}
         </button>
     </form>
 
-    @include("components.modals.defaultabort")
+    @component("components.modals.defaultabort")@endcomponent
     <script type="module">
         import * as UsersImport from "{{ Router::staticFilePath("js/users/import.js") }}";
         UsersImport.init();

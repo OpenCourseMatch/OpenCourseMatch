@@ -64,8 +64,8 @@
         </div>
 
         <button type="submit" class="{{ TailwindUtil::button() }} gap-2">
-            @include("components.icons.buttonload")
-            @include("components.icons.save")
+            @component("components.icons.buttonload")@endcomponent
+            @component("components.icons.save")@endcomponent
             {{ t("Save") }}
         </button>
 
@@ -74,14 +74,14 @@
                     id="delete-user"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
                     data-delete-href="{{ Router::generate("facilitators-delete", ["user" => $user->getId()]) }}">
-                @include("components.icons.buttonload")
-                @include("components.icons.delete")
+                @component("components.icons.buttonload")@endcomponent
+                @component("components.icons.delete")@endcomponent
                 {{ t("Delete") }}
             </button>
         @endif
     </form>
 
-    @include("components.modals.defaultabort")
+    @component("components.modals.defaultabort")@endcomponent
     <script type="module">
         import * as FacilitatorsEdit from "{{ Router::staticFilePath("js/facilitators/edit.js") }}";
         FacilitatorsEdit.init();

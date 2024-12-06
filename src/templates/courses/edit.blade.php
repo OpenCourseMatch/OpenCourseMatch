@@ -100,8 +100,8 @@
         </div>
 
         <button type="submit" class="{{ TailwindUtil::button() }} gap-2">
-            @include("components.icons.buttonload")
-            @include("components.icons.save")
+            @component("components.icons.buttonload")@endcomponent
+            @component("components.icons.save")@endcomponent
             {{ t("Save") }}
         </button>
 
@@ -110,14 +110,14 @@
                     id="delete-course"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
                     data-delete-href="{{ Router::generate("courses-delete", ["course" => $course->getId()]) }}">
-                @include("components.icons.buttonload")
-                @include("components.icons.delete")
+                @component("components.icons.buttonload")@endcomponent
+                @component("components.icons.delete")@endcomponent
                 {{ t("Delete") }}
             </button>
         @endif
     </form>
 
-    @include("components.modals.defaultabort")
+    @component("components.modals.defaultabort")@endcomponent
     <script type="module">
         import * as CoursesEdit from "{{ Router::staticFilePath("js/courses/edit.js") }}";
         CoursesEdit.init();

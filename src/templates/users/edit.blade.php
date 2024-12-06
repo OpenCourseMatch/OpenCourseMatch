@@ -105,8 +105,8 @@
         </div>
 
         <button type="submit" class="{{ TailwindUtil::button() }} gap-2">
-            @include("components.icons.buttonload")
-            @include("components.icons.save")
+            @component("components.icons.buttonload")@endcomponent
+            @component("components.icons.save")@endcomponent
             {{ t("Save") }}
         </button>
 
@@ -115,8 +115,8 @@
                     id="delete-user"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
                     data-delete-href="{{ Router::generate("users-delete", ["user" => $user->getId()]) }}">
-                @include("components.icons.buttonload")
-                @include("components.icons.delete")
+                @component("components.icons.buttonload")@endcomponent
+                @component("components.icons.delete")@endcomponent
                 {{ t("Delete") }}
             </button>
         @endif
@@ -144,12 +144,12 @@
 
         <a href="{{ Router::generate("choice-edit-others", ["user" => $user->getId()]) }}"
            class="{{ TailwindUtil::button() }} gap-2">
-            @include("components.icons.edit")
+            @component("components.icons.edit")@endcomponent
             {{ t("Edit choice") }}
         </a>
     @endif
 
-    @include("components.modals.defaultabort")
+    @component("components.modals.defaultabort")@endcomponent
     <script type="module">
         import * as UsersEdit from "{{ Router::staticFilePath("js/users/edit.js") }}";
         UsersEdit.init();
