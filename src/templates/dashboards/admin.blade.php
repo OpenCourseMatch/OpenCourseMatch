@@ -63,6 +63,12 @@
             "description" => t("Start the assignment algorithm to group participants to the courses based on their preferences.")
         ])@endcomponent
     @endif
+    @component("components.dashboardlink", [
+        "icon" => "components.icons.assignment",
+        "href" => Router::generate("course-assignment-edit"),
+        "title" => t("Edit course assignment"),
+        "description" => t("Optimize the course assignment manually.")
+    ])@endcomponent
     {{-- Edit course assignment --}}
     {{-- Print course assignment --}}
     @if(SystemStatus::dao()->get("coursesAssigned") === "true")

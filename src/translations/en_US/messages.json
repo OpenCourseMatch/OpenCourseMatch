@@ -130,6 +130,8 @@
     "Reset the course assignment to re-run the assignment algorithm.": "Reset the course assignment to re-run the assignment algorithm.",
     "The course assignment has been reset.": "The course assignment has been reset.",
     "An error has occurred whilst attempting to reset the course assignment. Please try again later.": "An error has occurred whilst attempting to reset the course assignment. Please try again later.",
+    "Edit course assignment": "Edit course assignment",
+    "Optimize the course assignment manually.": "Optimize the course assignment manually.",
 
     "Settings": "Settings",
     "System settings": "System settings",
