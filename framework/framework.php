@@ -48,6 +48,13 @@ unset($classLoader);
 use eftec\bladeone\BladeOne;
 const Blade = new BladeOne(__APP_DIR__ . "/src/templates", __APP_DIR__ . "/template-cache", BladeOne::MODE_DEBUG);
 
+// Override BladeOne's include directive to use components with isolated variables
+Blade->directive("include", function($expression) {
+    $code = Blade->phpTag . " Blade->startComponent($expression); ?>";
+    $code .= Blade->phpTag . ' echo Blade->renderComponent(); ?>';
+    return $code;
+});
+
 // Setup logger
 $sendEmailHandler = function(string $message) {
     if(empty(Config::$LOG_SETTINGS["LOG_ERROR_REPORT"])) {
