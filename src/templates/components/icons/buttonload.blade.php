@@ -1,3 +1,3 @@
 <div class="buttonload hidden">
-    @component("components.icons.loading")@endcomponent
+    @include("components.icons.loading")
 </div>

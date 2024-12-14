@@ -9,7 +9,7 @@
     <a id="create-group"
        href="{{ Router::generate("groups-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">
-        @component("components.icons.plus")@endcomponent
+        @include("components.icons.plus")
         {{ t("Create group") }}
     </a>
 

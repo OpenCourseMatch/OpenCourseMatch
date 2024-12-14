@@ -7,21 +7,21 @@
     </h1>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        @component("components.dashboardlink", [
+        @include("components.dashboardlink", [
             "icon" => "components.icons.accountsettings",
             "href" => Router::generate("account-settings"),
             "title" => t("Account settings"),
             "description" => t("Manage your personal information, security settings, and account preferences.")
-        ])@endcomponent
+        ])
     </div>
 
     @auth(0)
-        @component("dashboards.user")@endcomponent
+        @include("dashboards.user")
     @endauth
     @auth(1)
-        @component("dashboards.facilitator")@endcomponent
+        @include("dashboards.facilitator")
     @endauth
     @auth(2)
-        @component("dashboards.admin")@endcomponent
+        @include("dashboards.admin")
     @endauth
 @endcomponent

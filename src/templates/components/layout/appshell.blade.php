@@ -99,11 +99,11 @@
                 </div>
 
                 {{-- Account information --}}
-                @component("components.layout.accountinfo")@endcomponent
+                @include("components.layout.accountinfo")
 
                 {{-- Sidebar navigation list --}}
                 <nav>
-                    @component("components.layout.sidebar")@endcomponent
+                    @include("components.layout.sidebar")
                 </nav>
             </div>
 
@@ -117,11 +117,11 @@
         </header>
 
         <main class="px-content-padding-sm mt-4 md:px-content-padding-md lg:px-content-padding-lg min-h-[90vh]">
-            @component("components.layout.breadcrumbs", [
+            @include("components.layout.breadcrumbs", [
                 "breadcrumbs" => $breadcrumbs ?? []
-            ])@endcomponent
+            ])
 
-            @component("components.layout.infomessagelist")@endcomponent
+            @include("components.layout.infomessagelist")
 
             {!! $slot !!}
         </main>

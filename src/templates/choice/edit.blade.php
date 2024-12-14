@@ -20,10 +20,10 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-2">
                     @foreach($choosableCourses as $course)
-                        @component("components.choice", [
+                        @include("components.choice", [
                             "course" => $course,
                             "choice" => $i
-                        ])@endcomponent
+                        ])
                     @endforeach
                 </div>
 
@@ -59,7 +59,7 @@
         <button type="submit"
                 class="{{ TailwindUtil::button() }} w-full"
                 disabled>
-            @component("components.icons.buttonload")@endcomponent
+            @include("components.icons.buttonload")
             {{ t("Save choice") }}
         </button>
     </form>

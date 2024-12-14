@@ -89,8 +89,8 @@
         </div>
 
         <button type="submit" class="{{ TailwindUtil::button() }} gap-2">
-            @component("components.icons.buttonload")@endcomponent
-            @component("components.icons.save")@endcomponent
+            @include("components.icons.buttonload")
+            @include("components.icons.save")
             {{ t("Save") }}
         </button>
 
@@ -99,13 +99,13 @@
                 class="{{ TailwindUtil::button(false, "danger") }} gap-2"
                 data-delete-href="{{ Router::generate("group-actions-delete") }}"
                 data-redirect="{{ Router::generate("users-overview") }}">
-            @component("components.icons.buttonload")@endcomponent
-            @component("components.icons.delete")@endcomponent
+            @include("components.icons.buttonload")
+            @include("components.icons.delete")
             {{ t("Delete") }}
         </button>
     </form>
 
-    @component("components.modals.defaultabort")@endcomponent
+    @include("components.modals.defaultabort")
     <script type="module">
         import * as GroupActions from "{{ Router::staticFilePath("js/users/group.js") }}";
         GroupActions.init();

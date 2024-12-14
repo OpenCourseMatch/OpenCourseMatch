@@ -43,8 +43,8 @@
         </div>
 
         <button type="submit" class="{{ TailwindUtil::button() }} gap-2">
-            @component("components.icons.buttonload")@endcomponent
-            @component("components.icons.save")@endcomponent
+            @include("components.icons.buttonload")
+            @include("components.icons.save")
             {{ t("Save") }}
         </button>
 
@@ -53,14 +53,14 @@
                     id="delete-group"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
                     data-delete-href="{{ Router::generate("groups-delete", ["group" => $group->getId()]) }}">
-                @component("components.icons.buttonload")@endcomponent
-                @component("components.icons.delete")@endcomponent
+                @include("components.icons.buttonload")
+                @include("components.icons.delete")
                 {{ t("Delete") }}
             </button>
         @endif
     </form>
 
-    @component("components.modals.defaultabort")@endcomponent
+    @include("components.modals.defaultabort")
     <script type="module">
         import * as GroupsEdit from "{{ Router::staticFilePath("js/groups/edit.js") }}";
         GroupsEdit.init();

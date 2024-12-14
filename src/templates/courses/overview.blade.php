@@ -9,7 +9,7 @@
     <a id="create-course"
        href="{{ Router::generate("courses-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">
-        @component("components.icons.plus")@endcomponent
+        @include("components.icons.plus")
         {{ t("Create course") }}
     </a>
 

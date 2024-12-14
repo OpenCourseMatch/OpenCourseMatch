@@ -7,11 +7,11 @@
     </h1>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        @component("components.dashboardlink", [
+        @include("components.dashboardlink", [
             "icon" => "components.icons.password",
             "href" => Router::generate("account-settings-change-password"),
             "title" => t("Change password"),
             "description" => t("Update your account password.")
-        ])@endcomponent
+        ])
     </div>
 @endcomponent

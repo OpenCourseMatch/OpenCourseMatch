@@ -10,21 +10,21 @@
         <a id="create-user"
            href="{{ Router::generate("users-create") }}"
            class="{{ TailwindUtil::button() }} gap-2">
-            @component("components.icons.plus")@endcomponent
+            @include("components.icons.plus")
             {{ t("Create user") }}
         </a>
 
         <a id="import-users"
            href="{{ Router::generate("users-import") }}"
            class="{{ TailwindUtil::button() }} gap-2">
-            @component("components.icons.import")@endcomponent
+            @include("components.icons.import")
             {{ t("Import users") }}
         </a>
 
         <a id="group-actions"
            href="{{ Router::generate("group-actions") }}"
            class="{{ TailwindUtil::button() }} gap-2">
-            @component("components.icons.group")@endcomponent
+            @include("components.icons.group")
             {{ t("Group actions") }}
         </a>
     </div>

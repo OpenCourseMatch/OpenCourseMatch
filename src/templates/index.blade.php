@@ -1,8 +1,8 @@
 @component("components.layout.appshell")
     {{-- Content from /static/md/index.md --}}
-    @component("components.markdown", [
+    @include("components.markdown", [
         "path" => __APP_DIR__ . "/public/static/md/index.md"
-    ])@endcomponent
+    ])
 
     <a class="{{ TailwindUtil::button() }} mt-2 flex gap-2"
        href="{{ Router::generate("auth-login") }}">
