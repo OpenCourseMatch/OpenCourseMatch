@@ -1,5 +1,5 @@
 @component("components.layout.appshell")
-    <h1>
+    <h1 class="mb-2">
         {{ t("Course assignment algorithm") }}
     </h1>
     <p>
