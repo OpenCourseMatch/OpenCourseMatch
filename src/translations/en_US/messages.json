@@ -132,6 +132,9 @@
     "An error has occurred whilst attempting to reset the course assignment. Please try again later.": "An error has occurred whilst attempting to reset the course assignment. Please try again later.",
     "Edit course assignment": "Edit course assignment",
     "Optimize the course assignment manually.": "Optimize the course assignment manually.",
+    "An error has occurred whilst attempting to edit the course assignment. Please try again later.": "An error has occurred whilst attempting to edit the course assignment. Please try again later.",
+    "Previous course": "Previous course",
+    "Next course": "Next course",
 
     "Settings": "Settings",
     "System settings": "System settings",
