@@ -1,4 +1,7 @@
-@component("components.layout.appshell")
+@component("components.layout.appshell", [
+    "title" => t("Course assignment algorithm"),
+    "breadcrumbs" => $breadcrumbs ?? []
+])
     <h1 class="mb-2">
         {{ t("Course assignment algorithm") }}
     </h1>

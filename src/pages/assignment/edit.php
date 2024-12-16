@@ -8,4 +8,18 @@ if(!$coursesAssigned) {
     Comm::redirect(Router::generate("index"));
 }
 
-echo Blade->run("assignment.edit");
+$breadcrumbs = [
+    [
+        "name" => t("Dashboard"),
+        "link" => Router::generate("dashboard"),
+        "iconComponent" => "components.icons.dashboard"
+    ],
+    [
+        "name" => t("Edit course assignment"),
+        "link" => Router::generate("course-assignment-edit")
+    ]
+];
+
+echo Blade->run("assignment.edit", [
+    "breadcrumbs" => $breadcrumbs
+]);

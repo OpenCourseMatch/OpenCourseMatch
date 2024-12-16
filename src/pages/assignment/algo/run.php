@@ -17,4 +17,14 @@ if($coursesAssigned) {
 
 exec("php " . __APP_DIR__ . "/src/runjob/allocation-algorithm.php > /dev/null 2>&1 &");
 
-echo Blade->run("assignment.algo");
+$breadcrumbs = [
+    [
+        "name" => t("Dashboard"),
+        "link" => Router::generate("dashboard"),
+        "iconComponent" => "components.icons.dashboard"
+    ]
+];
+
+echo Blade->run("assignment.algo", [
+    "breadcrumbs" => $breadcrumbs
+]);
