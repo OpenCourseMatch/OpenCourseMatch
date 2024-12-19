@@ -62,7 +62,7 @@ class AllocationAlgorithm {
         Logger::getLogger("AllocationAlgorithm")->info("PHASE 3: Confident course allocation");
         $this->probabilityAllocation();
         $this->chainingAllocation();
-        $this->enhanceallocation();
+        $this->enhanceAllocation();
 
         //********************
         //* PHASE 4: Finalize allocation
@@ -88,7 +88,7 @@ class AllocationAlgorithm {
 
         // Reallocate users to courses
         $this->chainingAllocation();
-        $this->enhanceallocation();
+        $this->enhanceAllocation();
 
         //********************
         //* PHASE 5: Save allocations to database

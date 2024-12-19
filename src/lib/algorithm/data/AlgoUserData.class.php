@@ -216,6 +216,7 @@ class AlgoUserData {
     }
 
     public function saveAllocation(): void {
+        // If the user was allocated, save the allocation directly
         if($this->isAllocated()) {
             $allocation = new Allocation();
             $allocation->setUserId($this->id);
@@ -224,6 +225,7 @@ class AlgoUserData {
             return;
         }
 
+        // If the user is leading a course which is not cancelled, allocate the user to it
         if($this->getLeadingCourse() !== null && !$this->getLeadingCourse()->isCancelled()) {
             $allocation = new Allocation();
             $allocation->setUserId($this->id);
