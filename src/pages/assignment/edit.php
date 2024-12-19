@@ -8,6 +8,8 @@ if(!$coursesAssigned) {
     Comm::redirect(Router::generate("index"));
 }
 
+$courses = Course::dao()->getObjects([], "minClearance");
+
 $breadcrumbs = [
     [
         "name" => t("Dashboard"),
@@ -21,5 +23,6 @@ $breadcrumbs = [
 ];
 
 echo Blade->run("assignment.edit", [
-    "breadcrumbs" => $breadcrumbs
+    "breadcrumbs" => $breadcrumbs,
+    "courses" => $courses
 ]);
