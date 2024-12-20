@@ -42,4 +42,20 @@ class UserDAO extends GenericUserDAO {
         $numericId = intval($id);
         return $this->getObject(["id" => $numericId]) instanceof User;
     }
+
+    public function getUnassignedUsers(): array {
+        $sql = "SELECT * FROM `User` WHERE `id` NOT IN (SELECT `userId` FROM `Allocation`) AND `permissionLevel` = :permissionLevel";
+        $stmt = Database::getConnection()->prepare($sql);
+        $stmt->bindValue("permissionLevel", PermissionLevel::USER->value);
+        $stmt->execute();
+
+        $objects = [];
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $object = new User();
+            $object->fromArray($row);
+            $objects[] = $object;
+        }
+
+        return $objects;
+    }
 }

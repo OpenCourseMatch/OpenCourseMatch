@@ -26,14 +26,22 @@ try {
     ]);
 }
 
-$users = $post["course"]->getParticipants();
-$sortedUsers = clone $users;
-usort($sortedUsers, function(User $a, User $b) use ($post) {
+if($post["course"] !== null) {
+    // Load the participants of the course
+    $users = $post["course"]->getParticipants();
+} else {
+    // Load unassigned users
+    $users = User::dao()->getUnassignedUsers();
+}
+
+usort($users, function(User $a, User $b) use ($post) {
     // Course leaders are always first
-    $aCourseLeader = $a->getLeadingCourseId() !== null && $a->getLeadingCourseId() === $post["course"]->getId();
-    $bCourseLeader = $b->getLeadingCourseId() !== null && $b->getLeadingCourseId() === $post["course"]->getId();
-    if($aCourseLeader !== $bCourseLeader) {
-        return $aCourseLeader ? -1 : 1;
+    $aCourseLeader = $a->getLeadingCourseId() !== null && $a->getLeadingCourseId() === $post["course"]?->getId() ?? -1;
+    $bCourseLeader = $b->getLeadingCourseId() !== null && $b->getLeadingCourseId() === $post["course"]?->getId() ?? -1;
+    if($aCourseLeader && !$bCourseLeader) {
+        return -1;
+    } else if(!$aCourseLeader && $bCourseLeader) {
+        return 1;
     }
 
     // Sort by clearance level
@@ -49,5 +57,9 @@ usort($sortedUsers, function(User $a, User $b) use ($post) {
 
 $html = Blade->run("components.courseoverview", [
     "course" => $post["course"],
-    "users" => $sortedUsers
+    "users" => $users
+]);
+
+Comm::apiSendJson(HTTPResponses::$RESPONSE_OK, [
+    "html" => $html
 ]);
