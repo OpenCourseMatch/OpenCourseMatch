@@ -8,6 +8,8 @@ class Course extends GenericObject {
     public ?int $minParticipants = null;
     public ?int $maxParticipants = null;
 
+    private ?array $participants = null;
+
     public function getTitle(): ?string {
         return $this->title;
     }
@@ -72,7 +74,18 @@ class Course extends GenericObject {
     public function isCancelled(): bool {
         $algorithmComplete = SystemStatus::dao()->get("coursesAssigned") === "true";
         $participants = Allocation::dao()->getObjects(["courseId" => $this->getId()]);
-        return $algorithmComplete && !empty($participants);
+        return $algorithmComplete && empty($participants);
+    }
+
+    public function getParticipants(): array {
+        if($this->participants === null) {
+            $allocations = Allocation::dao()->getObjects(["courseId" => $this->getId()]);
+            $this->participants = array_map(function(Allocation $allocation) {
+                return $allocation->getUser();
+            }, $allocations);
+        }
+
+        return $this->participants;
     }
 
     public function preDelete(): void {

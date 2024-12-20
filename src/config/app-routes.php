@@ -67,6 +67,7 @@ Router::addRoute("POST", "/course-assignment/status", "assignment/algo/status.ph
 Router::addRoute("GET", "/course-assignment/redirect", "assignment/algo/redirect.php", "course-assignment-redirect");
 Router::addRoute("GET", "/course-assignment/reset", "assignment/reset.php", "course-assignment-reset");
 Router::addRoute("GET", "/course-assignment/edit", "assignment/edit.php", "course-assignment-edit");
+Router::addRoute("POST", "/course-assignment/ajax/edit/courseoverview", "assignment/ajax/edit/courseoverview.php", "course-assignment-edit-courseoverview");
 
 // System settings
 Router::addRoute("GET", "/system-settings", "system-settings/system-settings.php", "system-settings");
