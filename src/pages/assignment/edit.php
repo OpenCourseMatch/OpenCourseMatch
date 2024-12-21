@@ -9,6 +9,10 @@ if(!$coursesAssigned) {
 }
 
 $courses = Course::dao()->getObjects([], "minClearance");
+$courseIds = [null];
+foreach($courses as $course) {
+    $courseIds[] = $course->getId();
+}
 
 $breadcrumbs = [
     [
@@ -24,5 +28,5 @@ $breadcrumbs = [
 
 echo Blade->run("assignment.edit", [
     "breadcrumbs" => $breadcrumbs,
-    "courses" => $courses
+    "courseIds" => $courseIds
 ]);
