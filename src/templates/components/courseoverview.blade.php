@@ -1,5 +1,6 @@
 <div>
-    <div class="flex flex-col sm:flex-row items-center gap-x-4 gap-y-2 flex-wrap">
+    {{-- General course information --}}
+    <div class="flex flex-col sm:flex-row flex-wrap items-center gap-x-4 gap-y-2 mb-2">
         <h2>
             @if($course !== null)
                 {{ $course->getTitle() }}
@@ -14,7 +15,7 @@
                                 {{ t("Participants") }}
                             </span>
                     <span class="pl-1 pr-2 rounded-r-full border border-primary">
-                                {{ $course->getMinParticipants() }} / {{ count($users) }} / {{ $course->getMaxParticipants() }}
+                                {{ $course->getMinParticipants() }} / {{ $realParticipantCount }} / {{ $course->getMaxParticipants() }}
                             </span>
                 </div>
                 <div class="flex flex-row whitespace-nowrap">
@@ -29,13 +30,35 @@
         @endif
     </div>
 
-    @if($course !== null && $course->isCancelled())
-        @component("components.layout.infomessage", [
+    {{-- Warnings --}}
+    @if($course !== null)
+        @if($course->isCancelled())
+            @component("components.layout.infomessage", [
             "type" => InfoMessageType::WARNING
         ])
-            {{ t("This course has been cancelled.") }}
-        @endcomponent
+                {{ t("This course has been cancelled.") }}
+            @endcomponent
+        @else
+            @if($course->getMaxParticipants() < $realParticipantCount)
+                @component("components.layout.infomessage", [
+                "type" => InfoMessageType::WARNING
+            ])
+                    {{ t("The number of participants exceeds the maximum number of participants allowed for this course.") }}
+                @endcomponent
+            @endif
+
+            @if($course->getMinParticipants() > $realParticipantCount)
+                @component("components.layout.infomessage", [
+                "type" => InfoMessageType::WARNING
+            ])
+                    {{ t("The number of participants is below the minimum number of participants required for this course.") }}
+                @endcomponent
+            @endif
+
+            {{-- TODO: Warning if not all course leaders are assigned to this course --}}
+        @endif
     @endif
 
-    <!-- TODO: Error messages -->
+    {{-- User list --}}
+    {{-- TODO --}}
 </div>

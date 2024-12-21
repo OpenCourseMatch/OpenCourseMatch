@@ -55,9 +55,18 @@ usort($users, function(User $a, User $b) use ($post) {
     return $a->getFullName() <=> $b->getFullName();
 });
 
+// Calculate the real participant count, excluding course leaders
+$realParticipantCount = 0;
+foreach($users as $user) {
+    if($user->getLeadingCourseId() === null || $user->getLeadingCourseId() !== $post["course"]?->getId()) {
+        $realParticipantCount++;
+    }
+}
+
 $html = Blade->run("components.courseoverview", [
     "course" => $post["course"],
-    "users" => $users
+    "users" => $users,
+    "realParticipantCount" => $realParticipantCount
 ]);
 
 Comm::apiSendJson(HTTPResponses::$RESPONSE_OK, [
