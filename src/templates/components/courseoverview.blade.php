@@ -60,5 +60,49 @@
     @endif
 
     {{-- User list --}}
-    {{-- TODO --}}
+    <table id="users-table" class="stripe">
+        <thead>
+        <tr>
+            <th></th>
+            <th>{{ t("First name") }}</th>
+            <th>{{ t("Last name") }}</th>
+            <th>{{ t("Group") }}</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach($users as $user)
+                <tr>
+                    <td>
+                        @if($course !== null && $user->getLeadingCourseId() === $course->getId())
+                            @include("components.icons.courseleader")
+                        @endif
+                    </td>
+                    <td>
+                        {{ $user->getFirstName() }}
+                    </td>
+                    <td>
+                        {{ $user->getLastName() }}
+                    </td>
+                    <td>
+                        @if($user->getGroup() !== null)
+                            {{ $user->getGroup()->getName() }}
+                        @else
+                            {{ t("Default group") }}
+                        @endif
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <script type="module">
+        import * as EditCourseAssignment from "{{ Router::staticFilePath("js/assignment/edit.js") }}";
+        EditCourseAssignment.initTable({
+            "Search...": "{{ t("Search...") }}",
+            "Loading...": "{{ t("Loading...") }}",
+            "No entries": "{{ t("No entries") }}",
+            "Back": "{{ t("Back") }}",
+            "Next": "{{ t("Next") }}"
+        });
+    </script>
 </div>

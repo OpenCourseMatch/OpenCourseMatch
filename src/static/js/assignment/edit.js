@@ -33,6 +33,9 @@ const loadPreviousCourseOverview = (courseIds, loadCourseOverviewLink) => {
 
 const loadCourseOverview = (id, loadCourseOverviewLink) => {
     const courseOverview = $('#courseoverview');
+    if($("#users-table").length > 0) {
+        $("#users-table").DataTable().destroy();
+    }
     courseOverview.html("");
     setLoadAnimationVisible(true);
     setLoadErrorVisible(false);
@@ -69,3 +72,40 @@ const setLoadErrorVisible = (visible) => {
         $("#loaderror").hide();
     }
 }
+
+export const initTable = (translations) => {
+    const table = new DataTable("#users-table", {
+        layout: {
+            topStart: "search",
+            topEnd: null,
+            bottomStart: null,
+            bottomEnd: null
+        },
+        language: {
+            sSearch: "",
+            sSearchPlaceholder: translations["Search..."],
+            sZeroRecords: translations["No entries"],
+            emptyTable: translations["No entries"],
+            oPaginate: {
+                sPrevious: translations["Back"],
+                sNext: translations["Next"]
+            },
+            loadingRecords: translations["Loading..."]
+        },
+        paging: false,
+        order: []
+    });
+
+    let search = $("#users-table_wrapper .dt-search input");
+    search.attr("type", "text");
+
+    let searchLayoutRow = $("#users-table_wrapper .dt-search").closest(".dt-layout-row");
+    let tableActions = $("#table-actions");
+    searchLayoutRow.append(tableActions);
+
+    $("#users-table tbody").on("click", "tr", function() {
+        window.location.href = table.row(this).data().editHref;
+    });
+}
+
+export default { init, initTable };
