@@ -8,6 +8,7 @@ class Course extends GenericObject {
     public ?int $minParticipants = null;
     public ?int $maxParticipants = null;
 
+    private ?array $users = null;
     private ?array $participants = null;
 
     public function getTitle(): ?string {
@@ -77,13 +78,22 @@ class Course extends GenericObject {
         return $algorithmComplete && empty($participants);
     }
 
-    public function getParticipants(): array {
-        if($this->participants === null) {
+    public function getAssignedUsers(): array {
+        if($this->users === null) {
             $allocations = Allocation::dao()->getObjects(["courseId" => $this->getId()]);
-            $this->participants = array_map(function(Allocation $allocation) {
+            $this->users = array_map(function(Allocation $allocation) {
                 return $allocation->getUser();
             }, $allocations);
         }
+
+        return $this->users;
+    }
+
+    public function getAssignedParticipants(): array {
+        $users = $this->getAssignedUsers();
+        $this->participants = array_filter($users, function(User $user) {
+            return $user->getLeadingCourseId() !== $this->getId();
+        });
 
         return $this->participants;
     }

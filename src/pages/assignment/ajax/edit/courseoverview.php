@@ -27,8 +27,8 @@ try {
 }
 
 if($post["course"] !== null) {
-    // Load the participants of the course
-    $users = $post["course"]->getParticipants();
+    // Load the assigned users of the course
+    $users = $post["course"]->getAssignedUsers();
 } else {
     // Load unassigned users
     $users = User::dao()->getUnassignedUsers();
@@ -55,11 +55,13 @@ usort($users, function(User $a, User $b) use ($post) {
     return $a->getFullName() <=> $b->getFullName();
 });
 
-// Calculate the real participant count, excluding course leaders
+// Calculate the real participant count and check for errors
 $realParticipantCount = 0;
 foreach($users as $user) {
     if($user->getLeadingCourseId() === null || $user->getLeadingCourseId() !== $post["course"]?->getId()) {
         $realParticipantCount++;
+
+        // TODO: Check for errors in assignment
     }
 }
 

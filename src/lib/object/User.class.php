@@ -11,6 +11,8 @@ class User extends GenericUser {
     private ?Course $leadingCourse = null;
     private ?array $chosenCourses = null;
 
+    private bool $canBeReassigned = false;
+
     public function getFirstName(): ?string {
         return $this->firstName;
     }
@@ -105,5 +107,13 @@ class User extends GenericUser {
 
         // Delete allocation
         // TODO
+    }
+
+    public function canBeReassigned(): bool {
+        return $this->canBeReassigned;
+    }
+
+    public function setCanBeReassigned(bool $canBeReassigned): void {
+        $this->canBeReassigned = $canBeReassigned;
     }
 }
