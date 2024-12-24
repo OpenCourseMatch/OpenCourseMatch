@@ -51,6 +51,11 @@ module.exports = {
                 "effect": "#13942c",
                 "font": "#f0f9f2"
             },
+            "info": {
+                DEFAULT: "#275fda",
+                "effect": "#1a3e8c",
+                "font": "#f0f5ff"
+            },
             "infomessage": {
                 "none": {
                     "border": "#444444ff",
@@ -115,11 +120,11 @@ module.exports = {
             pattern: /^(bg|border)-infomessage-(info|warning|error|success)-(border|background)$/
         },
         {
-            pattern: /^(bg|border|text|fill)-(primary|secondary|gray|backgorund|danger|warning|safe|current)$/,
+            pattern: /^(bg|border|text|fill)-(primary|secondary|gray|backgorund|danger|warning|safe|info|current)$/,
             variants: ["hover", "focus", "disabled", "disabled:hover"]
         },
         {
-            pattern: /^(bg|border|text|fill)-(primary|secondary|gray|background|danger|warning|safe)-(DEFAULT|effect|font)$/,
+            pattern: /^(bg|border|text|fill)-(primary|secondary|gray|background|danger|warning|safe|info)-(DEFAULT|effect|font)$/,
             variants: ["hover", "focus", "disabled", "disabled:hover"]
         },
         "dt-container", "dt-layout-row", "dt-search", "dt-paging", "dataTable",
