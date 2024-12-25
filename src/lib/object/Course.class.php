@@ -98,6 +98,12 @@ class Course extends GenericObject {
         return $this->participants;
     }
 
+    public function isSpaceLeft(): bool {
+        $participants = $this->getAssignedParticipants();
+        $participantCount = count($participants);
+        return $participantCount < $this->getMaxParticipants();
+    }
+
     public function preDelete(): void {
         // Delete all choices for this course
         $choices = Choice::dao()->getObjects(["courseId" => $this->getId()]);
