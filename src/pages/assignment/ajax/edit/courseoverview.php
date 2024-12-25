@@ -55,20 +55,45 @@ usort($users, function(User $a, User $b) use ($post) {
     return $a->getFullName() <=> $b->getFullName();
 });
 
-// Calculate the real participant count and check for errors
+// Calculate the real participant count and check for highlighting
 $realParticipantCount = 0;
-foreach($users as $user) {
-    if($user->getLeadingCourseId() === null || $user->getLeadingCourseId() !== $post["course"]?->getId()) {
-        $realParticipantCount++;
+$highlighting = [];
+if($post["course"] instanceof Course) {
+    foreach($users as $user) {
+        if($user->getLeadingCourseId() === null || $user->getLeadingCourseId() !== $post["course"]?->getId()) {
+            $realParticipantCount++;
 
-        // TODO: Check for errors in assignment
+            // Check for highlighting in the user table
+            // TODO: Check if user has actually chosen this course!
+            $canBeReassigned = false;
+            foreach($user->getChoices() as $choice) {
+                if($choice instanceof Choice) {
+                    $notSameCourse = $choice->getCourseId() !== $post["course"]?->getId();
+                    $notCancelled = !$choice->getCourse()?->isCancelled() ?? false;
+                    $isSpaceLeft = $choice->getCourse()?->isSpaceLeft() ?? false;
+
+                    if($notSameCourse && $notCancelled && $isSpaceLeft) {
+                        $canBeReassigned = true;
+                        break;
+                    }
+                }
+            }
+
+            $doesntFulfillRequirements = !$post["course"]?->canChooseCourse($user);
+            if($doesntFulfillRequirements) {
+                $highlighting[$user->getId()] = 1; // Yellow
+            } else if($canBeReassigned) {
+                $highlighting[$user->getId()] = 2; // Blue
+            }
+        }
     }
 }
 
 $html = Blade->run("components.courseoverview", [
     "course" => $post["course"],
     "users" => $users,
-    "realParticipantCount" => $realParticipantCount
+    "realParticipantCount" => $realParticipantCount,
+    "highlighting" => $highlighting
 ]);
 
 Comm::apiSendJson(HTTPResponses::$RESPONSE_OK, [
