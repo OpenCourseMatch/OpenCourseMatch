@@ -71,7 +71,13 @@
         </thead>
         <tbody>
             @foreach($users as $user)
-                <tr>
+                <tr class="@if(isset($highlighting[$user->getId()]))
+                        @if($highlighting[$user->getId()] === 1)
+                            bg-warning text-warning-font
+                        @elseif($highlighting[$user->getId()] === 2)
+                            bg-info text-info-font
+                        @endif
+                    @endif">
                     <td>
                         @if($course !== null && $user->getLeadingCourseId() === $course->getId())
                             @include("components.icons.courseleader")
