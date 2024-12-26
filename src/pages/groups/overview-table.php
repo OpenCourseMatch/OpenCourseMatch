@@ -4,7 +4,7 @@ $user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("inde
 
 $groups = Group::dao()->getObjects();
 
-$groups = array_map(function($group) {
+$groups = array_map(function(Group $group) {
     $array = $group->toArray();
     $array["editHref"] = Router::generate("groups-edit", ["group" => $group->getId()]);
     unset($array["id"]);

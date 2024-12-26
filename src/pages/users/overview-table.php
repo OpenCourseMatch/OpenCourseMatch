@@ -6,7 +6,7 @@ $users = User::dao()->getObjects([
     "permissionLevel" => PermissionLevel::USER->value
 ]);
 
-$users = array_map(function($account) {
+$users = array_map(function(User $account) {
     $array = $account->toArray();
     $array["editHref"] = Router::generate("users-edit", ["user" => $account->getId()]);
     $group = $account->getGroup();

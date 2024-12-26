@@ -6,7 +6,7 @@ $users = User::dao()->getObjects([
     "permissionLevel" => PermissionLevel::ADMIN->value
 ]);
 
-$users = array_map(function($account) {
+$users = array_map(function(User $account) {
     $array = $account->toArray();
     $array["editHref"] = Router::generate("administrators-edit", ["user" => $account->getId()]);
     unset($array["id"]);

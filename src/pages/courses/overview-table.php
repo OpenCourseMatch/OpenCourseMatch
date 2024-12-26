@@ -4,7 +4,7 @@ $user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router::generate
 
 $courses = Course::dao()->getObjects();
 
-$courses = array_map(function($course) {
+$courses = array_map(function(Course $course) {
     $array = $course->toArray();
     $array["editHref"] = Router::generate("courses-edit", ["course" => $course->getId()]);
     unset($array["id"]);
