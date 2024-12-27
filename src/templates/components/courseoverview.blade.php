@@ -60,7 +60,14 @@
     @endif
 
     {{-- User list --}}
-    <table id="users-table" class="stripe">
+    <table id="users-table" class="stripe"
+        @if($course !== null)
+            data-table-ajax="{{ Router::generate("course-assignment-edit-courseoverview-table", [
+                "course" => $course?->getId()
+            ]) }}"
+        @else
+            data-table-ajax="{{ Router::generate("course-assignment-edit-courseoverview-table-unassigned") }}"
+        @endif>
         <thead>
         <tr>
             <th></th>
@@ -70,40 +77,13 @@
         </tr>
         </thead>
         <tbody>
-            @foreach($users as $user)
-                <tr class="@if(isset($highlighting[$user->getId()]))
-                        @if($highlighting[$user->getId()] === 1)
-                            bg-warning text-warning-font
-                        @elseif($highlighting[$user->getId()] === 2)
-                            bg-info text-info-font
-                        @endif
-                    @endif">
-                    <td>
-                        @if($course !== null && $user->getLeadingCourseId() === $course->getId())
-                            @include("components.icons.courseleader")
-                        @endif
-                    </td>
-                    <td>
-                        {{ $user->getFirstName() }}
-                    </td>
-                    <td>
-                        {{ $user->getLastName() }}
-                    </td>
-                    <td>
-                        @if($user->getGroup() !== null)
-                            {{ $user->getGroup()->getName() }}
-                        @else
-                            {{ t("Default group") }}
-                        @endif
-                    </td>
-                </tr>
-            @endforeach
+            {{-- Contents filled by assignment/edit.js --}}
         </tbody>
     </table>
 
     <script type="module">
         import * as EditCourseAssignment from "{{ Router::staticFilePath("js/assignment/edit.js") }}";
-        EditCourseAssignment.initTable({
+        EditCourseAssignment.initCourseOverview({
             "Search...": "{{ t("Search...") }}",
             "Loading...": "{{ t("Loading...") }}",
             "No entries": "{{ t("No entries") }}",

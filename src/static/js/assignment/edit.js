@@ -73,7 +73,7 @@ const setLoadErrorVisible = (visible) => {
     }
 }
 
-export const initTable = (translations) => {
+export const initCourseOverview = (translations) => {
     const table = new DataTable("#users-table", {
         layout: {
             topStart: "search",
@@ -93,7 +93,19 @@ export const initTable = (translations) => {
             loadingRecords: translations["Loading..."]
         },
         paging: false,
-        order: []
+        order: [],
+        ajax: {
+            url: $("#users-table").attr("data-table-ajax"),
+            dataSrc: "",
+            type: "POST"
+        },
+        autoWidth: false,
+        columns: [
+            { data: "isCourseLeader" },
+            { data: "firstName" },
+            { data: "lastName" },
+            { data: "group" }
+        ]
     });
 
     let search = $("#users-table_wrapper .dt-search input");
@@ -104,8 +116,8 @@ export const initTable = (translations) => {
     searchLayoutRow.append(tableActions);
 
     $("#users-table tbody").on("click", "tr", function() {
-        window.location.href = table.row(this).data().editHref;
+        console.log(table.row(this).data());
     });
 }
 
-export default { init, initTable };
+export default { init, initCourseOverview };
