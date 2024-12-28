@@ -105,7 +105,14 @@ export const initCourseOverview = (translations) => {
             { data: "firstName" },
             { data: "lastName" },
             { data: "group" }
-        ]
+        ],
+        createdRow: function(row, data) {
+            if(data.highlighting === 1) {
+                $(row).addClass("bg-warning").addClass("text-warning-font");
+            } else if(data.highlighting === 2) {
+                $(row).addClass("bg-info").addClass("text-info-font");
+            }
+        }
     });
 
     let search = $("#users-table_wrapper .dt-search input");
