@@ -91,4 +91,10 @@
             "Next": "{{ t("Next") }}"
         });
     </script>
+
+    <div hidden>
+        <div id="course-leader-icon">
+            @include("components.icons.courseleader")
+        </div>
+    </div>
 </div>

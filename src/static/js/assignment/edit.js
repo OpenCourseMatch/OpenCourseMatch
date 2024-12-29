@@ -101,7 +101,16 @@ export const initCourseOverview = (translations) => {
         },
         autoWidth: false,
         columns: [
-            { data: "isCourseLeader" },
+            {
+                data: "isCourseLeader",
+                render: (data) => {
+                    if(data) {
+                        return $("#course-leader-icon").html();
+                    } else {
+                        return "";
+                    }
+                }
+            },
             { data: "firstName" },
             { data: "lastName" },
             { data: "group" }
