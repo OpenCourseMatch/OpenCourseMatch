@@ -14,7 +14,7 @@
                     <span class="pl-2 pr-1 text-primary-font bg-primary rounded-l-full border border-primary">
                         {{ t("Participants") }}
                     </span>
-                    <span class="pl-1 pr-2 rounded-r-full border border-primary">
+                    <span class="pl-1 pr-2 bg-primary bg-opacity-10 rounded-r-full border border-primary">
                         {{ $course->getMinParticipants() }} / {{ $realParticipantCount }} / {{ $course->getMaxParticipants() }}
                     </span>
                 </div>
@@ -22,7 +22,7 @@
                     <span class="pl-2 pr-1 text-primary-font bg-primary rounded-l-full border border-primary">
                         {{ t("Clearance level") }}
                     </span>
-                    <span class="pl-1 pr-2 rounded-r-full border border-primary">
+                    <span class="pl-1 pr-2 bg-primary bg-opacity-10 rounded-r-full border border-primary">
                         {{ $course->getMinClearance() }} - {{ $course->getMaxClearance() }}
                     </span>
                 </div>
