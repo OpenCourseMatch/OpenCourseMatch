@@ -97,7 +97,7 @@ export const initCourseOverview = (translations) => {
         ajax: {
             url: $("#users-table").attr("data-table-ajax"),
             dataSrc: "",
-            type: "POST"
+            type: "GET"
         },
         autoWidth: false,
         columns: [
