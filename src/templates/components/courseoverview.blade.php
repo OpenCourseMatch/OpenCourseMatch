@@ -89,7 +89,7 @@
             "No entries": "{{ t("No entries") }}",
             "Back": "{{ t("Back") }}",
             "Next": "{{ t("Next") }}"
-        });
+        }, "{{ Router::generate("course-assignment-edit-movepopup") }}");
     </script>
 
     <div hidden>

@@ -1,4 +1,5 @@
 let currentCourseId = null;
+let modalOpened = false;
 
 export const init = (courseIds, loadCourseOverviewLink) => {
     // Load first course overview
@@ -14,6 +15,15 @@ export const init = (courseIds, loadCourseOverviewLink) => {
     });
     $("#next-course").on("click", () => {
         loadNextCourseOverview(courseIds, loadCourseOverviewLink);
+    });
+
+    // Setup move modal events
+    $("#movepopup-modal").on("close", () => {
+        closeMoveModal();
+    });
+
+    $(".movepopup-modal-abort-button").on("click", () => {
+        closeMoveModal();
     });
 }
 
@@ -73,7 +83,7 @@ const setLoadErrorVisible = (visible) => {
     }
 }
 
-export const initCourseOverview = (translations) => {
+export const initCourseOverview = (translations, loadMoveModalLink) => {
     const table = new DataTable("#users-table", {
         layout: {
             topStart: "search",
@@ -132,8 +142,47 @@ export const initCourseOverview = (translations) => {
     searchLayoutRow.append(tableActions);
 
     $("#users-table tbody").on("click", "tr", function() {
-        console.log(table.row(this).data());
+        openMoveModal(loadMoveModalLink, table.row(this).data().id);
     });
 }
 
-export default { init, initCourseOverview };
+const openMoveModal = (loadMoveModalLink, userId) => {
+    if(modalOpened) {
+        throw new Error("Modal is already active");
+    }
+
+    modalOpened = true;
+
+    // Show modal
+    $("#movepopup-modal").get(0).showModal();
+
+    // Load modal content
+    $.ajax({
+        url: loadMoveModalLink,
+        method: "POST",
+        data: {
+            user: userId
+        }
+    }).done((data) => {
+        if(data.code === 200) {
+            $("#movepopup-modal-loading").get(0).classList.add("hidden");
+            $("#movepopup-modal-content-body").get(0).classList.remove("hidden");
+            $("#movepopup-modal-content-body").html(data.data.html);
+        } else {
+            closeMoveModal();
+        }
+    });
+}
+
+export const closeMoveModal = () => {
+    $("#movepopup-modal").get(0).close();
+
+    modalOpened = false;
+
+    // Reset modal content
+    $("#movepopup-modal-loading").get(0).classList.remove("hidden");
+    $("#movepopup-modal-content-body").get(0).classList.add("hidden");
+    $("#movepopup-modal-content-body").html("");
+}
+
+export default { init, initCourseOverview, closeMoveModal };

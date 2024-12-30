@@ -70,6 +70,7 @@ Router::addRoute("GET", "/course-assignment/edit", "assignment/edit.php", "cours
 Router::addRoute("POST", "/course-assignment/ajax/edit/courseoverview", "assignment/ajax/edit/courseoverview.php", "course-assignment-edit-courseoverview");
 Router::addRoute("GET", "/course-assignment/ajax/edit/courseoverview/table", "assignment/ajax/edit/courseoverview-table.php", "course-assignment-edit-courseoverview-table-unassigned");
 Router::addRoute("GET", "/course-assignment/ajax/edit/courseoverview/table/{i:course}", "assignment/ajax/edit/courseoverview-table.php", "course-assignment-edit-courseoverview-table");
+Router::addRoute("POST", "/course-assignment/ajax/edit/movepopup", "assignment/ajax/edit/movepopup.php", "course-assignment-edit-movepopup");
 
 // System settings
 Router::addRoute("GET", "/system-settings", "system-settings/system-settings.php", "system-settings");
