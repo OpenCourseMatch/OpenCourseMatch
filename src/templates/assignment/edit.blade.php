@@ -44,11 +44,11 @@
                 </button>
             </div>
         </div>
-        <div class="grow w-full p-4 h-[80vh]">
+        <div class="grow w-full p-4 h-[80vh] overflow-y-auto">
             <div class="flex justify-center items-center h-full" id="movepopup-modal-loading">
                 @include("components.icons.loading")
             </div>
-            <div class="overflow-y-auto hidden" id="movepopup-modal-content-body">
+            <div class="hidden" id="movepopup-modal-content-body">
                 {{-- Filled by assignment/edit.js --}}
             </div>
         </div>
