@@ -9,7 +9,8 @@
         @else
             bg-primary border-primary
         @endif
-    @endif">
+    @endif"
+    data-course="{{ $course->getId() }}">
         <span class="text-xl font-bold">
             {{ $course->getTitle() }}
         </span>
