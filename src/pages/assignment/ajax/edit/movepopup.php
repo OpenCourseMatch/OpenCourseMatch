@@ -100,7 +100,7 @@ array_filter($courses, function(Course $course) use ($chosenCourseIds) {
 $html = Blade->run("components.movepopup", [
     "leadingCourse" => $leadingCourse,
     "chosenCourses" => $chosenCourses,
-    "courses" => $courses,
+    "otherCourses" => $courses,
     "highlighting" => $highlighting,
     "errors" => $errors
 ]);
