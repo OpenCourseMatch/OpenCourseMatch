@@ -155,6 +155,7 @@ const openMoveModal = (loadMoveModalLink, userId) => {
 
     // Show modal
     $("#movepopup-modal").get(0).showModal();
+    $("#movepopup-modal").get(0).classList.remove("hidden");
 
     // Load modal content
     $.ajax({
@@ -175,6 +176,7 @@ const openMoveModal = (loadMoveModalLink, userId) => {
 }
 
 export const closeMoveModal = () => {
+    $("#movepopup-modal").get(0).classList.add("hidden");
     $("#movepopup-modal").get(0).close();
 
     modalOpened = false;

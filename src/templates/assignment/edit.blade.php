@@ -33,7 +33,7 @@
     </div>
 
     <dialog id="movepopup-modal"
-            class="p-0 w-[90vw] max-w-[960px] bg-gray-light border-none rounded text-font">
+            class="hidden flex flex-col p-0 w-[90vw] max-w-[960px] bg-gray-light border-none rounded text-font">
         <div class="flex items-center justify-between w-full gap-4 p-4 border-b border-b-gray">
             <h2 class="m-0">
                 {{ t("Move user") }}
@@ -44,7 +44,7 @@
                 </button>
             </div>
         </div>
-        <div class="grow w-full p-4 h-[80vh] overflow-y-auto">
+        <div class="grow w-full p-4 overflow-y-auto">
             <div class="flex justify-center items-center h-full" id="movepopup-modal-loading">
                 @include("components.icons.loading")
             </div>
