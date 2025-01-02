@@ -109,6 +109,7 @@ export const initCourseOverview = (translations, loadMoveModalLink) => {
             dataSrc: "",
             type: "GET"
         },
+        destroy: true,
         autoWidth: false,
         columns: [
             {
@@ -125,6 +126,10 @@ export const initCourseOverview = (translations, loadMoveModalLink) => {
             { data: "lastName" },
             { data: "group" }
         ],
+        columnDefs: [{
+            defaultContent: "-",
+            targets: "_all"
+        }],
         createdRow: function(row, data) {
             if(data.highlighting === 1) {
                 $(row).addClass("bg-warning").addClass("text-warning-font");
