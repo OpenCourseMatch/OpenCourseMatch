@@ -109,7 +109,6 @@ export const initCourseOverview = (translations, loadMoveModalLink) => {
             dataSrc: "",
             type: "GET"
         },
-        destroy: true,
         autoWidth: false,
         columns: [
             {
