@@ -1,9 +1,9 @@
 <button class="flex flex-col w-full p-4 gap-2 bg-opacity-20 rounded border border-2 text-left hover:scale-[1.025] transition-all
     @if(isset($highlighting[$course->getId()]))
         @if($highlighting[$course->getId()] === 1)
-            bg-warning border-warning
-        @elseif($highlighting[$course->getId()] === 2)
             bg-info border-info
+        @elseif($highlighting[$course->getId()] === 2)
+            bg-warning border-warning
         @elseif($highlighting[$course->getId()] === 3)
             bg-gray border-gray
         @else

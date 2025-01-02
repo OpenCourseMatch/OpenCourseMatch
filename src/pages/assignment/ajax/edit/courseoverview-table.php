@@ -60,7 +60,7 @@ function calculateTableHighlighting(bool $isCourseLeader, array $get, User $acco
         // Checking whether the course requirements are fulfilled is the fastest check, therefore it is done first
         $doesntFulfillRequirements = !$get["course"]?->canChooseCourse($account);
         if($doesntFulfillRequirements) {
-            return 1; // Yellow
+            return 2; // Yellow
         }
 
         // Then we iterate over the chosen courses and check if there is another one with space left AND whether the user has actually chosen the current course
@@ -90,11 +90,11 @@ function calculateTableHighlighting(bool $isCourseLeader, array $get, User $acco
         }
 
         if(!$hasChosenCourse) {
-            return 1; // Yellow
+            return 2; // Yellow
         }
 
         if($canBeReassigned) {
-            return 2; // Blue
+            return 1; // Blue
         }
     }
 

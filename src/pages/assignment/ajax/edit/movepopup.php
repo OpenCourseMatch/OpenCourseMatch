@@ -41,12 +41,12 @@ foreach($courses as $course) {
     $courseLeader = $course->getId() === $post["user"]->getLeadingCourseId();
 
     if(!$spaceLeft && !$courseLeader) {
-        $highlighting[$course->getId()] = 1; // Yellow
+        $highlighting[$course->getId()] = 2; // Yellow
         $errors[$course->getId()][] = t("The course is full.");
     }
 
     if(!$fulfillsRequirements && !$courseLeader) {
-        $highlighting[$course->getId()] = 1; // Yellow
+        $highlighting[$course->getId()] = 2; // Yellow
         $errors[$course->getId()][] = t("The user does not meet the course requirements.");
     }
 
@@ -56,7 +56,7 @@ foreach($courses as $course) {
     }
 
     if(!$isCancelled && ($spaceLeft && $fulfillsRequirements || $courseLeader)) {
-        $highlighting[$course->getId()] = 2; // Blue
+        $highlighting[$course->getId()] = 1; // Blue
     }
 }
 
@@ -95,6 +95,13 @@ $chosenCourseIds = array_map(function(Course $course) {
 }, $chosenCourses);
 array_filter($courses, function(Course $course) use ($chosenCourseIds) {
     return in_array($course->getId(), $chosenCourseIds);
+});
+
+// Sort remaining courses by highlighting
+usort($courses, function(Course $a, Course $b) use ($highlighting) {
+    $highlightA = $highlighting[$a->getId()] ?? 0;
+    $highlightB = $highlighting[$b->getId()] ?? 0;
+    return $highlightA <=> $highlightB;
 });
 
 $html = Blade->run("components.movepopup", [
