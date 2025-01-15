@@ -150,6 +150,27 @@ export const initCourseOverview = (translations, loadMoveModalLink) => {
     });
 }
 
+export const initMovePopup = (moveUserLink) => {
+    $("#movepopup-modal-content-body button").on("click", function() {
+        const courseId = $(this).attr("data-course");
+
+        // TODO: Add loading animation
+
+        $.ajax({
+            url: moveUserLink,
+            method: "POST",
+            data: {
+                course: courseId
+            }
+        }).done((data) => {
+            if(data.code === 200) {
+                closeMoveModal();
+                $("#users-table").DataTable().ajax.reload();
+            }
+        });
+    });
+}
+
 const openMoveModal = (loadMoveModalLink, userId) => {
     if(modalOpened) {
         throw new Error("Modal is already active");
@@ -191,4 +212,4 @@ export const closeMoveModal = () => {
     $("#movepopup-modal-content-body").html("");
 }
 
-export default { init, initCourseOverview, closeMoveModal };
+export default { init, initCourseOverview, initMovePopup, closeMoveModal };

@@ -109,7 +109,8 @@ $html = Blade->run("components.movepopup", [
     "chosenCourses" => $chosenCourses,
     "otherCourses" => $courses,
     "highlighting" => $highlighting,
-    "errors" => $errors
+    "errors" => $errors,
+    "account" => $post["user"]
 ]);
 
 Comm::apiSendJson(HTTPResponses::$RESPONSE_OK, [

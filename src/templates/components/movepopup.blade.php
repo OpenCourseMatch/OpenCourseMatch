@@ -44,4 +44,9 @@
             @endforeach
         </div>
     @endif
+
+    <script type="module">
+        import * as EditCourseAssignment from "{{ Router::staticFilePath("js/assignment/edit.js") }}";
+        EditCourseAssignment.initMovePopup("{{ Router::generate("course-assignment-edit-move", ["user" => $account->getId()]) }}");
+    </script>
 </div>
