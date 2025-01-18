@@ -5,17 +5,17 @@ export const init = (translationAjaxUrl) => {
 }
 
 export const t = async (message, variables) => {
-    return await $.ajax({
-        url: translationAjax,
+    const response = await fetch(translationAjax, {
         method: "POST",
-        data: {
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
             message: message,
             variables: variables
-        },
-        success: (response) => {
-            return response;
-        }
+        })
     });
+    return await response.text();
 }
 
 export default { init, t };

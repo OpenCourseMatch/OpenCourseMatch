@@ -46,8 +46,9 @@
         <link rel="stylesheet" href="{{ Router::staticFilePath("css/style.css") }}">
 
         {{-- JavaScript --}}
-        <script src="{{ Router::staticFilePath("js/lib/jquery.min.js") }}"></script>
-        <script src="{{ Router::staticFilePath("js/infomessage.js") }}"></script>
+        @if($_SERVER["HTTP_HOST"] === "localhost:3000" || $_SERVER["HTTP_HOST"] === "127.0.0.1:3000")
+            <script src="{{ Router::staticFilePath("js/lib/LiveUpdate.js") }}"></script>
+        @endif
     </head>
     <body class="flex flex-row h-full overflow-x-hidden bg-gradient-to-br from-primary to-primary-effect text-font">
         <div class="flex flex-col items-center justify-center w-full md:w-1/2 h-full py-16 bg-background float-right">

@@ -4,17 +4,21 @@ FROM alpine:latest
 RUN apk update && apk upgrade
 RUN apk --no-cache add tzdata
 
-# Install nginx and PHP
-RUN apk --no-cache add nginx php83 php83-fpm composer git
+# Install nginx, PHP, composer, nodejs and npm
+RUN apk --no-cache add nginx php83 php83-fpm composer nodejs npm git
 
 # Install PHP packages
 RUN apk --no-cache add php-session php-tokenizer php-mysqli php-pdo php-pdo_mysql php-curl php-gd php-intl php-mbstring php-xml php-simplexml php-dom php-ctype php-apcu
 
+# Set working directory
+WORKDIR /app
+
 # Copy application files
-COPY --chown=nginx:nginx . /app
+COPY --chown=nginx:nginx . .
+COPY ./docker/nodejs .
 COPY ./docker/nginx-config /etc/nginx
 COPY ./docker/php-fpm-config /etc/php83/php-fpm.d
-COPY ./docker/entrypoint-dev.sh /app
+COPY ./docker/entrypoint-dev.sh .
 
 # Adjust permissions
 RUN mkdir -p /app/logs && \
@@ -28,11 +32,20 @@ RUN mkdir -p /app/logs && \
     chmod 777 /app/template-cache && \
     chmod +x /app/entrypoint-dev.sh
 
+# Link src/static to public/static
+RUN rm -rf /app/public/static && ln -s /app/src/static /app/public/static
+
+# Install composer dependencies
+RUN composer install --no-dev --no-interaction
+
+# Install npm dependencies
+RUN npm install
+
+# Build tailwindcss
+RUN npx tailwindcss --input src/static/css/base.css --output src/static/css/style.css --minify
+
 # Setup crontab
 RUN crontab -u nginx /app/src/cronjobs/.crontab
-
-# Build the application
-RUN cd /app && composer build
 
 EXPOSE 80
 ENTRYPOINT ["/app/entrypoint-dev.sh"]

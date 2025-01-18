@@ -8,29 +8,53 @@ on:
     workflow_dispatch:
 
 jobs:
+    build:
+        runs-on: "ubuntu-latest"
+        steps:
+          - name: "Checkout"
+            uses: "actions/checkout@v4"
+
+          - name: "Get lowercase repository details"
+            id: "lowercase-repo-details"
+            run: |
+                echo "REPOSITORYLC=${GITHUB_REPOSITORY@L}" >> "${GITHUB_ENV}"
+
+          - name: "Docker Buildx setup"
+            uses: "docker/setup-buildx-action@v3"
+
+          - name: "Build and push image"
+            uses: "docker/build-push-action@v5"
+            with:
+                context: "."
+                push: "false"
+                tags: "${{ env.REPOSITORYLC }}:latest"
+                cache-from: "type=gha"
+                cache-to: "type=gha,mode=max"
+
     test:
-      runs-on: "ubuntu-latest"
-      steps:
-        - name: "Checkout"
-          uses: "actions/checkout@v4"
+        runs-on: "ubuntu-latest"
+        needs: ["build"]
+        steps:
+            - name: "Checkout"
+              uses: "actions/checkout@v4"
 
-        - name: "Validate composer.json and composer.lock"
-          run: |
-              composer validate --strict
+            - name: "Validate composer.json and composer.lock"
+              run: |
+                  composer validate --strict
 
-        - name: "Cache composer packages"
-          id: "composer-cache"
-          uses: "actions/cache@v4"
-          with:
-              path: "vendor"
-              key: "${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}"
-              restore-keys: |
-                  ${{ runner.os }}-php-
+            - name: "Cache composer packages"
+              id: "composer-cache"
+              uses: "actions/cache@v4"
+              with:
+                  path: "vendor"
+                  key: "${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}"
+                  restore-keys: |
+                      ${{ runner.os }}-php-
 
-        - name: "Install composer packages"
-          run: |
-              composer install --no-interaction --ignore-platform-reqs
+            - name: "Install composer packages"
+              run: |
+                  composer install --no-interaction --ignore-platform-reqs
 
-        - name: "Run tests"
-          run: |
-              composer run-script test
+            - name: "Run tests"
+              run: |
+                  composer run-script test

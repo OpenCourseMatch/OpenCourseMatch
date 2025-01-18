@@ -8,7 +8,7 @@
 vendor/
 
 # Ignore files that contain sensible information such as passwords or secret keys
-/secrets/*.secret.json
+/config/*.json
 
 # Ignore log files
 /logs/

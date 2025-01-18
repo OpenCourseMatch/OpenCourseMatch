@@ -89,7 +89,7 @@ class Config {
     }
 
     /**
-     * Loads the secrets config
+     * Loads the secret config
      * @return array
      */
     public static function configSecret(): array {
@@ -97,8 +97,8 @@ class Config {
             return self::$secretConfig;
         }
 
-        if(file_exists(__APP_DIR__ . "/secrets/config.secret.json")) {
-            self::$secretConfig = json_decode(file_get_contents(__APP_DIR__ . "/secrets/config.secret.json"), true) ?? [];
+        if(file_exists(__APP_DIR__ . "/config/config.json")) {
+            self::$secretConfig = json_decode(file_get_contents(__APP_DIR__ . "/config/config.json"), true) ?? [];
         } else {
             self::$secretConfig = [];
         }

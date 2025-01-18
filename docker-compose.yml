@@ -13,22 +13,22 @@ services:
         restart: "always"
         environment:
             TZ: "UTC"
-            MYSQL_ROOT_PASSWORD: "opencoursematch" # ADJUST
-            MYSQL_DATABASE: "opencoursematch"
-            MYSQL_USER: "opencoursematch"
-            MYSQL_PASSWORD: "opencoursematch" # ADJUST
+            MYSQL_ROOT_PASSWORD: "root" # ADJUST
+            MYSQL_DATABASE: "framework-app" # ADJUST
+            MYSQL_USER: "framework-app" # ADJUST
+            MYSQL_PASSWORD: "framework-app" # ADJUST
         volumes:
             - "database:/var/lib/mysql"
         networks:
             - "app"
 
     app:
-        image: "ghcr.io/opencoursematch/opencoursematch:latest"
+        image: "ghcr.io/jensostertag/php-framework:latest" # ADJUST
         restart: "always"
         environment:
             TZ: "UTC"
         volumes:
-            - "./secrets:/app/secrets"
+            - "./config:/app/config"
             - "./app-logs:/app/logs"
             - "./app-files:/app/files"
         ports:
@@ -42,8 +42,8 @@ services:
         environment:
             TZ: "UTC"
             DB_HOST: "database"
-            DB_USER: "opencoursematch"
-            DB_PASS: "opencoursematch" # ADJUST
-            DB_DATABASE: "opencoursematch"
+            DB_USER: "framework-app" # ADJUST
+            DB_PASS: "framework-app" # ADJUST
+            DB_DATABASE: "framework-app" # ADJUST
         volumes:
             - "./database-backup:/backup"

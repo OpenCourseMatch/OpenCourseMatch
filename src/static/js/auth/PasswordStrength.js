@@ -1,30 +1,35 @@
 export const init = (elementId) => {
     const pwStrength = passwordStrength;
-    $("input#" + elementId).on("input", function() {
-        let text = $(this).val();
+
+    const element = document.getElementById(elementId);
+    if(!element) {
+        return;
+    }
+
+    element.addEventListener("input", () => {
+        const text = element.value;
 
         // Calculate strength
-        let passwordStrengthBar = $("#password-strength-indicator-bar");
+        const passwordStrengthBar = document.getElementById("password-strength-indicator-bar");
         let passwordStrength = pwStrength(text);
         if(passwordStrength < 40) {
-            passwordStrengthBar.attr("data-strength", "0");
+            passwordStrengthBar.setAttribute("data-strength", "0");
         } else if(passwordStrength < 65 ) {
-            passwordStrengthBar.attr("data-strength", "1");
+            passwordStrengthBar.setAttribute("data-strength", "1");
         } else {
-            passwordStrengthBar.attr("data-strength", "2");
+            passwordStrengthBar.setAttribute("data-strength", "2");
         }
         if(passwordStrength < 5) {
             passwordStrength = 5;
         }
-        passwordStrengthBar.css("width", passwordStrength + "%");
+        passwordStrengthBar.style.width = passwordStrength + "%";
 
-        let requirements = $(".password-requirement");
-        requirements.each(function() {
-            let regex = new RegExp($(this).data("regex"));
+        document.querySelectorAll(".password-requirement").forEach((requirement) => {
+            const regex = new RegExp(requirement.getAttribute("data-regex"));
             if(regex.test(text)) {
-                $(this).attr("data-met", "true");
+                requirement.setAttribute("data-met", "true");
             } else {
-                $(this).removeAttr("data-met");
+                requirement.removeAttribute("data-met");
             }
         });
     });

@@ -14,9 +14,9 @@ services:
         environment:
             TZ: "UTC"
             MYSQL_ROOT_PASSWORD: "root"
-            MYSQL_DATABASE: "opencoursematch"
-            MYSQL_USER: "opencoursematch"
-            MYSQL_PASSWORD: "opencoursematch"
+            MYSQL_DATABASE: "framework-app"
+            MYSQL_USER: "framework-app"
+            MYSQL_PASSWORD: "framework-app"
         volumes:
             - "database:/var/lib/mysql"
         ports:
@@ -35,11 +35,11 @@ services:
             - "./framework:/app/framework"
             - "./public:/app/public"
             - "./src:/app/src"
-            - "./secrets:/app/secrets"
+            - "./config:/app/config"
             - "./app-logs:/app/logs"
             - "./app-files:/app/files"
-            - "./vendor:/app/vendor"
         ports:
             - "3000:80"
+            - "5173:5173"
         networks:
             - "app"

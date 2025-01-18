@@ -7,5 +7,5 @@ RewriteRule ^static/.*$ - [L]
 # Rewrite all requests from deploy to deployment/deploy.php
 RewriteRule deploy deployment/deploy.php [L]
 
-# Rewrite all other requests to routes-handler.php
-RewriteRule ^.*$ routes-handler.php [L]
+# Rewrite all other requests to front-controller.php
+RewriteRule ^.*$ front-controller.php [L]
