@@ -5,16 +5,20 @@ let callback = (confirm) => {};
  * Initialize the modal
  */
 export const init = () => {
-    $("#modal").on("close", () => {
+    document.getElementById("modal").addEventListener("close", () => {
         close(false);
     });
 
-    $(".modal-abort-button").on("click", () => {
-        close(false);
+    document.querySelectorAll(".modal-abort-button").forEach((element) => {
+        element.addEventListener("click", () => {
+            close(false);
+        });
     });
 
-    $(".modal-confirm-button").on("click", () => {
-        close(true);
+    document.querySelectorAll(".modal-confirm-button").forEach((element) => {
+        element.addEventListener("click", () => {
+            close(true);
+        });
     });
 }
 
@@ -26,11 +30,15 @@ export const close = (confirm) => {
     active = false;
     callback(confirm);
     callback = (confirm) => {};
-    $("#modal").get(0).close();
-    $("#modal-content-title").text("");
-    $("#modal-content-body").text("");
-    $(".modal-content-abort").text("Abort");
-    $(".modal-content-confirm").text("Confirm");
+    document.getElementById("modal").close();
+    document.getElementById("modal-content-title").innerHTML = "";
+    document.getElementById("modal-content-body").innerText = "";
+    document.querySelectorAll(".modal-content-abort").forEach((element) => {
+        element.innerText = "Abort";
+    });
+    document.querySelectorAll(".modal-content-confirm").forEach((element) => {
+        element.innerText = "Confirm";
+    });
 }
 
 /**
@@ -44,22 +52,26 @@ export const open = (content, newCallback) => {
         callback = newCallback;
 
         if(content.hasOwnProperty("title")) {
-            $("#modal-content-title").text(content.title);
+            document.getElementById("modal-content-title").innerText = content.title;
         }
 
         if(content.hasOwnProperty("text")) {
-            $("#modal-content-body").html(content.text.replaceAll("\n", "<br>"));
+            document.getElementById("modal-content-body").innerHTML = content.text.replaceAll("\n", "<br>");
         }
 
         if(content.hasOwnProperty("abort")) {
-            $(".modal-content-abort").text(content.abort);
+            document.querySelectorAll(".modal-content-abort").forEach((element) => {
+                element.innerText = content.abort;
+            });
         }
 
         if(content.hasOwnProperty("confirm")) {
-            $(".modal-content-confirm").text(content.confirm);
+            document.querySelectorAll(".modal-content-confirm").forEach((element) => {
+                element.innerText = content.confirm;
+            });
         }
 
-        $("#modal").get(0).showModal();
+        document.getElementById("modal").showModal();
     } else {
         throw new Error("Modal is already active");
     }
