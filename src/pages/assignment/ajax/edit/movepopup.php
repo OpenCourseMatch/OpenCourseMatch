@@ -29,11 +29,38 @@ try {
     ]);
 }
 
+// Get warnings for the user
+$userWarnings = [];
+$assignment = Allocation::dao()->getObject([
+    "userId" => $post["user"]->getId()
+]);
+if($assignment instanceof Allocation) {
+    $course = $assignment->getCourse();
+
+    // Check if the user has chosen the course
+    $chosenCourses = $post["user"]->getChoices();
+    $chosenCourseIds = array_map(function(?Choice $choice) {
+        return $choice?->getCourseId();
+    }, $chosenCourses);
+    if(!in_array($course->getId(), $chosenCourseIds) && $post["user"]->getLeadingCourseId() !== $course->getId()) {
+        $userWarnings[] = t("This user has not chosen the course.");
+    }
+
+    // Check if the user meets the course requirements
+    if(!$course->canChooseCourse($post["user"]) && $post["user"]->getLeadingCourseId() !== $course->getId()) {
+        $userWarnings[] = t("The user does not meet the course requirements.");
+    }
+} else {
+    $userWarnings[] = t("This user is not assigned to any course.");
+}
+
+
+// Get all courses
 $courses = Course::dao()->getObjects([], "minClearance");
 
 // Course highlighting
 $highlighting = [];
-$errors = [];
+$courseWarnings = [];
 foreach($courses as $course) {
     $spaceLeft = $course->isSpaceLeft();
     $fulfillsRequirements = $course->canChooseCourse($post["user"]);
@@ -42,17 +69,17 @@ foreach($courses as $course) {
 
     if(!$spaceLeft && !$courseLeader) {
         $highlighting[$course->getId()] = 2; // Yellow
-        $errors[$course->getId()][] = t("The course is full.");
+        $courseWarnings[$course->getId()][] = t("The course is full.");
     }
 
     if(!$fulfillsRequirements && !$courseLeader) {
         $highlighting[$course->getId()] = 2; // Yellow
-        $errors[$course->getId()][] = t("The user does not meet the course requirements.");
+        $courseWarnings[$course->getId()][] = t("The user does not meet the course requirements.");
     }
 
     if($isCancelled) {
         $highlighting[$course->getId()] = 3; // Gray
-        $errors[$course->getId()][] = t("The course has been cancelled.");
+        $courseWarnings[$course->getId()][] = t("The course has been cancelled.");
     }
 
     if(!$isCancelled && ($spaceLeft && $fulfillsRequirements || $courseLeader)) {
@@ -105,12 +132,13 @@ usort($courses, function(Course $a, Course $b) use ($highlighting) {
 });
 
 $html = Blade->run("components.movepopup", [
+    "account" => $post["user"],
+    "userWarnings" => $userWarnings,
     "leadingCourse" => $leadingCourse,
     "chosenCourses" => $chosenCourses,
     "otherCourses" => $courses,
     "highlighting" => $highlighting,
-    "errors" => $errors,
-    "account" => $post["user"]
+    "courseWarnings" => $courseWarnings
 ]);
 
 Comm::apiSendJson(HTTPResponses::$RESPONSE_OK, [

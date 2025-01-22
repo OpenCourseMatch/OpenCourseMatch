@@ -35,9 +35,9 @@
         </span>
 
         <span class="flex flex-col gap-1">
-            @foreach($errors[$course->getId()] as $error)
+            @foreach($courseWarnings[$course->getId()] as $warning)
                 <span class="text-danger">
-                    {{ $error }}
+                    {{ $warning }}
                 </span>
             @endforeach
         </span>
