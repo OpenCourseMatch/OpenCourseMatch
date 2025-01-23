@@ -27,7 +27,6 @@ $postValidation = \validation\Validator::create([
     \validation\IsArray::create(),
     \validation\HasChildren::create([
         "course" => \validation\Validator::create([
-            \validation\IsRequired::create(),
             \validation\IsInDatabase::create(Course::dao())
         ])
     ])
@@ -44,11 +43,17 @@ try {
 $allocation = Allocation::dao()->getObject([
     "userId" => $get["user"]->getId()
 ]);
-if(!$allocation instanceof Allocation) {
-    $allocation = new Allocation();
-    $allocation->setUserId($get["user"]->getId());
+if($post["course"] instanceof Course) {
+    if(!$allocation instanceof Allocation) {
+        $allocation = new Allocation();
+        $allocation->setUserId($get["user"]->getId());
+    }
+    $allocation->setCourseId($post["course"]->getId());
+    Allocation::dao()->save($allocation);
+} else {
+    if($allocation instanceof Allocation) {
+        Allocation::dao()->delete($allocation);
+    }
 }
-$allocation->setCourseId($post["course"]->getId());
-Allocation::dao()->save($allocation);
 
 Comm::apiSendJson(HTTPResponses::$RESPONSE_OK, []);

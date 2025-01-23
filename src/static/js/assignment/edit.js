@@ -154,14 +154,17 @@ export const initMovePopup = (moveUserLink) => {
     $("#movepopup-modal-content-body button").on("click", function() {
         const courseId = $(this).attr("data-course");
 
+        let data = {};
+        if(courseId !== "") {
+            data.course = courseId;
+        }
+
         // TODO: Add loading animation
 
         $.ajax({
             url: moveUserLink,
             method: "POST",
-            data: {
-                course: courseId
-            }
+            data: data
         }).done((data) => {
             if(data.code === 200) {
                 closeMoveModal();
