@@ -50,19 +50,19 @@ if($assignment instanceof Allocation) {
 
     // Check if the user meets the course requirements
     if(!$course->canChooseCourse($account) && $account->getLeadingCourseId() !== $course->getId()) {
-        $userWarnings[] = t("The user does not meet the course requirements.");
+        $userWarnings[] = t("This user does not meet the course requirements.");
     }
 
     // Check if the user has to be assigned to his own course
     if($account->getLeadingCourse() !== null && !$account->getLeadingCourse()->isCancelled() && $account->getLeadingCourseId() !== $course->getId()) {
-        $userWarnings[] = t("The course that this user is leading takes place."); // TODO: Better wording
+        $userWarnings[] = t("This user is not assigned to the course that they are leading.");
     }
 } else {
     $userWarnings[] = t("This user is not assigned to any course.");
 
     // Check if the user has to be assigned to his own course
     if($account->getLeadingCourse() !== null && !$account->getLeadingCourse()->isCancelled()) {
-        $userWarnings[] = t("The course that this user is leading takes place."); // TODO: Better wording
+        $userWarnings[] = t("This user is not assigned to the course that they are leading.");
     }
 }
 
@@ -85,7 +85,7 @@ foreach($courses as $course) {
 
     if(!$fulfillsRequirements && !$courseLeader) {
         $highlighting[$course->getId()] = 2; // Yellow
-        $courseWarnings[$course->getId()][] = t("The user does not meet the course requirements.");
+        $courseWarnings[$course->getId()][] = t("This user does not meet the course requirements.");
     }
 
     if($isCancelled) {

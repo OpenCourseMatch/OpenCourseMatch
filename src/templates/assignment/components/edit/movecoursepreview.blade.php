@@ -39,10 +39,12 @@
         </span>
 
         <span class="flex flex-col gap-1">
-            @foreach($courseWarnings[$course->getId()] as $warning)
-                <span class="text-danger">
-                    {{ $warning }}
-                </span>
-            @endforeach
+            @if(!empty($courseWarnings[$course->getId()]))
+                @foreach($courseWarnings[$course->getId()] as $warning)
+                    <span class="text-danger">
+                        {{ $warning }}
+                    </span>
+                @endforeach
+            @endif
         </span>
 </button>

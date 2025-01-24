@@ -17,7 +17,7 @@ $validation = \validation\Validator::create([
             \validation\IsInDatabase::create(Course::dao())
         ])
     ])
-])->setErrorMessage(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."));
+])->setErrorMessage(t("An error has occurred whilst loading the course overview. Please try again later."));
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\validation\ValidationException $e) {
@@ -53,7 +53,7 @@ if($post["course"] !== null) {
         return $user->getId();
     }, $courseLeaders);
     if(count(array_diff($courseLeaderIds, $userIds)) > 0) {
-        $courseWarnings[] = t("Not all course leaders are assigned to this course.");
+        $courseWarnings[] = t("Not all course leaders have been assigned to this course.");
     }
 } else {
     // Load unassigned users

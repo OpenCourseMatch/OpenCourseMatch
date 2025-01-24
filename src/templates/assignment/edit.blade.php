@@ -36,7 +36,7 @@
             class="hidden flex flex-col p-0 w-[90vw] max-w-[960px] bg-gray-light border-none rounded text-font">
         <div class="flex items-center justify-between w-full gap-4 p-4 border-b border-b-gray">
             <h2 class="m-0">
-                {{ t("Move user") }}
+                {{ t("Move user to another course") }}
             </h2>
             <div class="">
                 <button class="{{ TailwindUtil::button(false, "gray") }} moveaway-modal-abort-button">

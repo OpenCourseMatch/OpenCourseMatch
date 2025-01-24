@@ -5,7 +5,7 @@ $coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
     Comm::apiSendJson(HTTPResponses::$RESPONSE_METHOD_NOT_ALLOWED, [
-        "message" => t("An error has occurred whilst attempting to edit the course assignment. Please try again later.")
+        "message" => t("An error has occurred whilst loading the course overview. Please try again later.")
     ]);
 }
 
@@ -17,7 +17,7 @@ $validation = \validation\Validator::create([
             \validation\IsInDatabase::create(Course::dao())
         ])
     ])
-])->setErrorMessage(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."));
+])->setErrorMessage(t("An error has occurred whilst loading the course overview. Please try again later."));
 try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\validation\ValidationException $e) {
