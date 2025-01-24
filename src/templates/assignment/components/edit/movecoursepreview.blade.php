@@ -11,6 +11,10 @@
         @endif
     @endif"
     data-course="{{ $course->getId() }}">
+        <span class="flex w-full justify-center items-center">
+            @include("components.icons.buttonload")
+        </span>
+
         <span class="text-xl font-bold">
             {{ $course->getTitle() }}
         </span>

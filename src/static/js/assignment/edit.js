@@ -1,5 +1,8 @@
+import * as ButtonLoad from "../ButtonLoad.js";
+
 let currentCourseId = null;
 let modalOpened = false;
+let movingUser = false;
 
 export const init = (courseIds, loadCourseOverviewLink) => {
     // Load first course overview
@@ -152,6 +155,10 @@ export const initCourseOverview = (translations, loadMoveModalLink) => {
 
 export const initMoveAwayModal = (moveUserLink) => {
     $("#moveaway-modal-content-body button").on("click", function() {
+        if(movingUser) {
+            return;
+        }
+
         const courseId = $(this).attr("data-course");
 
         let data = {};
@@ -159,15 +166,17 @@ export const initMoveAwayModal = (moveUserLink) => {
             data.course = courseId;
         }
 
-        // TODO: Add loading animation
+        ButtonLoad.load(this);
+        movingUser = true;
 
         $.ajax({
             url: moveUserLink,
             method: "POST",
             data: data
         }).done((data) => {
+            movingUser = false;
             if(data.code === 200) {
-                closeMoveModal();
+                closeMoveAwayModal();
                 $("#users-table").DataTable().ajax.reload();
             }
         });
