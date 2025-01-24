@@ -70,8 +70,8 @@ Router::addRoute("GET", "/course-assignment/edit", "assignment/edit.php", "cours
 Router::addRoute("POST", "/course-assignment/ajax/edit/courseoverview", "assignment/ajax/edit/courseoverview.php", "course-assignment-edit-courseoverview");
 Router::addRoute("GET", "/course-assignment/ajax/edit/courseoverview/table", "assignment/ajax/edit/courseoverview-table.php", "course-assignment-edit-courseoverview-table-unassigned");
 Router::addRoute("GET", "/course-assignment/ajax/edit/courseoverview/table/{i:course}", "assignment/ajax/edit/courseoverview-table.php", "course-assignment-edit-courseoverview-table");
-Router::addRoute("POST", "/course-assignment/ajax/edit/movepopup", "assignment/ajax/edit/movepopup.php", "course-assignment-edit-movepopup");
-Router::addRoute("POST", "/course-assignment/ajax/edit/move/{i:user}", "assignment/ajax/edit/move.php", "course-assignment-edit-move");
+Router::addRoute("POST", "/course-assignment/ajax/edit/moveaway-modal", "assignment/ajax/edit/moveaway-modal.php", "course-assignment-edit-moveaway-modal");
+Router::addRoute("POST", "/course-assignment/ajax/edit/move-away/{i:user}", "assignment/ajax/edit/move-away.php", "course-assignment-edit-move-away");
 
 // System settings
 Router::addRoute("GET", "/system-settings", "system-settings/system-settings.php", "system-settings");

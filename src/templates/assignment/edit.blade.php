@@ -32,29 +32,29 @@
         @endcomponent
     </div>
 
-    <dialog id="movepopup-modal"
+    <dialog id="moveaway-modal"
             class="hidden flex flex-col p-0 w-[90vw] max-w-[960px] bg-gray-light border-none rounded text-font">
         <div class="flex items-center justify-between w-full gap-4 p-4 border-b border-b-gray">
             <h2 class="m-0">
                 {{ t("Move user") }}
             </h2>
             <div class="">
-                <button class="{{ TailwindUtil::button(false, "gray") }} movepopup-modal-abort-button">
+                <button class="{{ TailwindUtil::button(false, "gray") }} moveaway-modal-abort-button">
                     {{ t("Abort") }}
                 </button>
             </div>
         </div>
         <div class="grow w-full p-4 overflow-y-auto">
-            <div class="flex justify-center items-center h-full" id="movepopup-modal-loading">
+            <div class="flex justify-center items-center h-full" id="moveaway-modal-loading">
                 @include("components.icons.loading")
             </div>
-            <div class="hidden" id="movepopup-modal-content-body">
+            <div class="hidden" id="moveaway-modal-content-body">
                 {{-- Filled by assignment/edit.js --}}
             </div>
         </div>
         <div class="flex items-center justify-end w-full gap-4 p-4 border-t border-t-gray">
             <div class="">
-                <button class="{{ TailwindUtil::button(false, "gray") }} movepopup-modal-abort-button">
+                <button class="{{ TailwindUtil::button(false, "gray") }} moveaway-modal-abort-button">
                     {{ t("Abort") }}
                 </button>
             </div>

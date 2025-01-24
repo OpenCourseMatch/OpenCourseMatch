@@ -36,7 +36,7 @@ if($post["course"] !== null) {
     $realParticipantCount = count($users);
 }
 
-$html = Blade->run("components.courseoverview", [
+$html = Blade->run("assignment.components.edit.courseoverview", [
     "course" => $post["course"],
     "realParticipantCount" => $realParticipantCount
 ]);

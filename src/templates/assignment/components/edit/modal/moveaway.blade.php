@@ -42,7 +42,7 @@
         </h3>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-            @include("components.movecourse", [
+            @include("assignment.components.edit.movecoursepreview", [
                 "course" => $leadingCourse,
                 "courseWarnings" => $courseWarnings,
                 "highlighting" => $highlighting
@@ -57,7 +57,7 @@
     @if(!empty($chosenCourses))
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
             @foreach($chosenCourses as $course)
-                @include("components.movecourse", [
+                @include("assignment.components.edit.movecoursepreview", [
                     "course" => $course,
                     "courseWarnings" => $courseWarnings,
                     "highlighting" => $highlighting
@@ -90,7 +90,7 @@
         </button>
 
         @foreach($otherCourses as $course)
-            @include("components.movecourse", [
+            @include("assignment.components.edit.movecoursepreview", [
                 "course" => $course,
                 "courseWarnings" => $courseWarnings,
                 "highlighting" => $highlighting
@@ -100,6 +100,6 @@
 
     <script type="module">
         import * as EditCourseAssignment from "{{ Router::staticFilePath("js/assignment/edit.js") }}";
-        EditCourseAssignment.initMovePopup("{{ Router::generate("course-assignment-edit-move", ["user" => $account->getId()]) }}");
+        EditCourseAssignment.initMoveAwayModal("{{ Router::generate("course-assignment-edit-move-away", ["user" => $account->getId()]) }}");
     </script>
 </div>
