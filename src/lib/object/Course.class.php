@@ -10,6 +10,7 @@ class Course extends GenericObject {
 
     private ?array $users = null;
     private ?array $participants = null;
+    private ?array $courseLeaders = null;
 
     public function getTitle(): ?string {
         return $this->title;
@@ -90,12 +91,25 @@ class Course extends GenericObject {
     }
 
     public function getAssignedParticipants(): array {
-        $users = $this->getAssignedUsers();
-        $this->participants = array_filter($users, function(User $user) {
-            return $user->getLeadingCourseId() !== $this->getId();
-        });
+        if($this->participants === null) {
+            $users = $this->getAssignedUsers();
+            $this->participants = array_filter($users, function(User $user) {
+                return $user->getLeadingCourseId() !== $this->getId();
+            });
+        }
 
         return $this->participants;
+    }
+
+    public function getAllCourseLeaders(): array {
+        if($this->courseLeaders === null) {
+            $this->courseLeaders = User::dao()->getObjects([
+                "leadingCourseId" => $this->getId(),
+                "permissionLevel" => PermissionLevel::USER->value
+            ]);
+        }
+
+        return $this->courseLeaders;
     }
 
     public function isSpaceLeft(): bool {

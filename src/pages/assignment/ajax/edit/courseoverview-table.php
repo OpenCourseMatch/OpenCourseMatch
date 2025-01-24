@@ -63,6 +63,11 @@ function calculateTableHighlighting(bool $isCourseLeader, array $get, User $acco
             return 2; // Yellow
         }
 
+        // Checking whether the user is leading a course which takes place, but he is not assigned to it
+        if($account->getLeadingCourse() !== null && !$account->getLeadingCourse()->isCancelled() && $account->getLeadingCourseId() !== $get["course"]?->getId()) {
+            return 2; // Yellow
+        }
+
         // Then we iterate over the chosen courses and check if there is another one with space left AND whether the user has actually chosen the current course
         $canBeReassigned = false;
         $hasChosenCourse = false;

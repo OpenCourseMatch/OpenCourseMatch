@@ -4,20 +4,24 @@ let currentCourseId = null;
 let modalOpened = false;
 let movingUser = false;
 
+let courseOverviewLink = null;
+
 export const init = (courseIds, loadCourseOverviewLink) => {
+    courseOverviewLink = loadCourseOverviewLink;
+
     // Load first course overview
     if(courseIds.length > 0) {
         currentCourseId = courseIds[0];
-        loadCourseOverview(currentCourseId, loadCourseOverviewLink);
+        loadCourseOverview(currentCourseId);
         currentCourseId = courseIds[0];
     }
 
     // Setup next and previous course overview buttons
     $("#previous-course").on("click", () => {
-        loadPreviousCourseOverview(courseIds, loadCourseOverviewLink);
+        loadPreviousCourseOverview(courseIds);
     });
     $("#next-course").on("click", () => {
-        loadNextCourseOverview(courseIds, loadCourseOverviewLink);
+        loadNextCourseOverview(courseIds);
     });
 
     // Setup move modal events
@@ -30,22 +34,22 @@ export const init = (courseIds, loadCourseOverviewLink) => {
     });
 }
 
-const loadNextCourseOverview = (courseIds, loadCourseOverviewLink) => {
+const loadNextCourseOverview = (courseIds) => {
     const currentCourseIndex = courseIds.indexOf(currentCourseId);
     const nextCourseIndex = (currentCourseIndex + 1) % courseIds.length;
-    loadCourseOverview(courseIds[nextCourseIndex], loadCourseOverviewLink);
+    loadCourseOverview(courseIds[nextCourseIndex]);
     currentCourseId = courseIds[nextCourseIndex];
 }
 
-const loadPreviousCourseOverview = (courseIds, loadCourseOverviewLink) => {
+const loadPreviousCourseOverview = (courseIds) => {
     const currentCourseIndex = courseIds.indexOf(currentCourseId);
     const previousCourseIndex = (currentCourseIndex - 1 + courseIds.length) % courseIds.length;
-    loadCourseOverview(courseIds[previousCourseIndex], loadCourseOverviewLink);
+    loadCourseOverview(courseIds[previousCourseIndex]);
     currentCourseId = courseIds[previousCourseIndex];
 }
 
-const loadCourseOverview = (id, loadCourseOverviewLink) => {
-    const courseOverview = $('#courseoverview');
+const loadCourseOverview = (id) => {
+    const courseOverview = $("#courseoverview");
     if($("#users-table").length > 0) {
         $("#users-table").DataTable().destroy();
     }
@@ -54,7 +58,7 @@ const loadCourseOverview = (id, loadCourseOverviewLink) => {
     setLoadErrorVisible(false);
 
     $.ajax({
-        url: loadCourseOverviewLink,
+        url: courseOverviewLink,
         method: "POST",
         data: {
             course: id
@@ -177,7 +181,7 @@ export const initMoveAwayModal = (moveUserLink) => {
             movingUser = false;
             if(data.code === 200) {
                 closeMoveAwayModal();
-                $("#users-table").DataTable().ajax.reload();
+                loadCourseOverview(currentCourseId);
             }
         });
     });

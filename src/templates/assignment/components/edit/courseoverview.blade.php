@@ -31,33 +31,13 @@
     </div>
 
     {{-- Warnings --}}
-    @if($course !== null)
-        @if($course->isCancelled())
-            @component("components.layout.infomessage", [
+    @foreach($courseWarnings as $warning)
+        @component("components.layout.infomessage", [
                 "type" => InfoMessageType::WARNING
             ])
-                {{ t("This course has been cancelled.") }}
-            @endcomponent
-        @else
-            @if($course->getMaxParticipants() < $realParticipantCount)
-                @component("components.layout.infomessage", [
-                    "type" => InfoMessageType::WARNING
-                ])
-                    {{ t("The number of participants exceeds the maximum number of participants allowed for this course.") }}
-                @endcomponent
-            @endif
-
-            @if($course->getMinParticipants() > $realParticipantCount)
-                @component("components.layout.infomessage", [
-                    "type" => InfoMessageType::WARNING
-                ])
-                    {{ t("The number of participants is below the minimum number of participants required for this course.") }}
-                @endcomponent
-            @endif
-
-            {{-- TODO: Warning if not all course leaders are assigned to this course --}}
-        @endif
-    @endif
+            {{ $warning }}
+        @endcomponent
+    @endforeach
 
     {{-- User list --}}
     <table id="users-table" class="stripe"

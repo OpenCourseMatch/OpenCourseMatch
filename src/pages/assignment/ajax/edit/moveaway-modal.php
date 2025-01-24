@@ -29,31 +29,42 @@ try {
     ]);
 }
 
+$account = $post["user"];
+
 // Get warnings for the user
 $userWarnings = [];
 $assignment = Allocation::dao()->getObject([
-    "userId" => $post["user"]->getId()
+    "userId" => $account->getId()
 ]);
 if($assignment instanceof Allocation) {
     $course = $assignment->getCourse();
 
     // Check if the user has chosen the course
-    $chosenCourses = $post["user"]->getChoices();
+    $chosenCourses = $account->getChoices();
     $chosenCourseIds = array_map(function(?Choice $choice) {
         return $choice?->getCourseId();
     }, $chosenCourses);
-    if(!in_array($course->getId(), $chosenCourseIds) && $post["user"]->getLeadingCourseId() !== $course->getId()) {
+    if(!in_array($course->getId(), $chosenCourseIds) && $account->getLeadingCourseId() !== $course->getId()) {
         $userWarnings[] = t("This user has not chosen the course.");
     }
 
     // Check if the user meets the course requirements
-    if(!$course->canChooseCourse($post["user"]) && $post["user"]->getLeadingCourseId() !== $course->getId()) {
+    if(!$course->canChooseCourse($account) && $account->getLeadingCourseId() !== $course->getId()) {
         $userWarnings[] = t("The user does not meet the course requirements.");
+    }
+
+    // Check if the user has to be assigned to his own course
+    if($account->getLeadingCourse() !== null && !$account->getLeadingCourse()->isCancelled() && $account->getLeadingCourseId() !== $course->getId()) {
+        $userWarnings[] = t("The course that this user is leading takes place."); // TODO: Better wording
     }
 } else {
     $userWarnings[] = t("This user is not assigned to any course.");
-}
 
+    // Check if the user has to be assigned to his own course
+    if($account->getLeadingCourse() !== null && !$account->getLeadingCourse()->isCancelled()) {
+        $userWarnings[] = t("The course that this user is leading takes place."); // TODO: Better wording
+    }
+}
 
 // Get all courses
 $courses = Course::dao()->getObjects([], "minClearance");
@@ -63,9 +74,9 @@ $highlighting = [];
 $courseWarnings = [];
 foreach($courses as $course) {
     $spaceLeft = $course->isSpaceLeft();
-    $fulfillsRequirements = $course->canChooseCourse($post["user"]);
+    $fulfillsRequirements = $course->canChooseCourse($account);
     $isCancelled = $course->isCancelled();
-    $courseLeader = $course->getId() === $post["user"]->getLeadingCourseId();
+    $courseLeader = $course->getId() === $account->getLeadingCourseId();
 
     if(!$spaceLeft && !$courseLeader) {
         $highlighting[$course->getId()] = 2; // Yellow
@@ -89,12 +100,12 @@ foreach($courses as $course) {
 
 // Remove the course to which the user is currently assigned
 $assignment = Allocation::dao()->getObject([
-    "userId" => $post["user"]->getId()
+    "userId" => $account->getId()
 ]);
 $assignedToLeadingCourse = false;
 if($assignment instanceof Allocation) {
     $currentCourse = $assignment->getCourse();
-    if($currentCourse->getId() === $post["user"]->getLeadingCourseId()) {
+    if($currentCourse->getId() === $account->getLeadingCourseId()) {
         $assignedToLeadingCourse = true;
     }
     $courses = array_filter($courses, function(Course $course) use ($currentCourse) {
@@ -103,13 +114,13 @@ if($assignment instanceof Allocation) {
 }
 
 // Split into chosen, not chosen, and leading course
-$leadingCourse = !$assignedToLeadingCourse ? $post["user"]->getLeadingCourse() : null;
+$leadingCourse = !$assignedToLeadingCourse ? $account->getLeadingCourse() : null;
 array_filter($courses, function(Course $course) use ($post, $leadingCourse) {
     return $course->getId() === $post["user"]->getLeadingCourseId();
 });
 
 $chosenCourses = [];
-foreach($post["user"]->getChoices() as $choice) {
+foreach($account->getChoices() as $choice) {
     if($choice instanceof Choice) {
         $chosenCourse = $choice->getCourse();
         if($chosenCourse instanceof Course) {
@@ -132,7 +143,7 @@ usort($courses, function(Course $a, Course $b) use ($highlighting) {
 });
 
 $html = Blade->run("assignment.components.edit.modal.moveaway", [
-    "account" => $post["user"],
+    "account" => $account,
     "userWarnings" => $userWarnings,
     "leadingCourse" => $leadingCourse,
     "chosenCourses" => $chosenCourses,
