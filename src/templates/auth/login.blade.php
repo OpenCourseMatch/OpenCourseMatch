@@ -17,6 +17,7 @@
                    placeholder="{{ t("Username") }}"
                    minlength="5"
                    maxlength="256"
+                   autocomplete="username"
                    required>
         </div>
 
@@ -33,6 +34,7 @@
                    placeholder="{{ t("Password") }}"
                    minlength="8"
                    maxlength="256"
+                   autocomplete="password"
                    required>
         </div>
 
