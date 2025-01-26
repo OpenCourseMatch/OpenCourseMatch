@@ -11,18 +11,21 @@ export const init = async () => {
         t("Delete")
     ]);
 
-    $("#delete-group").on("click", () => {
-        Modal.open({
-            title: translations[0],
-            text: translations[1],
-            confirm: translations[2]
-        }, (confirm) => {
-            if(confirm) {
-                ButtonLoad.load($("#delete-group"));
-                window.location.href = $("#delete-group").attr("data-delete-href");
-            }
+    const deleteGroup = document.querySelector("#delete-group");
+    if(deleteGroup !== null) {
+        deleteGroup.addEventListener("click", () => {
+            Modal.open({
+                title: translations[0],
+                text: translations[1],
+                confirm: translations[2]
+            }, (confirm) => {
+                if(confirm) {
+                    ButtonLoad.load(deleteGroup);
+                    window.location.href = deleteGroup.getAttribute("data-delete-href");
+                }
+            });
         });
-    });
+    }
 }
 
 export default { init };

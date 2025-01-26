@@ -1,29 +1,41 @@
 export const init = () => {
-    $("form:not([data-noload])").on("submit", (event) => {
-        $(event.target).find("button[type=\"submit\"]").each((index, element) => {
-            load(element);
+    // Start loading animation when submitting a form
+    document.querySelectorAll("form:not([data-noload])").forEach((form) => {
+        document.addEventListener("submit", () => {
+            form.querySelectorAll("button[type=\"submit\"]").forEach((submitButton) => {
+                load(submitButton);
+            });
         });
     });
 
-    $(window).on("unload", () => {
-        $("button[type=\"submit\"]").each((index, element) => {
-            unload(element);
+    // Stop loading animation when leaving the page
+    window.addEventListener("unload", () => {
+        document.querySelectorAll("button[type=\"submit\"]").forEach((submitButton) => {
+            unload(submitButton);
         });
     });
 };
 export const load = (element) => {
     // Show loading spinner
-    $(element).find(".buttonload").removeClass("hidden");
+    element.querySelectorAll(".buttonload").forEach((loadingAnimation) => {
+        loadingAnimation.classList.remove("hidden");
+    });
 
     // Disable button
-    $(element).prop("disabled", true);
+    element.querySelectorAll("button").forEach((button) => {
+        button.disabled = true;
+    });
 };
 export const unload = (element) => {
     // Hide loading spinner
-    $(element).find(".buttonload").addClass("hidden");
+    element.querySelectorAll(".buttonload").forEach((loadingAnimation) => {
+        loadingAnimation.classList.add("hidden");
+    });
 
     // Enable button
-    $(element).prop("disabled", false);
+    element.querySelectorAll("button").forEach((button) => {
+        button.disabled = false;
+    });
 };
 
 export default { init, load, unload };

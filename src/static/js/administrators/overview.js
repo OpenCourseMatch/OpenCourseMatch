@@ -1,5 +1,6 @@
 export const init = (translations) => {
-    const table = new DataTable("#users-table", {
+    let tableElement = document.querySelector("#users-table");
+    const table = new DataTable(tableElement, {
         layout: {
             topStart: "search",
             topEnd: null,
@@ -20,7 +21,7 @@ export const init = (translations) => {
         pagingType: "simple_numbers",
         order: [[1, "asc"]],
         ajax: {
-            url: $("#users-table").attr("data-table-ajax"),
+            url: tableElement.getAttribute("data-table-ajax"),
             dataSrc: "",
             type: "POST"
         },
@@ -32,15 +33,18 @@ export const init = (translations) => {
         ]
     });
 
-    let search = $("#users-table_wrapper .dt-search input");
-    search.attr("type", "text");
+    const search = document.querySelector("#users-table_wrapper .dt-search input");
+    search.setAttribute("type", "text");
 
-    let searchLayoutRow = $("#users-table_wrapper .dt-search").closest(".dt-layout-row");
-    let createButton = $("#create-user");
+    const searchLayoutRow = document.querySelector("#users-table_wrapper .dt-search").closest(".dt-layout-row");
+    const createButton = document.querySelector("#create-user");
     searchLayoutRow.append(createButton);
 
-    $("#users-table tbody").on("click", "tr", function() {
-        window.location.href = table.row(this).data().editHref;
+    document.querySelector("#users-table tbody").addEventListener("click", (event) => {
+        const clickedRow = event.target.closest("tr");
+        if(clickedRow) {
+            window.location.href = table.row(clickedRow).data().editHref;
+        }
     });
 }
 

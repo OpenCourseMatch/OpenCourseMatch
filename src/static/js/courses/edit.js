@@ -11,18 +11,21 @@ export const init = async () => {
         t("Delete")
     ]);
 
-    $("#delete-course").on("click", () => {
-        Modal.open({
-            title: translations[0],
-            text: translations[1],
-            confirm: translations[2]
-        }, (confirm) => {
-            if(confirm) {
-                ButtonLoad.load($("#delete-course"));
-                window.location.href = $("#delete-course").attr("data-delete-href");
-            }
+    const deleteCourse = document.querySelector("#delete-course");
+    if(deleteCourse !== null) {
+        deleteCourse.addEventListener("click", () => {
+            Modal.open({
+                title: translations[0],
+                text: translations[1],
+                confirm: translations[2]
+            }, (confirm) => {
+                if(confirm) {
+                    ButtonLoad.load(deleteCourse);
+                    window.location.href = deleteCourse.getAttribute("data-delete-href");
+                }
+            });
         });
-    });
+    }
 }
 
 export default { init };

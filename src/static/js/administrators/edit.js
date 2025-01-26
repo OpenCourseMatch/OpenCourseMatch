@@ -1,6 +1,7 @@
 import * as Modal from "../Modal.js";
 import { t } from "../Translator.js";
 import * as ButtonLoad from "../ButtonLoad.js";
+import InfoMessage from "../InfoMessage.js";
 
 export const init = async () => {
     Modal.init();
@@ -8,44 +9,76 @@ export const init = async () => {
     const translations = await Promise.all([
         t("Delete administrator"),
         t("Do you really want to delete this administrator?"),
-        t("Delete")
+        t("Delete"),
+        t("An error has occurred whilst attempting to save the administrator. Please try again later.")
     ]);
 
-    $("form").on("submit", function(event) {
-        event.originalEvent.preventDefault();
+    const form = document.querySelector("form");
+    if(form !== null) {
+        const formSubmit = form.querySelector("button[type=\"submit\"]");
 
-        $.ajax({
-            url: $(this).attr("action"),
-            type: "POST",
-            data: $(this).serialize(),
-            xhr: function() {
-                let xhr = new XMLHttpRequest()
-                xhr.responseType = "blob";
-                return xhr;
-            }
-        }).done((data) => {
-            if(data.type === "application/pdf") {
-                download(data, "ocm-" + new Date().toLocaleString() + ".pdf", "application/pdf");
-            }
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
 
-            setTimeout(() => {
-                window.location = $(this).attr("data-redirect");
-            }, 500);
+            const href = form.getAttribute("action");
+            const formData = new FormData(form);
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", href);
+
+            xhr.responseType = "blob";
+
+            xhr.onload = async () => {
+                const data = xhr.response;
+
+                if(xhr.status >= 200 && xhr.status < 300) {
+                    if(data.type === "application/pdf") {
+                        download(data, "ocm-" + new Date().toLocaleString() + ".pdf", "application/pdf");
+                    }
+
+                    setTimeout(() => {
+                        window.location = form.getAttribute("data-redirect");
+                    }, 500);
+                } else {
+                    ButtonLoad.unload(formSubmit);
+
+                    let errorShown = false;
+                    if(data.type === "application/json") {
+                        const textResponse = await data.text();
+                        const jsonResponse = JSON.parse(textResponse);
+                        if(jsonResponse.data !== undefined && jsonResponse.data.message !== undefined) {
+                            InfoMessage.create(jsonResponse.data.message, InfoMessage.TYPE_ERROR);
+                            return
+                        }
+                    }
+
+                    InfoMessage.create(translations[3], InfoMessage.TYPE_ERROR);
+                }
+            };
+
+            xhr.onerror = () => {
+                InfoMessage.create(translations[3], InfoMessage.TYPE_ERROR);
+            };
+
+            xhr.send(formData);
         });
-    });
+    }
 
-    $("#delete-user").on("click", () => {
-        Modal.open({
-            title: translations[0],
-            text: translations[1],
-            confirm: translations[2]
-        }, (confirm) => {
-            if(confirm) {
-                ButtonLoad.load($("#delete-user"));
-                window.location.href = $("#delete-user").attr("data-delete-href");
-            }
+    const deleteUser = document.querySelector("#delete-user");
+    if(deleteUser !== null) {
+        deleteUser.addEventListener("click", () => {
+            Modal.open({
+                title: translations[0],
+                text: translations[1],
+                confirm: translations[2]
+            }, (confirm) => {
+                if(confirm) {
+                    ButtonLoad.load(deleteUser);
+                    window.location.href = deleteUser.getAttribute("data-delete-href");
+                }
+            });
         });
-    });
+    }
 }
 
 export default { init };

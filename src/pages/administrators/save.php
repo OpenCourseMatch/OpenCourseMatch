@@ -32,15 +32,9 @@ $validation = \validation\Validator::create([
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    if(isset($_POST["user"]) && !User::dao()->hasId($_POST["user"])) {
-        // Comm::redirect(Router::generate("administrators-overview"));
-    } else if(isset($_POST["user"])) {
-        // Comm::redirect(Router::generate("administrators-edit", ["user" => $_POST["user"]]));
-    } else {
-        // Comm::redirect(Router::generate("administrators-create"));
-    }
-    exit;
+    Comm::apiSendJson(HTTPResponses::$RESPONSE_BAD_REQUEST, [
+        "message" => $e->getMessage()
+    ]);
 }
 
 $account = new User();
