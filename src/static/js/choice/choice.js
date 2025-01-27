@@ -3,21 +3,25 @@ import { t } from "../Translator.js";
 let translations = [];
 
 export const init = async () => {
-    $("[data-course-id]").on("click", function() {
-        const courseId = $(this).attr("data-course-id");
-        const choiceIndex = parseInt($(this).attr("data-choice-index"));
+    document.querySelectorAll("[data-course-id]").forEach((element) => {
+        element.addEventListener("click", () => {
+            const courseId = element.getAttribute("data-course-id");
+            const choiceIndex = parseInt(element.getAttribute("data-choice-index"));
 
-        choose(courseId, choiceIndex);
+            choose(courseId, choiceIndex);
+        });
     });
 
-    $("button").on("click", function() {
-        const action = $(this).attr("data-action");
+    document.querySelectorAll("button").forEach((element) => {
+        const action = element.getAttribute("data-action");
 
-        if(action === "back") {
-            previousChoice();
-        } else if(action === "next") {
-            nextChoice();
-        }
+        element.addEventListener("click", () => {
+            if(action === "back") {
+                previousChoice();
+            } else if(action === "next") {
+                nextChoice();
+            }
+        });
     });
 
     translations = await Promise.all([
@@ -29,15 +33,15 @@ export const init = async () => {
 }
 
 const choose = (courseId, choiceIndex) => {
-    const inputForChoiceIndex = $("input[data-choice-index=\"" + choiceIndex + "\"]");
+    const inputForChoiceIndex = document.querySelector("input[data-choice-index=\"" + choiceIndex + "\"]");
 
     // Remove this course from all other choice indices
-    $("input[data-choice-index][value=\"" + courseId + "\"]").each((index, element) => {
-        $(element).val("");
+    document.querySelectorAll("input[data-choice-index][value=\"" + courseId + "\"]").forEach((element) => {
+        element.value = "";
     });
 
     // Select the course
-    inputForChoiceIndex.val(courseId);
+    inputForChoiceIndex.value = courseId;
 
     updateChosenCourses();
     nextChoice();
@@ -46,16 +50,16 @@ const choose = (courseId, choiceIndex) => {
 
 const updateChosenCourses = () => {
     const chosen = [];
-    $("input[data-choice-index]").each((index, element) => {
-        const courseId = $(element).val();
+    document.querySelectorAll("input[data-choice-index]").forEach((element) => {
+        const courseId = element.value;
         if(courseId !== "") {
             chosen.push(courseId);
         }
     });
 
     // Set all courses to be available
-    $("[data-course-id]").each((index, element) => {
-        const courseId = $(element).attr("data-course-id");
+    document.querySelectorAll("[data-course-id]").forEach((element) => {
+        const courseId = element.getAttribute("data-course-id");
         renderCourseUnchosen(courseId);
     });
 
@@ -66,60 +70,61 @@ const updateChosenCourses = () => {
 }
 
 const renderCourseUnchosen = (courseId) => {
-    const choiceElement = $("[data-course-id=\"" + courseId + "\"]");
-    const choiceNote = choiceElement.find("[data-choice-note]");
-
-    choiceElement.removeAttr("data-chosen");
-    choiceNote.hide();
-    choiceNote.removeClass("hidden");
-    choiceNote.text("");
+    document.querySelectorAll("[data-course-id=\"" + courseId + "\"]").forEach((element) => {
+        const choiceNote = element.querySelector("[data-choice-note]");
+        element.removeAttribute("data-chosen");
+        choiceNote.style.display = "none";
+        choiceNote.classList.remove("hidden");
+        choiceNote.textContent = "";
+    });
 }
 
 const renderCourseChosen = (courseId) => {
-    const choiceElement = $("[data-course-id=\"" + courseId + "\"]");
-    const choiceNote = choiceElement.find("[data-choice-note]");
-    const choiceIndex = parseInt($("input[value=\"" + courseId + "\"]").attr("data-choice-index"));
-
-    choiceElement.attr("data-chosen", choiceIndex);
-    choiceNote.text(translations[0].replaceAll("$$index$$", choiceIndex + 1)).show();
-    choiceNote.show();
+    document.querySelectorAll("[data-course-id=\"" + courseId + "\"]").forEach((element) => {
+        const choiceIndex = parseInt(document.querySelector("input[value=\"" + courseId + "\"]").getAttribute("data-choice-index"));
+        const choiceNote = element.querySelector("[data-choice-note]");
+        element.setAttribute("data-chosen", choiceIndex.toString());
+        choiceNote.textContent = translations[0].replaceAll("$$index$$", choiceIndex + 1);
+        choiceNote.style.display = "block";
+        choiceNote.classList.remove("hidden");
+    });
 }
 
 const nextChoice = () => {
-    const currentChoice = $("[data-active]");
-    const currentChoiceIndex = parseInt(currentChoice.attr("data-choice-index"))
+    const currentChoice = document.querySelector(".choice-container[data-active]");
+    const currentChoiceIndex = parseInt(currentChoice.getAttribute("data-choice-index"));
     const nextChoiceIndex = currentChoiceIndex + 1;
-    const nextChoice = $("[data-choice-index=\"" + nextChoiceIndex + "\"]");
-    if(nextChoice.length !== 0) {
-        currentChoice.removeAttr("data-active");
-        nextChoice.attr("data-active", "true");
+    const nextChoice = document.querySelector(".choice-container[data-choice-index=\"" + nextChoiceIndex + "\"]");
+    if(nextChoice !== null) {
+        currentChoice.removeAttribute("data-active");
+        nextChoice.setAttribute("data-active", "true");
     }
 }
 
 const previousChoice = () => {
-    const currentChoice = $("[data-active]");
-    const currentChoiceIndex = parseInt(currentChoice.attr("data-choice-index"))
+    const currentChoice = document.querySelector(".choice-container[data-active]");
+    const currentChoiceIndex = parseInt(currentChoice.getAttribute("data-choice-index"));
     const previousChoiceIndex = currentChoiceIndex - 1;
-    const previousChoice = $("[data-choice-index=\"" + previousChoiceIndex + "\"]");
-    if(previousChoice.length !== 0) {
-        currentChoice.removeAttr("data-active");
-        previousChoice.attr("data-active", "true");
+    const previousChoice = document.querySelector(".choice-container[data-choice-index=\"" + previousChoiceIndex + "\"]");
+    if(previousChoice !== null) {
+        currentChoice.removeAttribute("data-active");
+        previousChoice.setAttribute("data-active", "true");
     }
 }
 
 const revealSubmit = () => {
-    const choiceInputs = $("input[name=\"choice[]\"]");
+    const choiceInputs = document.querySelectorAll("input[name=\"choice[]\"]");
     let allChosen = true;
-    choiceInputs.each((index, element) => {
-        if($(element).val() === "") {
+    choiceInputs.forEach((element) => {
+        if(element.value === "") {
             allChosen = false;
         }
     });
 
     if(allChosen) {
-        $("button[type=\"submit\"]").removeAttr("disabled");
+        document.querySelector("button[type=\"submit\"]").removeAttribute("disabled");
     } else {
-        $("button[type=\"submit\"]").attr("disabled", "true");
+        document.querySelector("button[type=\"submit\"]").setAttribute("disabled", "disabled");
     }
 }
 

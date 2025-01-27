@@ -11,7 +11,7 @@
             <input type="hidden" name="choice[]"
                    value="{{ $user->getChoice($i)?->getCourseId() ?? "" }}"
                    data-choice-index="{{ $i }}">
-            <div class="[&:not([data-active])]:hidden mb-2"
+            <div class="choice-container [&:not([data-active])]:hidden mb-2"
                  data-choice-index="{{ $i }}"
                  @if($i === 0) data-active @endif>
                 <h2 class="mb-2">
