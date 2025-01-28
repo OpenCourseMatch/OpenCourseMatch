@@ -50,7 +50,7 @@ export const close = () => {
     setTimeout(() => {
         document.querySelector(".header-sidebar-popup").classList.add("hidden");
     }, 500);
-    document.querySelector(".header-sidebar-background").classList.remove("hidden");
+    document.querySelector(".header-sidebar-background").classList.add("hidden");
 
     // Enable scrolling
     document.body.style.overflow = null;
