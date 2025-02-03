@@ -33,8 +33,8 @@
     {{-- Warnings --}}
     @foreach($courseWarnings as $warning)
         @component("components.layout.infomessage", [
-                "type" => InfoMessageType::WARNING
-            ])
+            "type" => InfoMessageType::WARNING
+        ])
             {{ $warning }}
         @endcomponent
     @endforeach
@@ -61,6 +61,15 @@
         </tbody>
     </table>
 
+    @if($course !== null)
+        <button type="button"
+                id="move-here"
+                class="{{ TailwindUtil::button() }} gap-2">
+            @include("components.icons.movehere")
+            {{ t("Move users to this course") }}
+        </button>
+    @endif
+
     <script type="module">
         import * as EditCourseAssignment from "{{ Router::staticFilePath("js/assignment/edit.js") }}";
         EditCourseAssignment.initCourseOverview({
@@ -69,7 +78,7 @@
             "No entries": "{{ t("No entries") }}",
             "Back": "{{ t("Back") }}",
             "Next": "{{ t("Next") }}"
-        }, "{{ Router::generate("course-assignment-edit-moveaway-modal") }}");
+        }, "{{ Router::generate("course-assignment-edit-moveaway-modal") }}", "{{ Router::generate("course-assignment-edit-movehere-modal") }}");
     </script>
 
     <div hidden>

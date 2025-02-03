@@ -90,7 +90,7 @@ const setLoadErrorVisible = (visible) => {
     }
 }
 
-export const initCourseOverview = (translations, loadMoveModalLink) => {
+export const initCourseOverview = (translations, loadMoveAwayModalLink, loadMoveHereModalLink) => {
     const table = new DataTable("#users-table", {
         layout: {
             topStart: "search",
@@ -148,13 +148,21 @@ export const initCourseOverview = (translations, loadMoveModalLink) => {
     let search = $("#users-table_wrapper .dt-search input");
     search.attr("type", "text");
 
-    let searchLayoutRow = $("#users-table_wrapper .dt-search").closest(".dt-layout-row");
-    let tableActions = $("#table-actions");
-    searchLayoutRow.append(tableActions);
+    const searchLayoutRow = document.querySelector("#users-table_wrapper .dt-search").closest(".dt-layout-row");
+    const moveHereButton = document.querySelector("#move-here");
+    if(moveHereButton !== null) {
+        searchLayoutRow.append(moveHereButton);
+    }
 
     $("#users-table tbody").on("click", "tr", function() {
-        openMoveAwayModal(loadMoveModalLink, table.row(this).data().id);
+        openMoveAwayModal(loadMoveAwayModalLink, table.row(this).data().id);
     });
+
+    if(moveHereButton !== null) {
+        moveHereButton.addEventListener("click", () => {
+            // TODO: Open modal
+        });
+    }
 }
 
 export const initMoveAwayModal = (moveUserLink) => {
