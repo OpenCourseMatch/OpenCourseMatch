@@ -24,7 +24,6 @@
         </div>
     </div>
 
-
     {{-- Warnings --}}
     @foreach($userWarnings as $warning)
         @component("components.layout.infomessage", [

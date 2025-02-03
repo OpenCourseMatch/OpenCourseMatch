@@ -160,7 +160,7 @@ export const initCourseOverview = (translations, loadMoveAwayModalLink, loadMove
 
     if(moveHereButton !== null) {
         moveHereButton.addEventListener("click", () => {
-            // TODO: Open modal
+            openMoveHereModal(loadMoveHereModalLink);
         });
     }
 }
@@ -236,4 +236,47 @@ export const closeMoveAwayModal = () => {
     $("#moveaway-modal-content-body").html("");
 }
 
-export default { init, initCourseOverview, initMoveAwayModal, closeMoveAwayModal };
+export const initMoveHereModal = () => {
+    // TODO: Modal handling
+}
+
+const openMoveHereModal = (loadMoveModalLink) => {
+    if(modalOpened) {
+        throw new Error("Modal is already active");
+    }
+
+    modalOpened = true;
+
+    // Show modal
+    $("#movehere-modal").get(0).showModal();
+    $("#movehere-modal").get(0).classList.remove("hidden");
+
+    // Load modal content
+    $.ajax({
+        url: loadMoveModalLink,
+        method: "POST",
+        data: {
+            course: currentCourseId
+        }
+    }).done((data) => {
+        if(data.code === 200) {
+            $("#movehere-modal-content-body").html(data.data.html);
+        } else {
+            closeMoveAwayModal();
+        }
+    });
+}
+
+export const closeMoveHereModal = () => {
+    $("#movehere-modal").get(0).classList.add("hidden");
+    $("#movehere-modal").get(0).close();
+
+    modalOpened = false;
+
+    // Reset modal content
+    $("#movehere-modal-loading").get(0).classList.remove("hidden");
+    $("#movehere-modal-content-body").get(0).classList.add("hidden");
+    $("#movehere-modal-content-body").html("");
+}
+
+export default { init, initCourseOverview, initMoveAwayModal, closeMoveAwayModal, initMoveHereModal, closeMoveHereModal };

@@ -61,6 +61,35 @@
         </div>
     </dialog>
 
+    <dialog id="movehere-modal"
+            class="hidden flex flex-col p-0 w-[90vw] max-w-[960px] bg-gray-light border-none rounded text-font">
+        <div class="flex items-center justify-between w-full gap-4 p-4 border-b border-b-gray">
+            <h2 class="m-0">
+                {{ t("Move users to this course") }}
+            </h2>
+            <div class="">
+                <button class="{{ TailwindUtil::button(false, "gray") }} movehere-modal-abort-button">
+                    {{ t("Abort") }}
+                </button>
+            </div>
+        </div>
+        <div class="grow w-full p-4 overflow-y-auto">
+            <div class="flex justify-center items-center h-full" id="movehere-modal-loading">
+                @include("components.icons.loading")
+            </div>
+            <div class="hidden" id="movehere-modal-content-body">
+                {{-- Filled by assignment/edit.js --}}
+            </div>
+        </div>
+        <div class="flex items-center justify-end w-full gap-4 p-4 border-t border-t-gray">
+            <div class="">
+                <button class="{{ TailwindUtil::button(false, "gray") }} movehere-modal-abort-button">
+                    {{ t("Abort") }}
+                </button>
+            </div>
+        </div>
+    </dialog>
+
     <script type="module">
         import * as EditCourseAssignment from "{{ Router::staticFilePath("js/assignment/edit.js") }}";
         EditCourseAssignment.init(@json($courseIds), "{{ Router::generate("course-assignment-edit-courseoverview") }}");
