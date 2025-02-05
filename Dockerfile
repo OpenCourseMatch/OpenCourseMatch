@@ -47,6 +47,7 @@ RUN apk --no-cache add php-session php-tokenizer php-mysqli php-pdo php-pdo_mysq
 
 # Set working directory
 WORKDIR /app
+RUN chown -R nginx:nginx /app
 
 # Copy application files
 RUN mkdir -p framework && \
@@ -54,30 +55,30 @@ RUN mkdir -p framework && \
     mkdir -p src && \
     mkdir -p vendor
 
-COPY --from=builder /app/framework ./framework
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/src ./src
-COPY --from=builder /app/vendor ./vendor
-COPY ./docker/entrypoint.sh .
+COPY --from=builder --chown=nginx:nginx /app/framework ./framework
+COPY --from=builder --chown=nginx:nginx /app/public ./public
+COPY --from=builder --chown=nginx:nginx /app/src ./src
+COPY --from=builder --chown=nginx:nginx /app/vendor ./vendor
+COPY --chown=nginx:nginx ./docker/entrypoint.sh .
 
 # Copy server configurations
 COPY ./docker/nginx-config /etc/nginx
 COPY ./docker/php-fpm-config /etc/php83/php-fpm.d
 
-# Create remaining directories and adjust permissions
-RUN mkdir -p logs && \
-    mkdir -p files && \
-    mkdir -p template-cache && \
-    chown -R nginx:nginx logs && \
-    chown -R nginx:nginx files && \
-    chown -R nginx:nginx template-cache && \
-    chmod 777 logs && \
-    chmod 777 files && \
-    chmod 777 template-cache && \
-    chmod +x entrypoint.sh
-
 # Setup crontab
 RUN crontab -u nginx src/cronjobs/.crontab
+
+# Switch to nginx user
+USER nginx
+
+# Adjust permissions
+RUN mkdir -p /app/logs && \
+    mkdir -p /app/files && \
+    mkdir -p /app/template-cache && \
+    chmod 777 /app/logs && \
+    chmod 777 /app/files && \
+    chmod 777 /app/template-cache && \
+    chmod +x /app/entrypoint-dev.sh
 
 EXPOSE 80
 ENTRYPOINT ["/app/entrypoint.sh"]
