@@ -65,20 +65,17 @@ COPY --chown=nginx:nginx ./docker/entrypoint.sh .
 COPY ./docker/nginx-config /etc/nginx
 COPY ./docker/php-fpm-config /etc/php83/php-fpm.d
 
-# Setup crontab
-RUN crontab -u nginx src/cronjobs/.crontab
-
-# Switch to nginx user
-USER nginx
-
 # Adjust permissions
-RUN mkdir -p /app/logs && \
-    mkdir -p /app/files && \
-    mkdir -p /app/template-cache && \
+RUN mkdir -p logs && chown -R nginx:nginx logs && \
+    mkdir -p files && chown -R nginx:nginx files && \
+    mkdir -p template-cache && chown -R nginx:nginx template-cache && \
     chmod 777 /app/logs && \
     chmod 777 /app/files && \
     chmod 777 /app/template-cache && \
     chmod +x /app/entrypoint-dev.sh
+
+# Setup crontab
+RUN crontab -u nginx src/cronjobs/.crontab
 
 EXPOSE 80
 ENTRYPOINT ["/app/entrypoint.sh"]
