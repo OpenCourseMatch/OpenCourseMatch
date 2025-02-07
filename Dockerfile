@@ -72,7 +72,7 @@ RUN mkdir -p logs && chown -R nginx:nginx logs && \
     chmod 777 /app/logs && \
     chmod 777 /app/files && \
     chmod 777 /app/template-cache && \
-    chmod +x /app/entrypoint-dev.sh
+    chmod +x /app/entrypoint.sh
 
 # Setup crontab
 RUN crontab -u nginx src/cronjobs/.crontab
