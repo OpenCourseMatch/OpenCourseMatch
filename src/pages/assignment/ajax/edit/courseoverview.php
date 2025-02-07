@@ -35,25 +35,25 @@ if($post["course"] !== null) {
     // Get warnings for the course
     if($post["course"]->isCancelled()) {
         $courseWarnings[] = t("This course has been cancelled.");
-    }
+    } else {
+        if($post["course"]->getMaxParticipants() < $realParticipantCount) {
+            $courseWarnings[] = t("The number of participants exceeds the maximum number of participants allowed for this course.");
+        }
 
-    if($post["course"]->getMaxParticipants() < $realParticipantCount) {
-        $courseWarnings[] = t("The number of participants exceeds the maximum number of participants allowed for this course.");
-    }
+        if($post["course"]->getMinParticipants() > $realParticipantCount) {
+            $courseWarnings[] = t("The number of participants is below the minimum number of participants required for this course.");
+        }
 
-    if($post["course"]->getMinParticipants() > $realParticipantCount) {
-        $courseWarnings[] = t("The number of participants is below the minimum number of participants required for this course.");
-    }
-
-    $courseLeaders = $post["course"]->getAllCourseLeaders();
-    $userIds = array_map(function(User $user) {
-        return $user->getId();
-    }, $users);
-    $courseLeaderIds = array_map(function(User $user) {
-        return $user->getId();
-    }, $courseLeaders);
-    if(count(array_diff($courseLeaderIds, $userIds)) > 0) {
-        $courseWarnings[] = t("Not all course leaders have been assigned to this course.");
+        $courseLeaders = $post["course"]->getAllCourseLeaders();
+        $userIds = array_map(function(User $user) {
+            return $user->getId();
+        }, $users);
+        $courseLeaderIds = array_map(function(User $user) {
+            return $user->getId();
+        }, $courseLeaders);
+        if(count(array_diff($courseLeaderIds, $userIds)) > 0) {
+            $courseWarnings[] = t("Not all course leaders have been assigned to this course.");
+        }
     }
 } else {
     // Load unassigned users
