@@ -32,6 +32,16 @@ export const init = (courseIds, loadCourseOverviewLink) => {
     $(".moveaway-modal-abort-button").on("click", () => {
         closeMoveAwayModal();
     });
+
+    $("#movehere-modal").on("close", () => {
+        closeMoveHereModal();
+    });
+
+    $(".movehere-modal-abort-button").on("click", () => {
+        closeMoveHereModal();
+    });
+
+
 }
 
 const loadNextCourseOverview = (courseIds) => {
@@ -260,6 +270,8 @@ const openMoveHereModal = (loadMoveModalLink) => {
         }
     }).done((data) => {
         if(data.code === 200) {
+            $("#movehere-modal-loading").get(0).classList.add("hidden");
+            $("#movehere-modal-content-body").get(0).classList.remove("hidden");
             $("#movehere-modal-content-body").html(data.data.html);
         } else {
             closeMoveAwayModal();

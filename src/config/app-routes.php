@@ -72,6 +72,8 @@ Router::addRoute("GET", "/course-assignment/ajax/edit/courseoverview/table", "as
 Router::addRoute("GET", "/course-assignment/ajax/edit/courseoverview/table/{i:course}", "assignment/ajax/edit/courseoverview-table.php", "course-assignment-edit-courseoverview-table");
 Router::addRoute("POST", "/course-assignment/ajax/edit/moveaway-modal", "assignment/ajax/edit/moveaway-modal.php", "course-assignment-edit-moveaway-modal");
 Router::addRoute("POST", "/course-assignment/ajax/edit/move-away/{i:user}", "assignment/ajax/edit/move-away.php", "course-assignment-edit-move-away");
+Router::addRoute("POST", "/course-assignment/ajax/edit/movehere-modal", "assignment/ajax/edit/movehere-modal.php", "course-assignment-edit-movehere-modal");
+Router::addRoute("POST", "/course-assignment/ajax/edit/move-here/{i:user}", "assignment/ajax/edit/move-here.php", "course-assignment-edit-move-here");
 
 // System settings
 Router::addRoute("GET", "/system-settings", "system-settings/system-settings.php", "system-settings");
