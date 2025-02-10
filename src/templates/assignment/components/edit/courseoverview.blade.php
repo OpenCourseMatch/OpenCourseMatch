@@ -49,12 +49,12 @@
             data-table-ajax="{{ Router::generate("course-assignment-edit-courseoverview-table-unassigned") }}"
         @endif>
         <thead>
-        <tr>
-            <th></th>
-            <th>{{ t("First name") }}</th>
-            <th>{{ t("Last name") }}</th>
-            <th>{{ t("Group") }}</th>
-        </tr>
+            <tr>
+                <th></th>
+                <th>{{ t("First name") }}</th>
+                <th>{{ t("Last name") }}</th>
+                <th>{{ t("Group") }}</th>
+            </tr>
         </thead>
         <tbody>
             {{-- Contents filled by assignment/edit.js --}}
