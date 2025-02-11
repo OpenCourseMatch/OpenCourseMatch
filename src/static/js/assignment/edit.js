@@ -239,6 +239,7 @@ export const closeMoveAwayModal = () => {
     $("#moveaway-modal").get(0).close();
 
     modalOpened = false;
+    movingUser = false;
 
     // Reset modal content
     $("#moveaway-modal-loading").get(0).classList.remove("hidden");
@@ -246,8 +247,64 @@ export const closeMoveAwayModal = () => {
     $("#moveaway-modal-content-body").html("");
 }
 
-export const initMoveHereModal = () => {
-    // TODO: Modal handling
+export const initMoveHereModal = (translations, moveUserLink) => {
+    const table = new DataTable("#movehere-users-table", {
+        layout: {
+            topStart: "search",
+            topEnd: null,
+            bottomStart: null,
+            bottomEnd: null
+        },
+        language: {
+            sSearch: "",
+            sSearchPlaceholder: translations["Search..."],
+            sZeroRecords: translations["No entries"],
+            emptyTable: translations["No entries"],
+            oPaginate: {
+                sPrevious: translations["Back"],
+                sNext: translations["Next"]
+            },
+            loadingRecords: translations["Loading..."]
+        },
+        paging: false,
+        order: [],
+        autoWidth: false,
+        columnDefs: [{
+            defaultContent: "-",
+            targets: "_all"
+        }]
+    });
+
+    let search = $("#movehere-users-table_wrapper .dt-search input");
+    search.attr("type", "text");
+
+    $("#movehere-users-table tbody").on("click", "tr", function() {
+        if(movingUser) {
+            return;
+        }
+
+        const userId = table.row(this).data().id;
+
+        console.log(this, userId);
+
+        ButtonLoad.load(this);
+        movingUser = true;
+
+        $.ajax({
+            url: moveUserLink,
+            method: "POST",
+            data: {
+                user: userId
+            }
+        }).done((data) => {
+            movingUser = false;
+            ButtonLoad.unload(this);
+            if(data.code === 200) {
+                closeMoveHereModal();
+                loadCourseOverview(currentCourseId);
+            }
+        });
+    });
 }
 
 const openMoveHereModal = (loadMoveModalLink) => {
@@ -274,7 +331,7 @@ const openMoveHereModal = (loadMoveModalLink) => {
             $("#movehere-modal-content-body").get(0).classList.remove("hidden");
             $("#movehere-modal-content-body").html(data.data.html);
         } else {
-            closeMoveAwayModal();
+            closeMoveHereModal();
         }
     });
 }
@@ -284,6 +341,7 @@ export const closeMoveHereModal = () => {
     $("#movehere-modal").get(0).close();
 
     modalOpened = false;
+    movingUser = false;
 
     // Reset modal content
     $("#movehere-modal-loading").get(0).classList.remove("hidden");
