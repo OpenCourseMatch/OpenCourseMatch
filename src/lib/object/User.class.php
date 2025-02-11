@@ -57,7 +57,11 @@ class User extends GenericUser {
 
     public function getGroup(): ?Group {
         if(!$this->group) {
-            $this->group = Group::dao()->getObject(["id" => $this->getGroupId()]);
+            if($this->getGroupId() === null) {
+                $this->group = null;
+            } else {
+                $this->group = Group::dao()->getObject(["id" => $this->getGroupId()]);
+            }
         }
 
         return $this->group;
@@ -65,7 +69,11 @@ class User extends GenericUser {
 
     public function getLeadingCourse(): ?Course {
         if(!$this->leadingCourse) {
-            $this->leadingCourse = Course::dao()->getObject(["id" => $this->getLeadingCourseId()]);
+            if($this->getLeadingCourseId() === null) {
+                $this->leadingCourse = null;
+            } else {
+                $this->leadingCourse = Course::dao()->getObject(["id" => $this->getLeadingCourseId()]);
+            }
         }
 
         return $this->leadingCourse;
