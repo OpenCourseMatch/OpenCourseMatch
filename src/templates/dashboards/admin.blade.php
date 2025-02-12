@@ -51,27 +51,30 @@
     ])
 </div>
 
-<h2 class="mt-4 mb-2">
-    {{ t("Course assignment") }}
-</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    @if(SystemStatus::dao()->get("coursesAssigned") !== "true" && SystemStatus::dao()->get("algorithmRunning") !== "true")
+@if(SystemStatus::dao()->get("coursesAssigned") !== "true" && SystemStatus::dao()->get("algorithmRunning") !== "true")
+    <h2 class="mt-4 mb-2">
+        {{ t("Course assignment") }}
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         @include("components.dashboardlink", [
             "icon" => "components.icons.algorithm",
             "href" => Router::generate("course-assignment-run"),
             "title" => t("Run course assignment"),
             "description" => t("Start the assignment algorithm to group participants to the courses based on their preferences.")
         ])
-    @endif
-    @include("components.dashboardlink", [
-        "icon" => "components.icons.assignment",
-        "href" => Router::generate("course-assignment-edit"),
-        "title" => t("Edit course assignment"),
-        "description" => t("Optimize the course assignment manually.")
-    ])
-    {{-- Edit course assignment --}}
-    {{-- Print course assignment --}}
-    @if(SystemStatus::dao()->get("coursesAssigned") === "true")
+    </div>
+@elseif(SystemStatus::dao()->get("coursesAssigned") === "true")
+    <h2 class="mt-4 mb-2">
+        {{ t("Course assignment") }}
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {{-- Print course assignment --}}
+        @include("components.dashboardlink", [
+            "icon" => "components.icons.assignment",
+            "href" => Router::generate("course-assignment-edit"),
+            "title" => t("Edit course assignment"),
+            "description" => t("Optimize the course assignment manually.")
+        ])
         @include("components.dashboardlink", [
             "icon" => "components.icons.reset",
             "href" => Router::generate("course-assignment-reset"),
@@ -79,8 +82,8 @@
             "description" => t("Reset the course assignment to re-run the assignment algorithm."),
             "danger" => true
         ])
-    @endif
-</div>
+    </div>
+@endif
 
 <h2 class="mt-4 mb-2">
     {{ t("Settings") }}
