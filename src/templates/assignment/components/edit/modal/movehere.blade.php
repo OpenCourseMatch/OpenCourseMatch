@@ -11,6 +11,7 @@
         <thead>
             <tr>
                 <th></th>
+                <th></th>
                 <th>{{ t("First name") }}</th>
                 <th>{{ t("Last name") }}</th>
                 <th>{{ t("Group") }}</th>
@@ -19,6 +20,7 @@
         <tbody>
             @foreach($users as $account)
                 <tr>
+                    <td>{{ $account->getId() }}</td>
                     <td>
                         <span class="flex gap-2">
                             @include("components.icons.buttonload")

@@ -269,10 +269,24 @@ export const initMoveHereModal = (translations, moveUserLink) => {
         paging: false,
         order: [],
         autoWidth: false,
-        columnDefs: [{
-            defaultContent: "-",
-            targets: "_all"
-        }]
+        columns: [
+            { data: "id" },
+            { data: "isCourseLeader" },
+            { data: "firstName" },
+            { data: "lastName" },
+            { data: "group" }
+        ],
+        columnDefs: [
+            {
+                targets: [ 0 ],
+                visible: false,
+                searchable: false
+            },
+            {
+                defaultContent: "-",
+                targets: "_all"
+            }
+        ]
     });
 
     let search = $("#movehere-users-table_wrapper .dt-search input");
@@ -300,7 +314,7 @@ export const initMoveHereModal = (translations, moveUserLink) => {
             movingUser = false;
             ButtonLoad.unload(this);
             if(data.code === 200) {
-                closeMoveHereModal();
+                table.row(this).remove().draw();
                 loadCourseOverview(currentCourseId);
             }
         });
