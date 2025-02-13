@@ -5,7 +5,8 @@
         "APP_URL": "http://localhost:3000",
         "APP_FAVICON": "/static/img/logo.svg",
         "APP_AUTHOR": "OpenCourseMatch contributors",
-        "APP_VERSION": "3.0.0"
+        "APP_VERSION": "3.0.0",
+        "PRODUCTION": true
     },
     "ROUTER_SETTINGS": {
         "ROUTER_BASE_URI": "/"

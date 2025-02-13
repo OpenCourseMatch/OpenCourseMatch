@@ -196,6 +196,7 @@
 
     "The requested resource could not be found.": "The requested resource could not be found.",
     "There was an error with your request.": "There was an error with your request.",
+    "The server encountered an internal error and could not complete your request.": "The server encountered an internal error and could not complete your request.",
     "Logged in as": "Logged in as",
     "Log in": "Log in",
     "Log out": "Log out",

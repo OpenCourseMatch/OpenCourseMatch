@@ -1,8 +1,9 @@
 <?php
 
 Router::addRoute("GET", "/", "index.php", "index");
-Router::addRoute("GET|POST", "/404", "404.php", "404");
-Router::addRoute("GET|POST", "/400", "400.php", "400");
+Router::addRoute("GET|POST", "/404", "errors/400.php", "404");
+Router::addRoute("GET|POST", "/400", "errors/400.php", "400");
+Router::addRoute("GET|POST", "/500", "errors/500.php", "500");
 
 Router::addRoute("POST", "/translations-api", "translations/api.php", "translations-api");
 

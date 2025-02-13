@@ -39,7 +39,8 @@ class Config {
             "APP_URL" => "http://localhost:3000",
             "APP_FAVICON" => Router::staticFilePath("img/favicon.png"),
             "APP_AUTHOR" => "Author",
-            "APP_VERSION" => "1.0.0"
+            "APP_VERSION" => "1.0.0",
+            "PRODUCTION" => true
         ];
 
         self::$LOG_SETTINGS = [

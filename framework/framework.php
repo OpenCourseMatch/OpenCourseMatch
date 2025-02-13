@@ -77,7 +77,29 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
     $message = "Error " . $errno . ": ";
     $message .= "\"" . $errstr . "\"";
     $message .= " in " . $errfile . " on line " . $errline;
-    Logger::getLogger("PHP")->error($message);
+    try {
+        Logger::getLogger("PHP")->error($message);
+    } catch(Error|Exception $e) {
+        // If the logger fails, log to the default PHP error log
+        error_log($message);
+    }
+
+    if(Config::$APP_SETTINGS["PRODUCTION"]) {
+        // Redirect to error page in production
+        Comm::redirect(Router::generate("500"));
+    } else {
+        // Show stack trace screen in development
+        echo Blade->run("components.layout.deverror", [
+            "exceptionName" => "Error " . $errno,
+            "exceptionMessage" => $errstr,
+            "trace" => [
+                [
+                    "file" => $errfile,
+                    "line" => $errline
+                ]
+            ]
+        ]);
+    }
 });
 
 set_exception_handler(function($exception) {
@@ -85,7 +107,31 @@ set_exception_handler(function($exception) {
     $message .= "\"" . $exception->getMessage() . "\"";
     $message .= " in " . $exception->getFile() . " on line " . $exception->getLine();
     $message .= PHP_EOL . $exception->getTraceAsString();
-    Logger::getLogger("PHP")->fatal($message);
+
+    try {
+        Logger::getLogger("PHP")->fatal($message);
+    } catch(Error|Exception $e) {
+        error_log($message);
+    }
+
+    if(Config::$APP_SETTINGS["PRODUCTION"]) {
+        // Redirect to error page in production
+        Comm::redirect(Router::generate("500"));
+    } else {
+        // Show stack trace screen in development
+        $trace = $exception->getTrace();
+        echo Blade->run("components.layout.deverror", [
+            "exceptionName" => get_class($exception),
+            "exceptionMessage" => $exception->getMessage(),
+            "trace" => [
+                [
+                    "file" => $exception->getFile(),
+                    "line" => $exception->getLine()
+                ],
+                ...$trace
+            ]
+        ]);
+    }
 });
 
 // Setup timezone

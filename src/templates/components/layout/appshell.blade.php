@@ -50,7 +50,7 @@
         <script src="{{ Router::staticFilePath("js/lib/jquery.min.js") }}"></script>
         <script src="{{ Router::staticFilePath("js/lib/datatables.min.js") }}"></script>
         <script src="{{ Router::staticFilePath("js/lib/download.min.js") }}"></script>
-        @if($_SERVER["HTTP_HOST"] === "localhost:3000" || $_SERVER["HTTP_HOST"] === "127.0.0.1:3000")
+        @if(!Config::$APP_SETTINGS["PRODUCTION"])
             <script src="{{ Router::staticFilePath("js/lib/LiveUpdate.js") }}"></script>
         @endif
     </head>
