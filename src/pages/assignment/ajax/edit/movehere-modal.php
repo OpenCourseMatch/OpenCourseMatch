@@ -38,11 +38,11 @@ $chosenUserIds = array_map(function(Choice $choice) {
 }, $choices);
 
 // Get the users that are assigned to the course
-$assignments = Allocation::dao()->getObjects([
+$assignments = Assignment::dao()->getObjects([
     "courseId" => $course->getId()
 ]);
-$assignedUserIds = array_map(function(Allocation $allocation) {
-    return $allocation->getUserId();
+$assignedUserIds = array_map(function(Assignment $assignment) {
+    return $assignment->getUserId();
 }, $assignments);
 
 $users = User::dao()->getObjects();

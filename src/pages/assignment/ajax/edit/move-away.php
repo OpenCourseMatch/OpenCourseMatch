@@ -40,19 +40,19 @@ try {
     ]);
 }
 
-$allocation = Allocation::dao()->getObject([
+$assignment = Assignment::dao()->getObject([
     "userId" => $get["user"]->getId()
 ]);
 if($post["course"] instanceof Course) {
-    if(!$allocation instanceof Allocation) {
-        $allocation = new Allocation();
-        $allocation->setUserId($get["user"]->getId());
+    if(!$assignment instanceof Assignment) {
+        $assignment = new Assignment();
+        $assignment->setUserId($get["user"]->getId());
     }
-    $allocation->setCourseId($post["course"]->getId());
-    Allocation::dao()->save($allocation);
+    $assignment->setCourseId($post["course"]->getId());
+    Assignment::dao()->save($assignment);
 } else {
-    if($allocation instanceof Allocation) {
-        Allocation::dao()->delete($allocation);
+    if($assignment instanceof Assignment) {
+        Assignment::dao()->delete($assignment);
     }
 }
 

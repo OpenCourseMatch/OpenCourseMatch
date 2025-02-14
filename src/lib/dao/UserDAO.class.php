@@ -44,7 +44,7 @@ class UserDAO extends GenericUserDAO {
     }
 
     public function getUnassignedUsers(): array {
-        $sql = "SELECT * FROM `User` WHERE `id` NOT IN (SELECT `userId` FROM `Allocation`) AND `permissionLevel` = :permissionLevel";
+        $sql = "SELECT * FROM `User` WHERE `id` NOT IN (SELECT `userId` FROM `Assignment`) AND `permissionLevel` = :permissionLevel";
         $stmt = Database::getConnection()->prepare($sql);
         $stmt->bindValue("permissionLevel", PermissionLevel::USER->value);
         $stmt->execute();

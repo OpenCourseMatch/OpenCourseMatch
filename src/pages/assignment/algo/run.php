@@ -15,7 +15,7 @@ if($coursesAssigned) {
     Comm::redirect(Router::generate("index"));
 }
 
-exec("php " . __APP_DIR__ . "/src/runjob/allocation-algorithm.php > /dev/null 2>&1 &");
+exec("php " . __APP_DIR__ . "/src/runjob/assignment-algorithm.php > /dev/null 2>&1 &");
 
 $breadcrumbs = [
     [

@@ -33,10 +33,10 @@ $account = $post["user"];
 
 // Get warnings for the user
 $userWarnings = [];
-$assignment = Allocation::dao()->getObject([
+$assignment = Assignment::dao()->getObject([
     "userId" => $account->getId()
 ]);
-if($assignment instanceof Allocation) {
+if($assignment instanceof Assignment) {
     $course = $assignment->getCourse();
 
     // Check if the user has chosen the course
@@ -99,11 +99,11 @@ foreach($courses as $course) {
 }
 
 // Remove the course to which the user is currently assigned
-$assignment = Allocation::dao()->getObject([
+$assignment = Assignment::dao()->getObject([
     "userId" => $account->getId()
 ]);
 $assignedToLeadingCourse = false;
-if($assignment instanceof Allocation) {
+if($assignment instanceof Assignment) {
     $currentCourse = $assignment->getCourse();
     if($currentCourse->getId() === $account->getLeadingCourseId()) {
         $assignedToLeadingCourse = true;

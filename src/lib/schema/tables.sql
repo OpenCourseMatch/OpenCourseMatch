@@ -85,8 +85,8 @@ CREATE TABLE IF NOT EXISTS `Choice` (
     UNIQUE KEY (`userId`, `priority`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-# Allocation table
-CREATE TABLE IF NOT EXISTS `Allocation` (
+# Assignment table
+CREATE TABLE IF NOT EXISTS `Assignment` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `userId` INT NOT NULL,
     `courseId` INT NOT NULL,

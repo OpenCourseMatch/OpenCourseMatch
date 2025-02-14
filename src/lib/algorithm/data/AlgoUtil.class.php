@@ -1,32 +1,32 @@
 <?php
 
 class AlgoUtil {
-    public static function setAllocationStatus(bool $complete): void {
+    public static function setAssignmentStatus(bool $complete): void {
         SystemStatus::dao()->set("algorithmRunning", $complete ? "false" : "true");
         SystemStatus::dao()->set("coursesAssigned", $complete ? "true" : "false");
     }
 
-    public static function resetDatabaseAllocations(): void {
-        $allocations = Allocation::dao()->getObjects();
-        foreach($allocations as $allocation) {
-            Allocation::dao()->delete($allocation);
+    public static function resetDatabaseAssignments(): void {
+        $assignments = Assignment::dao()->getObjects();
+        foreach($assignments as $assignment) {
+            Assignment::dao()->delete($assignment);
         }
     }
 
-    public static function setAllocation(AlgoUserData $user, ?AlgoCourseData $course) {
-        if($user->isAllocated()) {
-            $allocatedCourse = $user->getAllocatedCourse();
-            $allocatedCourse->removeParticipant($user);
+    public static function setAssignment(AlgoUserData $user, ?AlgoCourseData $course) {
+        if($user->isAssigned()) {
+            $assignedCourse = $user->getAssignedCourse();
+            $assignedCourse->removeParticipant($user);
         }
 
         if($course === null) {
-            $user->allocateToCourse(null, false);
+            $user->assignToCourse(null, false);
             return;
         }
 
-        $allocatedAsCourseLeader = $course === $user->getLeadingCourse();
+        $assignedAsCourseLeader = $course === $user->getLeadingCourse();
 
-        $user->allocateToCourse($course, $allocatedAsCourseLeader);
+        $user->assignToCourse($course, $assignedAsCourseLeader);
         $course->addParticipant($user);
     }
 }

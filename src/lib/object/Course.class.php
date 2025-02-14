@@ -75,16 +75,16 @@ class Course extends GenericObject {
 
     public function isCancelled(): bool {
         $algorithmComplete = SystemStatus::dao()->get("coursesAssigned") === "true";
-        $participants = Allocation::dao()->getObjects(["courseId" => $this->getId()]);
+        $participants = Assignment::dao()->getObjects(["courseId" => $this->getId()]);
         return $algorithmComplete && empty($participants);
     }
 
     public function getAssignedUsers(): array {
         if($this->users === null) {
-            $allocations = Allocation::dao()->getObjects(["courseId" => $this->getId()]);
-            $this->users = array_map(function(Allocation $allocation) {
-                return $allocation->getUser();
-            }, $allocations);
+            $assignments = Assignment::dao()->getObjects(["courseId" => $this->getId()]);
+            $this->users = array_map(function(Assignment $assignment) {
+                return $assignment->getUser();
+            }, $assignments);
         }
 
         return $this->users;
@@ -125,7 +125,7 @@ class Course extends GenericObject {
             Choice::dao()->delete($choice);
         }
 
-        // Delete all allocations for this course
+        // Delete all assignments for this course
         // TODO
     }
 }

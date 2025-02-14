@@ -1,6 +1,6 @@
 <?php
 
-class Allocation extends GenericObject {
+class Assignment extends GenericObject {
     public ?int $userId = null;
     public ?int $courseId = null;
 

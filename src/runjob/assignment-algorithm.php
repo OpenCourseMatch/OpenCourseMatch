@@ -3,12 +3,12 @@
 require __DIR__ . "/.runjob-setup.php";
 
 if(SystemStatus::dao()->get("algorithmRunning") === "true") {
-    Logger::getLogger("AllocationAlgorithm")->info("Aborting allocation algorithm because it is already running");
+    Logger::getLogger("AssignmentAlgorithm")->info("Aborting assignment algorithm because it is already running");
     exit;
 }
 
 try {
-    $algorithm = new AllocationAlgorithm();
+    $algorithm = new AssignmentAlgorithm();
     $algorithm->run();
 } catch(Exception $e) {
     SystemStatus::dao()->set("algorithmRunning", "false");

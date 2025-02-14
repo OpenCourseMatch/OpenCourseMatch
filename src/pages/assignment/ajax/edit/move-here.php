@@ -41,14 +41,14 @@ try {
     ]);
 }
 
-$assignment = Allocation::dao()->getObject([
+$assignment = Assignment::dao()->getObject([
     "userId" => $post["user"]->getId()
 ]);
-if(!$assignment instanceof Allocation) {
-    $assignment = new Allocation();
+if(!$assignment instanceof Assignment) {
+    $assignment = new Assignment();
     $assignment->setUserId($post["user"]->getId());
 }
 $assignment->setCourseId($get["course"]->getId());
-Allocation::dao()->save($assignment);
+Assignment::dao()->save($assignment);
 
 Comm::apiSendJson(HTTPResponses::$RESPONSE_OK, []);

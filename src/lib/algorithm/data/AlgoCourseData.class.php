@@ -27,7 +27,7 @@ class AlgoCourseData {
 
     public static function getCourse(int $id): self {
         if(!isset(self::$instances[$id])) {
-            throw new AllocationAlgorithmException("Trying to access non-existing course with ID {$id}");
+            throw new AssignmentAlgorithmException("Trying to access non-existing course with ID {$id}");
         }
 
         return self::$instances[$id];
@@ -110,7 +110,7 @@ class AlgoCourseData {
         return (count($this->interestedUsers) - count($this->participants)) / $this->maxParticipants;
     }
 
-    public function getAllocationProbability(): float {
+    public function getAssignmentProbability(): float {
         $relativeInterestRate = $this->getRelativeInterestRate();
         if($relativeInterestRate === 0.0) {
             return 1;
@@ -119,17 +119,17 @@ class AlgoCourseData {
         return 1 / $relativeInterestRate;
     }
 
-    public function coarseUserAllocation(): void {
+    public function coarseUserAssignment(): void {
         if($this->isCancelled()) {
             return;
         }
 
         $sortedUsers = $this->interestedUsers; // Shallow copy of the user array, so that it can be sorted in-place
         uasort($sortedUsers, function(AlgoUserData $a, AlgoUserData $b) {
-            // First sorting criterion: Remaining allocation probability
+            // First sorting criterion: Remaining assignment probability
             // A lower probability results in the user being sorted earlier
-            $aProb = $a->getAllocationProbability();
-            $bProb = $b->getAllocationProbability();
+            $aProb = $a->getAssignmentProbability();
+            $bProb = $b->getAssignmentProbability();
             if($aProb !== $bProb) {
                 return $aProb <=> $bProb;
             }
@@ -148,10 +148,10 @@ class AlgoCourseData {
             return $aRandom <=> $bRandom;
         });
 
-        // Iterate over the sorted users and try to allocate them to the course
+        // Iterate over the sorted users and try to assign them to the course
         foreach($sortedUsers as $user) {
-            if($this->isSpaceLeft() && !$user->isAllocated()) {
-                AlgoUtil::setAllocation($user, $this);
+            if($this->isSpaceLeft() && !$user->isAssigned()) {
+                AlgoUtil::setAssignment($user, $this);
             }
         }
     }

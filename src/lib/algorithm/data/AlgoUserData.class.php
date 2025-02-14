@@ -24,7 +24,7 @@ class AlgoUserData {
 
     public static function getUser(int $id): self {
         if(!isset(self::$instances[$id])) {
-            throw new AllocationAlgorithmException("Trying to access non-existing user with ID {$id}");
+            throw new AssignmentAlgorithmException("Trying to access non-existing user with ID {$id}");
         }
 
         return self::$instances[$id];
@@ -42,9 +42,9 @@ class AlgoUserData {
     private array $interestedCourses = [];
     private bool $interestedCoursesLoaded = false;
 
-    private ?AlgoCourseData $allocatedCourse = null;
-    private bool $allocatedAsLeader = false;
-    private bool $allocated = false;
+    private ?AlgoCourseData $assignedCourse = null;
+    private bool $assignedAsLeader = false;
+    private bool $assigned = false;
 
     public function loadLeadingCourse(): void {
         if($this->databaseObject->getLeadingCourse() === null) {
@@ -65,7 +65,7 @@ class AlgoUserData {
 
     public function getLeadingCourse(): ?AlgoCourseData {
         if(!$this->leadingCourseLoaded) {
-            throw new AllocationAlgorithmException("Trying to access leading course although it has not been loaded yet");
+            throw new AssignmentAlgorithmException("Trying to access leading course although it has not been loaded yet");
         }
 
         return $this->leadingCourse;
@@ -92,7 +92,7 @@ class AlgoUserData {
 
     public function getChosenCoursesWithHigherPriority(int $priority): array {
         if(!$this->interestedCoursesLoaded) {
-            throw new AllocationAlgorithmException("Trying to access chosen courses although they have not been loaded yet");
+            throw new AssignmentAlgorithmException("Trying to access chosen courses although they have not been loaded yet");
         }
 
         return array_filter($this->interestedCourses, function(AlgoCourseData $course) use ($priority) {
@@ -103,36 +103,36 @@ class AlgoUserData {
 
     public function getCoursePriority(AlgoCourseData $course): ?int {
         if(!$this->interestedCoursesLoaded) {
-            throw new AllocationAlgorithmException("Trying to access course priority although interested courses have not been loaded yet");
+            throw new AssignmentAlgorithmException("Trying to access course priority although interested courses have not been loaded yet");
         }
 
         return array_search($course, $this->interestedCourses, true);
     }
 
-    public function allocateToCourse(?AlgoCourseData $course, bool $asLeader = false): void {
-        $this->allocatedCourse = $course;
-        $this->allocatedAsLeader = $asLeader;
-        $this->allocated = $course instanceof AlgoCourseData;
+    public function assignToCourse(?AlgoCourseData $course, bool $asLeader = false): void {
+        $this->assignedCourse = $course;
+        $this->assignedAsLeader = $asLeader;
+        $this->assigned = $course instanceof AlgoCourseData;
     }
 
-    public function isAllocated(): bool {
-        return $this->allocated && $this->allocatedCourse instanceof AlgoCourseData;
+    public function isAssigned(): bool {
+        return $this->assigned && $this->assignedCourse instanceof AlgoCourseData;
     }
 
-    public function getAllocatedCourse(): ?AlgoCourseData {
-        if(!$this->allocated) {
-            throw new AllocationAlgorithmException("Trying to access allocated course although user has not been allocated yet");
+    public function getAssignedCourse(): ?AlgoCourseData {
+        if(!$this->assigned) {
+            throw new AssignmentAlgorithmException("Trying to access assigned course although user has not been assigned yet");
         }
 
-        return $this->allocatedCourse;
+        return $this->assignedCourse;
     }
 
-    public function isAllocatedAsLeader(): bool {
-        if(!$this->allocated) {
-            throw new AllocationAlgorithmException("Trying to access allocated leader status although user has not been allocated yet");
+    public function isAssignedAsLeader(): bool {
+        if(!$this->assigned) {
+            throw new AssignmentAlgorithmException("Trying to access assigned leader status although user has not been assigned yet");
         }
 
-        return $this->allocatedAsLeader;
+        return $this->assignedAsLeader;
     }
 
     public function resetLinkedObjects(): void {
@@ -140,14 +140,14 @@ class AlgoUserData {
         $this->leadingCourseLoaded = false;
         $this->interestedCourses = [];
         $this->interestedCoursesLoaded = false;
-        $this->allocatedCourse = null;
-        $this->allocatedAsLeader = false;
-        $this->allocated = false;
+        $this->assignedCourse = null;
+        $this->assignedAsLeader = false;
+        $this->assigned = false;
     }
 
-    public function getAllocationProbability(array $withoutCourses = []): float {
+    public function getAssignmentProbability(array $withoutCourses = []): float {
         if(!$this->interestedCoursesLoaded) {
-            throw new AllocationAlgorithmException("Trying to access allocation probability although interested courses have not been loaded yet");
+            throw new AssignmentAlgorithmException("Trying to access assignment probability although interested courses have not been loaded yet");
         }
 
         $evaluatedCourses = array_filter($this->interestedCourses, function(AlgoCourseData $course) use ($withoutCourses) {
@@ -155,11 +155,11 @@ class AlgoUserData {
         });
 
         return array_sum(array_map(function(AlgoCourseData $course) {
-            return $course->getAllocationProbability();
+            return $course->getAssignmentProbability();
         }, $evaluatedCourses));
     }
 
-    public function findAllocationChain(array $coursesInChain = [], int $depth = -1): array {
+    public function findAssignmentChain(array $coursesInChain = [], int $depth = -1): array {
         // Fast abort if the maximum depth was reached
         if($depth === 0) {
             return [];
@@ -170,10 +170,10 @@ class AlgoUserData {
             return !in_array($course, $coursesInChain, true);
         });
 
-        // Add some randomness to the allocation
+        // Add some randomness to the assignment
         shuffle($chosenCourses);
 
-        // Check if a direct reallocation is possible
+        // Check if a direct reassignment is possible
         foreach($chosenCourses as $course) {
             if($course->isSpaceLeft()) {
                 return [
@@ -185,14 +185,14 @@ class AlgoUserData {
             }
         }
 
-        // Indirect allocations would be skipped anyway, faster abort
+        // Indirect assignments would be skipped anyway, faster abort
         if($depth === 1) {
             return [];
         }
 
         $newDepth = $depth === -1 ? -1 : $depth - 1;
 
-        // Check if an indirect reallocation is possible
+        // Check if an indirect reassignment is possible
         foreach($chosenCourses as $course) {
             $users = $course->getParticipants();
 
@@ -200,7 +200,7 @@ class AlgoUserData {
             $newCoursesInChain[] = $course;
 
             foreach($users as $user) {
-                $chain = $user->findAllocationChain($newCoursesInChain, $newDepth);
+                $chain = $user->findAssignmentChain($newCoursesInChain, $newDepth);
                 if(!empty($chain)) {
                     $chain[] = [
                         "user" => $this,
@@ -211,26 +211,26 @@ class AlgoUserData {
             }
         }
 
-        // Couldn't find an allocation chain
+        // Couldn't find a reassignment chain
         return [];
     }
 
-    public function saveAllocation(): void {
-        // If the user was allocated, save the allocation directly
-        if($this->isAllocated()) {
-            $allocation = new Allocation();
-            $allocation->setUserId($this->id);
-            $allocation->setCourseId($this->getAllocatedCourse()->id);
-            Allocation::dao()->save($allocation);
+    public function saveAssignment(): void {
+        // If the user was assigned, save the assignment directly
+        if($this->isAssigned()) {
+            $assignment = new Assignment();
+            $assignment->setUserId($this->id);
+            $assignment->setCourseId($this->getAssignedCourse()->id);
+            Assignment::dao()->save($assignment);
             return;
         }
 
-        // If the user is leading a course which is not cancelled, allocate the user to it
+        // If the user is leading a course which is not cancelled, assign the user to it
         if($this->getLeadingCourse() !== null && !$this->getLeadingCourse()->isCancelled()) {
-            $allocation = new Allocation();
-            $allocation->setUserId($this->id);
-            $allocation->setCourseId($this->getLeadingCourse()->id);
-            Allocation::dao()->save($allocation);
+            $assignment = new Assignment();
+            $assignment->setUserId($this->id);
+            $assignment->setCourseId($this->getLeadingCourse()->id);
+            Assignment::dao()->save($assignment);
         }
     }
 }

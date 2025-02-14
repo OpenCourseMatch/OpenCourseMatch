@@ -8,9 +8,9 @@ if(!$coursesAssigned) {
     Comm::redirect(Router::generate("index"));
 }
 
-$allocations = Allocation::dao()->getObjects();
-foreach($allocations as $allocation) {
-    Allocation::dao()->delete($allocation);
+$assignments = Assignment::dao()->getObjects();
+foreach($assignments as $assignment) {
+    Assignment::dao()->delete($assignment);
 }
 
 SystemStatus::dao()->set("coursesAssigned", "false");

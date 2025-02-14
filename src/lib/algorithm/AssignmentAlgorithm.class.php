@@ -1,6 +1,6 @@
 <?php
 
-class AllocationAlgorithm {
+class AssignmentAlgorithm {
     /** @var AlgoCourseData[] $courses */
     private array $courses = [];
 
@@ -8,22 +8,22 @@ class AllocationAlgorithm {
     private array $users = [];
 
     /**
-     * Run the course allocation algorithm
+     * Run the course assignment algorithm
      * @return void
-     * @throws AllocationAlgorithmException
+     * @throws AssignmentAlgorithmException
      */
     public function run() {
-        // Set the allocation algorithm status to running
-        AlgoUtil::setAllocationStatus(false);
+        // Set the assignment algorithm status to running
+        AlgoUtil::setAssignmentStatus(false);
 
-        Logger::getLogger("AllocationAlgorithm")->info("Starting allocation algorithm");
+        Logger::getLogger("AssignmentAlgorithm")->info("Starting assignment algorithm");
 
         //********************
         //* PHASE 0: Initialization
         //********************
-        Logger::getLogger("AllocationAlgorithm")->info("PHASE 0: Initialization");
-        // Delete old allocations from database
-        AlgoUtil::resetDatabaseAllocations();
+        Logger::getLogger("AssignmentAlgorithm")->info("PHASE 0: Initialization");
+        // Delete old assignments from database
+        AlgoUtil::resetDatabaseAssignments();
 
         // Load data from database
         $this->loadCoursesFromDatabase();
@@ -33,51 +33,51 @@ class AllocationAlgorithm {
         $this->linkUsersToCourses(false);
 
         //********************
-        //* PHASE 1: Exploratory course allocation
+        //* PHASE 1: Exploratory course assignment
         //***********+********
-        Logger::getLogger("AllocationAlgorithm")->info("PHASE 1: Exploratory course allocation");
-        $this->probabilityAllocation();
-        $this->chainingAllocation();
-        $this->enhanceallocation();
+        Logger::getLogger("AssignmentAlgorithm")->info("PHASE 1: Exploratory course assignment");
+        $this->probabilityAssignment();
+        $this->chainingAssignment();
+        $this->enhanceAssignment();
 
         //********************
-        //* PHASE 2: Choose courses to be cancelled and reset choices and allocations
+        //* PHASE 2: Choose courses to be cancelled and reset choices and assignments
         //********************
-        Logger::getLogger("AllocationAlgorithm")->info("PHASE 2: Choose courses to be cancelled");
+        Logger::getLogger("AssignmentAlgorithm")->info("PHASE 2: Choose courses to be cancelled");
         foreach($this->courses as $course) {
             if(!$course->hasEnoughParticipants()) {
                 $course->setCancelled();
-                Logger::getLogger("AllocationAlgorithm")->trace("Course {$course->id} has been cancelled");
+                Logger::getLogger("AssignmentAlgorithm")->trace("Course {$course->id} has been cancelled");
             }
             $course->resetUserLists();
         }
         foreach($this->users as $user) {
-            AlgoUtil::setAllocation($user, null);
+            AlgoUtil::setAssignment($user, null);
         }
         $this->linkUsersToCourses(false);
 
         //********************
-        //* PHASE 3: Confident course allocation
+        //* PHASE 3: Confident course assignment
         //********************
-        Logger::getLogger("AllocationAlgorithm")->info("PHASE 3: Confident course allocation");
-        $this->probabilityAllocation();
-        $this->chainingAllocation();
-        $this->enhanceAllocation();
+        Logger::getLogger("AssignmentAlgorithm")->info("PHASE 3: Confident course assignment");
+        $this->probabilityAssignment();
+        $this->chainingAssignment();
+        $this->enhanceAssignment();
 
         //********************
-        //* PHASE 4: Finalize allocation
+        //* PHASE 4: Finalize assignment
         //********************
-        Logger::getLogger("AllocationAlgorithm")->info("PHASE 4: Finalize allocation");
+        Logger::getLogger("AssignmentAlgorithm")->info("PHASE 4: Finalize assignment");
         // Choose courses to be cancelled
-        Logger::getLogger("AllocationAlgorithm")->trace("Choose courses to be cancelled");
+        Logger::getLogger("AssignmentAlgorithm")->trace("Choose courses to be cancelled");
         foreach($this->getCoursesSortedByRelativeInterestRate() as $course) {
             if(!$course->hasEnoughParticipants() && !$course->isCancelled()) {
                 $course->setCancelled();
-                Logger::getLogger("AllocationAlgorithm")->trace("Course {$course->id} has been cancelled");
+                Logger::getLogger("AssignmentAlgorithm")->trace("Course {$course->id} has been cancelled");
 
                 $users = array_merge($course->getParticipants(), $course->getCourseLeaders());
                 foreach($users as $user) {
-                    AlgoUtil::setAllocation($user, null);
+                    AlgoUtil::setAssignment($user, null);
                 }
                 $this->linkUsersToCourses(false, $users);
 
@@ -86,22 +86,22 @@ class AllocationAlgorithm {
             }
         }
 
-        // Reallocate users to courses
-        $this->chainingAllocation();
-        $this->enhanceAllocation();
+        // Reassign users to courses
+        $this->chainingAssignment();
+        $this->enhanceAssignment();
 
         //********************
-        //* PHASE 5: Save allocations to database
+        //* PHASE 5: Save assignments to database
         //********************
-        Logger::getLogger("AllocationAlgorithm")->info("PHASE 5: Save allocations to database");
+        Logger::getLogger("AssignmentAlgorithm")->info("PHASE 5: Save assignments to database");
         foreach($this->users as $user) {
-            $user->saveAllocation();
+            $user->saveAssignment();
         }
 
-        // Set the allocation algorithm status to complete
-        AlgoUtil::setAllocationStatus(true);
+        // Set the assignment algorithm status to complete
+        AlgoUtil::setAssignmentStatus(true);
 
-        Logger::getLogger("AllocationAlgorithm")->info("Completed allocation algorithm");
+        Logger::getLogger("AssignmentAlgorithm")->info("Completed assignment algorithm");
     }
 
     /**
@@ -133,7 +133,7 @@ class AllocationAlgorithm {
      * @param bool $loadChoiceForCourseLeaders Whether the chosen courses of course leaders should be loaded
      * @param AlgoUserData[]|null $users The users for which the courses should be loaded, or null for all users
      * @return void
-     * @throws AllocationAlgorithmException
+     * @throws AssignmentAlgorithmException
      */
     private function linkUsersToCourses(bool $loadChoiceForCourseLeaders, ?array $users = null): void {
         if($users === null) {
@@ -164,105 +164,105 @@ class AllocationAlgorithm {
     }
 
     /**
-     * Get all users that have not been allocated to a course yet
-     * @param bool $includeCourseLeaders Whether (unallocated) course leaders should be included in the returned array
+     * Get all users that have not been assigned to a course yet
+     * @param bool $includeCourseLeaders Whether (unassigned) course leaders should be included in the returned array
      * @return AlgoUserData[]
-     * @throws AllocationAlgorithmException
+     * @throws AssignmentAlgorithmException
      */
-    private function getUnallocatedUsers(bool $includeCourseLeaders): array {
+    private function getUnassignedUsers(bool $includeCourseLeaders): array {
         return array_filter($this->users, function(AlgoUserData $user) use ($includeCourseLeaders) {
-            return !$user->isAllocated() && ($includeCourseLeaders || $user->getLeadingCourse() === null);
+            return !$user->isAssigned() && ($includeCourseLeaders || $user->getLeadingCourse() === null);
         });
     }
 
     /**
-     * Get all users that have been allocated to a course, sorted by the choice priority of the course in descending order
+     * Get all users that have been assigned to a course, sorted by the choice priority of the course in descending order
      * @return AlgoUserData[]
-     * @throws AllocationAlgorithmException
+     * @throws AssignmentAlgorithmException
      */
-    private function getAllocatedUsersSortedByPriority(): array {
+    private function getAssignedUsersSortedByPriority(): array {
         $sortedUsers = array_filter($this->users, function(AlgoUserData $user) {
-            return $user->isAllocated();
+            return $user->isAssigned();
         }); // Filtered copy of the user array, so that it can be sorted in-place
         usort($sortedUsers, function(AlgoUserData $a, AlgoUserData $b) {
-            return $b->getCoursePriority($b->getAllocatedCourse()) <=> $a->getCoursePriority($a->getAllocatedCourse());
+            return $b->getCoursePriority($b->getAssignedCourse()) <=> $a->getCoursePriority($a->getAssignedCourse());
         });
         return $sortedUsers;
     }
 
-    private function probabilityAllocation(): void {
-        Logger::getLogger("AllocationAlgorithm")->trace("Coarse allocation of users to courses using the probability-based approach");
+    private function probabilityAssignment(): void {
+        Logger::getLogger("AssignmentAlgorithm")->trace("Coarse assignment of users to courses using the probability-based approach");
         foreach($this->getCoursesSortedByRelativeInterestRate() as $course) {
-            $course->coarseUserAllocation();
+            $course->coarseUserAssignment();
         }
-        $this->logAllocation();
+        $this->logAssignment();
     }
 
-    private function chainingAllocation(): void {
-        Logger::getLogger("AllocationAlgorithm")->trace("Allocate unallocated users by finding allocation chains");
-        foreach($this->getUnallocatedUsers(false) as $user) {
-            $allocationChain = $user->findAllocationChain();
-            if(empty($allocationChain)) {
+    private function chainingAssignment(): void {
+        Logger::getLogger("AssignmentAlgorithm")->trace("Assign unassigned users by finding assignment chains");
+        foreach($this->getUnassignedUsers(false) as $user) {
+            $assignmentChain = $user->findAssignmentChain();
+            if(empty($assignmentChain)) {
                 continue;
             }
 
-            // Allocate the user by reallocating the users in the allocation chain
-            foreach($allocationChain as $chainItem) {
-                AlgoUtil::setAllocation($chainItem["user"], $chainItem["course"]);
+            // Assign the user by reassigning the users in the assignment chain
+            foreach($assignmentChain as $chainItem) {
+                AlgoUtil::setAssignment($chainItem["user"], $chainItem["course"]);
             }
         }
-        $this->logAllocation();
+        $this->logAssignment();
     }
 
-    private function enhanceAllocation(): void {
-        Logger::getLogger("AllocationAlgorithm")->trace("Fine-tune the allocation by reallocating users to courses with higher choice priority");
+    private function enhanceAssignment(): void {
+        Logger::getLogger("AssignmentAlgorithm")->trace("Fine-tune the assignment by reassigning users to courses with higher choice priority");
         $iterations = 0;
         do {
             $swappedUsers = 0;
             $iterations++;
-            foreach($this->getAllocatedUsersSortedByPriority() as $user) {
-                $currentPriority = $user->getCoursePriority($user->getAllocatedCourse());
+            foreach($this->getAssignedUsersSortedByPriority() as $user) {
+                $currentPriority = $user->getCoursePriority($user->getAssignedCourse());
                 foreach($user->getChosenCoursesWithHigherPriority($currentPriority) as $course) {
                     if(!$course->isSpaceLeft()) {
                         continue;
                     }
 
                     $swappedUsers++;
-                    AlgoUtil::setAllocation($user, $course);
+                    AlgoUtil::setAssignment($user, $course);
 
-                    // Break the inner loop, because the user has been allocated to a chosen course with the highest priority which is still available
+                    // Break the inner loop, because the user has been assigned to a chosen course with the highest priority which is still available
                     // Because the chosen courses are indexed by priority, the highest priority is first
                     break;
                 }
             }
         } while($swappedUsers > 0 || $iterations <= 10);
-        $this->logAllocation();
+        $this->logAssignment();
     }
 
     /**
-     * Output allocation statistics to the logfile
+     * Output assignment statistics to the logfile
      * @return void
-     * @throws AllocationAlgorithmException
+     * @throws AssignmentAlgorithmException
      */
-    private function logAllocation(): void {
+    private function logAssignment(): void {
         $courseLeaders = 0;
         foreach($this->courses as $course) {
             if($course->isCancelled()) {
-                Logger::getLogger("AllocationAlgorithm")->trace("Course {$course->id}: CANCELLED");
+                Logger::getLogger("AssignmentAlgorithm")->trace("Course {$course->id}: CANCELLED");
                 continue;
             }
 
             $courseLeaders += count($course->getCourseLeaders());
 
-            Logger::getLogger("AllocationAlgorithm")->trace("Course {$course->id}: " . count($course->getParticipants()) . " / {$course->maxParticipants} (Min {$course->minParticipants})");
+            Logger::getLogger("AssignmentAlgorithm")->trace("Course {$course->id}: " . count($course->getParticipants()) . " / {$course->maxParticipants} (Min {$course->minParticipants})");
         }
 
         $message = "Users: ";
         $message .= count($this->users) . " in total, ";
-        $message .= count($this->getUnallocatedUsers(true)) . " unallocated (including course leaders), ";
-        $message .= count($this->getUnallocatedUsers(false)) . " unallocated (excluding course leaders), ";
+        $message .= count($this->getUnassignedUsers(true)) . " unassigned (including course leaders), ";
+        $message .= count($this->getUnassignedUsers(false)) . " unassigned (excluding course leaders), ";
         $message .= $courseLeaders . " course leaders";
 
-        Logger::getLogger("AllocationAlgorithm")->trace($message);
+        Logger::getLogger("AssignmentAlgorithm")->trace($message);
     }
 }

@@ -111,7 +111,7 @@ class User extends GenericUser {
             }
         }
 
-        // Delete allocation
+        // Delete assignment
         // TODO
     }
 }
