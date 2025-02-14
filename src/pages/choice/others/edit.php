@@ -23,7 +23,7 @@ try {
 $account = $get["user"];
 
 $choosableCourses = Course::dao()->getChoosableCourses($account);
-$voteCount = intval(SystemSetting::dao()->get("voteCount"));
+$choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
 $saveLink = Router::generate("choice-save-others", ["user" => $account->getId()]);
 
 $breadcrumbs = [
@@ -48,7 +48,7 @@ $breadcrumbs = [
 
 echo Blade->run("choice.edit", [
     "choosableCourses" => $choosableCourses,
-    "voteCount" => $voteCount,
+    "choiceCount" => $choiceCount,
     "user" => $account,
     "saveLink" => $saveLink,
     "breadcrumbs" => $breadcrumbs

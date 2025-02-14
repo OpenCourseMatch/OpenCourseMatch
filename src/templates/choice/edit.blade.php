@@ -7,7 +7,7 @@
     </h1>
 
     <form method="post" action="{{ $saveLink }}">
-        @for($i = 0; $i < $voteCount; $i++)
+        @for($i = 0; $i < $choiceCount; $i++)
             <input type="hidden" name="choice[]"
                    value="{{ $user->getChoice($i)?->getCourseId() ?? "" }}"
                    data-choice-index="{{ $i }}">
@@ -40,7 +40,7 @@
                     @else
                         <span></span>
                     @endif
-                    @if($i < $voteCount - 1)
+                    @if($i < $choiceCount - 1)
                         <button type="button"
                                 class="{{ TailwindUtil::button(true) }}"
                                 data-action="next">

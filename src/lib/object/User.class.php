@@ -82,10 +82,10 @@ class User extends GenericUser {
     public function getChoices(): array {
         if(!$this->chosenCourses) {
             $chosenCourses = Choice::dao()->getObjects(["userId" => $this->getId()], "priority");
-            $voteCount = intval(SystemSetting::dao()->get("voteCount"));
+            $choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
 
             $this->chosenCourses = [];
-            for($i = 0; $i < $voteCount; $i++) {
+            for($i = 0; $i < $choiceCount; $i++) {
                 $this->chosenCourses[$i] = null;
             }
 

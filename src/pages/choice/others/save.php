@@ -22,7 +22,7 @@ try {
 
 $account = $get["user"];
 
-$voteCount = intval(SystemSetting::dao()->get("voteCount"));
+$choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
 
 $singleChoiceValidation = \validation\Validator::create([
     \validation\IsRequired::create(),
@@ -30,7 +30,7 @@ $singleChoiceValidation = \validation\Validator::create([
 ]);
 
 $choiceValidation = [];
-for($i = 0; $i < $voteCount; $i++) {
+for($i = 0; $i < $choiceCount; $i++) {
     $choiceValidation[$i] = $singleChoiceValidation;
 }
 
@@ -40,8 +40,8 @@ $validation = \validation\Validator::create([
     \validation\HasChildren::create([
         "choice" => \validation\Validator::create([
             \validation\IsArray::create(),
-            \validation\MinLength::create($voteCount),
-            \validation\MaxLength::create($voteCount),
+            \validation\MinLength::create($choiceCount),
+            \validation\MaxLength::create($choiceCount),
             \validation\HasChildren::create($choiceValidation)
         ])
     ])

@@ -32,9 +32,9 @@ class SystemSettingDAO extends GenericObjectDAO {
 
     public function defaultValues(): array {
         return [
-            "voteCount" => [
+            "choiceCount" => [
                 "value" => "3",
-                "name" => t("Vote count"),
+                "name" => t("Choice count"),
                 "description" => t("The number of courses that the participants have to choose"),
                 "validation" => \validation\Validator::create([
                     \validation\MaxLength::create(512),

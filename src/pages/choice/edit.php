@@ -8,7 +8,7 @@ if($user->getPermissionLevel() > PermissionLevel::USER->value) {
 }
 
 $choosableCourses = Course::dao()->getChoosableCourses($user);
-$voteCount = intval(SystemSetting::dao()->get("voteCount"));
+$choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
 $saveLink = Router::generate("choice-save");
 
 $breadcrumbs = [
@@ -25,7 +25,7 @@ $breadcrumbs = [
 
 echo Blade->run("choice.edit", [
     "choosableCourses" => $choosableCourses,
-    "voteCount" => $voteCount,
+    "choiceCount" => $choiceCount,
     "user" => $user,
     "saveLink" => $saveLink,
     "breadcrumbs" => $breadcrumbs
