@@ -7,6 +7,11 @@ if($user->getPermissionLevel() > PermissionLevel::USER->value) {
     Comm::redirect(Router::generate("index"));
 }
 
+if(SystemStatus::dao()->get("userActionsAllowed") !== "true") {
+    new InfoMessage(t("The course selection has already been disabled. You can no longer update your course preferences."), InfoMessageType::ERROR);
+    Comm::redirect(Router::generate("index"));
+}
+
 $choosableCourses = Course::dao()->getChoosableCourses($user);
 $choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
 $saveLink = Router::generate("choice-save");

@@ -1,14 +1,22 @@
 <h2 class="mt-4 mb-2">
     {{ t("Choose courses") }}
 </h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    @include("components.dashboardlink", [
-        "icon" => "components.icons.course",
-        "href" => Router::generate("choice-edit"),
-        "title" => t("Choose courses"),
-        "description" => t("Rank your favourite courses that you would like to participate in.")
+@if(SystemStatus::dao()->get("userActionsAllowed") !== "true")
+    @component("components.layout.infomessage", [
+        "type" => InfoMessageType::WARNING
     ])
-</div>
+        {{ t("The course selection has already been disabled. You can no longer update your course preferences.") }}
+    @endcomponent
+@else
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        @include("components.dashboardlink", [
+            "icon" => "components.icons.course",
+            "href" => Router::generate("choice-edit"),
+            "title" => t("Choose courses"),
+            "description" => t("Rank your favourite courses that you would like to participate in.")
+        ])
+    </div>
+@endif
 
 <h2 class="mt-4 mb-2">
     {{ t("About OpenCourseMatch") }}

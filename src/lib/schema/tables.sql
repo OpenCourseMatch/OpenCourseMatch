@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `SystemStatus` (
     PRIMARY KEY (`id`),
     UNIQUE KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-INSERT INTO SystemStatus VALUE (NULL, 'userLoginAllowed', 'true', NOW(), NOW());
+INSERT INTO SystemStatus VALUE (NULL, 'userActionsAllowed', 'true', NOW(), NOW());
 INSERT INTO SystemStatus VALUE (NULL, 'algorithmRunning', 'false', NOW(), NOW());
 INSERT INTO SystemStatus VALUE (NULL, 'coursesAssigned', 'false', NOW(), NOW());
 
