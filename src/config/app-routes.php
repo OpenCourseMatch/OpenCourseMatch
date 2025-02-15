@@ -80,6 +80,9 @@ Router::addRoute("POST", "/course-assignment/ajax/edit/move-here/{i:course}", "a
 Router::addRoute("GET", "/system-settings", "system-settings/system-settings.php", "system-settings");
 Router::addRoute("POST", "/system-settings/save", "system-settings/system-settings-save.php", "system-settings-save");
 
+// Toggle user actions
+Router::addRoute("GET", "/user-actions/toggle", "user-actions/toggle.php", "user-actions-toggle");
+
 // Choice (for users)
 Router::addRoute("GET", "/choice", "choice/edit.php", "choice-edit");
 Router::addRoute("POST", "/choice/save", "choice/save.php", "choice-save");

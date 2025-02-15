@@ -95,6 +95,13 @@
         "title" => t("System settings"),
         "description" => t("Configure OpenCourseMatch to your organizations' needs.")
     ])
+    @include("components.dashboardlink", [
+        "icon" => "components.icons.user",
+        "href" => Router::generate("user-actions-toggle"),
+        "title" => SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Course selection enabled") : t("Course selection disabled"),
+        "description" => SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Disable the course selection for users.") : t("Enable the course selection for users."),
+        "danger" => SystemStatus::dao()->get("userActionsAllowed") !== "true"
+    ])
     {{-- Reset all data --}}
 </div>
 
