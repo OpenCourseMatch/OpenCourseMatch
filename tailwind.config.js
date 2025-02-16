@@ -86,7 +86,7 @@ module.exports = {
         },
         extend: {
             spacing: {
-                "content-padding-sm": "2.5%",
+                "content-padding-sm": "5%",
                 "content-padding-md": "10%",
                 "content-padding-lg": "15%",
                 "header-logo-height": "5vh",
