@@ -23,6 +23,23 @@
             @endif
         </td>
     </tr>
+    @if($account->getPermissionLevel() === PermissionLevel::USER->value)
+        <tr style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
+            <td style="padding: 0;">
+                {{ t("Group") }}:
+            </td>
+            <td style="padding-left: 1em;">
+                @if($account->getGroup() !== null)
+                    <span style="font-family: monospace; font-weight: bolder;">
+                        {{ $account->getGroup()->getName() }}
+                    </span>
+                    ({{ $account->getGroup()->getClearance() }})
+                @else
+                    {{ t("Default group") }} (0)
+                @endif
+            </td>
+        </tr>
+    @endif
 </table>
 
 {{ t("It's recommended to change the initial password after your first login. To do that, navigate to the account settings.") }}
@@ -30,5 +47,3 @@
 {{ t("Log in to your account by scanning this QR code") }}:
 <br><br>
 <img src="{{ $loginQrCodeData }}" alt="Login QR code" style="width: 25%;">
-
-{{-- TODO: More user information... Group, chosen projects, etc. --}}
