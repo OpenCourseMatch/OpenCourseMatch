@@ -39,6 +39,30 @@
                 @endif
             </td>
         </tr>
+
+        <tr style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
+            <td style="padding: 0;">
+                {{ t("Chosen courses") }}:
+            </td>
+            <td style="padding-left: 1em;">
+                @foreach($account->getChoices() as $i => $choice)
+                    @if($choice !== null)
+                        @if($i > 0)
+                            <br>
+                        @endif
+                        {{ $i + 1 }}:
+                        <span style="font-family: monospace; font-weight: bolder;">
+                            {{ $choice->getCourse()->getTitle() }}
+                        </span>
+                        @if($choice->getCourse()->getOrganizer() !== null)
+                            ({{ $choice->getCourse()->getOrganizer() }})
+                        @endif
+                    @else
+                        {{ $i + 1 }}: -
+                    @endif
+                @endforeach
+            </td>
+        </tr>
     @endif
 </table>
 
