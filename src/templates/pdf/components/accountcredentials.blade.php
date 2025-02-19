@@ -58,6 +58,9 @@
                             ({{ $choice->getCourse()->getOrganizer() }})
                         @endif
                     @else
+                        @if($i > 0)
+                            <br>
+                        @endif
                         {{ $i + 1 }}: -
                     @endif
                 @endforeach
