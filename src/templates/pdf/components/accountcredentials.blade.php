@@ -63,6 +63,24 @@
                 @endforeach
             </td>
         </tr>
+
+        <tr style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
+            <td style="padding: 0;">
+                {{ t("Assigned course") }}:
+            </td>
+            <td style="padding-left: 1em;">
+                @if($account->getAssignedCourse() !== null)
+                    <span style="font-family: monospace; font-weight: bolder;">
+                        {{ $account->getAssignedCourse()->getTitle() }}
+                    </span>
+                    @if($account->getAssignedCourse()->getOrganizer() !== null)
+                        ({{ $account->getAssignedCourse()->getOrganizer() }})
+                    @endif
+                @else
+                    -
+                @endif
+            </td>
+        </tr>
     @endif
 </table>
 

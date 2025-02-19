@@ -10,6 +10,7 @@ class User extends GenericUser {
     private ?Group $group = null;
     private ?Course $leadingCourse = null;
     private ?array $chosenCourses = null;
+    private ?Course $assignedCourse = null;
 
     public function getFirstName(): ?string {
         return $this->firstName;
@@ -100,6 +101,17 @@ class User extends GenericUser {
     public function getChoice(int $priority): ?Choice {
         $chosenCourses = $this->getChoices();
         return $chosenCourses[$priority];
+    }
+
+    public function getAssignedCourse(): ?Course {
+        if(!$this->assignedCourse) {
+            $assignment = Assignment::dao()->getObject([
+                "userId" => $this->getId()
+            ]);
+            $this->assignedCourse = $assignment?->getCourse();
+        }
+
+        return $this->assignedCourse;
     }
 
     public function preDelete(): void {
