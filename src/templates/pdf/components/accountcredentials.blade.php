@@ -23,7 +23,16 @@
             @endif
         </td>
     </tr>
-    @if($account->getPermissionLevel() === PermissionLevel::USER->value)
+</table>
+
+<br>
+@if($password !== null)
+    {{ t("It's recommended to change the initial password after your first login. To do that, navigate to the account settings.") }}
+    <br><br>
+@endif
+
+@if($account->getPermissionLevel() === PermissionLevel::USER->value)
+    <table style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
         <tr style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
             <td style="padding: 0;">
                 {{ t("Group") }}:
@@ -84,10 +93,8 @@
                 @endif
             </td>
         </tr>
-    @endif
-</table>
-
-{{ t("It's recommended to change the initial password after your first login. To do that, navigate to the account settings.") }}
+    </table>
+@endif
 <br><br>
 {{ t("Log in to your account by scanning this QR code") }}:
 <br><br>
