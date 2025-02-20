@@ -51,6 +51,24 @@
 
         <tr style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
             <td style="padding: 0;">
+                {{ t("Leading course") }}:
+            </td>
+            <td style="padding-left: 1em;">
+                @if($account->getLeadingCourse() !== null)
+                    <span style="font-family: monospace; font-weight: bolder;">
+                            {{ $account->getLeadingCourse()->getTitle() }}
+                        </span>
+                    @if($account->getLeadingCourse()->getOrganizer() !== null)
+                        ({{ $account->getLeadingCourse()->getOrganizer() }})
+                    @endif
+                @else
+                    -
+                @endif
+            </td>
+        </tr>
+
+        <tr style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
+            <td style="padding: 0;">
                 {{ t("Chosen courses") }}:
             </td>
             <td style="padding-left: 1em;">
