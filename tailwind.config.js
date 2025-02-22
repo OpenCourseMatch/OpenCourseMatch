@@ -79,6 +79,10 @@ module.exports = {
                 }
             }
         },
+        fontFamily: {
+            "sans": ["OpenSans", "Segoe UI", "Helvetica Neue", "ui-sans-serif", "system-ui", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"],
+            "mono": ["monospace"]
+        },
         screens: {
             "sm": "640px",
             "md": "960px",
