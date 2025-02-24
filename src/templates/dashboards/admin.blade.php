@@ -2,10 +2,60 @@
     {{ t("Statistics") }}
 </h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    {{-- Number of participants and tutors --}}
-    {{-- Number of courses --}}
-    {{-- Login for participants and tutors allowed --}}
-    {{-- Courses assigned --}}
+    <div class="flex flex-col w-full justify-center p-4 gap-2 bg-opacity-20 rounded border border-2 bg-primary border-primary">
+        <p class="text-xl font-bold">
+            {{ t("System status") }}
+        </p>
+
+        <div class="flex gap-2">
+            @if(SystemStatus::dao()->get("userLoginAllowed") === "true")
+                @include("components.icons.checkcircle", [
+                    "class" => "fill-safe"
+                ])
+            @else
+                @include("components.icons.crosscircle", [
+                    "class" => "fill-danger"
+                ])
+            @endif
+            <p>
+                {{ t("User login") }}
+            </p>
+        </div>
+
+        <div class="flex gap-2">
+            @if(SystemStatus::dao()->get("coursesAssigned") === "true")
+                @include("components.icons.checkcircle", [
+                    "class" => "fill-safe"
+                ])
+            @else
+                @include("components.icons.crosscircle", [
+                    "class" => "fill-danger"
+                ])
+            @endif
+            <p>
+                {{ t("Courses assigned") }}
+            </p>
+        </div>
+    </div>
+
+    <div class="flex flex-col w-full justify-center items-center p-4 gap-2 bg-opacity-20 rounded border border-2 bg-primary border-primary">
+        <p class="text-4xl font-bold">
+            {{ $numberOfParticipantsAndTutors ?? 0 }}
+        </p>
+        <p>
+            {{ t("Participants and tutors") }}
+        </p>
+    </div>
+
+    <div class="flex flex-col w-full justify-center items-center p-4 gap-2 bg-opacity-20 rounded border border-2 bg-primary border-primary">
+        <p class="text-4xl font-bold">
+            {{ $numberOfCourses ?? 0 }}
+        </p>
+        <p>
+            {{ t("Courses") }}
+        </p>
+    </div>
+
     {{-- View more statistics --}}
 </div>
 
