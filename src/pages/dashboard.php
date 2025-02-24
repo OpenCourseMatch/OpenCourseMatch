@@ -8,4 +8,15 @@ if($user->getPermissionLevel() === PermissionLevel::ADMIN->value) {
     }
 }
 
-echo Blade->run("dashboard");
+$variables = [];
+if($user->getPermissionLevel() === PermissionLevel::ADMIN->value) {
+    $users = count(User::dao()->getObjects([
+        "permissionLevel" => PermissionLevel::USER->value
+    ]));
+    $variables["numberOfParticipantsAndTutors"] = $users;
+
+    $courses = count(Course::dao()->getObjects());
+    $variables["numberOfCourses"] = $courses;
+}
+
+echo Blade->run("dashboard", $variables);

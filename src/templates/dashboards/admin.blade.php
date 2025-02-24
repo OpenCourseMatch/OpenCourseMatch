@@ -40,7 +40,7 @@
 
     <div class="flex flex-col w-full justify-center items-center p-4 gap-2 bg-opacity-20 rounded border border-2 bg-primary border-primary">
         <p class="text-4xl font-bold">
-            {{ $numberOfParticipantsAndTutors ?? 0 }}
+            {{ $numberOfParticipantsAndTutors ? number_format($numberOfParticipantsAndTutors, 0, ",", ".") : 0 }}
         </p>
         <p>
             {{ t("Participants and tutors") }}
@@ -49,7 +49,7 @@
 
     <div class="flex flex-col w-full justify-center items-center p-4 gap-2 bg-opacity-20 rounded border border-2 bg-primary border-primary">
         <p class="text-4xl font-bold">
-            {{ $numberOfCourses ?? 0 }}
+            {{ $numberOfCourses ? number_format($numberOfCourses, 0, ",", ".") : 0 }}
         </p>
         <p>
             {{ t("Courses") }}
