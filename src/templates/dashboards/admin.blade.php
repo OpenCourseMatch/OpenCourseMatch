@@ -56,7 +56,12 @@
         </p>
     </div>
 
-    {{-- View more statistics --}}
+    @include("components.dashboardlink", [
+        "icon" => "components.icons.statistics",
+        "href" => Router::generate("statistics"),
+        "title" => t("Statistics"),
+        "description" => t("View more detailed statistics.")
+    ])
 </div>
 
 <h2 class="mt-4 mb-2">
