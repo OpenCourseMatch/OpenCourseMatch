@@ -8,7 +8,7 @@
         </p>
 
         <div class="flex gap-2">
-            @if(SystemStatus::dao()->get("userLoginAllowed") === "true")
+            @if(SystemStatus::dao()->get("userActionsAllowed") === "true")
                 @include("components.icons.checkcircle", [
                     "class" => "fill-safe"
                 ])
