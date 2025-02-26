@@ -91,6 +91,9 @@ Router::addRoute("POST", "/choice/save", "choice/save.php", "choice-save");
 Router::addRoute("GET", "/choice/others/{i:user}", "choice/others/edit.php", "choice-edit-others");
 Router::addRoute("POST", "/choice/others/save/{i:user}", "choice/others/save.php", "choice-save-others");
 
+// Statistics
+Router::addRoute("GET", "/statistics", "statistics/overview.php", "statistics-overview");
+
 // Authentication
 Router::addRoute("GET", "/auth/login", "auth/login.php", "auth-login");
 Router::addRoute("POST", "/auth/login", "auth/login-action.php", "auth-login-action");

@@ -58,7 +58,7 @@
 
     @include("components.dashboardlink", [
         "icon" => "components.icons.statistics",
-        "href" => Router::generate("statistics"),
+        "href" => Router::generate("statistics-overview"),
         "title" => t("Statistics"),
         "description" => t("View more detailed statistics.")
     ])
