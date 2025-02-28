@@ -55,4 +55,15 @@ const initChart = (id, title, type, dataLabel, data, labels, fontFamily, baseOpt
     });
 }
 
-export default {  };
+export const initAccountTypesChart = (translations, data) => {
+    initChart(
+        "statistics-account-types",
+        translations.title,
+        "doughnut",
+        translations.dataLabel,
+        data,
+        [translations.user, translations.facilitator, translations.admin],
+    );
+}
+
+export default { initAccountTypesChart };
