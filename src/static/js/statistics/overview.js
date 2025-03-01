@@ -66,4 +66,18 @@ export const initAccountTypesChart = (translations, data) => {
     );
 }
 
-export default { initAccountTypesChart };
+export const initUserTypesChart = (translations, data) => {
+    initChart(
+        "statistics-user-types",
+        translations.title,
+        "doughnut",
+        translations.dataLabel,
+        data,
+        [translations.participant, translations.tutor],
+    );
+}
+
+export default {
+    initAccountTypesChart,
+    initUserTypesChart
+};

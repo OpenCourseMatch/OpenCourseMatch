@@ -10,6 +10,10 @@
         <div class="flex flex-col w-full justify-center">
             <canvas id="statistics-account-types"></canvas>
         </div>
+
+        <div class="flex flex-col w-full justify-center">
+            <canvas id="statistics-user-types"></canvas>
+        </div>
     </div>
 
     <script type="module">
@@ -25,6 +29,16 @@
             {{ $statistics["accountTypes"]["user"] }},
             {{ $statistics["accountTypes"]["facilitator"] }},
             {{ $statistics["accountTypes"]["administrator"] }}
+        ]);
+
+        StatisticsOverview.initUserTypesChart({
+            title: "{{ t("Account types") }}",
+            dataLabel: "{{ t("Accounts") }}",
+            participant: "{{ t("Participant") }}",
+            tutor: "{{ t("Tutor") }}"
+        }, [
+            {{ $statistics["userTypes"]["participant"] }},
+            {{ $statistics["userTypes"]["tutor"] }}
         ]);
     </script>
 @endcomponent
