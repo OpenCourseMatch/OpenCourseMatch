@@ -14,6 +14,10 @@
         <div class="flex flex-col w-full justify-center">
             <canvas id="statistics-user-types"></canvas>
         </div>
+
+        <div class="flex flex-col w-full justify-center">
+            <canvas id="statistics-groups"></canvas>
+        </div>
     </div>
 
     <script type="module">
@@ -32,7 +36,7 @@
         ]);
 
         StatisticsOverview.initUserTypesChart({
-            title: "{{ t("Account types") }}",
+            title: "{{ t("User types") }}",
             dataLabel: "{{ t("Accounts") }}",
             participant: "{{ t("Participant") }}",
             tutor: "{{ t("Tutor") }}"
@@ -40,5 +44,11 @@
             {{ $statistics["userTypes"]["participant"] }},
             {{ $statistics["userTypes"]["tutor"] }}
         ]);
+
+        StatisticsOverview.initGroupsChart({
+            title: "{{ t("Groups") }}",
+            dataLabel: "{{ t("Accounts") }}",
+            defaultGroup: "{{ t("Default group") }}"
+        }, @json($statistics["groups"]));
     </script>
 @endcomponent

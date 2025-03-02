@@ -11,6 +11,11 @@ $statistics = [
     "userTypes" => [
         "participant" => 0,
         "tutor" => 0
+    ],
+    "groups" => [
+        "default" => 0,
+        "customData" => [],
+        "customLabels" => []
     ]
 ];
 
@@ -25,11 +30,27 @@ foreach($users as $account) {
         } else {
             $statistics["userTypes"]["participant"]++;
         }
+
+        if($account->getGroupId() === null) {
+            $statistics["groups"]["default"]++;
+        } else {
+            if(!isset($statistics["groups"]["customData"][$account->getGroupId()])) {
+                $statistics["groups"]["customData"][$account->getGroupId()] = 0;
+            }
+            $statistics["groups"]["customData"][$account->getGroupId()]++;
+        }
+
     } else if($account->getPermissionLevel() === PermissionLevel::FACILITATOR->value) {
         $statistics["accountTypes"]["facilitator"]++;
     } else if($account->getPermissionLevel() === PermissionLevel::ADMIN->value) {
         $statistics["accountTypes"]["administrator"]++;
     }
+}
+
+$groups = Group::dao()->getObjects();
+
+foreach($groups as $group) {
+    $statistics["groups"]["customLabels"][$group->getId()] = $group->getName();
 }
 
 $breadcrumbs = [

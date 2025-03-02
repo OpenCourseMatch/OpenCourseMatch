@@ -62,7 +62,7 @@ export const initAccountTypesChart = (translations, data) => {
         "doughnut",
         translations.dataLabel,
         data,
-        [translations.user, translations.facilitator, translations.admin],
+        [translations.user, translations.facilitator, translations.admin]
     );
 }
 
@@ -73,11 +73,36 @@ export const initUserTypesChart = (translations, data) => {
         "doughnut",
         translations.dataLabel,
         data,
-        [translations.participant, translations.tutor],
+        [translations.participant, translations.tutor]
+    );
+}
+
+export const initGroupsChart = (translations, data) => {
+
+    let chartData = [ data.default ];
+    let chartLabels = [ translations.defaultGroup ];
+
+    for(const groupId in data.customLabels) {
+        if(data.customData[groupId] !== undefined) {
+            chartData.push(data.customData[groupId]);
+        } else {
+            chartData.push(0);
+        }
+        chartLabels.push(data.customLabels[groupId]);
+    }
+
+    initChart(
+        "statistics-groups",
+        translations.title,
+        "doughnut",
+        translations.dataLabel,
+        chartData,
+        chartLabels
     );
 }
 
 export default {
     initAccountTypesChart,
-    initUserTypesChart
+    initUserTypesChart,
+    initGroupsChart
 };
