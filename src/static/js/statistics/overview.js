@@ -101,8 +101,20 @@ export const initGroupsChart = (translations, data) => {
     );
 }
 
+export const initChoicesChart = (translations, data) => {
+    initChart(
+        "statistics-choices",
+        translations.title,
+        "doughnut",
+        translations.dataLabel,
+        data,
+        [translations.complete, translations.incomplete, translations.missing]
+    );
+}
+
 export default {
     initAccountTypesChart,
     initUserTypesChart,
-    initGroupsChart
+    initGroupsChart,
+    initChoicesChart
 };

@@ -16,6 +16,11 @@ $statistics = [
         "default" => 0,
         "customData" => [],
         "customLabels" => []
+    ],
+    "choices" => [
+        "complete" => 0,
+        "incomplete" => 0,
+        "missing" => 0
     ]
 ];
 
@@ -38,6 +43,25 @@ foreach($users as $account) {
                 $statistics["groups"]["customData"][$account->getGroupId()] = 0;
             }
             $statistics["groups"]["customData"][$account->getGroupId()]++;
+        }
+
+        $choices = $account->getChoices();
+        $allChoices = true;
+        $noChoices = true;
+        foreach($choices as $choice) {
+            if($choice instanceof Choice) {
+                $noChoices = false;
+            } else {
+                $allChoices = false;
+            }
+        }
+
+        if($allChoices) {
+            $statistics["choices"]["complete"]++;
+        } else if($noChoices) {
+            $statistics["choices"]["missing"]++;
+        } else {
+            $statistics["choices"]["incomplete"]++;
         }
 
     } else if($account->getPermissionLevel() === PermissionLevel::FACILITATOR->value) {
