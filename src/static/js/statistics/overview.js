@@ -77,18 +77,17 @@ export const initUserTypesChart = (translations, data) => {
     );
 }
 
-export const initGroupsChart = (translations, data) => {
-
+export const initGroupsChart = (translations, data, customGroups) => {
     let chartData = [ data.default ];
     let chartLabels = [ translations.defaultGroup ];
 
-    for(const groupId in data.customLabels) {
+    for(const groupId in customGroups) {
         if(data.customData[groupId] !== undefined) {
             chartData.push(data.customData[groupId]);
         } else {
             chartData.push(0);
         }
-        chartLabels.push(data.customLabels[groupId]);
+        chartLabels.push(customGroups[groupId]);
     }
 
     initChart(
@@ -112,9 +111,57 @@ export const initChoicesChart = (translations, data) => {
     );
 }
 
+export const initChoicesByGroupChart = (translations, data, customGroups) => {
+    let flippedChartData = [ data.default ];
+    let chartLabels = [ translations.defaultGroup ];
+
+    for(const groupId in customGroups) {
+        if(data.customData[groupId] !== undefined) {
+            flippedChartData.push(data.customData[groupId]);
+        } else {
+            flippedChartData.push({
+                complete: 0,
+                incomplete: 0,
+                missing: 0
+            });
+        }
+        chartLabels.push(customGroups[groupId]);
+    }
+
+    let chartData = [];
+    for(const key in flippedChartData[0]) {
+        let dataset = [];
+        flippedChartData.forEach((data) => {
+            dataset.push(data[key]);
+        });
+        chartData.push(dataset);
+    }
+
+    initChart(
+        "statistics-choices-by-group",
+        translations.title,
+        "bar",
+        [translations.complete, translations.incomplete, translations.missing],
+        chartData,
+        chartLabels,
+        "OpenSans",
+        {
+            scales: {
+                x: {
+                    stacked: true
+                },
+                y: {
+                    stacked: true
+                }
+            }
+        }
+    );
+}
+
 export default {
     initAccountTypesChart,
     initUserTypesChart,
     initGroupsChart,
-    initChoicesChart
+    initChoicesChart,
+    initChoicesByGroupChart
 };

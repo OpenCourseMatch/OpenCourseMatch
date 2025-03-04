@@ -22,6 +22,10 @@
         <div class="flex flex-col w-full justify-center">
             <canvas id="statistics-choices"></canvas>
         </div>
+
+        <div class="flex flex-col w-full justify-center">
+            <canvas id="statistics-choices-by-group"></canvas>
+        </div>
     </div>
 
     <script type="module">
@@ -53,7 +57,7 @@
             title: "{{ t("Groups") }}",
             dataLabel: "{{ t("Accounts") }}",
             defaultGroup: "{{ t("Default group") }}"
-        }, @json($statistics["groups"]));
+        }, @json($statistics["groups"]), @json($customGroups));
 
         StatisticsOverview.initChoicesChart({
             title: "{{ t("Choices") }}",
@@ -66,5 +70,14 @@
             {{ $statistics["choices"]["incomplete"] }},
             {{ $statistics["choices"]["missing"] }}
         ]);
+
+        StatisticsOverview.initChoicesByGroupChart({
+            title: "{{ t("Choices (by group)") }}",
+            dataLabel: "{{ t("Accounts") }}",
+            defaultGroup: "{{ t("Default group") }}",
+            complete: "{{ t("Complete") }}",
+            incomplete: "{{ t("Incomplete") }}",
+            missing: "{{ t("Missing") }}"
+        }, @json($statistics["choicesByGroup"]), @json($customGroups));
     </script>
 @endcomponent

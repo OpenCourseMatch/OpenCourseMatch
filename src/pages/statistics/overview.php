@@ -14,15 +14,24 @@ $statistics = [
     ],
     "groups" => [
         "default" => 0,
-        "customData" => [],
-        "customLabels" => []
+        "customData" => []
     ],
     "choices" => [
         "complete" => 0,
         "incomplete" => 0,
         "missing" => 0
+    ],
+    "choicesByGroup" => [
+        "default" => [
+            "complete" => 0,
+            "incomplete" => 0,
+            "missing" => 0
+        ],
+        "customData" => []
     ]
 ];
+
+$customGroups = [];
 
 $users = User::dao()->getObjects();
 
@@ -34,15 +43,6 @@ foreach($users as $account) {
             $statistics["userTypes"]["tutor"]++;
         } else {
             $statistics["userTypes"]["participant"]++;
-        }
-
-        if($account->getGroupId() === null) {
-            $statistics["groups"]["default"]++;
-        } else {
-            if(!isset($statistics["groups"]["customData"][$account->getGroupId()])) {
-                $statistics["groups"]["customData"][$account->getGroupId()] = 0;
-            }
-            $statistics["groups"]["customData"][$account->getGroupId()]++;
         }
 
         $choices = $account->getChoices();
@@ -64,6 +64,39 @@ foreach($users as $account) {
             $statistics["choices"]["incomplete"]++;
         }
 
+        if($account->getGroupId() === null) {
+            $statistics["groups"]["default"]++;
+
+            if($allChoices) {
+                $statistics["choicesByGroup"]["default"]["complete"]++;
+            } else if($noChoices) {
+                $statistics["choicesByGroup"]["default"]["missing"]++;
+            } else {
+                $statistics["choicesByGroup"]["default"]["incomplete"]++;
+            }
+        } else {
+            if(!isset($statistics["groups"]["customData"][$account->getGroupId()])) {
+                $statistics["groups"]["customData"][$account->getGroupId()] = 0;
+            }
+            if(!isset($statistics["choicesByGroup"]["customData"][$account->getGroupId()])) {
+                $statistics["choicesByGroup"]["customData"][$account->getGroupId()] = [
+                    "complete" => 0,
+                    "incomplete" => 0,
+                    "missing" => 0
+                ];
+            }
+
+            $statistics["groups"]["customData"][$account->getGroupId()]++;
+
+            if($allChoices) {
+                $statistics["choicesByGroup"]["customData"][$account->getGroupId()]["complete"]++;
+            } else if($noChoices) {
+                $statistics["choicesByGroup"]["customData"][$account->getGroupId()]["missing"]++;
+            } else {
+                $statistics["choicesByGroup"]["customData"][$account->getGroupId()]["incomplete"]++;
+            }
+        }
+
     } else if($account->getPermissionLevel() === PermissionLevel::FACILITATOR->value) {
         $statistics["accountTypes"]["facilitator"]++;
     } else if($account->getPermissionLevel() === PermissionLevel::ADMIN->value) {
@@ -74,7 +107,7 @@ foreach($users as $account) {
 $groups = Group::dao()->getObjects();
 
 foreach($groups as $group) {
-    $statistics["groups"]["customLabels"][$group->getId()] = $group->getName();
+    $customGroups[$group->getId()] = $group->getName();
 }
 
 $breadcrumbs = [
@@ -91,5 +124,6 @@ $breadcrumbs = [
 
 echo Blade->run("statistics.overview", [
     "breadcrumbs" => $breadcrumbs,
-    "statistics" => $statistics
+    "statistics" => $statistics,
+    "customGroups" => $customGroups
 ]);
