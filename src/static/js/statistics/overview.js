@@ -158,10 +158,22 @@ export const initChoicesByGroupChart = (translations, data, customGroups) => {
     );
 }
 
+export const initCourseLeadershipsChart = (translations, data) => {
+    initChart(
+        "statistics-course-leaderships",
+        translations.title,
+        "doughnut",
+        translations.dataLabel,
+        data,
+        [translations.user, translations.facilitator]
+    );
+}
+
 export default {
     initAccountTypesChart,
     initUserTypesChart,
     initGroupsChart,
     initChoicesChart,
-    initChoicesByGroupChart
+    initChoicesByGroupChart,
+    initCourseLeadershipsChart
 };

@@ -28,6 +28,10 @@ $statistics = [
             "missing" => 0
         ],
         "customData" => []
+    ],
+    "courseLeaderships" => [
+        "user" => 0,
+        "facilitator" => 0
     ]
 ];
 
@@ -101,6 +105,20 @@ foreach($users as $account) {
         $statistics["accountTypes"]["facilitator"]++;
     } else if($account->getPermissionLevel() === PermissionLevel::ADMIN->value) {
         $statistics["accountTypes"]["administrator"]++;
+    }
+}
+
+$courses = Course::dao()->getObjects();
+
+foreach($courses as $course) {
+    $courseLeaders = User::dao()->getObjects([
+        "leadingCourseId" => $course->getId()
+    ]);
+
+    if(count($courseLeaders) > 0) {
+        $statistics["courseLeaderships"]["user"]++;
+    } else {
+        $statistics["courseLeaderships"]["facilitator"]++;
     }
 }
 

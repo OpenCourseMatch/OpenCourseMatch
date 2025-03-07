@@ -28,6 +28,16 @@
         </div>
     </div>
 
+    <h2 class="mt-4 mb-2">
+        {{ t("Courses") }}
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="flex flex-col w-full justify-center">
+            <canvas id="statistics-course-leaderships"></canvas>
+        </div>
+    </div>
+
     <script type="module">
         import * as StatisticsOverview from "{{ Router::staticFilePath("js/statistics/overview.js") }}";
 
@@ -79,5 +89,15 @@
             incomplete: "{{ t("Incomplete") }}",
             missing: "{{ t("Missing") }}"
         }, @json($statistics["choicesByGroup"]), @json($customGroups));
+
+        StatisticsOverview.initCourseLeadershipsChart({
+            title: "{{ t("Course leaderships") }}",
+            dataLabel: "{{ t("Courses") }}",
+            user: "{{ t("User") }}",
+            facilitator: "{{ t("Facilitator") }}",
+        }, [
+            {{ $statistics["courseLeaderships"]["user"] }},
+            {{ $statistics["courseLeaderships"]["facilitator"] }}
+        ]);
     </script>
 @endcomponent
