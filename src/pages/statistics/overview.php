@@ -31,7 +31,8 @@ $statistics = [
     ],
     "courseLeaderships" => [
         "user" => 0,
-        "facilitator" => 0
+        "facilitator" => 0,
+        "cancelled" => 0
     ],
     "coursesByGroup" => [
         "default" => 0,
@@ -125,10 +126,14 @@ foreach($courses as $course) {
         "leadingCourseId" => $course->getId()
     ]);
 
-    if(count($courseLeaders) > 0) {
-        $statistics["courseLeaderships"]["user"]++;
+    if($course->isCancelled()) {
+        $statistics["courseLeaderships"]["cancelled"]++;
     } else {
-        $statistics["courseLeaderships"]["facilitator"]++;
+        if(count($courseLeaders) > 0) {
+            $statistics["courseLeaderships"]["user"]++;
+        } else {
+            $statistics["courseLeaderships"]["facilitator"]++;
+        }
     }
 
     if($course->isGroupAllowed(null)) {

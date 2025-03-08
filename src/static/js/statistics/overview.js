@@ -158,14 +158,14 @@ export const initChoicesByGroupChart = (translations, data, customGroups) => {
     );
 }
 
-export const initCourseLeadershipsChart = (translations, data) => {
+export const initCoursesChart = (translations, data) => {
     initChart(
-        "statistics-course-leaderships",
+        "statistics-courses",
         translations.title,
         "doughnut",
         translations.dataLabel,
         data,
-        [translations.user, translations.facilitator]
+        [translations.user, translations.facilitator, translations.cancelled]
     );
 }
 
@@ -198,6 +198,6 @@ export default {
     initGroupsChart,
     initChoicesChart,
     initChoicesByGroupChart,
-    initCourseLeadershipsChart,
+    initCoursesChart,
     initCoursesByGroupChart
 };

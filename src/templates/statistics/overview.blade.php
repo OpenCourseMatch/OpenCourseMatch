@@ -34,7 +34,7 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div class="flex flex-col w-full justify-center">
-            <canvas id="statistics-course-leaderships"></canvas>
+            <canvas id="statistics-courses"></canvas>
         </div>
 
         <div class="flex flex-col w-full justify-center">
@@ -94,14 +94,16 @@
             missing: "{{ t("Missing") }}"
         }, @json($statistics["choicesByGroup"]), @json($customGroups));
 
-        StatisticsOverview.initCourseLeadershipsChart({
-            title: "{{ t("Course leaderships") }}",
+        StatisticsOverview.initCoursesChart({
+            title: "{{ t("Courses") }}",
             dataLabel: "{{ t("Courses") }}",
-            user: "{{ t("User") }}",
-            facilitator: "{{ t("Facilitator") }}",
+            user: "{{ t("Led by users") }}",
+            facilitator: "{{ t("Led by facilitators") }}",
+            cancelled: "{{ t("Cancelled") }}"
         }, [
             {{ $statistics["courseLeaderships"]["user"] }},
-            {{ $statistics["courseLeaderships"]["facilitator"] }}
+            {{ $statistics["courseLeaderships"]["facilitator"] }},
+            {{ $statistics["courseLeaderships"]["cancelled"] }}
         ]);
 
         StatisticsOverview.initCoursesByGroupChart({
