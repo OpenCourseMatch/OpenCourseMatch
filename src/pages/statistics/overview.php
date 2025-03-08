@@ -32,10 +32,20 @@ $statistics = [
     "courseLeaderships" => [
         "user" => 0,
         "facilitator" => 0
+    ],
+    "coursesByGroup" => [
+        "default" => 0,
+        "customData" => []
     ]
 ];
 
 $customGroups = [];
+
+$groups = Group::dao()->getObjects();
+
+foreach($groups as $group) {
+    $customGroups[$group->getId()] = $group->getName();
+}
 
 $users = User::dao()->getObjects();
 
@@ -120,12 +130,20 @@ foreach($courses as $course) {
     } else {
         $statistics["courseLeaderships"]["facilitator"]++;
     }
-}
 
-$groups = Group::dao()->getObjects();
+    if($course->isGroupAllowed(null)) {
+        $statistics["coursesByGroup"]["default"]++;
+    }
 
-foreach($groups as $group) {
-    $customGroups[$group->getId()] = $group->getName();
+    foreach($groups as $group) {
+        if($course->isGroupAllowed($group)) {
+            if(!isset($statistics["coursesByGroup"]["customData"][$group->getId()])) {
+                $statistics["coursesByGroup"]["customData"][$group->getId()] = 0;
+            }
+
+            $statistics["coursesByGroup"]["customData"][$group->getId()]++;
+        }
+    }
 }
 
 $breadcrumbs = [

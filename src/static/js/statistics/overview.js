@@ -169,11 +169,35 @@ export const initCourseLeadershipsChart = (translations, data) => {
     );
 }
 
+export const initCoursesByGroupChart = (translations, data, customGroups) => {
+    let chartData = [ data.default ];
+    let chartLabels = [ translations.defaultGroup ];
+
+    for(const groupId in customGroups) {
+        if(data.customData[groupId] !== undefined) {
+            chartData.push(data.customData[groupId]);
+        } else {
+            chartData.push(0);
+        }
+        chartLabels.push(customGroups[groupId]);
+    }
+
+    initChart(
+        "statistics-courses-by-group",
+        translations.title,
+        "doughnut",
+        translations.dataLabel,
+        chartData,
+        chartLabels
+    );
+}
+
 export default {
     initAccountTypesChart,
     initUserTypesChart,
     initGroupsChart,
     initChoicesChart,
     initChoicesByGroupChart,
-    initCourseLeadershipsChart
+    initCourseLeadershipsChart,
+    initCoursesByGroupChart
 };

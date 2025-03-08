@@ -61,16 +61,22 @@ class Course extends GenericObject {
     }
 
     public function canChooseCourse(User $user): bool {
-        $userClearance = 0;
-        if($user->getGroup() !== null) {
-            $userClearance = $user->getGroup()->getClearance();
-        }
-
-        $minClearancePassed = $userClearance >= $this->getMinClearance();
-        $maxClearancePassed = $this->getMaxClearance() === null || $userClearance <= $this->getMaxClearance();
+        $clearancePassed = $this->isGroupAllowed($user->getGroup());
         $notLeadingCoursePassed = $user->getLeadingCourseId() !== $this->getId();
 
-        return $minClearancePassed && $maxClearancePassed && $notLeadingCoursePassed;
+        return $clearancePassed && $notLeadingCoursePassed;
+    }
+
+    public function isGroupAllowed(?Group $group = null): bool {
+        $clearance = 0;
+        if($group !== null) {
+            $clearance = $group->getClearance();
+        }
+
+        $minClearancePassed = $clearance >= $this->getMinClearance();
+        $maxClearancePassed = $this->getMaxClearance() === null || $clearance <= $this->getMaxClearance();
+
+        return $minClearancePassed && $maxClearancePassed;
     }
 
     public function isCancelled(): bool {
