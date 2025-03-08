@@ -37,6 +37,11 @@ $statistics = [
     "coursesByGroup" => [
         "default" => 0,
         "customData" => []
+    ],
+    "places" => [
+        "available" => 0,
+        "occupied" => 0,
+        "cancelled" => 0
     ]
 ];
 
@@ -49,6 +54,7 @@ foreach($groups as $group) {
 }
 
 $users = User::dao()->getObjects();
+$assignmentsCache = [];
 
 foreach($users as $account) {
     if($account->getPermissionLevel() === PermissionLevel::USER->value) {
@@ -112,6 +118,21 @@ foreach($users as $account) {
             }
         }
 
+        $assignedCourse = $account->getAssignedCourse();
+        if($assignedCourse !== null) {
+            if(!isset($assignmentsCache[$assignedCourse->getId()])) {
+                $assignmentsCache[$assignedCourse->getId()] = [
+                    "includingCourseLeaders" => 0,
+                    "excludingCourseLeaders" => 0
+                ];
+            }
+
+            $assignmentsCache[$assignedCourse->getId()]["includingCourseLeaders"]++;
+            if($account->getLeadingCourseId() !== $assignedCourse->getId()) {
+                $assignmentsCache[$assignedCourse->getId()]["excludingCourseLeaders"]++;
+            }
+        }
+
     } else if($account->getPermissionLevel() === PermissionLevel::FACILITATOR->value) {
         $statistics["accountTypes"]["facilitator"]++;
     } else if($account->getPermissionLevel() === PermissionLevel::ADMIN->value) {
@@ -128,12 +149,21 @@ foreach($courses as $course) {
 
     if($course->isCancelled()) {
         $statistics["courseLeaderships"]["cancelled"]++;
+        $statistics["places"]["cancelled"] += $course->getMaxParticipants();
     } else {
         if(count($courseLeaders) > 0) {
             $statistics["courseLeaderships"]["user"]++;
         } else {
             $statistics["courseLeaderships"]["facilitator"]++;
         }
+
+        $maxParticipants = $course->getMaxParticipants();
+        $assignedParticipants = 0;
+        if($assignmentsCache[$course->getId()] !== null) {
+            $assignedParticipants = $assignmentsCache[$course->getId()]["excludingCourseLeaders"];
+        }
+        $statistics["places"]["available"] += $maxParticipants - $assignedParticipants;
+        $statistics["places"]["occupied"] += $assignedParticipants;
     }
 
     if($course->isGroupAllowed(null)) {

@@ -40,6 +40,10 @@
         <div class="flex flex-col w-full justify-center">
             <canvas id="statistics-courses-by-group"></canvas>
         </div>
+
+        <div class="flex flex-col w-full justify-center">
+            <canvas id="statistics-places"></canvas>
+        </div>
     </div>
 
     <script type="module">
@@ -111,5 +115,17 @@
             dataLabel: "{{ t("Courses") }}",
             defaultGroup: "{{ t("Default group") }}"
         }, @json($statistics["coursesByGroup"]), @json($customGroups));
+
+        StatisticsOverview.initPlacesChart({
+            title: "{{ t("Places") }}",
+            dataLabel: "{{ t("Places") }}",
+            available: "{{ t("Available") }}",
+            occupied: "{{ t("Occupied") }}",
+            cancelled: "{{ t("Cancelled") }}"
+        }, [
+            {{ $statistics["places"]["available"] }},
+            {{ $statistics["places"]["occupied"] }},
+            {{ $statistics["places"]["cancelled"] }}
+        ]);
     </script>
 @endcomponent
