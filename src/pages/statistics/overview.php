@@ -42,6 +42,14 @@ $statistics = [
         "available" => 0,
         "occupied" => 0,
         "cancelled" => 0
+    ],
+    "placesByGroup" => [
+        "default" => [
+            "available" => 0,
+            "occupied" => 0,
+            "cancelled" => 0
+        ],
+        "customData" => []
     ]
 ];
 
@@ -147,9 +155,16 @@ foreach($courses as $course) {
         "leadingCourseId" => $course->getId()
     ]);
 
+    $totalPlaces = $course->getMaxParticipants();
+    $occupiedPlaces = 0;
+    if(isset($assignmentsCache[$course->getId()])) {
+        $occupiedPlaces = $assignmentsCache[$course->getId()]["excludingCourseLeaders"];
+    }
+    $availablePlaces = $totalPlaces - $occupiedPlaces;
+
     if($course->isCancelled()) {
         $statistics["courseLeaderships"]["cancelled"]++;
-        $statistics["places"]["cancelled"] += $course->getMaxParticipants();
+        $statistics["places"]["cancelled"] += $availablePlaces;
     } else {
         if(count($courseLeaders) > 0) {
             $statistics["courseLeaderships"]["user"]++;
@@ -162,12 +177,19 @@ foreach($courses as $course) {
         if($assignmentsCache[$course->getId()] !== null) {
             $assignedParticipants = $assignmentsCache[$course->getId()]["excludingCourseLeaders"];
         }
-        $statistics["places"]["available"] += $maxParticipants - $assignedParticipants;
-        $statistics["places"]["occupied"] += $assignedParticipants;
+        $statistics["places"]["available"] += $availablePlaces;
+        $statistics["places"]["occupied"] += $occupiedPlaces;
     }
 
     if($course->isGroupAllowed(null)) {
         $statistics["coursesByGroup"]["default"]++;
+
+        if($course->isCancelled()) {
+            $statistics["placesByGroup"]["default"]["cancelled"] += $availablePlaces;
+        } else {
+            $statistics["placesByGroup"]["default"]["available"] += $availablePlaces;
+            $statistics["placesByGroup"]["default"]["occupied"] += $occupiedPlaces;
+        }
     }
 
     foreach($groups as $group) {
@@ -177,6 +199,21 @@ foreach($courses as $course) {
             }
 
             $statistics["coursesByGroup"]["customData"][$group->getId()]++;
+
+            if(!isset($statistics["placesByGroup"]["customData"][$group->getId()])) {
+                $statistics["placesByGroup"]["customData"][$group->getId()] = [
+                    "available" => 0,
+                    "occupied" => 0,
+                    "cancelled" => 0
+                ];
+            }
+
+            if($course->isCancelled()) {
+                $statistics["placesByGroup"]["customData"][$group->getId()]["cancelled"] += $availablePlaces;
+            } else {
+                $statistics["placesByGroup"]["customData"][$group->getId()]["available"] += $availablePlaces;
+                $statistics["placesByGroup"]["customData"][$group->getId()]["occupied"] += $occupiedPlaces;
+            }
         }
     }
 }

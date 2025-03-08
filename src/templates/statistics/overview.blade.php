@@ -44,6 +44,10 @@
         <div class="flex flex-col w-full justify-center">
             <canvas id="statistics-places"></canvas>
         </div>
+
+        <div class="flex flex-col w-full justify-center">
+            <canvas id="statistics-places-by-group"></canvas>
+        </div>
     </div>
 
     <script type="module">
@@ -127,5 +131,14 @@
             {{ $statistics["places"]["occupied"] }},
             {{ $statistics["places"]["cancelled"] }}
         ]);
+
+        StatisticsOverview.initPlacesByGroupChart({
+            title: "{{ t("Places (by group)") }}",
+            dataLabel: "{{ t("Places") }}",
+            defaultGroup: "{{ t("Default group") }}",
+            available: "{{ t("Available") }}",
+            occupied: "{{ t("Occupied") }}",
+            cancelled: "{{ t("Cancelled") }}"
+        }, @json($statistics["placesByGroup"]), @json($customGroups));
     </script>
 @endcomponent

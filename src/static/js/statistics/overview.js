@@ -203,6 +203,53 @@ export const initPlacesChart = (translations, data) => {
     );
 }
 
+export const initPlacesByGroupChart = (translations, data, customGroups) => {
+    let flippedChartData = [ data.default ];
+    let chartLabels = [ translations.defaultGroup ];
+
+    for(const groupId in customGroups) {
+        if(data.customData[groupId] !== undefined) {
+            flippedChartData.push(data.customData[groupId]);
+        } else {
+            flippedChartData.push({
+                complete: 0,
+                incomplete: 0,
+                missing: 0
+            });
+        }
+        chartLabels.push(customGroups[groupId]);
+    }
+
+    let chartData = [];
+    for(const key in flippedChartData[0]) {
+        let dataset = [];
+        flippedChartData.forEach((data) => {
+            dataset.push(data[key]);
+        });
+        chartData.push(dataset);
+    }
+
+    initChart(
+        "statistics-places-by-group",
+        translations.title,
+        "bar",
+        [translations.available, translations.occupied, translations.cancelled],
+        chartData,
+        chartLabels,
+        "OpenSans",
+        {
+            scales: {
+                x: {
+                    stacked: true
+                },
+                y: {
+                    stacked: true
+                }
+            }
+        }
+    );
+}
+
 export default {
     initAccountTypesChart,
     initUserTypesChart,
@@ -211,5 +258,6 @@ export default {
     initChoicesByGroupChart,
     initCoursesChart,
     initCoursesByGroupChart,
-    initPlacesChart
+    initPlacesChart,
+    initPlacesByGroupChart
 };
