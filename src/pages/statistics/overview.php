@@ -174,7 +174,7 @@ foreach($courses as $course) {
 
         $maxParticipants = $course->getMaxParticipants();
         $assignedParticipants = 0;
-        if($assignmentsCache[$course->getId()] !== null) {
+        if(isset($assignmentsCache[$course->getId()])) {
             $assignedParticipants = $assignmentsCache[$course->getId()]["excludingCourseLeaders"];
         }
         $statistics["places"]["available"] += $availablePlaces;
