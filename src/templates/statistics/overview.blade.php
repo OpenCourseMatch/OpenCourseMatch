@@ -50,6 +50,16 @@
         </div>
     </div>
 
+    <h2 class="mt-4 mb-2">
+        {{ t("Assignments") }}
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="flex flex-col w-full justify-center">
+            <canvas id="statistics-assignments"></canvas>
+        </div>
+    </div>
+
     <script type="module">
         import * as StatisticsOverview from "{{ Router::staticFilePath("js/statistics/overview.js") }}";
 
@@ -140,5 +150,17 @@
             occupied: "{{ t("Occupied") }}",
             cancelled: "{{ t("Cancelled") }}"
         }, @json($statistics["placesByGroup"]), @json($customGroups));
+
+        StatisticsOverview.initAssignmentsChart({
+            title: "{{ t("Assignments") }}",
+            dataLabel: "{{ t("Users") }}",
+            assigned: "{{ t("Assigned") }}",
+            notAssigned: "{{ t("Not assigned") }}",
+            noChoice: "{{ t("No courses chosen") }}"
+        }, [
+            {{ $statistics["assignments"]["assigned"] }},
+            {{ $statistics["assignments"]["notAssigned"] }},
+            {{ $statistics["assignments"]["noChoice"] }}
+        ]);
     </script>
 @endcomponent

@@ -250,6 +250,17 @@ export const initPlacesByGroupChart = (translations, data, customGroups) => {
     );
 }
 
+export const initAssignmentsChart = (translations, data) => {
+    initChart(
+        "statistics-assignments",
+        translations.title,
+        "doughnut",
+        translations.dataLabel,
+        data,
+        [translations.assigned, translations.notAssigned, translations.noChoice]
+    );
+}
+
 export default {
     initAccountTypesChart,
     initUserTypesChart,
@@ -259,5 +270,6 @@ export default {
     initCoursesChart,
     initCoursesByGroupChart,
     initPlacesChart,
-    initPlacesByGroupChart
+    initPlacesByGroupChart,
+    initAssignmentsChart
 };

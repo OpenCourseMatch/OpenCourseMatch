@@ -50,6 +50,11 @@ $statistics = [
             "cancelled" => 0
         ],
         "customData" => []
+    ],
+    "assignments" => [
+        "assigned" => 0,
+        "notAssigned" => 0,
+        "noChoice" => 0
     ]
 ];
 
@@ -138,6 +143,14 @@ foreach($users as $account) {
             $assignmentsCache[$assignedCourse->getId()]["includingCourseLeaders"]++;
             if($account->getLeadingCourseId() !== $assignedCourse->getId()) {
                 $assignmentsCache[$assignedCourse->getId()]["excludingCourseLeaders"]++;
+            }
+
+            $statistics["assignments"]["assigned"]++;
+        } else {
+            if(!$noChoices) {
+                $statistics["assignments"]["notAssigned"]++;
+            } else {
+                $statistics["assignments"]["noChoice"]++;
             }
         }
 
