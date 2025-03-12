@@ -55,6 +55,14 @@ $statistics = [
         "assigned" => 0,
         "notAssigned" => 0,
         "noChoice" => 0
+    ],
+    "assignmentsByGroup" => [
+        "default" => [
+            "assigned" => 0,
+            "notAssigned" => 0,
+            "noChoice" => 0
+        ],
+        "customData" => []
     ]
 ];
 
@@ -146,11 +154,47 @@ foreach($users as $account) {
             }
 
             $statistics["assignments"]["assigned"]++;
+
+            if($account->getGroupId() === null) {
+                $statistics["assignmentsByGroup"]["default"]["assigned"]++;
+            } else {
+                if(!isset($statistics["assignmentsByGroup"]["customData"][$account->getGroupId()])) {
+                    $statistics["assignmentsByGroup"]["customData"][$account->getGroupId()] = [
+                        "assigned" => 0,
+                        "notAssigned" => 0,
+                        "noChoice" => 0
+                    ];
+                }
+
+                $statistics["assignmentsByGroup"]["customData"][$account->getGroupId()]["assigned"]++;
+            }
         } else {
             if(!$noChoices) {
                 $statistics["assignments"]["notAssigned"]++;
             } else {
                 $statistics["assignments"]["noChoice"]++;
+            }
+
+            if($account->getGroupId() === null) {
+                if(!$noChoices) {
+                    $statistics["assignmentsByGroup"]["default"]["notAssigned"]++;
+                } else {
+                    $statistics["assignmentsByGroup"]["default"]["noChoice"]++;
+                }
+            } else {
+                if(!isset($statistics["assignmentsByGroup"]["customData"][$account->getGroupId()])) {
+                    $statistics["assignmentsByGroup"]["customData"][$account->getGroupId()] = [
+                        "assigned" => 0,
+                        "notAssigned" => 0,
+                        "noChoice" => 0
+                    ];
+                }
+
+                if(!$noChoices) {
+                    $statistics["assignmentsByGroup"]["customData"][$account->getGroupId()]["notAssigned"]++;
+                } else {
+                    $statistics["assignmentsByGroup"]["customData"][$account->getGroupId()]["noChoice"]++;
+                }
             }
         }
 

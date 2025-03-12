@@ -261,6 +261,53 @@ export const initAssignmentsChart = (translations, data) => {
     );
 }
 
+export const initAssignmentsByGroupChart = (translations, data, customGroups) => {
+    let flippedChartData = [ data.default ];
+    let chartLabels = [ translations.defaultGroup ];
+
+    for(const groupId in customGroups) {
+        if(data.customData[groupId] !== undefined) {
+            flippedChartData.push(data.customData[groupId]);
+        } else {
+            flippedChartData.push({
+                assigned: 0,
+                notAssigned: 0,
+                noChoice: 0
+            });
+        }
+        chartLabels.push(customGroups[groupId]);
+    }
+
+    let chartData = [];
+    for(const key in flippedChartData[0]) {
+        let dataset = [];
+        flippedChartData.forEach((data) => {
+            dataset.push(data[key]);
+        });
+        chartData.push(dataset);
+    }
+
+    initChart(
+        "statistics-assignments-by-group",
+        translations.title,
+        "bar",
+        [translations.assigned, translations.notAssigned, translations.noChoice],
+        chartData,
+        chartLabels,
+        "OpenSans",
+        {
+            scales: {
+                x: {
+                    stacked: true
+                },
+                y: {
+                    stacked: true
+                }
+            }
+        }
+    );
+}
+
 export default {
     initAccountTypesChart,
     initUserTypesChart,
@@ -271,5 +318,6 @@ export default {
     initCoursesByGroupChart,
     initPlacesChart,
     initPlacesByGroupChart,
-    initAssignmentsChart
+    initAssignmentsChart,
+    initAssignmentsByGroupChart
 };

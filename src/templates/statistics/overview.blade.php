@@ -58,6 +58,10 @@
         <div class="flex flex-col w-full justify-center">
             <canvas id="statistics-assignments"></canvas>
         </div>
+
+        <div class="flex flex-col w-full justify-center">
+            <canvas id="statistics-assignments-by-group"></canvas>
+        </div>
     </div>
 
     <script type="module">
@@ -162,5 +166,14 @@
             {{ $statistics["assignments"]["notAssigned"] }},
             {{ $statistics["assignments"]["noChoice"] }}
         ]);
+
+        StatisticsOverview.initAssignmentsByGroupChart({
+            title: "{{ t("Assignments (by group)") }}",
+            dataLabel: "{{ t("Users") }}",
+            defaultGroup: "{{ t("Default group") }}",
+            assigned: "{{ t("Assigned") }}",
+            notAssigned: "{{ t("Not assigned") }}",
+            noChoice: "{{ t("No courses chosen") }}"
+        }, @json($statistics["assignmentsByGroup"]), @json($customGroups));
     </script>
 @endcomponent
