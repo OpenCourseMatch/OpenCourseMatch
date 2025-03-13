@@ -62,6 +62,10 @@
         <div class="flex flex-col w-full justify-center">
             <canvas id="statistics-assignments-by-group"></canvas>
         </div>
+
+        <div class="flex flex-col w-full justify-center">
+            <canvas id="statistics-considered-priorities"></canvas>
+        </div>
     </div>
 
     <script type="module">
@@ -175,5 +179,11 @@
             notAssigned: "{{ t("Not assigned") }}",
             noChoice: "{{ t("No courses chosen") }}"
         }, @json($statistics["assignmentsByGroup"]), @json($customGroups));
+
+        StatisticsOverview.initConsideredPrioritiesChart({
+            title: "{{ t("Considered priorities") }}",
+            dataLabel: "{{ t("Users") }}",
+            notConsidered: "{{ t("No choice considered") }}"
+        }, @json($statistics["consideredPriorities"]));
     </script>
 @endcomponent

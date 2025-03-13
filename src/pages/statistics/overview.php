@@ -63,6 +63,10 @@ $statistics = [
             "noChoice" => 0
         ],
         "customData" => []
+    ],
+    "consideredPriorities" => [
+        "none" => 0,
+        "customData" => []
     ]
 ];
 
@@ -72,6 +76,11 @@ $groups = Group::dao()->getObjects();
 
 foreach($groups as $group) {
     $customGroups[$group->getId()] = $group->getName();
+}
+
+$choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
+for($i = 0; $i < $choiceCount; $i++) {
+    $statistics["consideredPriorities"]["customData"][$i] = 0;
 }
 
 $users = User::dao()->getObjects();
@@ -167,6 +176,13 @@ foreach($users as $account) {
                 }
 
                 $statistics["assignmentsByGroup"]["customData"][$account->getGroupId()]["assigned"]++;
+            }
+
+            $coursePriority = $account->getCoursePriority($assignedCourse);
+            if($coursePriority !== null) {
+                $statistics["consideredPriorities"]["customData"][$coursePriority]++;
+            } else {
+                $statistics["consideredPriorities"]["none"]++;
             }
         } else {
             if(!$noChoices) {

@@ -308,6 +308,26 @@ export const initAssignmentsByGroupChart = (translations, data, customGroups) =>
     );
 }
 
+export const initConsideredPrioritiesChart = (translations, data) => {
+    let chartData = [ data.default ];
+    let chartLabels = [ translations.notConsidered ];
+
+    for(const key in data.customData) {
+        chartData.push(data.customData[key]);
+        chartLabels.push(parseInt(key) + 1);
+    }
+
+    initChart(
+        "statistics-considered-priorities",
+        translations.title,
+        "doughnut",
+        translations.dataLabel,
+        chartData,
+        chartLabels,
+        "OpenSans"
+    );
+}
+
 export default {
     initAccountTypesChart,
     initUserTypesChart,
@@ -319,5 +339,6 @@ export default {
     initPlacesChart,
     initPlacesByGroupChart,
     initAssignmentsChart,
-    initAssignmentsByGroupChart
+    initAssignmentsByGroupChart,
+    initConsideredPrioritiesChart
 };
