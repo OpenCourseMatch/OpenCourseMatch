@@ -309,8 +309,8 @@ export const initAssignmentsByGroupChart = (translations, data, customGroups) =>
 }
 
 export const initConsideredPrioritiesChart = (translations, data) => {
-    let chartData = [ data.default ];
-    let chartLabels = [ translations.notConsidered ];
+    let chartData = [ data.none, data.courseLeader ];
+    let chartLabels = [ translations.notConsidered, translations.courseLeader ];
 
     for(const key in data.customData) {
         chartData.push(data.customData[key]);

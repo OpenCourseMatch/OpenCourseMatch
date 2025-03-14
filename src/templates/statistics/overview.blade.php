@@ -192,7 +192,8 @@
             StatisticsOverview.initConsideredPrioritiesChart({
                 title: "{{ t("Considered priorities") }}",
                 dataLabel: "{{ t("Users") }}",
-                notConsidered: "{{ t("No choice considered") }}"
+                notConsidered: "{{ t("No choice considered") }}",
+                courseLeader: "{{ t("Leading own course") }}"
             }, @json($statistics["consideredPriorities"]));
         @endif
     </script>

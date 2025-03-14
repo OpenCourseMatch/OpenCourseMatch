@@ -66,6 +66,7 @@ $statistics = [
     ],
     "consideredPriorities" => [
         "none" => 0,
+        "courseLeader" => 0,
         "customData" => []
     ]
 ];
@@ -179,7 +180,9 @@ foreach($users as $account) {
             }
 
             $coursePriority = $account->getCoursePriority($assignedCourse);
-            if($coursePriority !== null) {
+            if($account->getLeadingCourseId() === $assignedCourse->getId()) {
+                $statistics["consideredPriorities"]["courseLeader"]++;
+            } else if($coursePriority !== null) {
                 $statistics["consideredPriorities"]["customData"][$coursePriority]++;
             } else {
                 $statistics["consideredPriorities"]["none"]++;
