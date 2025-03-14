@@ -54,19 +54,27 @@
         {{ t("Assignments") }}
     </h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <div class="flex flex-col w-full justify-center">
-            <canvas id="statistics-assignments"></canvas>
-        </div>
+    @if(SystemStatus::dao()->get("coursesAssigned") === "true")
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div class="flex flex-col w-full justify-center">
+                <canvas id="statistics-assignments"></canvas>
+            </div>
 
-        <div class="flex flex-col w-full justify-center">
-            <canvas id="statistics-assignments-by-group"></canvas>
-        </div>
+            <div class="flex flex-col w-full justify-center">
+                <canvas id="statistics-assignments-by-group"></canvas>
+            </div>
 
-        <div class="flex flex-col w-full justify-center">
-            <canvas id="statistics-considered-priorities"></canvas>
+            <div class="flex flex-col w-full justify-center">
+                <canvas id="statistics-considered-priorities"></canvas>
+            </div>
         </div>
-    </div>
+    @else
+        @component("components.layout.infomessage", [
+            "type" => InfoMessageType::INFO
+        ])
+            {{ t("The courses have not been assigned by now. Data is available after running the course assignment algorithm.") }}
+        @endcomponent
+    @endif
 
     <script type="module">
         import * as StatisticsOverview from "{{ Router::staticFilePath("js/statistics/overview.js") }}";
@@ -159,31 +167,33 @@
             cancelled: "{{ t("Cancelled") }}"
         }, @json($statistics["placesByGroup"]), @json($customGroups));
 
-        StatisticsOverview.initAssignmentsChart({
-            title: "{{ t("Assignments") }}",
-            dataLabel: "{{ t("Users") }}",
-            assigned: "{{ t("Assigned") }}",
-            notAssigned: "{{ t("Not assigned") }}",
-            noChoice: "{{ t("No courses chosen") }}"
-        }, [
-            {{ $statistics["assignments"]["assigned"] }},
-            {{ $statistics["assignments"]["notAssigned"] }},
-            {{ $statistics["assignments"]["noChoice"] }}
-        ]);
+        @if(SystemStatus::dao()->get("coursesAssigned") === "true")
+            StatisticsOverview.initAssignmentsChart({
+                title: "{{ t("Assignments") }}",
+                dataLabel: "{{ t("Users") }}",
+                assigned: "{{ t("Assigned") }}",
+                notAssigned: "{{ t("Not assigned") }}",
+                noChoice: "{{ t("No courses chosen") }}"
+            }, [
+                {{ $statistics["assignments"]["assigned"] }},
+                {{ $statistics["assignments"]["notAssigned"] }},
+                {{ $statistics["assignments"]["noChoice"] }}
+            ]);
 
-        StatisticsOverview.initAssignmentsByGroupChart({
-            title: "{{ t("Assignments (by group)") }}",
-            dataLabel: "{{ t("Users") }}",
-            defaultGroup: "{{ t("Default group") }}",
-            assigned: "{{ t("Assigned") }}",
-            notAssigned: "{{ t("Not assigned") }}",
-            noChoice: "{{ t("No courses chosen") }}"
-        }, @json($statistics["assignmentsByGroup"]), @json($customGroups));
+            StatisticsOverview.initAssignmentsByGroupChart({
+                title: "{{ t("Assignments (by group)") }}",
+                dataLabel: "{{ t("Users") }}",
+                defaultGroup: "{{ t("Default group") }}",
+                assigned: "{{ t("Assigned") }}",
+                notAssigned: "{{ t("Not assigned") }}",
+                noChoice: "{{ t("No courses chosen") }}"
+            }, @json($statistics["assignmentsByGroup"]), @json($customGroups));
 
-        StatisticsOverview.initConsideredPrioritiesChart({
-            title: "{{ t("Considered priorities") }}",
-            dataLabel: "{{ t("Users") }}",
-            notConsidered: "{{ t("No choice considered") }}"
-        }, @json($statistics["consideredPriorities"]));
+            StatisticsOverview.initConsideredPrioritiesChart({
+                title: "{{ t("Considered priorities") }}",
+                dataLabel: "{{ t("Users") }}",
+                notConsidered: "{{ t("No choice considered") }}"
+            }, @json($statistics["consideredPriorities"]));
+        @endif
     </script>
 @endcomponent

@@ -17,6 +17,7 @@
     "The passwords do not match.": "The passwords do not match.",
     "The current password is incorrect.": "The current password is incorrect.",
     "Your password has been updated.": "Your password has been updated.",
+    "The courses have not been assigned by now. Data is available after running the course assignment algorithm.": "The courses have not been assigned by now. Data is available after running the course assignment algorithm.",
 
     "Statistics": "Statistics",
     "System status": "System status",
