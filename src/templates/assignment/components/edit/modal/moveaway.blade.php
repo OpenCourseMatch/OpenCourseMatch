@@ -10,7 +10,11 @@
                     {{ t("Group") }}
                 </span>
                 <span class="pl-1 pr-2 bg-primary bg-opacity-10 rounded-r-full border border-primary">
-                    {{ $account->getGroup()->getName() }}
+                    @if($account->getGroup() !== null)
+                        {{ $account->getGroup()->getName() }}
+                    @else
+                        {{ t("Default group") }}
+                    @endif
                 </span>
             </div>
             <div class="flex flex-row whitespace-nowrap">
@@ -18,7 +22,11 @@
                     {{ t("Clearance level") }}
                 </span>
                 <span class="pl-1 pr-2 bg-primary bg-opacity-10 rounded-r-full border border-primary">
-                    {{ $account->getGroup()->getClearance() }}
+                    @if($account->getGroup() !== null)
+                        {{ $account->getGroup()->getClearance() }}
+                    @else
+                        0
+                    @endif
                 </span>
             </div>
         </div>
