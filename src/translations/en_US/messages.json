@@ -20,7 +20,7 @@
 
     "Statistics": "Statistics",
     "System status": "System status",
-    "User login": "User login",
+    "Course choice": "Course choice",
     "Courses assigned": "Courses assigned",
     "View more detailed statistics.": "View more detailed statistics.",
     "Accounts": "Accounts",
@@ -39,6 +39,14 @@
     "Places (by group)": "Places (by group)",
     "Available": "Available",
     "Occupied": "Occupied",
+    "Assignments": "Assignments",
+    "Assignments (by group)": "Assignments (by group)",
+    "Users": "Users",
+    "Assigned": "Assigned",
+    "Not assigned": "Not assigned",
+    "No courses chosen": "No courses chosen",
+    "Considered priorities": "Considered priorities",
+    "No choice considered": "No choice considered",
 
     "Manage accounts": "Manage accounts",
     "Groups": "Groups",

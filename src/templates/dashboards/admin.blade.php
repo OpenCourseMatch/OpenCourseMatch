@@ -18,7 +18,7 @@
                 ])
             @endif
             <p>
-                {{ t("User login") }}
+                {{ t("Course choice") }}
             </p>
         </div>
 
