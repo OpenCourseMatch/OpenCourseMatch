@@ -73,12 +73,13 @@ $statistics = [
 
 $customGroups = [];
 
+// Fetch group data
 $groups = Group::dao()->getObjects();
-
 foreach($groups as $group) {
     $customGroups[$group->getId()] = $group->getName();
 }
 
+// Fill priorities with amount of choices
 $choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
 for($i = 0; $i < $choiceCount; $i++) {
     $statistics["consideredPriorities"]["customData"][$i] = 0;
@@ -89,14 +90,17 @@ $assignmentsCache = [];
 
 foreach($users as $account) {
     if($account->getPermissionLevel() === PermissionLevel::USER->value) {
+        // Account types (user case)
         $statistics["accountTypes"]["user"]++;
 
+        // User types
         if($account->getLeadingCourseId() !== null) {
             $statistics["userTypes"]["tutor"]++;
         } else {
             $statistics["userTypes"]["participant"]++;
         }
 
+        // Groups
         $choices = $account->getChoices();
         $allChoices = true;
         $noChoices = true;
@@ -108,6 +112,7 @@ foreach($users as $account) {
             }
         }
 
+        // Choices
         if($allChoices) {
             $statistics["choices"]["complete"]++;
         } else if($noChoices) {
@@ -116,6 +121,7 @@ foreach($users as $account) {
             $statistics["choices"]["incomplete"]++;
         }
 
+        // Choices by group
         if($account->getGroupId() === null) {
             $statistics["groups"]["default"]++;
 
@@ -151,20 +157,22 @@ foreach($users as $account) {
 
         $assignedCourse = $account->getAssignedCourse();
         if($assignedCourse !== null) {
+            // Save assignment for later
             if(!isset($assignmentsCache[$assignedCourse->getId()])) {
                 $assignmentsCache[$assignedCourse->getId()] = [
                     "includingCourseLeaders" => 0,
                     "excludingCourseLeaders" => 0
                 ];
             }
-
             $assignmentsCache[$assignedCourse->getId()]["includingCourseLeaders"]++;
             if($account->getLeadingCourseId() !== $assignedCourse->getId()) {
                 $assignmentsCache[$assignedCourse->getId()]["excludingCourseLeaders"]++;
             }
 
+            // Assignments (assigned case)
             $statistics["assignments"]["assigned"]++;
 
+            // Assignments by group (assigned case)
             if($account->getGroupId() === null) {
                 $statistics["assignmentsByGroup"]["default"]["assigned"]++;
             } else {
@@ -179,6 +187,7 @@ foreach($users as $account) {
                 $statistics["assignmentsByGroup"]["customData"][$account->getGroupId()]["assigned"]++;
             }
 
+            // Course priorities
             $coursePriority = $account->getCoursePriority($assignedCourse);
             if($account->getLeadingCourseId() === $assignedCourse->getId()) {
                 $statistics["consideredPriorities"]["courseLeader"]++;
@@ -188,12 +197,14 @@ foreach($users as $account) {
                 $statistics["consideredPriorities"]["none"]++;
             }
         } else {
+            // Assignments (not assigned case)
             if(!$noChoices) {
                 $statistics["assignments"]["notAssigned"]++;
             } else {
                 $statistics["assignments"]["noChoice"]++;
             }
 
+            // Assignments by group (not assigned case)
             if($account->getGroupId() === null) {
                 if(!$noChoices) {
                     $statistics["assignmentsByGroup"]["default"]["notAssigned"]++;
@@ -218,8 +229,10 @@ foreach($users as $account) {
         }
 
     } else if($account->getPermissionLevel() === PermissionLevel::FACILITATOR->value) {
+        // Account types (facilitator case)
         $statistics["accountTypes"]["facilitator"]++;
     } else if($account->getPermissionLevel() === PermissionLevel::ADMIN->value) {
+        // Account types (administrator case)
         $statistics["accountTypes"]["administrator"]++;
     }
 }
@@ -231,6 +244,7 @@ foreach($courses as $course) {
         "leadingCourseId" => $course->getId()
     ]);
 
+    // Calculate available places
     $totalPlaces = $course->getMaxParticipants();
     $occupiedPlaces = 0;
     if(isset($assignmentsCache[$course->getId()])) {
@@ -239,24 +253,23 @@ foreach($courses as $course) {
     $availablePlaces = $totalPlaces - $occupiedPlaces;
 
     if($course->isCancelled()) {
+        // Available places (cancelled case)
         $statistics["courseLeaderships"]["cancelled"]++;
         $statistics["places"]["cancelled"] += $availablePlaces;
     } else {
+        // Course leaderships
         if(count($courseLeaders) > 0) {
             $statistics["courseLeaderships"]["user"]++;
         } else {
             $statistics["courseLeaderships"]["facilitator"]++;
         }
 
-        $maxParticipants = $course->getMaxParticipants();
-        $assignedParticipants = 0;
-        if(isset($assignmentsCache[$course->getId()])) {
-            $assignedParticipants = $assignmentsCache[$course->getId()]["excludingCourseLeaders"];
-        }
+        // Available places (not cancelled case)
         $statistics["places"]["available"] += $availablePlaces;
         $statistics["places"]["occupied"] += $occupiedPlaces;
     }
 
+    // Available courses by group (default group case)
     if($course->isGroupAllowed(null)) {
         $statistics["coursesByGroup"]["default"]++;
 
@@ -268,6 +281,7 @@ foreach($courses as $course) {
         }
     }
 
+    // Available courses by group (custom groups case)
     foreach($groups as $group) {
         if($course->isGroupAllowed($group)) {
             if(!isset($statistics["coursesByGroup"]["customData"][$group->getId()])) {
