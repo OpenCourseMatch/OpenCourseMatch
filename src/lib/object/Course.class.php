@@ -132,6 +132,16 @@ class Course extends GenericObject {
         }
 
         // Delete all assignments for this course
-        // TODO
+        $assignments = Assignment::dao()->getObjects(["courseId" => $this->getId()]);
+        foreach($assignments as $assignment) {
+            Assignment::dao()->delete($assignment);
+        }
+
+        // Delete all course leaders for this course
+        $courseLeaders = $this->getAllCourseLeaders();
+        foreach($courseLeaders as $courseLeader) {
+            $courseLeader->setLeadingCourseId(null);
+            User::dao()->save($courseLeader);
+        }
     }
 }

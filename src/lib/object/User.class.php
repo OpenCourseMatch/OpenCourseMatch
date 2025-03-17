@@ -135,6 +135,11 @@ class User extends GenericUser {
         }
 
         // Delete assignment
-        // TODO
+        $assignment = Assignment::dao()->getObject([
+            "userId" => $this->getId()
+        ]);
+        if($assignment instanceof Assignment) {
+            Assignment::dao()->delete($assignment);
+        }
     }
 }
