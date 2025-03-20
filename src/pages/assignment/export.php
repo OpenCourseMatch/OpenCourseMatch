@@ -46,7 +46,29 @@ foreach($courses as $course) {
         } else {
             $participants[] = $account;
         }
+        unset($mappedAccounts[$account->getId()]);
     }
+
+    usort($participants, function($a, $b) use ($course) {
+        // Course leaders are always first
+        $aCourseLeader = $a->getLeadingCourseId() !== null && $a->getLeadingCourseId() === $course->getId() ?? -1;
+        $bCourseLeader = $b->getLeadingCourseId() !== null && $b->getLeadingCourseId() === $course->getId() ?? -1;
+        if($aCourseLeader && !$bCourseLeader) {
+            return -1;
+        } else if(!$aCourseLeader && $bCourseLeader) {
+            return 1;
+        }
+
+        // Sort by clearance level
+        $aClearance = $a->getGroup()?->getClearance() ?? 0;
+        $bClearance = $b->getGroup()?->getClearance() ?? 0;
+        if($aClearance !== $bClearance) {
+            return $aClearance <=> $bClearance;
+        }
+
+        // Sort by full name
+        return $a->getFullName() <=> $b->getFullName();
+    });
 
     $assignmentsData[] = [
         "course" => $course,
@@ -54,6 +76,21 @@ foreach($courses as $course) {
         "courseLeaders" => $courseLeaders
     ];
 }
+
+// The remaining accounts are not assigned to any course
+$participants = array_values($mappedAccounts);
+usort($participants, function($a, $b) {
+    // Sort by clearance level
+    $aClearance = $a->getGroup()?->getClearance() ?? 0;
+    $bClearance = $b->getGroup()?->getClearance() ?? 0;
+    if($aClearance !== $bClearance) {
+        return $aClearance <=> $bClearance;
+    }
+
+    // Sort by full name
+    return $a->getFullName() <=> $b->getFullName();
+});
+$assignmentsData[0]["participants"] = $participants;
 
 header("Content-Type: application/pdf");
 $pdf = new PDF($user, t("Course assignment"), "pdf.assignment", [
