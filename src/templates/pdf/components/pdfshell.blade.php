@@ -55,10 +55,6 @@
             <hr style="margin-top: 1em; border: none; background-color: black; height: 1px;">
         </header>
 
-        <main>
-            {!! $slot !!}
-        </main>
-
         <footer>
             <hr style="border: none; background-color: black; height: 1px;">
             <table style="border-collapse: collapse; border: none; margin: 0; padding: 0; width: 100%;">
@@ -77,5 +73,9 @@
                 </tr>
             </table>
         </footer>
+
+        <main>
+            {!! $slot !!}
+        </main>
     </body>
 </html>
