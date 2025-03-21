@@ -123,12 +123,17 @@
         {{ t("Course assignment") }}
     </h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {{-- Print course assignment --}}
         @include("components.dashboardlink", [
             "icon" => "components.icons.assignment",
             "href" => Router::generate("course-assignment-edit"),
             "title" => t("Edit course assignment"),
             "description" => t("Optimize the course assignment manually.")
+        ])
+        @include("components.dashboardlink", [
+            "icon" => "components.icons.export",
+            "href" => Router::generate("course-assignment-export"),
+            "title" => t("Export course assignment"),
+            "description" => t("Download the course assignment in PDF format.")
         ])
         @include("components.dashboardlink", [
             "icon" => "components.icons.reset",
