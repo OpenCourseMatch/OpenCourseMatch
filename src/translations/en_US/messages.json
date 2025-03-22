@@ -84,6 +84,7 @@
     "Choose file": "Choose file",
     "Import": "Import",
     "$$count$$ users have been imported.": "$$count$$ users have been imported.",
+    "The CSV file contains too many entries. A maximum of 50 users can be imported at a time.": "The CSV file contains too many entries. A maximum of 50 users can be imported at a time.",
     "Edit user $$name$$": "Edit user „$$name$$”",
     "Delete user": "Delete user",
     "Do you really want to delete this user?": "Do you really want to delete this user?",

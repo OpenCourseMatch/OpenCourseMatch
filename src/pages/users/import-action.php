@@ -42,7 +42,10 @@ $csv->setFile($uploadHelper->getFiles()[0]["tmp_name"])
     ->read();
 $csvData = $csv->getData();
 
-// TODO: Limit data
+if(count($csvData) > 50) {
+    new InfoMessage(t("The CSV file contains too many entries. A maximum of 50 users can be imported at a time."), InfoMessageType::ERROR);
+    exit;
+}
 
 foreach($csvData as $data) {
     if(!is_array($data) || sizeof($data) !== 2) {
