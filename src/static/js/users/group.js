@@ -5,23 +5,23 @@ import * as ButtonLoad from "../ButtonLoad.js";
 export const init = async () => {
     Modal.init();
 
-    $("#resetPassword").on("change", function() {
-        const checked = $(this).prop("checked");
+    document.querySelector("#resetPassword").addEventListener("change", () => {
+        const checked = document.querySelector("#resetPassword").checked;
         if(checked) {
-            $("#new-password-input").removeClass("hidden");
+            document.querySelector("#new-password-input").classList.remove("hidden");
         } else {
-            $("#new-password-input").addClass("hidden");
-            $("input[name=\"newPassword\"]").val("");
+            document.querySelector("#new-password-input").classList.add("hidden");
+            document.querySelector("input[name=\"newPassword\"]").value = "";
         }
     });
 
-    $("#changeGroup").on("change", function() {
-        const checked = $(this).prop("checked");
+    document.querySelector("#changeGroup").addEventListener("change", () => {
+        const checked = document.querySelector("#changeGroup").checked;
         if(checked) {
-            $("#new-group-selection").removeClass("hidden");
+            document.querySelector("#new-group-selection").classList.remove("hidden");
         } else {
-            $("#new-group-selection").addClass("hidden");
-            $("select[name=\"newGruop\"]").val("");
+            document.querySelector("#new-group-selection").classList.add("hidden");
+            document.querySelector("select[name=\"newGruop\"]").value = "";
         }
     });
 
@@ -32,43 +32,40 @@ export const init = async () => {
         t("Delete")
     ]);
 
-    $("form").on("submit", function(event) {
-        event.originalEvent.preventDefault();
+    document.querySelectorAll("form").forEach((form) => {
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
 
-        $.ajax({
-            url: $(this).attr("action"),
-            type: "POST",
-            data: $(this).serialize(),
-            xhr: function() {
-                let xhr = new XMLHttpRequest()
-                xhr.responseType = "blob";
-                return xhr;
-            }
-        }).done((data) => {
-            if(data.type === "application/pdf") {
-                download(data, "ocm-" + new Date().toLocaleString() + ".pdf", "application/pdf");
-            }
+            fetch(form.getAttribute("action"), {
+                method: "POST",
+                body: new FormData(form)
+            }).then((response) => {
+                return response.blob();
+            }).then((data) => {
+                if(data.type === "application/pdf") {
+                    download(data, "ocm-" + new Date().toLocaleString() + ".pdf", "application/pdf");
+                }
 
-            setTimeout(() => {
-                window.location = $(this).attr("data-redirect");
-            }, 500);
+                setTimeout(() => {
+                    window.location = form.getAttribute("data-redirect");
+                }, 500);
+            });
         });
     });
 
-    $("#delete-users").on("click", () => {
+    document.querySelector("#delete-users").addEventListener("click", () => {
         Modal.open({
             title: translations[0],
             text: translations[1] + "\n" + translations[2],
             confirm: translations[3]
         }, (confirm) => {
             if(confirm) {
-                ButtonLoad.load($("#delete-users"));
-                $.ajax({
-                    url: $("#delete-users").attr("data-delete-href"),
-                    type: "POST",
-                    data: $("form").serialize()
-                }).done((data) => {
-                    window.location = $("#delete-users").attr("data-redirect");
+                ButtonLoad.load(document.querySelector("#delete-users"));
+                fetch(document.querySelector("#delete-users").getAttribute("data-delete-href"), {
+                    method: "POST",
+                    body: new FormData(document.querySelector("form"))
+                }).then((response) => {
+                    window.location = document.querySelector("#delete-users").getAttribute("data-redirect");
                 });
             }
         });

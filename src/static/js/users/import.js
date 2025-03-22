@@ -1,31 +1,27 @@
 export const init = async () => {
-    $("form").on("submit", function(event) {
-        event.originalEvent.preventDefault();
+    document.querySelectorAll("form").forEach((form) => {
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
 
-        let formData = new FormData();
-        formData.append("file", $("#file")[0].files[0]);
-        formData.append("group", $("#group").val());
-        formData.append("password", $("#password").val());
+            let formData = new FormData(form);
+            formData.append("file", document.querySelector("#file").files[0]);
+            formData.append("group", document.querySelector("#group").value);
+            formData.append("password", document.querySelector("#password").value);
 
-        $.ajax({
-            url: $(this).attr("action"),
-            type: "POST",
-            contentType: false,
-            processData: false,
-            data: formData,
-            xhr: function() {
-                let xhr = new XMLHttpRequest()
-                xhr.responseType = "blob";
-                return xhr;
-            }
-        }).done((data) => {
-            if(data.type === "application/pdf") {
-                download(data, "ocm-" + new Date().toLocaleString() + ".pdf", "application/pdf");
-            }
+            fetch(form.getAttribute("action"), {
+                method: "POST",
+                body: formData
+            }).then((response) => {
+                return response.blob();
+            }).then((data) => {
+                if(data.type === "application/pdf") {
+                    download(data, "ocm-" + new Date().toLocaleString() + ".pdf", "application/pdf");
+                }
 
-            setTimeout(() => {
-                window.location = $(this).attr("data-redirect");
-            }, 500);
+                setTimeout(() => {
+                    window.location = form.getAttribute("data-redirect");
+                }, 500);
+            });
         });
     });
 }
