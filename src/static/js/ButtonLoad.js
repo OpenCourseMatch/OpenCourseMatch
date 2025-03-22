@@ -22,9 +22,7 @@ export const load = (element) => {
     });
 
     // Disable button
-    element.querySelectorAll("button").forEach((button) => {
-        button.disabled = true;
-    });
+    element.disabled = true;
 };
 export const unload = (element) => {
     // Hide loading spinner
@@ -33,9 +31,7 @@ export const unload = (element) => {
     });
 
     // Enable button
-    element.querySelectorAll("button").forEach((button) => {
-        button.disabled = false;
-    });
+    element.disabled = false;
 };
 
 export default { init, load, unload };
