@@ -18,7 +18,26 @@
             {{ t("Account settings") }}
         @endcomponent
     @endauth
-    @auth(2)
+    @auth(PermissionLevel::USER->value)
+        @component("components.layout.sidebarlistitem", [
+            "href" => Router::generate("choice-edit"),
+        ])
+            {{ t("Choose courses") }}
+        @endcomponent
+    @endauth
+    @auth(PermissionLevel::FACILITATOR->value)
+        @component("components.layout.sidebarlistitem", [
+            "href" => Router::generate("users-overview"),
+        ])
+            {{ t("Participants and tutors") }}
+        @endcomponent
+        @component("components.layout.sidebarlistitem", [
+            "href" => Router::generate("courses-overview"),
+        ])
+            {{ t("Courses") }}
+        @endcomponent
+    @endauth
+    @auth(PermissionLevel::ADMIN->value)
         @component("components.layout.sidebarlistitem", [
             "href" => Router::generate("groups-overview"),
         ])
@@ -39,5 +58,28 @@
         ])
             {{ t("Administrators") }}
         @endcomponent
+        @component("components.layout.sidebarlistitem", [
+            "href" => Router::generate("courses-overview"),
+        ])
+            {{ t("Courses") }}
+        @endcomponent
+        @if(SystemStatus::dao()->get("coursesAssigned") === "true")
+            @component("components.layout.sidebarlistitem", [
+                "href" => Router::generate("course-assignment-edit"),
+            ])
+                {{ t("Edit course assignment") }}
+            @endcomponent
+        @endif
+        @component("components.layout.sidebarlistitem", [
+            "href" => Router::generate("statistics-overview"),
+        ])
+            {{ t("Statistics") }}
+        @endcomponent
+        @component("components.layout.sidebarlistitem", [
+            "href" => Router::generate("system-settings"),
+        ])
+            {{ t("System settings") }}
+        @endcomponent
     @endauth
+    {{-- TODO: Changelog --}}
 </ul>
