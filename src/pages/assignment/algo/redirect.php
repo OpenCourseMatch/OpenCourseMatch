@@ -11,8 +11,7 @@ if($algorithmRunning) {
 }
 
 if($coursesAssigned) {
-    // TODO: Redirect to course overview
-    Comm::redirect(Router::generate("index"));
+    Comm::redirect(Router::generate("course-assignment-edit"));
 } else {
     new InfoMessage(t("An error has occurred whilst attempting to assign the courses to the participants. Please try again later."), InfoMessageType::ERROR);
     Comm::redirect(Router::generate("index"));
