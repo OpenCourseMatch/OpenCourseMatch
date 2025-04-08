@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::USER->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
 
 $settings = SystemSetting::dao()->getObjects();
 $defaultValues = SystemSetting::dao()->defaultValues();
