@@ -146,7 +146,7 @@
                     <p>
                         Using
                         <span class="inline-flex">
-                            <a href="{{ Router::generate("libraries") }}"
+                            <a href="{{ Router::generate("dependencies-overview") }}"
                                class="text-primary hover:text-primary-effect transition-all">
                                 these software dependencies
                             </a>.
