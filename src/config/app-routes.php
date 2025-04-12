@@ -1,7 +1,7 @@
 <?php
 
 Router::addRoute("GET", "/", "index.php", "index");
-Router::addRoute("GET|POST", "/404", "errors/400.php", "404");
+Router::addRoute("GET|POST", "/404", "errors/404.php", "404");
 Router::addRoute("GET|POST", "/400", "errors/400.php", "400");
 Router::addRoute("GET|POST", "/500", "errors/500.php", "500");
 
@@ -80,6 +80,8 @@ Router::addRoute("POST", "/course-assignment/ajax/edit/move-here/{i:course}", "a
 // System settings
 Router::addRoute("GET", "/system-settings", "system-settings/system-settings.php", "system-settings");
 Router::addRoute("POST", "/system-settings/save", "system-settings/system-settings-save.php", "system-settings-save");
+Router::addRoute("GET", "/system-reset", "system-settings/system-reset.php", "system-reset");
+Router::addRoute("POST", "/system-reset/action", "system-settings/system-reset-action.php", "system-reset-action");
 
 // Toggle user actions
 Router::addRoute("GET", "/user-actions/toggle", "user-actions/toggle.php", "user-actions-toggle");

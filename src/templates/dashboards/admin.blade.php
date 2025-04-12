@@ -162,7 +162,13 @@
         "description" => SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Disable the course selection for users.") : t("Enable the course selection for users."),
         "danger" => SystemStatus::dao()->get("userActionsAllowed") !== "true"
     ])
-    {{-- Reset all data --}}
+    @include("components.dashboardlink", [
+        "icon" => "components.icons.reset",
+        "href" => Router::generate("system-reset"),
+        "title" => t("Reset system data"),
+        "description" => t("Reset selectable data saved by the system."),
+        "danger" => true
+    ])
 </div>
 
 <h2 class="mt-4 mb-2">
