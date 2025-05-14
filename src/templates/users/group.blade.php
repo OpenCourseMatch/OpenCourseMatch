@@ -6,7 +6,7 @@
         {{ t("Group actions") }}
     </h1>
 
-    <form method="post" action="{{ Router::generate("group-actions-action") }}" data-redirect="{{ Router::generate("users-overview") }}">
+    <form method="post" action="{{ Router::generate("group-actions-action") }}" data-redirect="{{ Router::generate("users-overview") }}" autocomplete="off">
         <div class="{{ TailwindUtil::inputGroup() }} mb-2">
             <label for="group" class="{{ TailwindUtil::$inputLabel }}">
                 {{ t("Group") }}
@@ -46,8 +46,9 @@
                     </label>
                     <input id="newPassword"
                            name="newPassword"
-                           type="password"
+                           type="text"
                            class="{{ TailwindUtil::$input }}"
+                           style="-webkit-text-security: disc"
                            value=""
                            minlength="8"
                            maxlength="256"

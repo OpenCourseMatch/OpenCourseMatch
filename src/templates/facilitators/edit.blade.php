@@ -10,7 +10,7 @@
         @endif
     </h1>
 
-    <form method="post" action="{{ Router::generate("facilitators-save") }}" data-redirect="{{ Router::generate("facilitators-overview") }}">
+    <form method="post" action="{{ Router::generate("facilitators-save") }}" data-redirect="{{ Router::generate("facilitators-overview") }}" autocomplete="off">
         @if(!empty($user))
             <input type="hidden" name="user" value="{{ $user->getId() }}">
         @endif
@@ -55,8 +55,9 @@
             </label>
             <input id="password"
                    name="password"
-                   type="password"
+                   type="text"
                    class="{{ TailwindUtil::$input }}"
+                   style="-webkit-text-security: disc"
                    value=""
                    minlength="8"
                    maxlength="256"

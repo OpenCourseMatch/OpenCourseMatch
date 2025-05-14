@@ -10,7 +10,7 @@
         @endif
     </h1>
 
-    <form method="post" action="{{ Router::generate("courses-save") }}">
+    <form method="post" action="{{ Router::generate("courses-save") }}" autocomplete="off">
         @if(!empty($course))
             <input type="hidden" name="course" value="{{ $course->getId() }}">
         @endif

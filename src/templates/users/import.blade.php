@@ -31,7 +31,7 @@
         {{ t("The import is limited to 50 rows at a time.") }}
     </p>
 
-    <form method="post" action="{{ Router::generate("users-import-action") }}" data-redirect="{{ Router::generate("users-overview") }}">
+    <form method="post" action="{{ Router::generate("users-import-action") }}" data-redirect="{{ Router::generate("users-overview") }}" autocomplete="off">
         <div class="{{ TailwindUtil::inputGroup() }} mb-2">
             <label for="file" class="{{ TailwindUtil::$inputLabel }}" data-required>
                 {{ t("Choose file") }}
@@ -67,8 +67,9 @@
             </label>
             <input id="password"
                    name="password"
-                   type="password"
+                   type="text"
                    class="{{ TailwindUtil::$input }}"
+                   style="-webkit-text-security: disc"
                    value=""
                    minlength="8"
                    maxlength="256"
