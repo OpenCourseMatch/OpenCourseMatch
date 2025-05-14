@@ -10,7 +10,7 @@
         @endif
     </h1>
 
-    <form method="post" action="{{ Router::generate("groups-save") }}">
+    <form method="post" action="{{ Router::generate("groups-save") }}" autocomplete="off">
         @if(!empty($group))
             <input type="hidden" name="group" value="{{ $group->getId() }}">
         @endif
