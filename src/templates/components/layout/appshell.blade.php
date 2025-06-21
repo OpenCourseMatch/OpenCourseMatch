@@ -19,7 +19,7 @@
         <meta property="og:title" content="@if(!empty($title)){{ $title }} - @endif{{ Config::$APP_SETTINGS["APP_NAME"] }}">
         <meta property="og:description" content="{{ SEO::getDescription() }}">
         <meta property="og:image" content="{{ SEO::getImagePreview() }}">
-        <meta property="og:url" content="{{ Router::getCalledURL() }}">
+        <meta property="og:url" content="{{ Router->getCalledURL() }}">
         @if(!empty(SEO::getOgSiteName()))
             <meta property="og:site_name" content="{{ SEO::getOgSiteName() }}">
         @endif
@@ -30,7 +30,7 @@
         <meta name="twitter:title" content="@if(!empty($title)){{ $title }} - @endif{{ Config::$APP_SETTINGS["APP_NAME"] }}">
         <meta name="twitter:description" content="{{ SEO::getDescription() }}">
         <meta name="twitter:image" content="{{ SEO::getImagePreview() }}">
-        <meta name="twitter:url" content="{{ Router::getCalledURL() }}">
+        <meta name="twitter:url" content="{{ Router->getCalledURL() }}">
         @if(!empty(SEO::getTwitterSite()))
             <meta name="twitter:site" content="{{ SEO::getTwitterSite() }}">
         @endif
@@ -43,31 +43,31 @@
         <meta name="revisit-after" content="{{ SEO::getRevisitAfter() }}">
 
         {{-- CSS --}}
-        <link rel="stylesheet" href="{{ Router::staticFilePath("css/lib/datatables.min.css") }}">
-        <link rel="stylesheet" href="{{ Router::staticFilePath("css/style.css") }}">
+        <link rel="stylesheet" href="{{ Router->staticFilePath("css/lib/datatables.min.css") }}">
+        <link rel="stylesheet" href="{{ Router->staticFilePath("css/style.css") }}">
 
         {{-- JavaScript --}}
-        <script src="{{ Router::staticFilePath("js/lib/jquery.min.js") }}"></script>
-        <script src="{{ Router::staticFilePath("js/lib/datatables.min.js") }}"></script>
-        <script src="{{ Router::staticFilePath("js/lib/download.min.js") }}"></script>
-        <script src="{{ Router::staticFilePath("js/lib/chart.umd.min.js") }}"></script>
+        <script src="{{ Router->staticFilePath("js/lib/jquery.min.js") }}"></script>
+        <script src="{{ Router->staticFilePath("js/lib/datatables.min.js") }}"></script>
+        <script src="{{ Router->staticFilePath("js/lib/download.min.js") }}"></script>
+        <script src="{{ Router->staticFilePath("js/lib/chart.umd.min.js") }}"></script>
         @if(!Config::$APP_SETTINGS["PRODUCTION"])
-            <script src="{{ Router::staticFilePath("js/lib/LiveUpdate.js") }}"></script>
+            <script src="{{ Router->staticFilePath("js/lib/LiveUpdate.js") }}"></script>
         @endif
     </head>
     <body class="bg-background overflow-x-hidden">
         <script type="module">
-            import { init } from "{{ Router::staticFilePath("js/Translator.js") }}";
-            init("{{ Router::generate("translations-api") }}");
+            import { init } from "{{ Router->staticFilePath("js/Translator.js") }}";
+            init("{{ Router->generate("translations-api") }}");
         </script>
 
         <header class="flex justify-between items-center min-h-24 px-content-padding-sm md:px-content-padding-md lg:px-content-padding-lg bg-background-header text-font-header">
             {{-- Logo --}}
             <div class="whitespace-nowrap">
-                <a href="{{ Router::generate(Config::$APP_SETTINGS["APP_URL"]) }}"
+                <a href="{{ Router->generate(Config::$APP_SETTINGS["APP_URL"]) }}"
                    class="flex justify-start items-center uppercase"
                 >
-                    <img src="{{ Router::staticFilePath("img/logo.svg") }}"
+                    <img src="{{ Router->staticFilePath("img/logo.svg") }}"
                          alt="Logo"
                          class="h-16 w-auto rounded"
                     >
@@ -114,7 +114,7 @@
             <div class="header-sidebar-background hidden absolute left-0 top-0 w-full h-full z-100 backdrop-blur"></div>
 
             <script type="module">
-                import * as Sidebar from "{{ Router::staticFilePath("js/Sidebar.js") }}";
+                import * as Sidebar from "{{ Router->staticFilePath("js/Sidebar.js") }}";
                 Sidebar.init();
             </script>
         </header>
@@ -132,7 +132,7 @@
         <footer class="mb-4 px-content-padding-sm md:px-content-padding-md lg:px-content-padding-lg bg-background-header text-font-footer">
             <hr class="my-4">
             <div class="flex justify-start items-center uppercase">
-                <img src="{{ Router::staticFilePath("img/logo.svg") }}"
+                <img src="{{ Router->staticFilePath("img/logo.svg") }}"
                      alt="Logo"
                      class="h-12 w-auto rounded"
                 >
@@ -146,7 +146,7 @@
                     <p>
                         Using
                         <span class="inline-flex">
-                            <a href="{{ Router::generate("dependencies-overview") }}"
+                            <a href="{{ Router->generate("dependencies-overview") }}"
                                class="text-primary hover:text-primary-effect transition-all">
                                 these software dependencies
                             </a>.
@@ -191,8 +191,8 @@
         </footer>
 
         <script type="module">
-            import * as ButtonLoad from "{{ Router::staticFilePath("js/ButtonLoad.js") }}";
-            import * as DateFormatter from "{{ Router::staticFilePath("js/DateFormatter.js") }}";
+            import * as ButtonLoad from "{{ Router->staticFilePath("js/ButtonLoad.js") }}";
+            import * as DateFormatter from "{{ Router->staticFilePath("js/DateFormatter.js") }}";
             ButtonLoad.init();
             DateFormatter.init();
         </script>

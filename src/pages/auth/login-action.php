@@ -2,7 +2,7 @@
 
 // Check whether the user is already logged in
 if(Auth::isLoggedIn()) {
-    Comm::redirect(Router::generate("index"));
+    Comm::redirect(Router->generate("index"));
 }
 
 // Check whether form fields are given
@@ -28,7 +28,7 @@ try {
     $post = $validation->getValidatedValue($_POST);
 } catch(validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("auth-login"));
+    Comm::redirect(Router->generate("auth-login"));
 }
 
 // Check whether there are no users
@@ -55,10 +55,10 @@ if(count(User::dao()->getObjects([], "id", true, 1)) === 0) {
 
 $user = User::dao()->login($post["username"], false, $post["password"]);
 
-if(!$user instanceof GenericUser) {
+if(!$user instanceof User) {
     Logger::getLogger("Login")->info("User \"{$post["username"]}\" failed to log in: " . ($user === 0 ? "User not found" : ($user === 1 ? "Password incorrect" : "Email not verified")));
     new InfoMessage(t("An account with these credentials does not exist."), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("auth-login"));
+    Comm::redirect(Router->generate("auth-login"));
 }
 
 // Reset possibly existing one-time password
@@ -72,4 +72,4 @@ SystemSetting::dao()->setDefaults();
 
 Logger::getLogger("Login")->info("User \"{$post["username"]}\" has logged in (User ID {$user->getId()})");
 Auth::login($user);
-Comm::redirect(Router::generate("index"));
+Comm::redirect(Router->generate("index"));

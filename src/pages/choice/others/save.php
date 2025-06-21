@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
 $getValidation = \validation\Validator::create([
     \validation\IsRequired::create(),
@@ -17,7 +17,7 @@ try {
     $get = $getValidation->getValidatedValue($_GET);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("users-overview"));
+    Comm::redirect(Router->generate("users-overview"));
 }
 
 $account = $get["user"];
@@ -50,7 +50,7 @@ try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("choice-edit-others", ["user" => $account->getId()]));
+    Comm::redirect(Router->generate("choice-edit-others", ["user" => $account->getId()]));
 }
 
 // Delete old choices from database to prevent collisions
@@ -67,12 +67,12 @@ $choices = [];
 foreach($post["choice"] as $i => $course) {
     if(in_array($course->getId(), $chosenCourses)) {
         new InfoMessage(t("Each course can only be chosen once."), InfoMessageType::ERROR);
-        Comm::redirect(Router::generate("choice-edit-others", ["user" => $account->getId()]));
+        Comm::redirect(Router->generate("choice-edit-others", ["user" => $account->getId()]));
     }
 
     if(!$course->canChooseCourse($account)) {
         new InfoMessage(t("The user of which the choice should be edited does not meet the requirements to participate in at least one of the chosen courses."), InfoMessageType::ERROR);
-        Comm::redirect(Router::generate("choice-edit-others", ["user" => $account->getId()]));
+        Comm::redirect(Router->generate("choice-edit-others", ["user" => $account->getId()]));
     }
 
     $chosenCourses[] = $course->getId();
@@ -89,4 +89,4 @@ foreach($choices as $choice) {
 }
 
 new InfoMessage(t("The user's chosen courses have been saved."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("users-edit", ["user" => $account->getId()]));
+Comm::redirect(Router->generate("users-edit", ["user" => $account->getId()]));

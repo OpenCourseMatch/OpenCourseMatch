@@ -1,5 +1,7 @@
 <?php
 
+namespace struktal\ORM;
+
 class GenericUserDAO extends GenericObjectDAO {
     /**
      * Authentication of a login
@@ -45,10 +47,10 @@ class GenericUserDAO extends GenericObjectDAO {
      * @param string $email E-Mail
      * @param int $permissionLevel Permission level
      * @param string $oneTimePassword One-time-password for E-Mail verification
-     * @return User Newly created user
+     * @return GenericUser Newly created user
      */
-    public function register(string $username, string $password, string $email, int $permissionLevel, string $oneTimePassword): User {
-        $user = new User();
+    public function register(string $username, string $password, string $email, int $permissionLevel, string $oneTimePassword): GenericUser {
+        $user = new ($this->getObjectName())();
         $user->setUsername($username);
         $user->setPassword($password);
         $user->setEmail($email);

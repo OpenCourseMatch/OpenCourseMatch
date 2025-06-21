@@ -1,6 +1,6 @@
 <?php
 
-class Group extends GenericObject {
+class Group extends \struktal\ORM\GenericObject {
     public ?string $name = null;
     public ?int $clearance = null;
 

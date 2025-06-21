@@ -21,8 +21,8 @@
 
     <ul>
         <li>
-            <strong>PHP-Framework</strong>.
-            GitHub: <a href="https://github.com/JensOstertag/PHP-Framework">JensOstertag/PHP-Framework</a>.
+            <strong>Struktal Framework</strong>.
+            GitHub: <a href="https://github.com/Struktal/Struktal">Struktal Framework</a>.
         </li>
         <li>
             <strong>BladeOne</strong>.
@@ -48,16 +48,6 @@
             <strong>Parsedown</strong>.
             GitHub: <a href="https://github.com/erusev/parsedown">erusev/parsedown</a>.
             Licensed under the <a href="https://github.com/erusev/parsedown/blob/master/LICENSE.txt">MIT license</a>.
-        </li>
-        <li>
-            <strong>UploadHelper</strong>.
-            GitHub: <a href="https://github.com/JensOstertag/uploadhelper">JensOstertag/uploadhelper</a>.
-            Licensed under the <a href="https://github.com/JensOstertag/uploadhelper/blob/main/LICENSE-MIT">MIT license</a>.
-        </li>
-        <li>
-            <strong>CSVReader</strong>.
-            GitHub: <a href="https://github.com/JensOstertag/csvreader">JensOstertag/csvreader</a>.
-            Licensed under the <a href="https://github.com/JensOstertag/csvreader/blob/main/LICENSE">MIT license</a>.
         </li>
         <li>
             <strong>Pest</strong>.

@@ -48,14 +48,14 @@
     </table>
 
     <script type="module">
-        import * as EditCourseAssignment from "{{ Router::staticFilePath("js/assignment/edit.js") }}";
+        import * as EditCourseAssignment from "{{ Router->staticFilePath("js/assignment/edit.js") }}";
         EditCourseAssignment.initMoveHereModal({
             "Search...": "{{ t("Search...") }}",
             "Loading...": "{{ t("Loading...") }}",
             "No entries": "{{ t("No entries") }}",
             "Back": "{{ t("Back") }}",
             "Next": "{{ t("Next") }}"
-        }, "{{ Router::generate("course-assignment-edit-move-here", [
+        }, "{{ Router->generate("course-assignment-edit-move-here", [
             "course" => $course->getId()
         ]) }}");
     </script>

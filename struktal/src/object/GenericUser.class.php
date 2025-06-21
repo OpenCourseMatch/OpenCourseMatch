@@ -1,5 +1,9 @@
 <?php
 
+namespace struktal\ORM;
+
+use \DateTimeImmutable;
+
 class GenericUser extends GenericObject {
     public string $username = "";
     public string $password = "";

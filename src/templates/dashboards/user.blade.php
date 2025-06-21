@@ -11,7 +11,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         @include("components.dashboardlink", [
             "icon" => "components.icons.course",
-            "href" => Router::generate("choice-edit"),
+            "href" => Router->generate("choice-edit"),
             "title" => t("Choose courses"),
             "description" => t("Rank your favourite courses that you would like to participate in.")
         ])

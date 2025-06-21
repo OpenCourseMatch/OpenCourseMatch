@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
 $validation = \validation\Validator::create([
     \validation\IsRequired::create(),
@@ -15,7 +15,7 @@ try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("groups-overview"));
+    Comm::redirect(Router->generate("groups-overview"));
 }
 
 $group = $get["group"];
@@ -23,16 +23,16 @@ $group = $get["group"];
 $breadcrumbs = [
     [
         "name" => t("Dashboard"),
-        "link" => Router::generate("dashboard"),
+        "link" => Router->generate("dashboard"),
         "iconComponent" => "components.icons.dashboard"
     ],
     [
         "name" => t("Groups"),
-        "link" => Router::generate("groups-overview")
+        "link" => Router->generate("groups-overview")
     ],
     [
         "name" => isset($group) ? t("Edit group \$\$name\$\$", ["name" => $group->getName()]) : t("Create group"),
-        "link" => Router::generate(isset($group) ? "groups-edit" : "groups-create", isset($group) ? ["group" => $group->getId()] : [])
+        "link" => Router->generate(isset($group) ? "groups-edit" : "groups-create", isset($group) ? ["group" => $group->getId()] : [])
     ]
 ];
 

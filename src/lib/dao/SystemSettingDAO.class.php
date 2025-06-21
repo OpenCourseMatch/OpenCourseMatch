@@ -1,6 +1,6 @@
 <?php
 
-class SystemSettingDAO extends GenericObjectDAO {
+class SystemSettingDAO extends \struktal\ORM\GenericObjectDAO {
     public function get(string $key): ?string {
         $object = $this->getObject(["key" => $key]);
         if($object instanceof SystemSetting) {

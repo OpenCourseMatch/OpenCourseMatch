@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
 $statistics = [
     "accountTypes" => [
@@ -311,12 +311,12 @@ foreach($courses as $course) {
 $breadcrumbs = [
     [
         "name" => t("Dashboard"),
-        "link" => Router::generate("dashboard"),
+        "link" => Router->generate("dashboard"),
         "iconComponent" => "components.icons.dashboard"
     ],
     [
         "name" => t("Statistics"),
-        "link" => Router::generate("statistics-overview")
+        "link" => Router->generate("statistics-overview")
     ]
 ];
 

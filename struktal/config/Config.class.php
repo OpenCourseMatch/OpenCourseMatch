@@ -37,7 +37,7 @@ class Config {
             "APP_NAME" => "Application",
             "WEBSITE_TITLE" => "Application",
             "APP_URL" => "http://localhost:3000",
-            "APP_FAVICON" => Router::staticFilePath("img/favicon.png"),
+            "APP_FAVICON" => "/img/favicon.png",
             "APP_AUTHOR" => "Author",
             "APP_VERSION" => "1.0.0",
             "PRODUCTION" => true
@@ -54,16 +54,16 @@ class Config {
             "DB_USER" => "username",
             "DB_PASS" => "password",
             "DB_NAME" => "database",
-            "DB_USE" => true
+            "DB_USE" => false
         ];
 
         self::$MAIL_SETTINGS = [
-            "MAIL_DEFAULT_SENDER_EMAIL" => "mail@framework",
-            "MAIL_DEFAULT_SENDER_NAME" => "Framework",
-            "MAIL_DEFAULT_REPLY_TO" => "reply@framework",
-            "MAIL_DEFAULT_SUBJECT" => "Framework Mail",
+            "MAIL_DEFAULT_SENDER_EMAIL" => "mail@struktal",
+            "MAIL_DEFAULT_SENDER_NAME" => "Struktal",
+            "MAIL_DEFAULT_REPLY_TO" => "reply@struktal",
+            "MAIL_DEFAULT_SUBJECT" => "Struktal",
             "MAIL_REDIRECT_ALL_MAILS" => false,
-            "MAIL_REDIRECT_ALL_MAILS_TO" => "redirect@framework"
+            "MAIL_REDIRECT_ALL_MAILS_TO" => "redirect@struktal"
         ];
 
         self::$CLASS_LOADER_SETTINGS = [
@@ -74,7 +74,7 @@ class Config {
         self::$SEO_SETTINGS = [
             "SEO_DEFAULT_DESCRIPTION" => "Description",
             "SEO_KEYWORDS" => [],
-            "SEO_IMAGE_PREVIEW" => Router::staticFilePath("img/seo/preview.png"),
+            "SEO_IMAGE_PREVIEW" => "/img/seo/preview.png",
             "SEO_OPENGRAPH" => [
                 "OPENGRAPH_SITE_NAME" => null,
             ],

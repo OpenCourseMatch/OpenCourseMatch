@@ -1,6 +1,6 @@
 <?php
 
-class Choice extends GenericObject {
+class Choice extends \struktal\ORM\GenericObject {
     public ?int $userId = null;
     public ?int $courseId = null;
     public ?int $priority = null;

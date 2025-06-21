@@ -10,11 +10,11 @@
         <title>Internal Error</title>
 
         {{-- CSS --}}
-        <link rel="stylesheet" href="{{ Router::staticFilePath("css/style.css") }}">
+        <link rel="stylesheet" href="{{ Router->staticFilePath("css/style.css") }}">
 
         {{-- JavaScript --}}
         @if(!Config::$APP_SETTINGS["PRODUCTION"])
-            <script src="{{ Router::staticFilePath("js/lib/LiveUpdate.js") }}"></script>
+            <script src="{{ Router->staticFilePath("js/lib/LiveUpdate.js") }}"></script>
         @endif
     </head>
     <body class="overflow-x-hidden bg-[#202020]">

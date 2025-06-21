@@ -1,15 +1,15 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::USER->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::USER->value, Router->generate("index"));
 
 if($user->getPermissionLevel() > PermissionLevel::USER->value) {
     new InfoMessage(t("Choosing courses is only available to participants and tutors."), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("index"));
+    Comm::redirect(Router->generate("index"));
 }
 
 if(SystemStatus::dao()->get("userActionsAllowed") !== "true") {
     new InfoMessage(t("The course selection has already been disabled. You can no longer update your course preferences."), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("index"));
+    Comm::redirect(Router->generate("index"));
 }
 
 $choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
@@ -40,7 +40,7 @@ try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("choice-edit"));
+    Comm::redirect(Router->generate("choice-edit"));
 }
 
 // Delete old choices from database to prevent collisions
@@ -57,12 +57,12 @@ $choices = [];
 foreach($post["choice"] as $i => $course) {
     if(in_array($course->getId(), $chosenCourses)) {
         new InfoMessage(t("Each course can only be chosen once."), InfoMessageType::ERROR);
-        Comm::redirect(Router::generate("choice-edit"));
+        Comm::redirect(Router->generate("choice-edit"));
     }
 
     if(!$course->canChooseCourse($user)) {
         new InfoMessage(t("You do not meet the requirements to participate in at least one of your chosen courses."), InfoMessageType::ERROR);
-        Comm::redirect(Router::generate("choice-edit"));
+        Comm::redirect(Router->generate("choice-edit"));
     }
 
     $chosenCourses[] = $course->getId();
@@ -79,4 +79,4 @@ foreach($choices as $choice) {
 }
 
 new InfoMessage(t("Your chosen courses have been saved."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("dashboard"));
+Comm::redirect(Router->generate("dashboard"));

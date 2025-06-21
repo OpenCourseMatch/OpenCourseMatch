@@ -8,7 +8,7 @@ const webSocketServer = new WebSocketServer({ port: 5173 }, () => {
 });
 
 const watcher = chokidar.watch([
-    "./framework",
+    "./struktal",
     "./src/config",
     "./src/lib",
     "./src/pages",

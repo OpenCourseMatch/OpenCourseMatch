@@ -2,18 +2,21 @@
 
 namespace validation;
 
+use \struktal\ORM\GenericObject;
+use \struktal\ORM\GenericObjectDAO;
+
 class IsInDatabase extends GenericValidator implements ValidatorInterface {
-    private \GenericObjectDAO $dao;
+    private GenericObjectDAO $dao;
     private array $additionalFilters;
 
-    public function __construct(\GenericObjectDAO $dao, array $additionalFilters = []) {
+    public function __construct(GenericObjectDAO $dao, array $additionalFilters = []) {
         $this->dao = $dao;
         $this->additionalFilters = $additionalFilters;
     }
 
-    public static function create(\GenericObjectDAO $dao = null, array $additionalFilters = []): ValidatorInterface {
+    public static function create(GenericObjectDAO $dao = null, array $additionalFilters = []): ValidatorInterface {
         if($dao === null) {
-            $dao = \GenericObject::dao();
+            $dao = GenericObject::dao();
         }
 
         return new self($dao, $additionalFilters);
@@ -30,7 +33,7 @@ class IsInDatabase extends GenericValidator implements ValidatorInterface {
         $filters["id"] = $objectId;
 
         $object = $this->dao->getObject($filters);
-        if(!$object instanceof \GenericObject) {
+        if(!$object instanceof GenericObject) {
             parent::failValidation();
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
 $validation = \validation\Validator::create([
     \validation\IsRequired::create(),
@@ -18,7 +18,7 @@ try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("facilitators-overview"));
+    Comm::redirect(Router->generate("facilitators-overview"));
 }
 
 $account = $get["user"];
@@ -29,4 +29,4 @@ User::dao()->delete($account);
 Logger::getLogger("Facilitators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the facilitator {$account->getId()} ({$account->getFullName()})");
 
 new InfoMessage(t("The facilitator has been deleted."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("facilitators-overview"));
+Comm::redirect(Router->generate("facilitators-overview"));

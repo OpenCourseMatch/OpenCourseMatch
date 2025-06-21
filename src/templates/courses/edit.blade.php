@@ -10,7 +10,7 @@
         @endif
     </h1>
 
-    <form method="post" action="{{ Router::generate("courses-save") }}" autocomplete="off">
+    <form method="post" action="{{ Router->generate("courses-save") }}" autocomplete="off">
         @if(!empty($course))
             <input type="hidden" name="course" value="{{ $course->getId() }}">
         @endif
@@ -109,7 +109,7 @@
             <button type="button"
                     id="delete-course"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
-                    data-delete-href="{{ Router::generate("courses-delete", ["course" => $course->getId()]) }}">
+                    data-delete-href="{{ Router->generate("courses-delete", ["course" => $course->getId()]) }}">
                 @include("components.icons.buttonload")
                 @include("components.icons.delete")
                 {{ t("Delete") }}
@@ -119,7 +119,7 @@
 
     @include("components.modals.defaultabort")
     <script type="module">
-        import * as CoursesEdit from "{{ Router::staticFilePath("js/courses/edit.js") }}";
+        import * as CoursesEdit from "{{ Router->staticFilePath("js/courses/edit.js") }}";
         CoursesEdit.init();
     </script>
 @endcomponent

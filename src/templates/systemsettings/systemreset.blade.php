@@ -6,7 +6,7 @@
         {{ t("Reset system data") }}
     </h1>
 
-    <form method="post" action="{{ Router::generate("system-reset-action") }}">
+    <form method="post" action="{{ Router->generate("system-reset-action") }}">
         <div class="{{ TailwindUtil::inputGroup() }} mb-2">
             <input id="resetCourses"
                    name="resetCourses"

@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
 $userActionsAllowed = SystemStatus::dao()->get("userActionsAllowed") === "true";
 $newUserActionsAllowed = $userActionsAllowed ? "false" : "true";
@@ -11,4 +11,4 @@ if($newUserActionsAllowed === "true") {
 } else {
     $message = new InfoMessage(t("The course selection has been disabled."), InfoMessageType::SUCCESS);
 }
-Comm::redirect(Router::generate("index"));
+Comm::redirect(Router->generate("index"));

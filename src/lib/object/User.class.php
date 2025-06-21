@@ -1,6 +1,6 @@
 <?php
 
-class User extends GenericUser {
+class User extends \struktal\ORM\GenericUser {
     public ?string $firstName = null;
     public ?string $lastName = null;
     public ?int $groupId = null;

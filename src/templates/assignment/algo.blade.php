@@ -14,10 +14,10 @@
     </p>
 
     <script type="module">
-        import * as AssignmentAlgorithm from "{{ Router::staticFilePath("js/assignment/algo.js") }}";
+        import * as AssignmentAlgorithm from "{{ Router->staticFilePath("js/assignment/algo.js") }}";
         AssignmentAlgorithm.init(
-            "{{ Router::generate("course-assignment-status") }}",
-            "{{ Router::generate("course-assignment-redirect") }}"
+            "{{ Router->generate("course-assignment-status") }}",
+            "{{ Router->generate("course-assignment-redirect") }}"
         );
     </script>
 @endcomponent

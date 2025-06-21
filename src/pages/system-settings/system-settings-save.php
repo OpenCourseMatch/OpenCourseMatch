@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
 $defaultValues = SystemSetting::dao()->defaultValues();
 
@@ -21,7 +21,7 @@ try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("system-settings"));
+    Comm::redirect(Router->generate("system-settings"));
 }
 
 foreach($defaultValues as $key => $value) {
@@ -30,4 +30,4 @@ foreach($defaultValues as $key => $value) {
 }
 
 new InfoMessage(t("The system settings have been saved."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("dashboard"));
+Comm::redirect(Router->generate("dashboard"));

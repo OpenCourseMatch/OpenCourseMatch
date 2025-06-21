@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
 $validation = \validation\Validator::create([
     \validation\IsRequired::create(),
@@ -16,7 +16,7 @@ try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("courses-overview"));
+    Comm::redirect(Router->generate("courses-overview"));
 }
 
 $course = $get["course"];
@@ -27,4 +27,4 @@ Course::dao()->delete($course);
 Logger::getLogger("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the course {$course->getId()} ({$course->getTitle()})");
 
 new InfoMessage(t("The course has been deleted."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("courses-overview"));
+Comm::redirect(Router->generate("courses-overview"));

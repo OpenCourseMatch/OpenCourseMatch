@@ -16,7 +16,7 @@
 
         {{-- Logout button --}}
         <a class="{{ TailwindUtil::button(true) }} text-nowrap"
-           href="{{ Router::generate("auth-logout") }}">
+           href="{{ Router->generate("auth-logout") }}">
             {{ t("Log out") }}
         </a>
     </div>
@@ -25,7 +25,7 @@
     <div class="flex items-center justify-end gap-4 my-2">
         {{-- Login button --}}
         <a class="{{ TailwindUtil::button(true) }}"
-           href="{{ Router::generate("auth-login") }}">
+           href="{{ Router->generate("auth-login") }}">
             {{ t("Log in") }}
         </a>
     </div>

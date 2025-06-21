@@ -1,6 +1,6 @@
 <?php
 
-class GroupDAO extends GenericObjectDAO {
+class GroupDAO extends \struktal\ORM\GenericObjectDAO {
     public function hasId(mixed $id): bool {
         if(!is_numeric($id)) {
             return false;

@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
 $validation = \validation\Validator::create([
     \validation\IsRequired::create(),
@@ -25,11 +25,11 @@ try {
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     if(isset($_POST["group"]) && !Group::dao()->hasId($_POST["group"])) {
-        Comm::redirect(Router::generate("groups-overview"));
+        Comm::redirect(Router->generate("groups-overview"));
     } else if(isset($_POST["group"])) {
-        Comm::redirect(Router::generate("groups-edit", ["group" => $_POST["group"]]));
+        Comm::redirect(Router->generate("groups-edit", ["group" => $_POST["group"]]));
     } else {
-        Comm::redirect(Router::generate("groups-create"));
+        Comm::redirect(Router->generate("groups-create"));
     }
 }
 
@@ -45,4 +45,4 @@ Group::dao()->save($group);
 Logger::getLogger("Groups")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the group {$group->getId()} ({$group->getName()})");
 
 new InfoMessage(t("The group has been saved."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("groups-overview"));
+Comm::redirect(Router->generate("groups-overview"));

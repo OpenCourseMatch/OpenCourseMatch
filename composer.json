@@ -6,10 +6,12 @@
         "php": ">=8.2",
         "eftec/bladeone": "4.13.*",
         "phpmailer/phpmailer": "~v6.9.1",
-        "jensostertag/curl-adapter": "~1.0.0",
-        "jensostertag/geocoding-util": "~1.0.0",
-        "jensostertag/uploadhelper": "~1.0.0",
-        "jensostertag/csvreader": "~1.0.0",
+        "struktal/struktal-router": "~1.1.0",
+        "struktal/struktal-orm": "~1.0.1",
+        "struktal/struktal-curl": "~1.2.0",
+        "struktal/struktal-file-uploads": "~2.0.0",
+        "struktal/struktal-csv-reader": "~1.1.0",
+        "struktal/struktal-geocoding-util": "~1.1.0",
         "erusev/parsedown": "~1.7.4",
         "ext-pdo": "*",
         "ext-curl": "*",
@@ -36,8 +38,8 @@
             "docker compose -f docker-compose-dev.yml up --build"
         ],
         "test": "vendor/bin/pest tests",
-        "build": "framework/src/lib/build/build.sh",
-        "tailwindcss": "framework/src/lib/tailwindcss/tailwindcss.sh",
-        "tailwindcss-compile": "framework/src/lib/tailwindcss/tailwindcss.sh --input src/static/css/base.css --output src/static/css/style.css --minify"
+        "build": "struktal/src/lib/build/build.sh",
+        "tailwindcss": "struktal/src/lib/tailwindcss/tailwindcss.sh",
+        "tailwindcss-compile": "struktal/src/lib/tailwindcss/tailwindcss.sh --input src/static/css/base.css --output src/static/css/style.css --minify"
     }
 }

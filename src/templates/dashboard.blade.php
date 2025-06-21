@@ -9,7 +9,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         @include("components.dashboardlink", [
             "icon" => "components.icons.accountsettings",
-            "href" => Router::generate("account-settings"),
+            "href" => Router->generate("account-settings"),
             "title" => t("Account settings"),
             "description" => t("Manage your personal information, security settings, and account preferences.")
         ])

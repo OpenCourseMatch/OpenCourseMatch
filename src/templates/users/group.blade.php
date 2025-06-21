@@ -6,7 +6,7 @@
         {{ t("Group actions") }}
     </h1>
 
-    <form method="post" action="{{ Router::generate("group-actions-action") }}" data-redirect="{{ Router::generate("users-overview") }}" autocomplete="off">
+    <form method="post" action="{{ Router->generate("group-actions-action") }}" data-redirect="{{ Router->generate("users-overview") }}" autocomplete="off">
         <div class="{{ TailwindUtil::inputGroup() }} mb-2">
             <label for="group" class="{{ TailwindUtil::$inputLabel }}">
                 {{ t("Group") }}
@@ -98,8 +98,8 @@
         <button type="button"
                 id="delete-users"
                 class="{{ TailwindUtil::button(false, "danger") }} gap-2"
-                data-delete-href="{{ Router::generate("group-actions-delete") }}"
-                data-redirect="{{ Router::generate("users-overview") }}">
+                data-delete-href="{{ Router->generate("group-actions-delete") }}"
+                data-redirect="{{ Router->generate("users-overview") }}">
             @include("components.icons.buttonload")
             @include("components.icons.delete")
             {{ t("Delete") }}
@@ -108,7 +108,7 @@
 
     @include("components.modals.defaultabort")
     <script type="module">
-        import * as GroupActions from "{{ Router::staticFilePath("js/users/group.js") }}";
+        import * as GroupActions from "{{ Router->staticFilePath("js/users/group.js") }}";
         GroupActions.init();
     </script>
 @endcomponent

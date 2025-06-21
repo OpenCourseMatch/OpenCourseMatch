@@ -1,6 +1,6 @@
 <?php
 
-class Course extends GenericObject {
+class Course extends \struktal\ORM\GenericObject {
     public ?string $title = null;
     public ?string $organizer = null;
     public ?int $minClearance = null;

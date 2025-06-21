@@ -4,37 +4,31 @@
 require_once(__APP_DIR__ . "/vendor/autoload.php");
 
 // ClassLoader
-require_once(__APP_DIR__ . "/framework/src/ClassLoader.class.php");
+require_once(__APP_DIR__ . "/struktal/src/ClassLoader.class.php");
 $classLoader = ClassLoader::getInstance();
 
 // Load Logger
-$classLoader->loadClass(__APP_DIR__ . "/framework/src/Logger.class.php");
+$classLoader->loadClass(__APP_DIR__ . "/struktal/src/Logger.class.php");
 
 // Load Comm
-$classLoader->loadClass(__APP_DIR__ . "/framework/src/Comm.class.php");
-
-// Load Router
-$classLoader->loadClass(__APP_DIR__ . "/framework/src/Router.class.php");
+$classLoader->loadClass(__APP_DIR__ . "/struktal/src/Comm.class.php");
 
 // Configuration files
-require_once(__APP_DIR__ . "/framework/config/Config.class.php");
+require_once(__APP_DIR__ . "/struktal/config/Config.class.php");
 Config::init();
 require_once(__APP_DIR__ . "/src/config/app-config.php");
 
-// Initialize routes
-require_once(__APP_DIR__ . "/src/config/app-routes.php");
-
 // Load enums
-$classLoader->loadEnums(__APP_DIR__ . "/framework/src/enum/");
+$classLoader->loadEnums(__APP_DIR__ . "/struktal/src/enum/");
 
 // Load libraries
-$classLoader->loadClasses(__APP_DIR__ . "/framework/src/lib/");
+$classLoader->loadClasses(__APP_DIR__ . "/struktal/src/lib/");
 
 // Load objects
-$classLoader->loadClasses(__APP_DIR__ . "/framework/src/object/");
+$classLoader->loadClasses(__APP_DIR__ . "/struktal/src/object/");
 
 // Load DAOs
-$classLoader->loadClasses(__APP_DIR__ . "/framework/src/dao/");
+$classLoader->loadClasses(__APP_DIR__ . "/struktal/src/dao/");
 
 // Load extra enums and classes
 foreach(Config::$CLASS_LOADER_SETTINGS["CLASS_LOADER_IMPORT_PATHS"] as $path) {
@@ -47,6 +41,23 @@ unset($classLoader);
 // Setup Composer libraries
 use eftec\bladeone\BladeOne;
 const Blade = new BladeOne(__APP_DIR__ . "/src/templates", __APP_DIR__ . "/template-cache", BladeOne::MODE_DEBUG);
+
+use struktal\Router\Router;
+const Router = new Router();
+Router->setPagesDirectory(__APP_DIR__ . "/src/pages/");
+Router->setAppUrl(Config::$APP_SETTINGS["APP_URL"]);
+Router->setAppBaseUri(Config::$ROUTER_SETTINGS["ROUTER_BASE_URI"]);
+Router->setStaticDirectoryUri("static/");
+
+use struktal\ORM\Database\Database;
+if(Config::$DB_SETTINGS["DB_USE"]) {
+    Database::connect(
+        Config::$DB_SETTINGS["DB_HOST"],
+        Config::$DB_SETTINGS["DB_NAME"],
+        Config::$DB_SETTINGS["DB_USER"],
+        Config::$DB_SETTINGS["DB_PASS"]
+    );
+}
 
 // Override BladeOne's include directive to use components with isolated variables
 Blade->directive("include", function($expression) {
@@ -73,6 +84,9 @@ Logger::addCustomLogHandler(Logger::$LOG_ERROR, $sendEmailHandler);
 Logger::addCustomLogHandler(Logger::$LOG_FATAL, $sendEmailHandler);
 unset($sendEmailHandler);
 
+// Initialize routes
+require_once(__APP_DIR__ . "/src/config/app-routes.php");
+
 set_error_handler(function($errno, $errstr, $errfile, $errline) {
     $message = "Error " . $errno . ": ";
     $message .= "\"" . $errstr . "\"";
@@ -86,7 +100,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
 
     if(Config::$APP_SETTINGS["PRODUCTION"]) {
         // Redirect to error page in production
-        Comm::redirect(Router::generate("500"));
+        Comm::redirect(Router->generate("500"));
     } else {
         // Show stack trace screen in development
         echo Blade->run("components.layout.deverror", [
@@ -116,7 +130,7 @@ set_exception_handler(function($exception) {
 
     if(Config::$APP_SETTINGS["PRODUCTION"]) {
         // Redirect to error page in production
-        Comm::redirect(Router::generate("500"));
+        Comm::redirect(Router->generate("500"));
     } else {
         // Show stack trace screen in development
         $trace = $exception->getTrace();

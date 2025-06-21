@@ -1,5 +1,5 @@
 <?php
 
-class ChoiceDAO extends GenericObjectDAO {
+class ChoiceDAO extends \struktal\ORM\GenericObjectDAO {
 
 }

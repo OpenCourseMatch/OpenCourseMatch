@@ -31,7 +31,7 @@
         {{ t("The import is limited to 50 rows at a time.") }}
     </p>
 
-    <form method="post" action="{{ Router::generate("users-import-action") }}" data-redirect="{{ Router::generate("users-overview") }}" autocomplete="off">
+    <form method="post" action="{{ Router->generate("users-import-action") }}" data-redirect="{{ Router->generate("users-overview") }}" autocomplete="off">
         <div class="{{ TailwindUtil::inputGroup() }} mb-2">
             <label for="file" class="{{ TailwindUtil::$inputLabel }}" data-required>
                 {{ t("Choose file") }}
@@ -85,7 +85,7 @@
 
     @include("components.modals.defaultabort")
     <script type="module">
-        import * as UsersImport from "{{ Router::staticFilePath("js/users/import.js") }}";
+        import * as UsersImport from "{{ Router->staticFilePath("js/users/import.js") }}";
         UsersImport.init();
     </script>
 @endcomponent

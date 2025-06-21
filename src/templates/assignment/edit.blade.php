@@ -91,7 +91,7 @@
     </dialog>
 
     <script type="module">
-        import * as EditCourseAssignment from "{{ Router::staticFilePath("js/assignment/edit.js") }}";
-        EditCourseAssignment.init(@json($courseIds), "{{ Router::generate("course-assignment-edit-courseoverview") }}");
+        import * as EditCourseAssignment from "{{ Router->staticFilePath("js/assignment/edit.js") }}";
+        EditCourseAssignment.init(@json($courseIds), "{{ Router->generate("course-assignment-edit-courseoverview") }}");
     </script>
 @endcomponent

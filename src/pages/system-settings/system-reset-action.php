@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
 $validation = \validation\Validator::create([
     \validation\IsRequired::create(),
@@ -24,7 +24,7 @@ try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("system-reset"));
+    Comm::redirect(Router->generate("system-reset"));
 }
 
 if($post["resetUsers"] !== null) {
@@ -92,4 +92,4 @@ if($post["resetGroups"] !== null) {
 }
 
 new InfoMessage(t("The selected system data has been reset."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("dashboard"));
+Comm::redirect(Router->generate("dashboard"));

@@ -42,11 +42,11 @@
     {{-- User list --}}
     <table id="users-table" class="stripe"
         @if($course !== null)
-            data-table-ajax="{{ Router::generate("course-assignment-edit-courseoverview-table", [
+            data-table-ajax="{{ Router->generate("course-assignment-edit-courseoverview-table", [
                 "course" => $course?->getId()
             ]) }}"
         @else
-            data-table-ajax="{{ Router::generate("course-assignment-edit-courseoverview-table-unassigned") }}"
+            data-table-ajax="{{ Router->generate("course-assignment-edit-courseoverview-table-unassigned") }}"
         @endif>
         <thead>
             <tr>
@@ -71,14 +71,14 @@
     @endif
 
     <script type="module">
-        import * as EditCourseAssignment from "{{ Router::staticFilePath("js/assignment/edit.js") }}";
+        import * as EditCourseAssignment from "{{ Router->staticFilePath("js/assignment/edit.js") }}";
         EditCourseAssignment.initCourseOverview({
             "Search...": "{{ t("Search...") }}",
             "Loading...": "{{ t("Loading...") }}",
             "No entries": "{{ t("No entries") }}",
             "Back": "{{ t("Back") }}",
             "Next": "{{ t("Next") }}"
-        }, "{{ Router::generate("course-assignment-edit-moveaway-modal") }}", "{{ Router::generate("course-assignment-edit-movehere-modal") }}");
+        }, "{{ Router->generate("course-assignment-edit-moveaway-modal") }}", "{{ Router->generate("course-assignment-edit-movehere-modal") }}");
     </script>
 
     <div hidden>

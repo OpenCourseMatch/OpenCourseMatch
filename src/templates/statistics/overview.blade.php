@@ -77,7 +77,7 @@
     @endif
 
     <script type="module">
-        import * as StatisticsOverview from "{{ Router::staticFilePath("js/statistics/overview.js") }}";
+        import * as StatisticsOverview from "{{ Router->staticFilePath("js/statistics/overview.js") }}";
 
         StatisticsOverview.initAccountTypesChart({
             title: "{{ t("Account types") }}",

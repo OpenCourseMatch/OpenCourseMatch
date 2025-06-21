@@ -4,7 +4,7 @@
 chdir("../");
 const __APP_DIR__ = __DIR__ . "/..";
 
-require_once(__APP_DIR__ . "/framework/framework.php");
+require_once(__APP_DIR__ . "/struktal/start.php");
 
 session_start();
 
@@ -23,5 +23,4 @@ function t(string $message, array $variables = []): string {
 }
 
 // Start the router
-$router = new Router();
-$router->startRouter();
+Router->startRouter();

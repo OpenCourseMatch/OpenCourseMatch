@@ -35,7 +35,7 @@ if [ "$binary" = "" ]; then
 fi
 
 # Run the binary
-"framework/src/lib/tailwindcss/bin/$binary" "$@"
+"struktal/src/lib/tailwindcss/bin/$binary" "$@"
 result=$?
 
 exit $result

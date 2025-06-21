@@ -14,9 +14,9 @@ services:
         environment:
             TZ: "UTC"
             MYSQL_ROOT_PASSWORD: "root" # ADJUST
-            MYSQL_DATABASE: "framework-app" # ADJUST
-            MYSQL_USER: "framework-app" # ADJUST
-            MYSQL_PASSWORD: "framework-app" # ADJUST
+            MYSQL_DATABASE: "opencoursematch" # ADJUST
+            MYSQL_USER: "opencoursematch" # ADJUST
+            MYSQL_PASSWORD: "opencoursematch" # ADJUST
         volumes:
             - "database:/var/lib/mysql"
         networks:
@@ -37,13 +37,13 @@ services:
             - "app"
 
     backup:
-        image: "ghcr.io/jensostertag/mysql-backup:latest"
+        image: "ghcr.io/struktal/mysql-backup:latest"
         restart: "always"
         environment:
             TZ: "UTC"
             DB_HOST: "database"
-            DB_USER: "framework-app" # ADJUST
-            DB_PASS: "framework-app" # ADJUST
-            DB_DATABASE: "framework-app" # ADJUST
+            DB_USER: "opencoursematch" # ADJUST
+            DB_PASS: "opencoursematch" # ADJUST
+            DB_DATABASE: "opencoursematch" # ADJUST
         volumes:
             - "./database-backup:/backup"

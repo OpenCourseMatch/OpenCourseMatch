@@ -10,7 +10,7 @@
         @endif
     </h1>
 
-    <form method="post" action="{{ Router::generate("groups-save") }}" autocomplete="off">
+    <form method="post" action="{{ Router->generate("groups-save") }}" autocomplete="off">
         @if(!empty($group))
             <input type="hidden" name="group" value="{{ $group->getId() }}">
         @endif
@@ -52,7 +52,7 @@
             <button type="button"
                     id="delete-group"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
-                    data-delete-href="{{ Router::generate("groups-delete", ["group" => $group->getId()]) }}">
+                    data-delete-href="{{ Router->generate("groups-delete", ["group" => $group->getId()]) }}">
                 @include("components.icons.buttonload")
                 @include("components.icons.delete")
                 {{ t("Delete") }}
@@ -62,7 +62,7 @@
 
     @include("components.modals.defaultabort")
     <script type="module">
-        import * as GroupsEdit from "{{ Router::staticFilePath("js/groups/edit.js") }}";
+        import * as GroupsEdit from "{{ Router->staticFilePath("js/groups/edit.js") }}";
         GroupsEdit.init();
     </script>
 @endcomponent

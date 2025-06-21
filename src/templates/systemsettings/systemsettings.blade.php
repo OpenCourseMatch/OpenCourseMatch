@@ -6,7 +6,7 @@
         {{ t("System settings") }}
     </h1>
 
-    <form method="post" action="{{ Router::generate("system-settings-save") }}">
+    <form method="post" action="{{ Router->generate("system-settings-save") }}">
         @foreach($settings as $setting)
             <div class="{{ TailwindUtil::inputGroup() }} mb-2">
                 <label for="{{ $setting->getKey() }}" class="{{ TailwindUtil::$inputLabel }}" data-required>

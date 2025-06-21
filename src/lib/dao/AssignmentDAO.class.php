@@ -1,5 +1,5 @@
 <?php
 
-class AssignmentDAO extends GenericObjectDAO {
+class AssignmentDAO extends \struktal\ORM\GenericObjectDAO {
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
 $users = User::dao()->getObjects([
     "permissionLevel" => PermissionLevel::USER->value
@@ -8,7 +8,7 @@ $users = User::dao()->getObjects([
 
 $users = array_map(function(User $account) {
     $array = $account->toArray();
-    $array["editHref"] = Router::generate("users-edit", ["user" => $account->getId()]);
+    $array["editHref"] = Router->generate("users-edit", ["user" => $account->getId()]);
     $group = $account->getGroup();
     if($group instanceof Group) {
         $array["group"] = $group->getName();

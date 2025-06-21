@@ -106,7 +106,7 @@
     </div>
 
     <script type="module">
-        import * as EditCourseAssignment from "{{ Router::staticFilePath("js/assignment/edit.js") }}";
-        EditCourseAssignment.initMoveAwayModal("{{ Router::generate("course-assignment-edit-move-away", ["user" => $account->getId()]) }}");
+        import * as EditCourseAssignment from "{{ Router->staticFilePath("js/assignment/edit.js") }}";
+        EditCourseAssignment.initMoveAwayModal("{{ Router->generate("course-assignment-edit-move-away", ["user" => $account->getId()]) }}");
     </script>
 </div>

@@ -1,5 +1,5 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::USER->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::USER->value, Router->generate("index"));
 
 echo Blade->run("accountsettings.changepassword");

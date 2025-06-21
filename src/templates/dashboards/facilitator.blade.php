@@ -4,7 +4,7 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
     @include("components.dashboardlink", [
         "icon" => "components.icons.user",
-        "href" => Router::generate("users-overview"),
+        "href" => Router->generate("users-overview"),
         "title" => t("Participants and tutors"),
         "description" => t("Manage accounts of participants and tutors.")
     ])
@@ -16,7 +16,7 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
     @include("components.dashboardlink", [
         "icon" => "components.icons.course",
-        "href" => Router::generate("courses-overview"),
+        "href" => Router->generate("courses-overview"),
         "title" => t("Courses"),
         "description" => t("Manage the available courses.")
     ])

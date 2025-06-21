@@ -1,16 +1,16 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::USER->value, Router::generate("index"));
+$user = Auth::enforceLogin(PermissionLevel::USER->value, Router->generate("index"));
 
 $breadcrumbs = [
     [
         "name" => t("Dashboard"),
-        "link" => Router::generate("dashboard"),
+        "link" => Router->generate("dashboard"),
         "iconComponent" => "components.icons.dashboard"
     ],
     [
         "name" => t("Account settings"),
-        "link" => Router::generate("account-settings")
+        "link" => Router->generate("account-settings")
     ]
 ];
 

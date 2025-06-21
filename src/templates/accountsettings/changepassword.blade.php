@@ -3,7 +3,7 @@
         {{ t("Please enter your current password and confirm your new one.") }}
     </p>
 
-    <form method="post" action="{{ Router::generate("account-settings-change-password-action") }}">
+    <form method="post" action="{{ Router->generate("account-settings-change-password-action") }}">
         <div class="{{ TailwindUtil::inputGroup() }} mb-4">
             <label class="{{ TailwindUtil::$inputLabel }}"
                    for="current-password"
@@ -87,7 +87,7 @@
     </form>
 
     <script type="module">
-        import * as PasswordStrength from "{{ Router::staticFilePath("js/auth/PasswordStrength.js") }}";
+        import * as PasswordStrength from "{{ Router->staticFilePath("js/auth/PasswordStrength.js") }}";
         PasswordStrength.init("new-password");
     </script>
 @endcomponent
