@@ -7,7 +7,7 @@ Config::$ROUTER_SETTINGS["ROUTER_BASE_URI"] = Config::configSecret()["ROUTER_SET
 Config::$APP_SETTINGS["APP_NAME"] = Config::configSecret()["APP_SETTINGS"]["APP_NAME"] ?? "OpenCourseMatch";
 Config::$APP_SETTINGS["WEBSITE_TITLE"] = Config::configSecret()["APP_SETTINGS"]["WEBSITE_TITLE"] ?? "OpenCourseMatch";
 Config::$APP_SETTINGS["APP_URL"] = Config::configSecret()["APP_SETTINGS"]["APP_URL"] ?? "http://localhost:3000";
-Config::$APP_SETTINGS["APP_FAVICON"] = Config::configSecret()["APP_SETTINGS"]["APP_FAVICON"] ?? Router->staticFilePath("img/logo.svg");
+Config::$APP_SETTINGS["APP_FAVICON"] = Config::configSecret()["APP_SETTINGS"]["APP_FAVICON"] ?? "img/logo.svg";
 Config::$APP_SETTINGS["APP_AUTHOR"] = Config::configSecret()["APP_SETTINGS"]["APP_AUTHOR"] ?? "OpenCourseMatch contributors";
 Config::$APP_SETTINGS["APP_VERSION"] = Config::configSecret()["APP_SETTINGS"]["APP_VERSION"] ?? "3.1.0";
 Config::$APP_SETTINGS["PRODUCTION"] = Config::configSecret()["APP_SETTINGS"]["PRODUCTION"] ?? true;
@@ -48,7 +48,7 @@ Config::$CLASS_LOADER_SETTINGS["CLASS_LOADER_IMPORT_PATHS"][] = __APP_DIR__ . "/
 // SEO settings
 Config::$SEO_SETTINGS["SEO_DEFAULT_DESCRIPTION"] = Config::configSecret()["SEO_SETTINGS"]["SEO_DEFAULT_DESCRIPTION"] ?? "OpenCourseMatch";
 Config::$SEO_SETTINGS["SEO_KEYWORDS"] = Config::configSecret()["SEO_SETTINGS"]["SEO_KEYWORDS"] ?? [];
-Config::$SEO_SETTINGS["SEO_IMAGE_PREVIEW"] = Config::configSecret()["SEO_SETTINGS"]["SEO_IMAGE_PREVIEW"] ?? Router->staticFilePath("img/seo/preview.jpg");
+Config::$SEO_SETTINGS["SEO_IMAGE_PREVIEW"] = Config::configSecret()["SEO_SETTINGS"]["SEO_IMAGE_PREVIEW"] ?? "img/seo/preview.jpg";
 Config::$SEO_SETTINGS["SEO_OPENGRAPH"] = Config::configSecret()["SEO_SETTINGS"]["SEO_OPENGRAPH"] ?? ["OPENGRAPH_SITE_NAME" => null];
 Config::$SEO_SETTINGS["SEO_TWITTER"] = Config::configSecret()["SEO_SETTINGS"]["SEO_TWITTER"] ?? ["TWITTER_SITE" => null, "TWITTER_CREATOR" => null];
 Config::$SEO_SETTINGS["SEO_ROBOTS"] = Config::configSecret()["SEO_SETTINGS"]["SEO_ROBOTS"] ?? ["noindex", "nofollow"];
