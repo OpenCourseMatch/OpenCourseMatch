@@ -23,7 +23,7 @@ Config::$DB_SETTINGS["DB_HOST"] = Config::configSecret()["DATABASE_SETTINGS"]["D
 Config::$DB_SETTINGS["DB_USER"] = Config::configSecret()["DATABASE_SETTINGS"]["DB_USER"] ?? "opencoursematch";
 Config::$DB_SETTINGS["DB_PASS"] = Config::configSecret()["DATABASE_SETTINGS"]["DB_PASS"] ?? "opencoursematch";
 Config::$DB_SETTINGS["DB_NAME"] = Config::configSecret()["DATABASE_SETTINGS"]["DB_NAME"] ?? "opencoursematch";
-Config::$DB_SETTINGS["DB_USE"] = Config::configSecret()["DATABASE_SETTINGS"]["DB_USE"] ?? true;
+Config::$DB_SETTINGS["DB_USE"] = Config::configSecret()["DATABASE_SETTINGS"]["DB_USE"] ?? false;
 
 // Mail settings
 Config::$MAIL_SETTINGS["MAIL_SMTP_HOST"] = Config::configSecret()["MAIL_SETTINGS"]["MAIL_SMTP_HOST"] ?? "smtp.localhost";
