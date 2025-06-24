@@ -11,4 +11,4 @@ if($newUserActionsAllowed === "true") {
 } else {
     $message = new InfoMessage(t("The course selection has been disabled."), InfoMessageType::SUCCESS);
 }
-Comm::redirect(Router->generate("index"));
+Router->redirect(Router->generate("index"));

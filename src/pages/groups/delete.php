@@ -16,7 +16,7 @@ try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router->generate("groups-overview"));
+    Router->redirect(Router->generate("groups-overview"));
 }
 
 $group = $get["group"];
@@ -27,4 +27,4 @@ Group::dao()->delete($group);
 Logger::getLogger("Groups")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the group {$group->getId()} ({$group->getName()})");
 
 new InfoMessage(t("The group has been deleted."), InfoMessageType::SUCCESS);
-Comm::redirect(Router->generate("groups-overview"));
+Router->redirect(Router->generate("groups-overview"));

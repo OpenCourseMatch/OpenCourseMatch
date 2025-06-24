@@ -36,12 +36,12 @@ class Auth {
     public static function enforceLogin(int $requiredPermissionLevel, string $redirect): ?User {
         $user = self::getLoggedInUser();
         if(!$user instanceof User) {
-            Comm::redirect($redirect);
+            Router->redirect($redirect);
             return null;
         }
 
         if($user->getPermissionLevel() < $requiredPermissionLevel) {
-            Comm::redirect($redirect);
+            Router->redirect($redirect);
             return null;
         }
 

@@ -18,7 +18,7 @@ try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router->generate("administrators-overview"));
+    Router->redirect(Router->generate("administrators-overview"));
 }
 
 $account = $get["user"];
@@ -29,4 +29,4 @@ User::dao()->delete($account);
 Logger::getLogger("Administrators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the administrator {$account->getId()} ({$account->getFullName()})");
 
 new InfoMessage(t("The administrator has been deleted."), InfoMessageType::SUCCESS);
-Comm::redirect(Router->generate("administrators-overview"));
+Router->redirect(Router->generate("administrators-overview"));

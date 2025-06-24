@@ -24,7 +24,7 @@ try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router->generate("system-reset"));
+    Router->redirect(Router->generate("system-reset"));
 }
 
 if($post["resetUsers"] !== null) {
@@ -92,4 +92,4 @@ if($post["resetGroups"] !== null) {
 }
 
 new InfoMessage(t("The selected system data has been reset."), InfoMessageType::SUCCESS);
-Comm::redirect(Router->generate("dashboard"));
+Router->redirect(Router->generate("dashboard"));

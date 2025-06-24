@@ -15,7 +15,7 @@ try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router->generate("courses-overview"));
+    Router->redirect(Router->generate("courses-overview"));
 }
 
 $course = $get["course"];

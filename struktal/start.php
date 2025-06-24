@@ -100,7 +100,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
 
     if(Config::$APP_SETTINGS["PRODUCTION"]) {
         // Redirect to error page in production
-        Comm::redirect(Router->generate("500"));
+        Router->redirect(Router->generate("500"));
     } else {
         // Show stack trace screen in development
         echo Blade->run("components.layout.deverror", [
@@ -130,7 +130,7 @@ set_exception_handler(function($exception) {
 
     if(Config::$APP_SETTINGS["PRODUCTION"]) {
         // Redirect to error page in production
-        Comm::redirect(Router->generate("500"));
+        Router->redirect(Router->generate("500"));
     } else {
         // Show stack trace screen in development
         $trace = $exception->getTrace();

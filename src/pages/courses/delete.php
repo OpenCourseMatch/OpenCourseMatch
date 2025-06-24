@@ -16,7 +16,7 @@ try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router->generate("courses-overview"));
+    Router->redirect(Router->generate("courses-overview"));
 }
 
 $course = $get["course"];
@@ -27,4 +27,4 @@ Course::dao()->delete($course);
 Logger::getLogger("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the course {$course->getId()} ({$course->getTitle()})");
 
 new InfoMessage(t("The course has been deleted."), InfoMessageType::SUCCESS);
-Comm::redirect(Router->generate("courses-overview"));
+Router->redirect(Router->generate("courses-overview"));

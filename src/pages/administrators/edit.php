@@ -17,7 +17,7 @@ try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router->generate("administrators-overview"));
+    Router->redirect(Router->generate("administrators-overview"));
 }
 
 $account = $get["user"];
