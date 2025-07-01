@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
 $validation = \validation\Validator::create([
     \validation\IsRequired::create(),

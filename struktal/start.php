@@ -24,12 +24,6 @@ $classLoader->loadEnums(__APP_DIR__ . "/struktal/src/enum/");
 // Load libraries
 $classLoader->loadClasses(__APP_DIR__ . "/struktal/src/lib/");
 
-// Load objects
-$classLoader->loadClasses(__APP_DIR__ . "/struktal/src/object/");
-
-// Load DAOs
-$classLoader->loadClasses(__APP_DIR__ . "/struktal/src/dao/");
-
 // Load extra enums and classes
 foreach(Config::$CLASS_LOADER_SETTINGS["CLASS_LOADER_IMPORT_PATHS"] as $path) {
     $classLoader->loadEnums($path);
@@ -58,6 +52,10 @@ if(Config::$DB_SETTINGS["DB_USE"]) {
         Config::$DB_SETTINGS["DB_PASS"]
     );
 }
+
+use struktal\Auth\Auth;
+const Auth = new Auth();
+Auth->setUserObjectName(User::class);
 
 // Override BladeOne's include directive to use components with isolated variables
 Blade->directive("include", function($expression) {

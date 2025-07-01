@@ -1,7 +1,7 @@
 <?php
 
 // Check whether the user is already logged in
-if(Auth::isLoggedIn()) {
+if(Auth->isLoggedIn()) {
     Router->redirect(Router->generate("index"));
 }
 
@@ -55,8 +55,8 @@ if(count(User::dao()->getObjects([], "id", true, 1)) === 0) {
 
 $user = User::dao()->login($post["username"], false, $post["password"]);
 
-if(!$user instanceof User) {
-    Logger::getLogger("Login")->info("User \"{$post["username"]}\" failed to log in: " . ($user === 0 ? "User not found" : ($user === 1 ? "Password incorrect" : "Email not verified")));
+if($user instanceof \struktal\Auth\LoginError) {
+    Logger::getLogger("Login")->info("User \"{$post["username"]}\" failed to log in: " . $user->name);
     new InfoMessage(t("An account with these credentials does not exist."), InfoMessageType::ERROR);
     Router->redirect(Router->generate("auth-login"));
 }
@@ -71,5 +71,5 @@ User::dao()->save($user);
 SystemSetting::dao()->setDefaults();
 
 Logger::getLogger("Login")->info("User \"{$post["username"]}\" has logged in (User ID {$user->getId()})");
-Auth::login($user);
+Auth->login($user);
 Router->redirect(Router->generate("index"));

@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
 $userActionsAllowed = SystemStatus::dao()->get("userActionsAllowed") === "true";
 $newUserActionsAllowed = $userActionsAllowed ? "false" : "true";

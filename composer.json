@@ -8,6 +8,7 @@
         "phpmailer/phpmailer": "~v6.9.1",
         "struktal/struktal-router": "~1.1.0",
         "struktal/struktal-orm": "~1.0.1",
+        "struktal/struktal-auth": "~2.0.0",
         "struktal/struktal-curl": "~1.2.0",
         "struktal/struktal-file-uploads": "~2.0.0",
         "struktal/struktal-csv-reader": "~1.1.0",

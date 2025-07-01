@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::USER->value, Router->generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::USER->value, Router->generate("index"));
 
 if($user->getPermissionLevel() === PermissionLevel::ADMIN->value) {
     if(SystemStatus::dao()->get("algorithmRunning") === "true") {

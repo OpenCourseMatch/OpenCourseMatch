@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "09b7d9deb1565fddfd45ca7a9f69abe0",
+    "content-hash": "5b1e21a7002632d7296a1aacd60e9c39",
     "packages": [
         {
             "name": "chillerlan/php-qrcode",
@@ -641,6 +641,47 @@
                 "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v8.8.0"
             },
             "time": "2025-03-23T17:59:05+00:00"
+        },
+        {
+            "name": "struktal/struktal-auth",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Struktal/struktal-auth.git",
+                "reference": "44a00277b47a8e0b0e9a4bc27fd2e5fae77ad22b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Struktal/struktal-auth/zipball/44a00277b47a8e0b0e9a4bc27fd2e5fae77ad22b",
+                "reference": "44a00277b47a8e0b0e9a4bc27fd2e5fae77ad22b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2.0",
+                "struktal/struktal-orm": "~1.0.1",
+                "struktal/struktal-router": "~1.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "struktal\\ORM\\": "src/orm/",
+                    "struktal\\Auth\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP library for user authentication in Struktal applications",
+            "keywords": [
+                "Authentication",
+                "strukal"
+            ],
+            "support": {
+                "issues": "https://github.com/Struktal/struktal-auth/issues",
+                "source": "https://github.com/Struktal/struktal-auth/tree/2.0.0"
+            },
+            "time": "2025-06-30T21:47:38+00:00"
         },
         {
             "name": "struktal/struktal-csv-reader",
@@ -3548,16 +3589,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v7.3.0",
+            "version": "v7.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "66c1440edf6f339fd82ed6c7caa76cb006211b44"
+                "reference": "9e27aecde8f506ba0fd1d9989620c04a87697101"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/66c1440edf6f339fd82ed6c7caa76cb006211b44",
-                "reference": "66c1440edf6f339fd82ed6c7caa76cb006211b44",
+                "url": "https://api.github.com/repos/symfony/console/zipball/9e27aecde8f506ba0fd1d9989620c04a87697101",
+                "reference": "9e27aecde8f506ba0fd1d9989620c04a87697101",
                 "shasum": ""
             },
             "require": {
@@ -3622,7 +3663,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v7.3.0"
+                "source": "https://github.com/symfony/console/tree/v7.3.1"
             },
             "funding": [
                 {
@@ -3638,7 +3679,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-05-24T10:34:04+00:00"
+            "time": "2025-06-27T19:55:54+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",

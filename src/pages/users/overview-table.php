@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
 $users = User::dao()->getObjects([
     "permissionLevel" => PermissionLevel::USER->value

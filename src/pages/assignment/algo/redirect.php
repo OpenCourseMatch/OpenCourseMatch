@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
 $algorithmRunning = SystemStatus::dao()->get("algorithmRunning") === "true";
 $coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
