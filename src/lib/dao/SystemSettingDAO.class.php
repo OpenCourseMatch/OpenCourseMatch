@@ -1,12 +1,25 @@
 <?php
 
 class SystemSettingDAO extends GenericObjectDAO {
+    private static array $cache = [];
+
     public function get(string $key): ?string {
-        $object = $this->getObject(["key" => $key]);
-        if($object instanceof SystemSetting) {
-            return $object->getValue();
+        // Check cache first
+        if (array_key_exists($key, self::$cache)) {
+            return self::$cache[$key];
         }
 
+        // If not in cache, fetch from database
+        $object = $this->getObject(["key" => $key]);
+        if($object instanceof SystemSetting) {
+            $value = $object->getValue();
+            // Store in cache for future requests
+            self::$cache[$key] = $value;
+            return $value;
+        }
+
+        // Cache null result to avoid repeated database queries
+        self::$cache[$key] = null;
         return null;
     }
 
@@ -18,6 +31,22 @@ class SystemSettingDAO extends GenericObjectDAO {
         }
         $object->setValue($value);
         $this->save($object);
+        
+        // Update cache with new value
+        self::$cache[$key] = $value;
+    }
+
+    /**
+     * Clears the entire cache or a specific key from the cache
+     * @param string|null $key If provided, only clears the specific key
+     * @return void
+     */
+    public function clearCache(?string $key = null): void {
+        if ($key !== null) {
+            unset(self::$cache[$key]);
+        } else {
+            self::$cache = [];
+        }
     }
 
     public function setDefaults(bool $forced = false): void {
