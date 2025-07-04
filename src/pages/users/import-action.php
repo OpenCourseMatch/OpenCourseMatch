@@ -57,7 +57,11 @@ foreach($csvData as $data) {
 $groupId = isset($post["group"]) ? $post["group"]->getId() : null;
 $leadingCourseId = null;
 
-Logger::getLogger("Users")->info("User {$user->getId()} ({$user->getFullName()}) is importing users from CSV file with group ID {$groupId} ({$post["group"]->getName()}");
+if($groupId === null) {
+    Logger::getLogger("Users")->info("User {$user->getId()} ({$user->getFullName()}) is importing users from CSV file with default group.");
+} else {
+    Logger::getLogger("Users")->info("User {$user->getId()} ({$user->getFullName()}) is importing users from CSV file with group ID {$groupId} ({$post["group"]->getName()}).");
+}
 
 $importedUsers = [];
 $importedUsersPasswords = [];
@@ -66,7 +70,7 @@ foreach($csvData as $data) {
     $firstName = trim($data[1]);
     $username = User::dao()->generateUsername($firstName, $lastName);
 
-    Logger::getLogger("Users")->trace("Importing user with name {$firstName} {$lastName} and username {$username}");
+    Logger::getLogger("Users")->trace("Importing user with name {$firstName} {$lastName} and username {$username}.");
 
     $account = new User();
     $account->setUsername($username);
@@ -89,7 +93,7 @@ foreach($csvData as $data) {
     $account->setOneTimePasswordExpiration(null);
     User::dao()->save($account);
 
-    Logger::getLogger("Users")->trace("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) imported the user {$account->getId()} ({$account->getFullName()})");
+    Logger::getLogger("Users")->trace("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) imported the user {$account->getId()} ({$account->getFullName()}).");
 
     $importedUsers[] = $account;
     $importedUsersPasswords[$account->getId()] = $password;
@@ -101,7 +105,11 @@ new InfoMessage(t("\$\$count\$\$ users have been imported.", [
     "count" => $userCount
 ]), InfoMessageType::SUCCESS);
 
-Logger::getLogger("Users")->info("User {$user->getId()} ({$user->getFullName()}) has imported {$userCount} users from CSV file with group ID {$groupId} ({$post["group"]->getName()})");
+if($groupId === null) {
+    Logger::getLogger("Users")->info("User {$user->getId()} ({$user->getFullName()}) has imported {$userCount} users from CSV file with default group.");
+} else {
+    Logger::getLogger("Users")->info("User {$user->getId()} ({$user->getFullName()}) has imported {$userCount} users from CSV file with group ID {$groupId} ({$post["group"]->getName()}).");
+}
 
 header("Content-Type: application/pdf");
 $pdf = new PDF($user, t("Account credentials"), "pdf.accountcredentials", [
