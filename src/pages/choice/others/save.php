@@ -76,20 +76,20 @@ $chosenCourses = [];
 $choices = [];
 foreach($post["choice"] as $i => $course) {
     if(in_array($course->getId(), $chosenCourses)) {
-        Logger::getLogger("Choices")->warn("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) tried to choose course {$course->getId()} ({$course->getName()}) for user {$account->getId()} ({$account->getFullName()}) multiple times.");
+        Logger::getLogger("Choices")->warn("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) tried to choose course {$course->getId()} ({$course->getTitle()}) for user {$account->getId()} ({$account->getFullName()}) multiple times.");
         $recreateOldChoices();
         new InfoMessage(t("Each course can only be chosen once."), InfoMessageType::ERROR);
         Comm::redirect(Router::generate("choice-edit-others", ["user" => $account->getId()]));
     }
 
     if(!$course->canChooseCourse($account)) {
-        Logger::getLogger("Choices")->warn("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) tried to choose course {$course->getId()} ({$course->getName()}) for user {$account->getId()} ({$account->getFullName()}) but they do not meet the requirements.");
+        Logger::getLogger("Choices")->warn("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) tried to choose course {$course->getId()} ({$course->getTitle()}) for user {$account->getId()} ({$account->getFullName()}) but they do not meet the requirements.");
         $recreateOldChoices();
         new InfoMessage(t("The user of which the choice should be edited does not meet the requirements to participate in at least one of the chosen courses."), InfoMessageType::ERROR);
         Comm::redirect(Router::generate("choice-edit-others", ["user" => $account->getId()]));
     }
 
-    Logger::getLogger("Choices")->trace("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is choosing course {$course->getId()} ({$course->getName()}) for user {$account->getId()} ({$account->getFullName()}) with priority {$i}.");
+    Logger::getLogger("Choices")->trace("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is choosing course {$course->getId()} ({$course->getTitle()}) for user {$account->getId()} ({$account->getFullName()}) with priority {$i}.");
 
     $chosenCourses[] = $course->getId();
     $choice = new Choice();

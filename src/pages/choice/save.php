@@ -66,20 +66,20 @@ $chosenCourses = [];
 $choices = [];
 foreach($post["choice"] as $i => $course) {
     if(in_array($course->getId(), $chosenCourses)) {
-        Logger::getLogger("Choices")->warn("User {$user->getId()} ({$user->getFullName()}) tried to choose course {$course->getId()} ({$course->getName()}) multiple times.");
+        Logger::getLogger("Choices")->warn("User {$user->getId()} ({$user->getFullName()}) tried to choose course {$course->getId()} ({$course->getTitle()}) multiple times.");
         $recreateOldChoices();
         new InfoMessage(t("Each course can only be chosen once."), InfoMessageType::ERROR);
         Comm::redirect(Router::generate("choice-edit"));
     }
 
     if(!$course->canChooseCourse($user)) {
-        Logger::getLogger("Choices")->warn("User {$user->getId()} ({$user->getFullName()}) tried to choose course {$course->getId()} ({$course->getName()}) but does not meet the requirements.");
+        Logger::getLogger("Choices")->warn("User {$user->getId()} ({$user->getFullName()}) tried to choose course {$course->getId()} ({$course->getTitle()}) but does not meet the requirements.");
         $recreateOldChoices();
         new InfoMessage(t("You do not meet the requirements to participate in at least one of your chosen courses."), InfoMessageType::ERROR);
         Comm::redirect(Router::generate("choice-edit"));
     }
 
-    Logger::getLogger("Choices")->trace("User {$user->getId()} ({$user->getFullName()}) is choosing course {$course->getId()} ({$course->getName()}) with priority {$i}.");
+    Logger::getLogger("Choices")->trace("User {$user->getId()} ({$user->getFullName()}) is choosing course {$course->getId()} ({$course->getTitle()}) with priority {$i}.");
 
     $chosenCourses[] = $course->getId();
     $choice = new Choice();
