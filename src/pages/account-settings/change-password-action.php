@@ -43,7 +43,9 @@ if($post["new-password"] != $post["new-password-repeat"]) {
     Comm::redirect(Router::generate("account-settings-change-password"));
 }
 
-if(User::dao()->login($user->getUsername(), false, $post["current-password"]) != $user) {
+$tempUser = User::dao()->login($user->getUsername(), false, $post["current-password"]);
+
+if(!($tempUser instanceof User) || $tempUser->getId() !== $user->getId()) {
     new InfoMessage(t("The current password is incorrect."), InfoMessageType::ERROR);
     Comm::redirect(Router::generate("account-settings-change-password"));
 }
