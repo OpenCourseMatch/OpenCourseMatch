@@ -37,6 +37,7 @@
                     <th>{{ t("First name") }}</th>
                     <th>{{ t("Last name") }}</th>
                     <th>{{ t("Group") }}</th>
+                    <th>{{ t("Choice complete") }}</th>
                 </tr>
             </thead>
             <tbody>
