@@ -30,7 +30,13 @@ export const init = (translations) => {
             { data: "username" },
             { data: "firstName" },
             { data: "lastName" },
-            { data: "group" }
+            { data: "group" },
+            {
+                data: "choiceComplete",
+                render: (data) => {
+                    return data ? "✅" : "❌";
+                }
+            }
         ]
     });
 
