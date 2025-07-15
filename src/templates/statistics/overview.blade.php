@@ -80,11 +80,11 @@
         import * as StatisticsOverview from "{{ Router::staticFilePath("js/statistics/overview.js") }}";
 
         StatisticsOverview.initAccountTypesChart({
-            title: "{{ t("Account types") }}",
-            dataLabel: "{{ t("Accounts") }}",
-            user: "{{ t("User") }}",
-            facilitator: "{{ t("Facilitator") }}",
-            admin: "{{ t("Administrator") }}"
+            title: "{!! t("Account types") !!}",
+            dataLabel: "{!! t("Accounts") !!}",
+            user: "{!! t("User") !!}",
+            facilitator: "{!! t("Facilitator") !!}",
+            admin: "{!! t("Administrator") !!}"
         }, [
             {{ $statistics["accountTypes"]["user"] }},
             {{ $statistics["accountTypes"]["facilitator"] }},
@@ -92,27 +92,27 @@
         ]);
 
         StatisticsOverview.initUserTypesChart({
-            title: "{{ t("User types") }}",
-            dataLabel: "{{ t("Accounts") }}",
-            participant: "{{ t("Participant") }}",
-            tutor: "{{ t("Tutor") }}"
+            title: "{!! t("User types") !!}",
+            dataLabel: "{!! t("Accounts") !!}",
+            participant: "{!! t("Participant") !!}",
+            tutor: "{!! t("Tutor") !!}"
         }, [
             {{ $statistics["userTypes"]["participant"] }},
             {{ $statistics["userTypes"]["tutor"] }}
         ]);
 
         StatisticsOverview.initGroupsChart({
-            title: "{{ t("Groups") }}",
-            dataLabel: "{{ t("Accounts") }}",
-            defaultGroup: "{{ t("Default group") }}"
+            title: "{!! t("Groups") !!}",
+            dataLabel: "{!! t("Accounts") !!}",
+            defaultGroup: "{!! t("Default group") !!}"
         }, @json($statistics["groups"]), @json($customGroups));
 
         StatisticsOverview.initChoicesChart({
-            title: "{{ t("Choices") }}",
-            dataLabel: "{{ t("Accounts") }}",
-            complete: "{{ t("Complete") }}",
-            incomplete: "{{ t("Incomplete") }}",
-            missing: "{{ t("Missing") }}"
+            title: "{!! t("Choices") !!}",
+            dataLabel: "{!! t("Accounts") !!}",
+            complete: "{!! t("Complete") !!}",
+            incomplete: "{!! t("Incomplete") !!}",
+            missing: "{!! t("Missing") !!}"
         }, [
             {{ $statistics["choices"]["complete"] }},
             {{ $statistics["choices"]["incomplete"] }},
@@ -120,20 +120,20 @@
         ]);
 
         StatisticsOverview.initChoicesByGroupChart({
-            title: "{{ t("Choices (by group)") }}",
-            dataLabel: "{{ t("Accounts") }}",
-            defaultGroup: "{{ t("Default group") }}",
-            complete: "{{ t("Complete") }}",
-            incomplete: "{{ t("Incomplete") }}",
-            missing: "{{ t("Missing") }}"
+            title: "{!! t("Choices (by group)") !!}",
+            dataLabel: "{!! t("Accounts") !!}",
+            defaultGroup: "{!! t("Default group") !!}",
+            complete: "{!! t("Complete") !!}",
+            incomplete: "{!! t("Incomplete") !!}",
+            missing: "{!! t("Missing") !!}"
         }, @json($statistics["choicesByGroup"]), @json($customGroups));
 
         StatisticsOverview.initCoursesChart({
-            title: "{{ t("Courses") }}",
-            dataLabel: "{{ t("Courses") }}",
-            user: "{{ t("Led by users") }}",
-            facilitator: "{{ t("Led by facilitators") }}",
-            cancelled: "{{ t("Cancelled") }}"
+            title: "{!! t("Courses") !!}",
+            dataLabel: "{!! t("Courses") !!}",
+            user: "{!! t("Led by users") !!}",
+            facilitator: "{!! t("Led by facilitators") !!}",
+            cancelled: "{!! t("Cancelled") !!}"
         }, [
             {{ $statistics["courseLeaderships"]["user"] }},
             {{ $statistics["courseLeaderships"]["facilitator"] }},
@@ -141,17 +141,17 @@
         ]);
 
         StatisticsOverview.initCoursesByGroupChart({
-            title: "{{ t("Courses (by group)") }}",
-            dataLabel: "{{ t("Courses") }}",
-            defaultGroup: "{{ t("Default group") }}"
+            title: "{!! t("Courses (by group)") !!}",
+            dataLabel: "{!! t("Courses") !!}",
+            defaultGroup: "{!! t("Default group") !!}"
         }, @json($statistics["coursesByGroup"]), @json($customGroups));
 
         StatisticsOverview.initPlacesChart({
-            title: "{{ t("Places") }}",
-            dataLabel: "{{ t("Places") }}",
-            available: "{{ t("Available") }}",
-            occupied: "{{ t("Occupied") }}",
-            cancelled: "{{ t("Cancelled") }}"
+            title: "{!! t("Places") !!}",
+            dataLabel: "{!! t("Places") !!}",
+            available: "{!! t("Available") !!}",
+            occupied: "{!! t("Occupied") !!}",
+            cancelled: "{!! t("Cancelled") !!}"
         }, [
             {{ $statistics["places"]["available"] }},
             {{ $statistics["places"]["occupied"] }},
@@ -159,21 +159,21 @@
         ]);
 
         StatisticsOverview.initPlacesByGroupChart({
-            title: "{{ t("Places (by group)") }}",
-            dataLabel: "{{ t("Places") }}",
-            defaultGroup: "{{ t("Default group") }}",
-            available: "{{ t("Available") }}",
-            occupied: "{{ t("Occupied") }}",
-            cancelled: "{{ t("Cancelled") }}"
+            title: "{!! t("Places (by group)") !!}",
+            dataLabel: "{!! t("Places") !!}",
+            defaultGroup: "{!! t("Default group") !!}",
+            available: "{!! t("Available") !!}",
+            occupied: "{!! t("Occupied") !!}",
+            cancelled: "{!! t("Cancelled") !!}"
         }, @json($statistics["placesByGroup"]), @json($customGroups));
 
         @if(SystemStatus::dao()->get("coursesAssigned") === "true")
             StatisticsOverview.initAssignmentsChart({
-                title: "{{ t("Assignments") }}",
-                dataLabel: "{{ t("Users") }}",
-                assigned: "{{ t("Assigned") }}",
-                notAssigned: "{{ t("Not assigned") }}",
-                noChoice: "{{ t("No courses chosen") }}"
+                title: "{!! t("Assignments") !!}",
+                dataLabel: "{!! t("Users") !!}",
+                assigned: "{!! t("Assigned") !!}",
+                notAssigned: "{!! t("Not assigned") !!}",
+                noChoice: "{!! t("No courses chosen") !!}"
             }, [
                 {{ $statistics["assignments"]["assigned"] }},
                 {{ $statistics["assignments"]["notAssigned"] }},
@@ -181,19 +181,19 @@
             ]);
 
             StatisticsOverview.initAssignmentsByGroupChart({
-                title: "{{ t("Assignments (by group)") }}",
-                dataLabel: "{{ t("Users") }}",
-                defaultGroup: "{{ t("Default group") }}",
-                assigned: "{{ t("Assigned") }}",
-                notAssigned: "{{ t("Not assigned") }}",
-                noChoice: "{{ t("No courses chosen") }}"
+                title: "{!! t("Assignments (by group)") !!}",
+                dataLabel: "{!! t("Users") !!}",
+                defaultGroup: "{!! t("Default group") !!}",
+                assigned: "{!! t("Assigned") !!}",
+                notAssigned: "{!! t("Not assigned") !!}",
+                noChoice: "{!! t("No courses chosen") !!}"
             }, @json($statistics["assignmentsByGroup"]), @json($customGroups));
 
             StatisticsOverview.initConsideredPrioritiesChart({
-                title: "{{ t("Considered priorities") }}",
-                dataLabel: "{{ t("Users") }}",
-                notConsidered: "{{ t("No choice considered") }}",
-                courseLeader: "{{ t("Leading own course") }}"
+                title: "{!! t("Considered priorities") !!}",
+                dataLabel: "{!! t("Users") !!}",
+                notConsidered: "{!! t("No choice considered") !!}",
+                courseLeader: "{!! t("Leading own course") !!}"
             }, @json($statistics["consideredPriorities"]));
         @endif
     </script>
