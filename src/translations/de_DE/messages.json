@@ -1,5 +1,6 @@
-
 {
+    "Home": "Startseite",
+
     "Dashboard": "Übersicht",
     "Account settings": "Accounteinstellungen",
     "Manage your personal information, security settings, and account preferences.": "Verwalten Sie Ihre persönlichen Informationen, Sicherheitseinstellungen und Accountpräferenzen.",
@@ -76,6 +77,7 @@
     "Tutor": "Kursleiter",
     "Participants and tutors": "Teilnehmer und Kursleiter",
     "Manage accounts of participants and tutors.": "Verwalten Sie die Accounts von Teilnehmern und Kursleitern.",
+    "Choice complete": "Kurswahl vollständig",
     "Create user": "Nutzer erstellen",
     "Import users": "Nutzer importieren",
     "You can create accounts for a list of users all at once by importing the data from a CSV file.": "Sie können für mehrere Nutzer gleichzeitig Accounts erstellen, indem Sie die Daten aus einer CSV-Datei importieren.",

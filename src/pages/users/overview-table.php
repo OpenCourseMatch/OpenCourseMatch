@@ -15,6 +15,9 @@ $users = array_map(function(User $account) {
     } else {
         $array["group"] = t("Default group");
     }
+    $array["choiceComplete"] = count($account->getChoices()) > 0 && array_reduce($account->getChoices(), function($carry, $choice) {
+        return $carry && $choice instanceof Choice && $choice->getCourseId() !== null;
+    }, true);
     unset($array["id"]);
     unset($array["password"]);
     unset($array["email"]);
