@@ -1,4 +1,4 @@
-@component("components.layout.appshell")
+@component("components.shells.landing")
     {{-- Content from /static/md/index.md --}}
     @include("components.markdown", [
         "path" => __APP_DIR__ . "/public/static/md/index.md"

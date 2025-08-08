@@ -1,4 +1,4 @@
-@component("components.layout.appshell", [
+@component("components.shells.console", [
     "title" => t("Administrators"),
     "breadcrumbs" => $breadcrumbs ?? []
 ])

@@ -1,4 +1,4 @@
-@component("components.layout.authshell", ["title" => t("Change password")])
+@component("components.shells.auth", ["title" => t("Change password")])
     <p class="mb-2">
         {{ t("Please enter your current password and confirm your new one.") }}
     </p>

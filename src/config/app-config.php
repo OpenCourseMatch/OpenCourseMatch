@@ -9,7 +9,6 @@ Config::$APP_SETTINGS["WEBSITE_TITLE"] = Config::configSecret()["APP_SETTINGS"][
 Config::$APP_SETTINGS["APP_URL"] = Config::configSecret()["APP_SETTINGS"]["APP_URL"] ?? "http://localhost:3000";
 Config::$APP_SETTINGS["APP_FAVICON"] = Config::configSecret()["APP_SETTINGS"]["APP_FAVICON"] ?? "img/logo.svg";
 Config::$APP_SETTINGS["APP_AUTHOR"] = Config::configSecret()["APP_SETTINGS"]["APP_AUTHOR"] ?? "OpenCourseMatch contributors";
-Config::$APP_SETTINGS["APP_VERSION"] = Config::configSecret()["APP_SETTINGS"]["APP_VERSION"] ?? "";
 Config::$APP_SETTINGS["PRODUCTION"] = Config::configSecret()["APP_SETTINGS"]["PRODUCTION"] ?? true;
 
 // Log settings

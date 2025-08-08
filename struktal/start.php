@@ -57,6 +57,13 @@ use struktal\Auth\Auth;
 const Auth = new Auth();
 Auth->setUserObjectName(User::class);
 
+use struktal\validation\ValidationBuilder;
+const Validation = new ValidationBuilder();
+
+use struktal\ComposerReader\ComposerReader;
+ComposerReader::setProjectDirectory(__APP_DIR__);
+const ComposerReader = new ComposerReader();
+
 // Override BladeOne's include directive to use components with isolated variables
 Blade->directive("include", function($expression) {
     $code = Blade->phpTag . " Blade->startComponent($expression); ?>";
@@ -101,7 +108,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
         Router->redirect(Router->generate("500"));
     } else {
         // Show stack trace screen in development
-        echo Blade->run("components.layout.deverror", [
+        echo Blade->run("components.shells.deverror", [
             "exceptionName" => "Error " . $errno,
             "exceptionMessage" => $errstr,
             "trace" => [
@@ -132,7 +139,7 @@ set_exception_handler(function($exception) {
     } else {
         // Show stack trace screen in development
         $trace = $exception->getTrace();
-        echo Blade->run("components.layout.deverror", [
+        echo Blade->run("components.shells.deverror", [
             "exceptionName" => get_class($exception),
             "exceptionMessage" => $exception->getMessage(),
             "trace" => [

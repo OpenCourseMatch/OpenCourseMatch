@@ -1,4 +1,4 @@
-@component("components.layout.authshell")
+@component("components.shells.auth")
     <p class="mb-2">
         {{ t("Please enter your account credentials to log in.") }}
     </p>

@@ -25,7 +25,7 @@ const promisifiedExec = util.promisify(exec);
 
 const compileTailwindCSS = async () => {
     try {
-        const { stdout, stderr } = await promisifiedExec("npx tailwindcss --input src/static/css/base.css --output src/static/css/style.css --minify");
+        const { stdout, stderr } = await promisifiedExec("npx @tailwindcss/cli --input src/static/css/base.css --output src/static/css/style.css --minify");
         if(stderr) {
             console.error(`[LiveUpdate] Error compiling TailwindCSS: ${stderr}`);
         } else {

@@ -40,7 +40,7 @@ jobs:
 
             - name: "Validate composer.json and composer.lock"
               run: |
-                  composer validate --strict
+                  composer validate --strict --no-check-version
 
             - name: "Cache composer packages"
               id: "composer-cache"
