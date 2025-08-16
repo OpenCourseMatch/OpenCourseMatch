@@ -41,7 +41,7 @@
         <span class="flex flex-col gap-1">
             @if(!empty($courseWarnings[$course->getId()]))
                 @foreach($courseWarnings[$course->getId()] as $warning)
-                    <span class="text-danger">
+                    <span class="text-danger-500">
                         {{ $warning }}
                     </span>
                 @endforeach

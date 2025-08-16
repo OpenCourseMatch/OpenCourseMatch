@@ -19,7 +19,7 @@
     </head>
     <body class="overflow-x-hidden bg-[#202020]">
         <main class="px-content-padding-sm mt-4 md:px-content-padding-md lg:px-content-padding-lg min-h-[90vh]">
-            <h1 class="mb-4 text-4xl font-bold text-danger">
+            <h1 class="mb-4 text-4xl font-bold text-danger-500">
                 {{ $exceptionName }}
             </h1>
 

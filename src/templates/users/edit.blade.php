@@ -132,7 +132,7 @@
                 <span>
                     <b>{{ t("Choice \$\$index\$\$", ["index" => $i + 1]) }}:</b>
                     @if($choice instanceof Choice)
-                        <a class="text-primary hover:text-primary-effect underline transition-all"
+                        <a class="text-primary-500 hover:text-primary-600 underline transition-all"
                            href="{{ Router->generate("courses-edit", ["course" => $choice->getCourseId()]) }}">
                             {{ $choice->getCourse()->getTitle() }}
                         </a>

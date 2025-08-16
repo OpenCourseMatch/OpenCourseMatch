@@ -14,14 +14,14 @@
         <table>
             <thead class="bg-primary-500 text-surface-100">
                 <tr>
-                    <th class="p-2 border border-primary">A</th>
-                    <th class="p-2 border border-primary">B</th>
+                    <th class="p-2 border border-primary-500">A</th>
+                    <th class="p-2 border border-primary-500">B</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="p-2 border border-gray">{{ t("Last name") }}</td>
-                    <td class="p-2 border border-gray">{{ t("First name") }}</td>
+                    <td class="p-2 border border-surface-500">{{ t("Last name") }}</td>
+                    <td class="p-2 border border-surface-500">{{ t("First name") }}</td>
                 </tr>
             </tbody>
         </table>

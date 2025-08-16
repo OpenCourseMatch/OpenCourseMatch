@@ -2,7 +2,7 @@
     @auth
         @component("components.layout.sidebars.sidebaritem", [
             "href" => Router->generate("dashboard"),
-            "icon" => "components.icons.home",
+            "icon" => "components.icons.dashboard",
             "active" => in_array(Router->getCalledRouteName(), [ "dashboard" ])
         ])
             {{ t("Dashboard") }}

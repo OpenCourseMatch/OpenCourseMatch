@@ -18,14 +18,14 @@
     --font-mono: "monospace";
 
     --color-surface-100: hsl(120, 8%, 95%);
-    --color-surface-200: hsl(120, 9%, 85%);
-    --color-surface-300: hsl(120, 9%, 75%);
-    --color-surface-400: hsl(120, 9%, 65%);
-    --color-surface-500: hsl(120, 9%, 55%);
-    --color-surface-600: hsl(120, 9%, 45%);
-    --color-surface-700: hsl(120, 9%, 35%);
-    --color-surface-800: hsl(120, 9%, 25%);
-    --color-surface-900: hsl(120, 9%, 15%);
+    --color-surface-200: hsl(120, 8%, 85%);
+    --color-surface-300: hsl(120, 7%, 75%);
+    --color-surface-400: hsl(125, 7%, 65%);
+    --color-surface-500: hsl(125, 7%, 55%);
+    --color-surface-600: hsl(125, 7%, 45%);
+    --color-surface-700: hsl(120, 7%, 35%);
+    --color-surface-800: hsl(125, 7%, 25%);
+    --color-surface-900: hsl(130, 8%, 15%);
 
     --color-primary-100: hsl(148, 100%, 98%);
     --color-primary-200: hsl(148, 47%, 80%);
@@ -152,7 +152,7 @@ button:not(:disabled) {
     @apply m-0 px-4 py-2 inline-flex justify-around border transition-all text-surface-900 bg-transparent border-surface-500 cursor-pointer;
 }
 .dt-container .dt-paging .dt-paging-button.current {
-    @apply text-surface-900 bg-primary-500 border-primary-500;
+    @apply text-surface-100 bg-primary-500 border-primary-500;
 }
 .dt-container .dt-paging .dt-paging-button.disabled {
     @apply text-surface-500 bg-transparent border-surface-500 cursor-default;
@@ -161,7 +161,7 @@ button:not(:disabled) {
     @apply bg-surface-200 border-surface-500;
 }
 .dt-container .dt-paging .dt-paging-button.current:hover {
-    @apply text-surface-900 bg-primary-500 border-primary-500;
+    @apply text-surface-100 bg-primary-500 border-primary-500;
 }
 .dt-container .dt-paging .dt-paging-button.disabled:hover {
     @apply bg-transparent border-surface-500 shadow-none;

@@ -50,7 +50,7 @@
             <script src="{{ Router->staticFilePath("js/lib/LiveUpdate.js") }}"></script>
         @endif
     </head>
-    <body class="flex flex-row h-full overflow-x-hidden bg-linear-to-br from-primary-500 to-primary-700 text-font">
+    <body class="flex flex-row h-full overflow-x-hidden bg-linear-to-br from-primary-500 to-primary-700">
         <script type="module">
             import { init } from "{{ Router->staticFilePath("js/Translator.js") }}";
             init("{{ Router->generate("translations-api") }}");
