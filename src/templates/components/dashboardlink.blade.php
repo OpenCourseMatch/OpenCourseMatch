@@ -1,11 +1,12 @@
-<a class="flex flex-col w-full p-4 gap-2 bg-opacity-20 rounded border border-2 hover:scale-[1.025] transition-all
-    @if(!isset($danger) || !$danger) bg-primary border-primary @else bg-danger border-danger @endif"
-   href="{{ $href }}"
-   @if(isset($external) && $external) target="_blank" @endif>
+@component("components.boxlink", [
+    "scheme" => $scheme ?? null,
+    "href" => $href,
+    "external" => $external ?? false
+])
     <div class="flex items-center justify-between">
-        <div class="flex items-center justify-center shrink-0 w-10 h-10 bg-secondary rounded-full">
+        <div class="flex items-center justify-center shrink-0 w-10 h-10 bg-secondary-500 rounded-full shadow">
             @include($icon, [
-                "class" => "w-2/3 h-2/3 fill-secondary-font"
+                "class" => "w-2/3 h-2/3 fill-surface-900"
             ])
         </div>
 
@@ -21,4 +22,4 @@
     <p>
         {{ $description }}
     </p>
-</a>
+@endcomponent

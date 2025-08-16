@@ -11,7 +11,8 @@
             "icon" => "components.icons.accountsettings",
             "href" => Router->generate("account-settings"),
             "title" => t("Account settings"),
-            "description" => t("Manage your personal information, security settings, and account preferences.")
+            "description" => t("Manage your personal information, security settings, and account preferences."),
+            "scheme" => BoxScheme::PRIMARY
         ])
     </div>
 
@@ -24,4 +25,6 @@
     @auth(2)
         @include("dashboards.admin")
     @endauth
+
+    <div class="mb-4"></div>
 @endcomponent

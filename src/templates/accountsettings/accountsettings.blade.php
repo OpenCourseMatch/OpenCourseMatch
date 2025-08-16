@@ -11,7 +11,8 @@
             "icon" => "components.icons.password",
             "href" => Router->generate("account-settings-change-password"),
             "title" => t("Change password"),
-            "description" => t("Update your account password.")
+            "description" => t("Update your account password."),
+            "scheme" => BoxScheme::PRIMARY
         ])
     </div>
 @endcomponent

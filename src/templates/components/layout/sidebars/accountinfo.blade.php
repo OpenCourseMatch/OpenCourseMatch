@@ -33,12 +33,6 @@
                href="{{ Router->generate("auth-login") }}">
                 {{ t("Log in") }}
             </a>
-
-            {{-- Register button --}}
-            <a class="text-primary-500 hover:text-primary-600 transition-all"
-               href="{{ Router->generate("auth-register") }}">
-                {{ t("Register") }}
-            </a>
         </div>
     @endguest
 </div>

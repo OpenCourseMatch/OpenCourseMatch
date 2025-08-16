@@ -1,5 +1,5 @@
 <span class="block w-full mt-2 bg-surface-400 border border-surface-400 border-2 rounded-full">
-    <span class="block w-2 h-1 rounded-full data-[strength='0']:bg-danger-600 data-[strength='1']:bg-warning-600 data-[strength='2']:bg-safe-700 transition-all"
+    <span class="block w-2 h-1 rounded-full data-[strength='0']:bg-danger-600 data-[strength='1']:bg-warning-600 data-[strength='2']:bg-safe-600 transition-all"
           id="password-strength-indicator-bar"
           data-strength="0"></span>
 </span>

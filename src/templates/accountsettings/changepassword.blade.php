@@ -52,32 +52,7 @@
                    required>
         </div>
 
-        <span class="block w-full mt-2 bg-gray-light border border-2 border-gray-light rounded-full">
-            <span class="block w-2 h-1 rounded-full data-[strength='0']:bg-danger data-[strength='1']:bg-warning data-[strength='2']:bg-safe transition-all"
-                  id="password-strength-indicator-bar"
-                  data-strength="0"></span>
-        </span>
-
-        <div class="password-requirements text-font-light mb-2">
-            <p>
-                <span class="password-requirement block before:content-['✘'] data-[met='true']:text-safe data-[met='true']:before:content-['✔'] transition-all"
-                      id="password-requirement-length" data-regex=".{8,}">
-                    {{ t("At least 8 characters") }}
-                </span>
-                <span class="password-requirement block before:content-['✘'] data-[met='true']:text-safe data-[met='true']:before:content-['✔'] transition-all"
-                      id="password-requirement-uppercase" data-regex="[A-Z]">
-                    {{ t("Uppercase letters") }}
-                </span>
-                <span class="password-requirement block before:content-['✘'] data-[met='true']:text-safe data-[met='true']:before:content-['✔'] transition-alle"
-                      id="password-requirement-lowercase" data-regex="[a-z]">
-                    {{ t("Lowercase letters") }}
-                </span>
-                <span class="password-requirement block before:content-['✘'] data-[met='true']:text-safe data-[met='true']:before:content-['✔'] transition-all"
-                      id="password-requirement-number" data-regex="[\d\W]">
-                    {{ t("Numbers or special characters") }}
-                </span>
-            </p>
-        </div>
+        @include("components.auth.passwordstrength")
 
         <button class="{{ TailwindUtil::button(true) }} w-full mb-2 gap-2"
                 type="submit">
