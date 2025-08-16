@@ -25,6 +25,4 @@
     @auth(2)
         @include("dashboards.admin")
     @endauth
-
-    <div class="mb-4"></div>
 @endcomponent

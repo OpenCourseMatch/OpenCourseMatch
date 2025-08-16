@@ -51,7 +51,7 @@
         @component("components.layout.sidebars.sidebaritem", [
             "href" => Router->generate("users-overview"),
             "icon" => "components.icons.user",
-            "active" => in_array(Router->getCalledRouteName(), [ "users-overview", "users-create", "users-edit", "users-import", "group-actions" ])
+            "active" => in_array(Router->getCalledRouteName(), [ "users-overview", "users-create", "users-edit", "users-import", "group-actions", "choice-edit-others" ])
         ])
             {{ t("Participants and tutors") }}
         @endcomponent
@@ -95,7 +95,7 @@
         @component("components.layout.sidebars.sidebaritem", [
             "href" => Router->generate("system-settings"),
             "icon" => "components.icons.gear",
-            "active" => in_array(Router->getCalledRouteName(), [ "system-settings" ])
+            "active" => in_array(Router->getCalledRouteName(), [ "system-settings", "system-reset" ])
         ])
             {{ t("System settings") }}
         @endcomponent

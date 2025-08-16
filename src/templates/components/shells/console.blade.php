@@ -43,9 +43,14 @@
         <meta name="revisit-after" content="{{ SEO::getRevisitAfter() }}">
 
         {{-- CSS --}}
+        <link rel="stylesheet" href="{{ Router->staticFilePath("css/lib/datatables.min.css") }}">
         <link rel="stylesheet" href="{{ Router->staticFilePath("css/style.css") }}">
 
         {{-- JavaScript --}}
+        <script src="{{ Router->staticFilePath("js/lib/jquery.min.js") }}"></script>
+        <script src="{{ Router->staticFilePath("js/lib/datatables.min.js") }}"></script>
+        <script src="{{ Router->staticFilePath("js/lib/download.min.js") }}"></script>
+        <script src="{{ Router->staticFilePath("js/lib/chart.umd.min.js") }}"></script>
         @if(!Config::$APP_SETTINGS["PRODUCTION"])
             <script src="{{ Router->staticFilePath("js/lib/LiveUpdate.js") }}"></script>
         @endif
@@ -58,7 +63,7 @@
 
         @include("components.layout.headers.console")
 
-        <div class="pt-20 px-4">
+        <div class="pt-20 pb-4 px-4">
             <main class="md:ml-96 transition-all"
                   data-sidebar-active-classes="md:ml-96" data-sidebar-inactive-classes="md:ml-0">
                 @include("components.layout.infomessagelist")

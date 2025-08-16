@@ -11,18 +11,18 @@
         @if($course !== null)
             <div class="flex flex-wrap gap-2">
                 <div class="flex flex-row whitespace-nowrap">
-                    <span class="pl-2 pr-1 text-primary-font bg-primary rounded-l-full border border-primary">
+                    <span class="pl-2 pr-1 text-surface-100 bg-primary-500 rounded-l-full border border-primary-500">
                         {{ t("Participants") }}
                     </span>
-                    <span class="pl-1 pr-2 bg-primary bg-opacity-10 rounded-r-full border border-primary">
+                    <span class="pl-1 pr-2 bg-primary-200 rounded-r-full border border-primary-500">
                         {{ $course->getMinParticipants() }} / {{ $realParticipantCount }} / {{ $course->getMaxParticipants() }}
                     </span>
                 </div>
                 <div class="flex flex-row whitespace-nowrap">
-                    <span class="pl-2 pr-1 text-primary-font bg-primary rounded-l-full border border-primary">
+                    <span class="pl-2 pr-1 text-surface-100 bg-primary-500 rounded-l-full border border-primary-500">
                         {{ t("Clearance level") }}
                     </span>
-                    <span class="pl-1 pr-2 bg-primary bg-opacity-10 rounded-r-full border border-primary">
+                    <span class="pl-1 pr-2 bg-primary-200 rounded-r-full border border-primary-500">
                         {{ $course->getMinClearance() }} - {{ $course->getMaxClearance() }}
                     </span>
                 </div>

@@ -6,10 +6,10 @@
         </h3>
         <div class="flex flex-wrap gap-2">
             <div class="flex flex-row whitespace-nowrap">
-                <span class="pl-2 pr-1 text-primary-font bg-primary rounded-l-full border border-primary">
+                <span class="pl-2 pr-1 text-surface-100 bg-primary-500 rounded-l-full border border-primary-500">
                     {{ t("Group") }}
                 </span>
-                <span class="pl-1 pr-2 bg-primary bg-opacity-10 rounded-r-full border border-primary">
+                <span class="pl-1 pr-2 bg-primary-200 rounded-r-full border border-primary-500">
                     @if($account->getGroup() !== null)
                         {{ $account->getGroup()->getName() }}
                     @else
@@ -18,10 +18,10 @@
                 </span>
             </div>
             <div class="flex flex-row whitespace-nowrap">
-                <span class="pl-2 pr-1 text-primary-font bg-primary rounded-l-full border border-primary">
+                <span class="pl-2 pr-1 text-surface-100 bg-primary-500 rounded-l-full border border-primary-500">
                     {{ t("Clearance level") }}
                 </span>
-                <span class="pl-1 pr-2 bg-primary bg-opacity-10 rounded-r-full border border-primary">
+                <span class="pl-1 pr-2 bg-primary-200 rounded-r-full border border-primary-500">
                     @if($account->getGroup() !== null)
                         {{ $account->getGroup()->getClearance() }}
                     @else
@@ -41,7 +41,7 @@
         @endcomponent
     @endforeach
 
-    <hr class="w-full h-px my-4 bg-gray border-none">
+    <hr class="w-full h-px my-4 bg-surface-200 border-none">
 
     @if($leadingCourse !== null)
         <h3 class="mb-2 mt-4">
@@ -85,13 +85,13 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
         {{-- Unassign option --}}
-        <button class="flex flex-col w-full p-4 gap-2 bg-opacity-20 rounded border border-2 text-left hover:scale-[1.025] transition-all bg-warning border-warning"
+        <button class="flex flex-col w-full p-4 gap-2 rounded border border-2 text-left hover:scale-[1.025] transition-all bg-warning-200 border-warning-500"
                 data-course="">
             <span class="text-xl font-bold">
                 {{ t("Unassign") }}
             </span>
 
-            <span class="text-danger">
+            <span class="text-danger-500">
                 {{ t("This will unassign the user from the course.") }}
             </span>
         </button>

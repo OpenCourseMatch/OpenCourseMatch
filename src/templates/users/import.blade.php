@@ -12,7 +12,7 @@
     </p>
     <div class="flex justify-center my-2">
         <table>
-            <thead class="bg-primary text-primary-font">
+            <thead class="bg-primary-500 text-surface-100">
                 <tr>
                     <th class="p-2 border border-primary">A</th>
                     <th class="p-2 border border-primary">B</th>
