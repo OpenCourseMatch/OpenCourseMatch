@@ -1,4 +1,4 @@
-<div class="fixed top-0 w-full h-16 bg-surface-100">
+<div class="fixed top-0 w-full h-16 bg-surface-100 z-100">
     <header class="flex justify-between items-center h-full px-4 shadow">
         <div class="flex items-center">
             {{-- Open sidebar button --}}

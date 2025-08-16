@@ -132,7 +132,7 @@
             "href" => Router->generate("course-assignment-run"),
             "title" => t("Run course assignment"),
             "description" => t("Start the assignment algorithm to group participants to the courses based on their preferences."),
-        "scheme" => BoxScheme::PRIMARY
+            "scheme" => BoxScheme::PRIMARY
         ])
     </div>
 @elseif(SystemStatus::dao()->get("coursesAssigned") === "true")
@@ -145,14 +145,14 @@
             "href" => Router->generate("course-assignment-edit"),
             "title" => t("Edit course assignment"),
             "description" => t("Optimize the course assignment manually."),
-        "scheme" => BoxScheme::PRIMARY
+            "scheme" => BoxScheme::PRIMARY
         ])
         @include("components.dashboardlink", [
             "icon" => "components.icons.export",
             "href" => Router->generate("course-assignment-export"),
             "title" => t("Export course assignment"),
             "description" => t("Download the course assignment in PDF format."),
-        "scheme" => BoxScheme::PRIMARY
+            "scheme" => BoxScheme::PRIMARY
         ])
         @include("components.dashboardlink", [
             "icon" => "components.icons.reset",
