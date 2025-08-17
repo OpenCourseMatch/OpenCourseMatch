@@ -7,7 +7,7 @@ if(Auth->isLoggedIn()) {
 
 // Check whether form fields are given
 $validation = Validation->create()
-    ->withErrorMessage(t("Please enter our account credentials to log in."))
+    ->withErrorMessage(t("Please enter your account credentials to log in."))
     ->array()
     ->required()
     ->children([

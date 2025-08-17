@@ -8,9 +8,12 @@ $validation = Validation->create()
     ->required()
     ->children([
         "group" => CommonValidators::group(false, [], t("The group that should be edited does not exist.")),
-        "name" => CommonValidators::name(),
+        "name" => Validation->create()
+            ->string()
+            ->minLength(1)
+            ->maxLength(256)
+            ->build(),
         "clearance" => Validation->create()
-            ->required()
             ->int()
             ->build()
     ])

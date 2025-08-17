@@ -26,7 +26,7 @@ if($post["resetPassword"] === null && $post["changeGroup"] === null) {
     exit;
 }
 
-$group = $post["group"];
+$group = $post["group"] ?? null;
 $accounts = User::dao()->getObjects([
     "groupId" => $group?->getId(),
     "permissionLevel" => PermissionLevel::USER->value
@@ -53,7 +53,7 @@ $passwords = [];
 foreach($accounts as $account) {
     $edited = false;
 
-    if($post["resetPassword"] === "1") {
+    if($post["resetPassword"] === 1) {
         $password = User::dao()->generatePassword();
         if($post["newPassword"] !== null) {
             $password = $post["newPassword"];
@@ -67,7 +67,7 @@ foreach($accounts as $account) {
         $passwords[$account->getId()] = null;
     }
 
-    if($post["changeGroup"] === "1") {
+    if($post["changeGroup"] === 1) {
         if($post["newGroup"] === null) {
             $account->setGroupId(null);
         } else {

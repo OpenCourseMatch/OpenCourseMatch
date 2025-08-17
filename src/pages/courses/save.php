@@ -9,7 +9,6 @@ $validation = Validation->create()
     ->children([
         "course" => CommonValidators::course(false, [], t("The course that should be edited does not exist.")),
         "title" => Validation->create()
-            ->required()
             ->string()
             ->maxLength(256)
             ->build(),
@@ -18,19 +17,16 @@ $validation = Validation->create()
             ->maxLength(256)
             ->build(),
         "minClearance" => Validation->create()
-            ->required()
             ->int()
             ->build(),
         "maxClearance" => Validation->create()
             ->int(false)
             ->build(),
         "minParticipants" => Validation->create()
-            ->required()
             ->int()
             ->minValue(0)
             ->build(),
         "maxParticipants" => Validation->create()
-            ->required()
             ->int()
             ->minValue(1)
             ->build()
