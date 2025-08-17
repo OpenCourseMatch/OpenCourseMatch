@@ -65,4 +65,10 @@ class CommonValidators {
 
         return $validation->build();
     }
+
+    public static function checkbox(): Validator {
+        return Validation->create()
+            ->int(false)
+            ->build();
+    }
 }

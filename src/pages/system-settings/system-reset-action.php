@@ -7,10 +7,10 @@ $validation = Validation->create()
     ->array()
     ->required()
     ->children([
-        "resetCourses" => Validation->create()->int(false)->build(),
-        "resetUsers" => Validation->create()->int(false)->build(),
-        "resetFacilitators" => Validation->create()->int(false)->build(),
-        "resetGroups" => Validation->create()->int(false)->build()
+        "resetCourses" => CommonValidators::checkbox(),
+        "resetUsers" => CommonValidators::checkbox(),
+        "resetFacilitators" => CommonValidators::checkbox(),
+        "resetGroups" => CommonValidators::checkbox()
     ])
     ->build();
 try {

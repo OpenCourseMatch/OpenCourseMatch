@@ -8,9 +8,9 @@ $validation = Validation->create()
     ->required()
     ->children([
         "group" => CommonValidators::group(false, [], t("The group that should be edited does not exist.")),
-        "resetPassword" => Validation->int(false)->build(),
+        "resetPassword" => CommonValidators::checkbox(),
         "newPassword" => CommonValidators::password(false),
-        "changeGroup" => Validation->int(false)->build(),
+        "changeGroup" => CommonValidators::checkbox(),
         "newGroup" => CommonValidators::group(false)
     ])
     ->build();
