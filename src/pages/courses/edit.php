@@ -2,18 +2,17 @@
 
 $user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "course" => \validation\Validator::create([
-            \validation\IsInDatabase::create(Course::dao())->setErrorMessage(t("The course that should be edited does not exist."))
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "course" => CommonValidators::course(false, [], t("The course that should be edited does not exist."))
     ])
-]);
+    ->build();
 try {
     $get = $validation->getValidatedValue($_GET);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     Router->redirect(Router->generate("courses-overview"));
 }

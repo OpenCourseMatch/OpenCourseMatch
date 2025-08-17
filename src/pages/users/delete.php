@@ -2,21 +2,19 @@
 
 $user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "user" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsInDatabase::create(User::dao(), [
-                "permissionLevel" => PermissionLevel::USER->value
-            ])
-        ])->setErrorMessage(t("The user that should be deleted does not exist."))
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "user" => CommonValidators::user(true, [
+            "permissionLevel" => PermissionLevel::USER->value
+        ], t("The user that should be deleted does not exist."))
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $get = $validation->getValidatedValue($_GET);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     Router->redirect(Router->generate("users-overview"));
 }

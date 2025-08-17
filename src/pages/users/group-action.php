@@ -2,35 +2,21 @@
 
 $user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "group" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsInDatabase::create(Group::dao())->setErrorMessage(t("The group that should be edited does not exist."))
-        ]),
-        "resetPassword" => \validation\Validator::create([
-            \validation\NullOnEmpty::create()
-        ]),
-        "newPassword" => \validation\Validator::create([
-            \validation\NullOnEmpty::create(),
-            \validation\IsString::create(),
-            \validation\MinLength::create(8),
-            \validation\MaxLength::create(256)
-        ]),
-        "changeGroup" => \validation\Validator::create([
-            \validation\NullOnEmpty::create()
-        ]),
-        "newGroup" => \validation\Validator::create([
-            \validation\NullOnEmpty::create(),
-            \validation\IsInDatabase::create(Group::dao())
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "group" => CommonValidators::group(false, [], t("The group that should be edited does not exist.")),
+        "resetPassword" => Validation->int(false)->build(),
+        "newPassword" => CommonValidators::password(false),
+        "changeGroup" => Validation->int(false)->build(),
+        "newGroup" => CommonValidators::group(false)
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     exit;
 }

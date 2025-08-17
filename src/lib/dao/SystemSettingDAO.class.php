@@ -36,11 +36,11 @@ class SystemSettingDAO extends \struktal\ORM\GenericObjectDAO {
                 "value" => "3",
                 "name" => t("Choice count"),
                 "description" => t("The number of courses that the participants have to choose"),
-                "validation" => \validation\Validator::create([
-                    \validation\MaxLength::create(512),
-                    \validation\IsInteger::create(),
-                    \validation\MinValue::create(1)->setErrorMessage(t("The participants have to choose at least one course."))
-                ])
+                "validation" => Validation->create()
+                    ->int()
+                    ->minValue(1)
+                    ->withErrorMessage(t("The participants have to choose at least one course."))
+                    ->build()
             ]
         ];
     }

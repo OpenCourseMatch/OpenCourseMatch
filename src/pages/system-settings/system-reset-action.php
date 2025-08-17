@@ -2,27 +2,20 @@
 
 $user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "resetCourses" => \validation\Validator::create([
-            \validation\IsInteger::create()
-        ]),
-        "resetUsers" => \validation\Validator::create([
-            \validation\IsInteger::create()
-        ]),
-        "resetFacilitators" => \validation\Validator::create([
-            \validation\IsInteger::create()
-        ]),
-        "resetGroups" => \validation\Validator::create([
-            \validation\IsInteger::create()
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "resetCourses" => Validation->create()->int(false)->build(),
+        "resetUsers" => Validation->create()->int(false)->build(),
+        "resetFacilitators" => Validation->create()->int(false)->build(),
+        "resetGroups" => Validation->create()->int(false)->build()
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     Router->redirect(Router->generate("system-reset"));
 }

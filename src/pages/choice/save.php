@@ -14,31 +14,26 @@ if(SystemStatus::dao()->get("userActionsAllowed") !== "true") {
 
 $choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
 
-$singleChoiceValidation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsInDatabase::create(Course::dao())
-]);
-
 $choiceValidation = [];
 for($i = 0; $i < $choiceCount; $i++) {
-    $choiceValidation[$i] = $singleChoiceValidation;
+    $choiceValidation[$i] = CommonValidators::course();
 }
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "choice" => \validation\Validator::create([
-            \validation\IsArray::create(),
-            \validation\MinLength::create($choiceCount),
-            \validation\MaxLength::create($choiceCount),
-            \validation\HasChildren::create($choiceValidation)
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "choice" => Validation->create()
+            ->array()
+            ->minLength($choiceCount)
+            ->maxLength($choiceCount)
+            ->children($choiceValidation)
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     Router->redirect(Router->generate("choice-edit"));
 }

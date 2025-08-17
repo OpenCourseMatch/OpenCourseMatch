@@ -6,27 +6,18 @@ if(Auth->isLoggedIn()) {
 }
 
 // Check whether form fields are given
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "username" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsString::create(),
-            \validation\MinLength::create(5),
-            \validation\MaxLength::create(256),
-        ]),
-        "password" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsString::create(),
-            \validation\MinLength::create(8),
-            \validation\MaxLength::create(256),
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please enter our account credentials to log in."))
+    ->array()
+    ->required()
+    ->children([
+        "username" => CommonValidators::username(),
+        "password" => CommonValidators::password()
     ])
-])->setErrorMessage(t("Please enter your account credentials to log in."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     Router->redirect(Router->generate("auth-login"));
 }

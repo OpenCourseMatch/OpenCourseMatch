@@ -9,32 +9,29 @@ if(!$coursesAssigned) {
     ]);
 }
 
-$getValidation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "user" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsInDatabase::create(User::dao(), [
-                "permissionLevel" => PermissionLevel::USER->value
-            ])
+$getValidation = Validation->create()
+    ->withErrorMessage(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."))
+    ->array()
+    ->required()
+    ->children([
+        "user" => CommonValidators::user(true, [
+            "permissionLevel" => PermissionLevel::USER->value
         ])
     ])
-])->setErrorMessage(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."));
+    ->build();
 
-$postValidation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "course" => \validation\Validator::create([
-            \validation\IsInDatabase::create(Course::dao())
-        ])
+$postValidation = Validation->create()
+    ->withErrorMessage(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."))
+    ->array()
+    ->required()
+    ->children([
+        "course" => CommonValidators::course(false)
     ])
-])->setErrorMessage(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."));
+    ->build();
 try {
     $get = $getValidation->getValidatedValue($_GET);
     $post = $postValidation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     Comm::apiSendJson(HTTPResponses::$RESPONSE_BAD_REQUEST, [
         "message" => $e->getMessage()
     ]);
