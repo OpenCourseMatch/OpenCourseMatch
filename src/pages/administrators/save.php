@@ -12,7 +12,7 @@ $validation = Validation->create()
         ], t("The administrator that should be edited does not exist.")),
         "firstName" => CommonValidators::name(),
         "lastName" => CommonValidators::name(),
-        "password" => CommonValidators::password()
+        "password" => CommonValidators::password(false)
     ])
     ->build();
 try {

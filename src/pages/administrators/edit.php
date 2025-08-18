@@ -7,7 +7,7 @@ $validation = Validation->create()
     ->array()
     ->required()
     ->children([
-        "user" => CommonValidators::user(true, [
+        "user" => CommonValidators::user(false, [
             "permissionLevel" => PermissionLevel::ADMIN->value
         ], t("The administrator that should be edited does not exist."))
     ])

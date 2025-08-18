@@ -37,6 +37,7 @@ $validation = Validation->create()
             ->minLength($choiceCount)
             ->maxLength($choiceCount)
             ->children($choiceValidation)
+            ->build()
     ])
     ->build();
 try {
