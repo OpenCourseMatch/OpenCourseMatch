@@ -1,30 +1,23 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "resetCourses" => \validation\Validator::create([
-            \validation\IsInteger::create()
-        ]),
-        "resetUsers" => \validation\Validator::create([
-            \validation\IsInteger::create()
-        ]),
-        "resetFacilitators" => \validation\Validator::create([
-            \validation\IsInteger::create()
-        ]),
-        "resetGroups" => \validation\Validator::create([
-            \validation\IsInteger::create()
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "resetCourses" => CommonValidators::checkbox(),
+        "resetUsers" => CommonValidators::checkbox(),
+        "resetFacilitators" => CommonValidators::checkbox(),
+        "resetGroups" => CommonValidators::checkbox()
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("system-reset"));
+    Router->redirect(Router->generate("system-reset"));
 }
 
 if($post["resetUsers"] !== null) {
@@ -92,4 +85,4 @@ if($post["resetGroups"] !== null) {
 }
 
 new InfoMessage(t("The selected system data has been reset."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("dashboard"));
+Router->redirect(Router->generate("dashboard"));

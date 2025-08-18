@@ -148,9 +148,9 @@ export const initCourseOverview = (translations, loadMoveAwayModalLink, loadMove
         }],
         createdRow: function(row, data) {
             if(data.highlighting === 1) {
-                $(row).addClass("bg-info").addClass("text-info-font");
+                $(row).addClass("bg-info-500").addClass("text-surface-100");
             } else if(data.highlighting === 2) {
-                $(row).addClass("bg-warning").addClass("text-warning-font");
+                $(row).addClass("bg-warning-500").addClass("text-surface-900");
             }
         }
     });

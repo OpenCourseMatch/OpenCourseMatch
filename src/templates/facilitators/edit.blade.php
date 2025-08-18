@@ -1,4 +1,4 @@
-@component("components.layout.appshell", [
+@component("components.shells.console", [
     "title" => t("Facilitators"),
     "breadcrumbs" => $breadcrumbs ?? []
 ])
@@ -10,7 +10,7 @@
         @endif
     </h1>
 
-    <form method="post" action="{{ Router::generate("facilitators-save") }}" data-redirect="{{ Router::generate("facilitators-overview") }}" autocomplete="off">
+    <form method="post" action="{{ Router->generate("facilitators-save") }}" data-redirect="{{ Router->generate("facilitators-overview") }}" autocomplete="off">
         @if(!empty($user))
             <input type="hidden" name="user" value="{{ $user->getId() }}">
         @endif
@@ -74,7 +74,7 @@
             <button type="button"
                     id="delete-user"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
-                    data-delete-href="{{ Router::generate("facilitators-delete", ["user" => $user->getId()]) }}">
+                    data-delete-href="{{ Router->generate("facilitators-delete", ["user" => $user->getId()]) }}">
                 @include("components.icons.buttonload")
                 @include("components.icons.delete")
                 {{ t("Delete") }}
@@ -84,7 +84,7 @@
 
     @include("components.modals.defaultabort")
     <script type="module">
-        import * as FacilitatorsEdit from "{{ Router::staticFilePath("js/facilitators/edit.js") }}";
+        import * as FacilitatorsEdit from "{{ Router->staticFilePath("js/facilitators/edit.js") }}";
         FacilitatorsEdit.init();
     </script>
 @endcomponent

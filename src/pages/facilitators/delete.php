@@ -1,24 +1,22 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "user" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsInDatabase::create(User::dao(), [
-                "permissionLevel" => PermissionLevel::FACILITATOR->value
-            ])
-        ])->setErrorMessage(t("The facilitator that should be deleted does not exist."))
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "user" => CommonValidators::user(true, [
+            "permissionLevel" => PermissionLevel::FACILITATOR->value
+        ], t("The facilitator that should be deleted does not exist."))
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $get = $validation->getValidatedValue($_GET);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("facilitators-overview"));
+    Router->redirect(Router->generate("facilitators-overview"));
 }
 
 $account = $get["user"];
@@ -29,4 +27,4 @@ User::dao()->delete($account);
 Logger::getLogger("Facilitators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the facilitator {$account->getId()} ({$account->getFullName()})");
 
 new InfoMessage(t("The facilitator has been deleted."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("facilitators-overview"));
+Router->redirect(Router->generate("facilitators-overview"));

@@ -4,11 +4,11 @@
 chdir("../");
 const __APP_DIR__ = __DIR__ . "/..";
 
-require_once(__APP_DIR__ . "/framework/framework.php");
+require_once(__APP_DIR__ . "/struktal/start.php");
 
 session_start();
 
-$loggedInUser = Auth::getLoggedInUser();
+$loggedInUser = Auth->getLoggedInUser();
 if($loggedInUser instanceof User) {
     Blade->setAuth($loggedInUser->getUsername(), $loggedInUser->getPermissionLevel());
 }
@@ -23,5 +23,4 @@ function t(string $message, array $variables = []): string {
 }
 
 // Start the router
-$router = new Router();
-$router->startRouter();
+Router->startRouter();

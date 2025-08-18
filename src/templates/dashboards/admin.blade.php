@@ -2,7 +2,9 @@
     {{ t("Statistics") }}
 </h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    <div class="flex flex-col w-full justify-center p-4 gap-2 bg-opacity-20 rounded border border-2 bg-primary border-primary">
+    @component("components.box", [
+        "scheme" => BoxScheme::PRIMARY
+    ])
         <p class="text-xl font-bold">
             {{ t("System status") }}
         </p>
@@ -10,11 +12,11 @@
         <div class="flex gap-2">
             @if(SystemStatus::dao()->get("userActionsAllowed") === "true")
                 @include("components.icons.checkcircle", [
-                    "class" => "fill-safe"
+                    "class" => "fill-safe-500"
                 ])
             @else
                 @include("components.icons.crosscircle", [
-                    "class" => "fill-danger"
+                    "class" => "fill-danger-500"
                 ])
             @endif
             <p>
@@ -25,42 +27,51 @@
         <div class="flex gap-2">
             @if(SystemStatus::dao()->get("coursesAssigned") === "true")
                 @include("components.icons.checkcircle", [
-                    "class" => "fill-safe"
+                    "class" => "fill-safe-500"
                 ])
             @else
                 @include("components.icons.crosscircle", [
-                    "class" => "fill-danger"
+                    "class" => "fill-danger-500"
                 ])
             @endif
             <p>
                 {{ t("Courses assigned") }}
             </p>
         </div>
-    </div>
+    @endcomponent
 
-    <div class="flex flex-col w-full justify-center items-center p-4 gap-2 bg-opacity-20 rounded border border-2 bg-primary border-primary">
-        <p class="text-4xl font-bold">
-            {{ $numberOfParticipantsAndTutors ? number_format($numberOfParticipantsAndTutors, 0, ",", ".") : 0 }}
-        </p>
-        <p>
-            {{ t("Participants and tutors") }}
-        </p>
-    </div>
+    @component("components.box", [
+        "scheme" => BoxScheme::PRIMARY
+    ])
+        <div class="flex flex-col justify-center items-center h-full">
+            <p class="text-4xl font-bold">
+                {{ $numberOfParticipantsAndTutors ? number_format($numberOfParticipantsAndTutors, 0, ",", ".") : 0 }}
+            </p>
+            <p>
+                {{ t("Participants and tutors") }}
+            </p>
+        </div>
+    @endcomponent
 
-    <div class="flex flex-col w-full justify-center items-center p-4 gap-2 bg-opacity-20 rounded border border-2 bg-primary border-primary">
-        <p class="text-4xl font-bold">
-            {{ $numberOfCourses ? number_format($numberOfCourses, 0, ",", ".") : 0 }}
-        </p>
-        <p>
-            {{ t("Courses") }}
-        </p>
-    </div>
+    @component("components.box", [
+        "scheme" => BoxScheme::PRIMARY
+    ])
+        <div class="flex flex-col justify-center items-center h-full">
+            <p class="text-4xl font-bold">
+                {{ $numberOfCourses ? number_format($numberOfCourses, 0, ",", ".") : 0 }}
+            </p>
+            <p>
+                {{ t("Courses") }}
+            </p>
+        </div>
+    @endcomponent
 
     @include("components.dashboardlink", [
         "icon" => "components.icons.statistics",
-        "href" => Router::generate("statistics-overview"),
+        "href" => Router->generate("statistics-overview"),
         "title" => t("Statistics"),
-        "description" => t("View more detailed statistics.")
+        "description" => t("View more detailed statistics."),
+        "scheme" => BoxScheme::PRIMARY
     ])
 </div>
 
@@ -70,27 +81,31 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
     @include("components.dashboardlink", [
         "icon" => "components.icons.group",
-        "href" => Router::generate("groups-overview"),
+        "href" => Router->generate("groups-overview"),
         "title" => t("Groups"),
-        "description" => t("Customize user groups to model the participation requirements of the courses.")
+        "description" => t("Customize user groups to model the participation requirements of the courses."),
+        "scheme" => BoxScheme::PRIMARY
     ])
     @include("components.dashboardlink", [
         "icon" => "components.icons.user",
-        "href" => Router::generate("users-overview"),
+        "href" => Router->generate("users-overview"),
         "title" => t("Participants and tutors"),
-        "description" => t("Manage accounts of participants and tutors.")
+        "description" => t("Manage accounts of participants and tutors."),
+        "scheme" => BoxScheme::PRIMARY
     ])
     @include("components.dashboardlink", [
         "icon" => "components.icons.user",
-        "href" => Router::generate("facilitators-overview"),
+        "href" => Router->generate("facilitators-overview"),
         "title" => t("Facilitators"),
-        "description" => t("Manage accounts of facilitators.")
+        "description" => t("Manage accounts of facilitators."),
+        "scheme" => BoxScheme::PRIMARY
     ])
     @include("components.dashboardlink", [
         "icon" => "components.icons.user",
-        "href" => Router::generate("administrators-overview"),
+        "href" => Router->generate("administrators-overview"),
         "title" => t("Administrators"),
-        "description" => t("Manage accounts of administrators.")
+        "description" => t("Manage accounts of administrators."),
+        "scheme" => BoxScheme::PRIMARY
     ])
 </div>
 
@@ -100,9 +115,10 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
     @include("components.dashboardlink", [
         "icon" => "components.icons.course",
-        "href" => Router::generate("courses-overview"),
+        "href" => Router->generate("courses-overview"),
         "title" => t("Courses"),
-        "description" => t("Manage the available courses.")
+        "description" => t("Manage the available courses."),
+        "scheme" => BoxScheme::PRIMARY
     ])
 </div>
 
@@ -113,9 +129,10 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         @include("components.dashboardlink", [
             "icon" => "components.icons.algorithm",
-            "href" => Router::generate("course-assignment-run"),
+            "href" => Router->generate("course-assignment-run"),
             "title" => t("Run course assignment"),
-            "description" => t("Start the assignment algorithm to group participants to the courses based on their preferences.")
+            "description" => t("Start the assignment algorithm to group participants to the courses based on their preferences."),
+            "scheme" => BoxScheme::PRIMARY
         ])
     </div>
 @elseif(SystemStatus::dao()->get("coursesAssigned") === "true")
@@ -125,22 +142,24 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         @include("components.dashboardlink", [
             "icon" => "components.icons.assignment",
-            "href" => Router::generate("course-assignment-edit"),
+            "href" => Router->generate("course-assignment-edit"),
             "title" => t("Edit course assignment"),
-            "description" => t("Optimize the course assignment manually.")
+            "description" => t("Optimize the course assignment manually."),
+            "scheme" => BoxScheme::PRIMARY
         ])
         @include("components.dashboardlink", [
             "icon" => "components.icons.export",
-            "href" => Router::generate("course-assignment-export"),
+            "href" => Router->generate("course-assignment-export"),
             "title" => t("Export course assignment"),
-            "description" => t("Download the course assignment in PDF format.")
+            "description" => t("Download the course assignment in PDF format."),
+            "scheme" => BoxScheme::PRIMARY
         ])
         @include("components.dashboardlink", [
             "icon" => "components.icons.reset",
-            "href" => Router::generate("course-assignment-reset"),
+            "href" => Router->generate("course-assignment-reset"),
             "title" => t("Reset course assignment"),
             "description" => t("Reset the course assignment to re-run the assignment algorithm."),
-            "danger" => true
+            "scheme" => BoxScheme::DANGER
         ])
     </div>
 @endif
@@ -151,23 +170,24 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
     @include("components.dashboardlink", [
         "icon" => "components.icons.gear",
-        "href" => Router::generate("system-settings"),
+        "href" => Router->generate("system-settings"),
         "title" => t("System settings"),
-        "description" => t("Configure OpenCourseMatch to your organizations' needs.")
+        "description" => t("Configure OpenCourseMatch to your organizations' needs."),
+        "scheme" => BoxScheme::PRIMARY
     ])
     @include("components.dashboardlink", [
         "icon" => "components.icons.user",
-        "href" => Router::generate("user-actions-toggle"),
+        "href" => Router->generate("user-actions-toggle"),
         "title" => SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Course selection enabled") : t("Course selection disabled"),
         "description" => SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Disable the course selection for users.") : t("Enable the course selection for users."),
-        "danger" => SystemStatus::dao()->get("userActionsAllowed") !== "true"
+        "scheme" => SystemStatus::dao()->get("userActionsAllowed") === "true" ? BoxScheme::PRIMARY : BoxScheme::DANGER
     ])
     @include("components.dashboardlink", [
         "icon" => "components.icons.reset",
-        "href" => Router::generate("system-reset"),
+        "href" => Router->generate("system-reset"),
         "title" => t("Reset system data"),
         "description" => t("Reset selectable data saved by the system."),
-        "danger" => true
+        "scheme" => BoxScheme::DANGER
     ])
 </div>
 
@@ -180,6 +200,7 @@
         "href" => "https://github.com/OpenCourseMatch/OpenCourseMatch/issues/new/choose",
         "title" => t("Bug reports and feature requests"),
         "description" => t("Found a bug or have an idea to improve OpenCourseMatch? Please create an issue in our GitHub repository."),
+        "scheme" => BoxScheme::PRIMARY,
         "external" => true
     ])
     {{-- Changelog --}}

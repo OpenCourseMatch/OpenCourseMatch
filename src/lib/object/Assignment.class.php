@@ -1,6 +1,6 @@
 <?php
 
-class Assignment extends GenericObject {
+class Assignment extends \struktal\ORM\GenericObject {
     public ?int $userId = null;
     public ?int $courseId = null;
 

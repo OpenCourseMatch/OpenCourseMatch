@@ -1,4 +1,4 @@
-@component("components.layout.appshell", [
+@component("components.shells.console", [
     "title" => t("Facilitators"),
     "breadcrumbs" => $breadcrumbs ?? []
 ])
@@ -7,14 +7,14 @@
     </h1>
 
     <a id="create-user"
-       href="{{ Router::generate("facilitators-create") }}"
+       href="{{ Router->generate("facilitators-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">
         @include("components.icons.plus")
         {{ t("Create facilitator") }}
     </a>
 
     <div class="overflow-x-auto">
-        <table id="users-table" class="stripe" data-table-ajax="{{ Router::generate("facilitators-overview-table") }}">
+        <table id="users-table" class="stripe" data-table-ajax="{{ Router->generate("facilitators-overview-table") }}">
             <thead>
                 <tr>
                     <th>{{ t("Username") }}</th>
@@ -29,7 +29,7 @@
     </div>
 
     <script type="module">
-        import * as FacilitatorsOverview from "{{ Router::staticFilePath("js/facilitators/overview.js") }}";
+        import * as FacilitatorsOverview from "{{ Router->staticFilePath("js/facilitators/overview.js") }}";
         FacilitatorsOverview.init({
             "Search...": "{{ t("Search...") }}",
             "Loading...": "{{ t("Loading...") }}",

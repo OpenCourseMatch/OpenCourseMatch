@@ -1,4 +1,4 @@
 <?php
 
-Auth::logout();
-Comm::redirect(Router::generate("index"));
+Auth->logout();
+Router->redirect(Router->generate("index"));

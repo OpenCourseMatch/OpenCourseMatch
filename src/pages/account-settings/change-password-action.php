@@ -1,53 +1,39 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::USER->value, Router::generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::USER->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "current-password" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsString::create(),
-            \validation\MinLength::create(8),
-            \validation\MaxLength::create(256),
-        ]),
-        "new-password" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsString::create(),
-            \validation\MinLength::create(8),
-            \validation\MaxLength::create(256),
-        ]),
-        "new-password-repeat" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsString::create(),
-            \validation\MinLength::create(8),
-            \validation\MaxLength::create(256),
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "current-password" => CommonValidators::password(),
+        "new-password" => CommonValidators::password(),
+        "new-password-repeat" => CommonValidators::password()
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("account-settings-change-password"));
+    Router->redirect(Router->generate("account-settings-change-password"));
 }
 
 if(!(preg_match("/(?=.*[a-z])(?=.*[A-Z])(?=.*[\d\W]).{8,}/", $post["new-password"]))) {
     new InfoMessage(t("The password does not meet the requirements."), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("account-settings-change-password"));
+    Router->redirect(Router->generate("account-settings-change-password"));
 }
 
 if($post["new-password"] != $post["new-password-repeat"]) {
     new InfoMessage(t("The passwords do not match."), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("account-settings-change-password"));
+    Router->redirect(Router->generate("account-settings-change-password"));
 }
 
 $tempUser = User::dao()->login($user->getUsername(), false, $post["current-password"]);
 
 if(!($tempUser instanceof User) || $tempUser->getId() !== $user->getId()) {
     new InfoMessage(t("The current password is incorrect."), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("account-settings-change-password"));
+    Router->redirect(Router->generate("account-settings-change-password"));
 }
 
 $user->setPassword($post["new-password"]);
@@ -56,4 +42,4 @@ User::dao()->save($user);
 Logger::getLogger("ChangePassword")->info("User {$user->getId()} ({$user->getFullName()}) changed their password");
 
 new InfoMessage(t("Your password has been updated."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("account-settings"));
+Router->redirect(Router->generate("account-settings"));

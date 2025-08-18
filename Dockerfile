@@ -28,7 +28,7 @@ RUN composer install --no-dev --no-interaction
 RUN npm install
 
 # Build tailwindcss
-RUN npx tailwindcss --input src/static/css/base.css --output src/static/css/style.css --minify
+RUN npx @tailwindcss/cli --input src/static/css/base.css --output src/static/css/style.css --minify
 
 
 
@@ -50,12 +50,12 @@ WORKDIR /app
 RUN chown -R nginx:nginx /app
 
 # Copy application files
-RUN mkdir -p framework && \
+RUN mkdir -p struktal && \
     mkdir -p public && \
     mkdir -p src && \
     mkdir -p vendor
 
-COPY --from=builder --chown=nginx:nginx /app/framework ./framework
+COPY --from=builder --chown=nginx:nginx /app/struktal ./struktal
 COPY --from=builder --chown=nginx:nginx /app/public ./public
 COPY --from=builder --chown=nginx:nginx /app/src ./src
 COPY --from=builder --chown=nginx:nginx /app/vendor ./vendor

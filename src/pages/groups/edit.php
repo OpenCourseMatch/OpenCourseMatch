@@ -1,21 +1,20 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "group" => \validation\Validator::create([
-            \validation\IsInDatabase::create(Group::dao())->setErrorMessage(t("The group that should be edited does not exist."))
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "group" => CommonValidators::group(false, [], t("The group that should be edited does not exist."))
     ])
-]);
+    ->build();
 try {
     $get = $validation->getValidatedValue($_GET);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("groups-overview"));
+    Router->redirect(Router->generate("groups-overview"));
 }
 
 $group = $get["group"];
@@ -23,16 +22,16 @@ $group = $get["group"];
 $breadcrumbs = [
     [
         "name" => t("Dashboard"),
-        "link" => Router::generate("dashboard"),
+        "link" => Router->generate("dashboard"),
         "iconComponent" => "components.icons.dashboard"
     ],
     [
         "name" => t("Groups"),
-        "link" => Router::generate("groups-overview")
+        "link" => Router->generate("groups-overview")
     ],
     [
         "name" => isset($group) ? t("Edit group \$\$name\$\$", ["name" => $group->getName()]) : t("Create group"),
-        "link" => Router::generate(isset($group) ? "groups-edit" : "groups-create", isset($group) ? ["group" => $group->getId()] : [])
+        "link" => Router->generate(isset($group) ? "groups-edit" : "groups-create", isset($group) ? ["group" => $group->getId()] : [])
     ]
 ];
 

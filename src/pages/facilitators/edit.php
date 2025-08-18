@@ -1,23 +1,22 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "user" => \validation\Validator::create([
-            \validation\IsInDatabase::create(User::dao(), [
-                "permissionLevel" => PermissionLevel::FACILITATOR->value,
-            ])->setErrorMessage(t("The facilitator that should be edited does not exist."))
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "user" => CommonValidators::user(false, [
+            "permissionLevel" => PermissionLevel::FACILITATOR->value
+        ], t("The facilitator that should be edited does not exist."))
     ])
-]);
+    ->build();
 try {
     $get = $validation->getValidatedValue($_GET);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("facilitators-overview"));
+    Router->redirect(Router->generate("facilitators-overview"));
 }
 
 $account = $get["user"];
@@ -25,16 +24,16 @@ $account = $get["user"];
 $breadcrumbs = [
     [
         "name" => t("Dashboard"),
-        "link" => Router::generate("dashboard"),
+        "link" => Router->generate("dashboard"),
         "iconComponent" => "components.icons.dashboard"
     ],
     [
         "name" => t("Facilitators"),
-        "link" => Router::generate("facilitators-overview")
+        "link" => Router->generate("facilitators-overview")
     ],
     [
         "name" => isset($account) ? t("Edit facilitator \$\$name\$\$", ["name" => $account->getFullName()]) : t("Create facilitator"),
-        "link" => Router::generate(isset($account) ? "facilitators-edit" : "facilitators-create", isset($account) ? ["user" => $account->getId()] : [])
+        "link" => Router->generate(isset($account) ? "facilitators-edit" : "facilitators-create", isset($account) ? ["user" => $account->getId()] : [])
     ]
 ];
 

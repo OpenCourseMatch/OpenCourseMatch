@@ -1,6 +1,6 @@
 <?php
 
-class SystemSetting extends GenericObject {
+class SystemSetting extends \struktal\ORM\GenericObject {
     public ?string $key = null;
     public ?string $value = null;
 

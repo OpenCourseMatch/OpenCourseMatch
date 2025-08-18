@@ -1,6 +1,8 @@
 <?php
 
-class UserDAO extends GenericUserDAO {
+use \struktal\ORM\Database\Database;
+
+class UserDAO extends \struktal\ORM\GenericUserDAO {
     public function generateUsername(string $firstName, string $lastName): string {
         $slugify = function($input) {
             $slugified = strtolower(str_replace(["ä", "ö", "ü", "ß"], ["ae", "oe", "ue", "ss"], $input));

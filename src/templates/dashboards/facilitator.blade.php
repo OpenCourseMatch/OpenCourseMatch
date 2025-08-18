@@ -4,9 +4,10 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
     @include("components.dashboardlink", [
         "icon" => "components.icons.user",
-        "href" => Router::generate("users-overview"),
+        "href" => Router->generate("users-overview"),
         "title" => t("Participants and tutors"),
-        "description" => t("Manage accounts of participants and tutors.")
+        "description" => t("Manage accounts of participants and tutors."),
+        "scheme" => BoxScheme::PRIMARY
     ])
 </div>
 
@@ -16,9 +17,10 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
     @include("components.dashboardlink", [
         "icon" => "components.icons.course",
-        "href" => Router::generate("courses-overview"),
+        "href" => Router->generate("courses-overview"),
         "title" => t("Courses"),
-        "description" => t("Manage the available courses.")
+        "description" => t("Manage the available courses."),
+        "scheme" => BoxScheme::PRIMARY
     ])
 </div>
 
@@ -31,6 +33,7 @@
         "href" => "https://github.com/OpenCourseMatch/OpenCourseMatch/issues/new/choose",
         "title" => t("Bug reports and feature requests"),
         "description" => t("Found a bug or have an idea to improve OpenCourseMatch? Please create an issue in our GitHub repository."),
+        "scheme" => BoxScheme::PRIMARY,
         "external" => true
     ])
     {{-- Changelog --}}

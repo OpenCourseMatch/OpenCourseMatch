@@ -1,62 +1,73 @@
-let elements = {
-    sidebar: null,
-    burger: null,
-    darkBackground: null
-}
-let shown = false;
+let innerWidth = window.innerWidth;
 
 /**
  * Initialize the sidebar
  */
-export const init = () => {
-    // Click on burger button
-    document.getElementById("header-sidebar-open").addEventListener("click", () => {
-        open();
+export const init = (breakpoint = null) => {
+    updateSidebarState(breakpoint);
+
+    window.addEventListener("resize", () => {
+        const previousActive = innerWidth >= breakpoint;
+        const newActive = window.innerWidth >= breakpoint;
+        innerWidth = window.innerWidth;
+        if(previousActive !== newActive) {
+            updateSidebarState(breakpoint);
+        }
     });
 
-    // Click on close button
-    document.getElementById("header-sidebar-close").addEventListener("click", () => {
-        close();
-    });
-
-    // Click on sidebar background
-    document.querySelector(".header-sidebar-background").addEventListener("click", () => {
-        close();
+    document.querySelectorAll(".sidebar-toggle").forEach((element) => {
+        element.addEventListener("click", () => {
+            toggle();
+        });
     });
 }
 
-/**
- * Open the sidebar
- */
-export const open = () => {
-    // Show sidebar
-    document.querySelector(".header-sidebar-popup").classList.remove("translate-x-full", "hidden");
-    document.querySelector(".header-sidebar-background").classList.remove("hidden");
+const updateSidebarState = (breakpoint = null) => {
+    if(breakpoint !== null) {
+        const sidebarActive = window.innerWidth >= breakpoint ? "true" : "false";
+        document.querySelectorAll("[data-sidebar-active]").forEach((element) => {
+            element.setAttribute("data-sidebar-active", sidebarActive);
+        });
+    }
 
-    // Disable scrolling
-    document.querySelector("html").scrollTop = window.scrollY;
-    document.body.style.overflow = "hidden";
-    document.body.style.position = "relative";
-    document.querySelector("html").style.overflow = "hidden";
-    document.querySelector("html").style.position = "relative";
+    updateClasses();
 }
 
-/**
- * Close the sidebar
- */
-export const close = () => {
-    // Hide sidebar
-    document.querySelector(".header-sidebar-popup").classList.add("translate-x-full");
-    setTimeout(() => {
-        document.querySelector(".header-sidebar-popup").classList.add("hidden");
-    }, 500);
-    document.querySelector(".header-sidebar-background").classList.add("hidden");
+const updateClasses = () => {
+    const sidebar = document.querySelector("[data-sidebar-active]");
+    const isActive = sidebar.hasAttribute("data-sidebar-active") && sidebar.getAttribute("data-sidebar-active") === "true";
 
-    // Enable scrolling
-    document.body.style.overflow = null;
-    document.body.style.position = null;
-    document.querySelector("html").style.overflow = null;
-    document.querySelector("html").style.position = null;
+    document.querySelectorAll("[data-sidebar-active-classes]").forEach((element) => {
+        element.getAttribute("data-sidebar-active-classes").split(" ").forEach((cls) => {
+            if(isActive) {
+                element.classList.add(cls);
+            } else {
+                element.classList.remove(cls);
+            }
+        });
+    });
+    document.querySelectorAll("[data-sidebar-inactive-classes]").forEach((element) => {
+        element.getAttribute("data-sidebar-inactive-classes").split(" ").forEach((cls) => {
+            if(isActive) {
+                element.classList.remove(cls);
+            } else {
+                element.classList.add(cls);
+            }
+        });
+    });
 }
 
-export default { init, open, close };
+export const toggle = () => {
+    const sidebar = document.querySelector("[data-sidebar-active]");
+    const isActive = sidebar.hasAttribute("data-sidebar-active") && sidebar.getAttribute("data-sidebar-active") === "true";
+
+    if(isActive) {
+        sidebar.setAttribute("data-sidebar-active", "false");
+    } else {
+        sidebar.setAttribute("data-sidebar-active", "true");
+    }
+
+    updateClasses();
+}
+
+export default { init, toggle };

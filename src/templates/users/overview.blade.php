@@ -1,4 +1,4 @@
-@component("components.layout.appshell", [
+@component("components.shells.console", [
     "title" => t("Participants and tutors"),
     "breadcrumbs" => $breadcrumbs ?? []
 ])
@@ -8,21 +8,21 @@
 
     <div id="table-actions" class="flex flex-col sm:flex-row gap-2">
         <a id="create-user"
-           href="{{ Router::generate("users-create") }}"
+           href="{{ Router->generate("users-create") }}"
            class="{{ TailwindUtil::button() }} gap-2">
             @include("components.icons.plus")
             {{ t("Create user") }}
         </a>
 
         <a id="import-users"
-           href="{{ Router::generate("users-import") }}"
+           href="{{ Router->generate("users-import") }}"
            class="{{ TailwindUtil::button() }} gap-2">
             @include("components.icons.import")
             {{ t("Import users") }}
         </a>
 
         <a id="group-actions"
-           href="{{ Router::generate("group-actions") }}"
+           href="{{ Router->generate("group-actions") }}"
            class="{{ TailwindUtil::button() }} gap-2">
             @include("components.icons.group")
             {{ t("Group actions") }}
@@ -30,7 +30,7 @@
     </div>
 
     <div class="overflow-x-auto">
-        <table id="users-table" class="stripe" data-table-ajax="{{ Router::generate("users-overview-table") }}">
+        <table id="users-table" class="stripe" data-table-ajax="{{ Router->generate("users-overview-table") }}">
             <thead>
                 <tr>
                     <th>{{ t("Username") }}</th>
@@ -47,7 +47,7 @@
     </div>
 
     <script type="module">
-        import * as UsersOverview from "{{ Router::staticFilePath("js/users/overview.js") }}";
+        import * as UsersOverview from "{{ Router->staticFilePath("js/users/overview.js") }}";
         UsersOverview.init({
             "Search...": "{{ t("Search...") }}",
             "Loading...": "{{ t("Loading...") }}",

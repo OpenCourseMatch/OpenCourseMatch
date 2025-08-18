@@ -1,27 +1,25 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
 $defaultValues = SystemSetting::dao()->defaultValues();
 
 $settingValidators = [];
 foreach($defaultValues as $key => $value) {
-    $settingValidators[$key] = \validation\Validator::create([
-        \validation\IsRequired::create(),
-        $value["validation"]
-    ]);
+    $settingValidators[$key] = $value["validation"];
 }
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create($settingValidators)
-])->setErrorMessage(t("Please fill out all the required fields."));
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children($settingValidators)
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("system-settings"));
+    Router->redirect(Router->generate("system-settings"));
 }
 
 foreach($defaultValues as $key => $value) {
@@ -30,4 +28,4 @@ foreach($defaultValues as $key => $value) {
 }
 
 new InfoMessage(t("The system settings have been saved."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("dashboard"));
+Router->redirect(Router->generate("dashboard"));

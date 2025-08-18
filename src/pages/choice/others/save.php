@@ -1,56 +1,50 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router::generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
-$getValidation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "user" => \validation\Validator::create([
-            \validation\IsInDatabase::create(User::dao(), [
-                "permissionLevel" => PermissionLevel::USER->value,
-            ])->setErrorMessage(t("The user of which the choice should be edited does not exist."))
-        ])
+$getValidation = Validation->create()
+    ->array()
+    ->required()
+    ->children([
+        "user" => CommonValidators::user(true, [
+            "permissionLevel" => PermissionLevel::USER->value
+        ], t("The user of which the choice should be edited does not exist."))
     ])
-]);
+    ->build();
 try {
     $get = $getValidation->getValidatedValue($_GET);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("users-overview"));
+    Router->redirect(Router->generate("users-overview"));
 }
 
 $account = $get["user"];
 
 $choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
 
-$singleChoiceValidation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsInDatabase::create(Course::dao())
-]);
-
 $choiceValidation = [];
 for($i = 0; $i < $choiceCount; $i++) {
-    $choiceValidation[$i] = $singleChoiceValidation;
+    $choiceValidation[$i] = CommonValidators::course();
 }
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "choice" => \validation\Validator::create([
-            \validation\IsArray::create(),
-            \validation\MinLength::create($choiceCount),
-            \validation\MaxLength::create($choiceCount),
-            \validation\HasChildren::create($choiceValidation)
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "choice" => Validation->create()
+            ->array()
+            ->minLength($choiceCount)
+            ->maxLength($choiceCount)
+            ->children($choiceValidation)
+            ->build()
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("choice-edit-others", ["user" => $account->getId()]));
+    Router->redirect(Router->generate("choice-edit-others", ["user" => $account->getId()]));
 }
 
 Logger::getLogger("Choices")->info("User {$user->getId()} ({$user->getFullName()}) is saving / updating the course choices for user {$account->getId()} ({$account->getFullName()}).");
@@ -62,13 +56,13 @@ foreach($post["choice"] as $i => $course) {
     if(in_array($course->getId(), $chosenCourses)) {
         Logger::getLogger("Choices")->warn("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) tried to choose course {$course->getId()} ({$course->getTitle()}) for user {$account->getId()} ({$account->getFullName()}) multiple times.");
         new InfoMessage(t("Each course can only be chosen once."), InfoMessageType::ERROR);
-        Comm::redirect(Router::generate("choice-edit-others", ["user" => $account->getId()]));
+        Router->redirect(Router->generate("choice-edit-others", ["user" => $account->getId()]));
     }
 
     if(!$course->canChooseCourse($account)) {
         Logger::getLogger("Choices")->warn("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) tried to choose course {$course->getId()} ({$course->getTitle()}) for user {$account->getId()} ({$account->getFullName()}) but they do not meet the requirements.");
         new InfoMessage(t("The user of which the choice should be edited does not meet the requirements to participate in at least one of the chosen courses."), InfoMessageType::ERROR);
-        Comm::redirect(Router::generate("choice-edit-others", ["user" => $account->getId()]));
+        Router->redirect(Router->generate("choice-edit-others", ["user" => $account->getId()]));
     }
 
     Logger::getLogger("Choices")->trace("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is choosing course {$course->getId()} ({$course->getTitle()}) for user {$account->getId()} ({$account->getFullName()}) with priority {$i}.");
@@ -98,4 +92,4 @@ foreach($choices as $choice) {
 Logger::getLogger("Choices")->info("User {$user->getId()} ({$user->getFullName()}) has saved / updated the course choices for user {$account->getId()} ({$account->getFullName()}).");
 
 new InfoMessage(t("The user's chosen courses have been saved."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("users-edit", ["user" => $account->getId()]));
+Router->redirect(Router->generate("users-edit", ["user" => $account->getId()]));

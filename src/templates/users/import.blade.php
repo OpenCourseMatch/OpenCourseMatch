@@ -1,4 +1,4 @@
-@component("components.layout.appshell", [
+@component("components.shells.console", [
     "title" => t("Participants and tutors"),
     "breadcrumbs" => $breadcrumbs ?? []
 ])
@@ -12,16 +12,16 @@
     </p>
     <div class="flex justify-center my-2">
         <table>
-            <thead class="bg-primary text-primary-font">
+            <thead class="bg-primary-500 text-surface-100">
                 <tr>
-                    <th class="p-2 border border-primary">A</th>
-                    <th class="p-2 border border-primary">B</th>
+                    <th class="p-2 border border-primary-500">A</th>
+                    <th class="p-2 border border-primary-500">B</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="p-2 border border-gray">{{ t("Last name") }}</td>
-                    <td class="p-2 border border-gray">{{ t("First name") }}</td>
+                    <td class="p-2 border border-surface-500">{{ t("Last name") }}</td>
+                    <td class="p-2 border border-surface-500">{{ t("First name") }}</td>
                 </tr>
             </tbody>
         </table>
@@ -31,7 +31,7 @@
         {{ t("The import is limited to 50 rows at a time.") }}
     </p>
 
-    <form method="post" action="{{ Router::generate("users-import-action") }}" data-redirect="{{ Router::generate("users-overview") }}" autocomplete="off">
+    <form method="post" action="{{ Router->generate("users-import-action") }}" data-redirect="{{ Router->generate("users-overview") }}" autocomplete="off">
         <div class="{{ TailwindUtil::inputGroup() }} mb-2">
             <label for="file" class="{{ TailwindUtil::$inputLabel }}" data-required>
                 {{ t("Choose file") }}
@@ -85,7 +85,7 @@
 
     @include("components.modals.defaultabort")
     <script type="module">
-        import * as UsersImport from "{{ Router::staticFilePath("js/users/import.js") }}";
+        import * as UsersImport from "{{ Router->staticFilePath("js/users/import.js") }}";
         UsersImport.init();
     </script>
 @endcomponent

@@ -1,9 +1,9 @@
-@component("components.layout.authshell")
+@component("components.shells.auth")
     <p class="mb-2">
         {{ t("Please enter your account credentials to log in.") }}
     </p>
 
-    <form method="post" action="{{ Router::generate("auth-login-action") }}">
+    <form method="post" action="{{ Router->generate("auth-login-action") }}">
         <div class="{{ TailwindUtil::inputGroup() }} mb-2">
             <label class="{{ TailwindUtil::$inputLabel }}"
                    for="username"

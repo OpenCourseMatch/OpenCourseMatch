@@ -1,4 +1,4 @@
-@component("components.layout.appshell", [
+@component("components.shells.console", [
     "title" => t("Administrators"),
     "breadcrumbs" => $breadcrumbs ?? []
 ])
@@ -7,14 +7,14 @@
     </h1>
 
     <a id="create-user"
-       href="{{ Router::generate("administrators-create") }}"
+       href="{{ Router->generate("administrators-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">
         @include("components.icons.plus")
         {{ t("Create administrator") }}
     </a>
 
     <div class="overflow-x-auto">
-        <table id="users-table" class="stripe" data-table-ajax="{{ Router::generate("administrators-overview-table") }}">
+        <table id="users-table" class="stripe" data-table-ajax="{{ Router->generate("administrators-overview-table") }}">
             <thead>
                 <tr>
                     <th>{{ t("Username") }}</th>
@@ -29,7 +29,7 @@
     </div>
 
     <script type="module">
-        import * as AdministratorsOverview from "{{ Router::staticFilePath("js/administrators/overview.js") }}";
+        import * as AdministratorsOverview from "{{ Router->staticFilePath("js/administrators/overview.js") }}";
         AdministratorsOverview.init({
             "Search...": "{{ t("Search...") }}",
             "Loading...": "{{ t("Loading...") }}",

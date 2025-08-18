@@ -1,22 +1,22 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router::generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
 $groups = Group::dao()->getObjects();
 
 $breadcrumbs = [
     [
         "name" => t("Dashboard"),
-        "link" => Router::generate("dashboard"),
+        "link" => Router->generate("dashboard"),
         "iconComponent" => "components.icons.dashboard"
     ],
     [
         "name" => t("Participants and tutors"),
-        "link" => Router::generate("users-overview")
+        "link" => Router->generate("users-overview")
     ],
     [
         "name" => t("Group actions"),
-        "link" => Router::generate("group-actions")
+        "link" => Router->generate("group-actions")
     ]
 ];
 

@@ -1,21 +1,20 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router::generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "course" => \validation\Validator::create([
-            \validation\IsInDatabase::create(Course::dao())->setErrorMessage(t("The course that should be edited does not exist."))
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "course" => CommonValidators::course(false, [], t("The course that should be edited does not exist."))
     ])
-]);
+    ->build();
 try {
     $get = $validation->getValidatedValue($_GET);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("courses-overview"));
+    Router->redirect(Router->generate("courses-overview"));
 }
 
 $course = $get["course"];
@@ -23,16 +22,16 @@ $course = $get["course"];
 $breadcrumbs = [
     [
         "name" => t("Dashboard"),
-        "link" => Router::generate("dashboard"),
+        "link" => Router->generate("dashboard"),
         "iconComponent" => "components.icons.dashboard"
     ],
     [
         "name" => t("Courses"),
-        "link" => Router::generate("courses-overview")
+        "link" => Router->generate("courses-overview")
     ],
     [
         "name" => isset($course) ? t("Edit course \$\$name\$\$", ["name" => $course->getTitle()]) : t("Create course"),
-        "link" => Router::generate(isset($course) ? "courses-edit" : "courses-create", isset($course) ? ["courseId" => $course->getId()] : [])
+        "link" => Router->generate(isset($course) ? "courses-edit" : "courses-create", isset($course) ? ["courseId" => $course->getId()] : [])
     ]
 ];
 

@@ -1,44 +1,25 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router::generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "user" => \validation\Validator::create([
-            \validation\IsInDatabase::create(User::dao(), [
-                "permissionLevel" => PermissionLevel::USER->value
-            ])->setErrorMessage(t("The user that should be edited does not exist."))
-        ]),
-        "firstName" => \validation\Validator::create([
-            \validation\IsRequired::create(true),
-            \validation\IsString::create(),
-            \validation\MaxLength::create(64),
-        ]),
-        "lastName" => \validation\Validator::create([
-            \validation\IsRequired::create(true),
-            \validation\IsString::create(),
-            \validation\MaxLength::create(64),
-        ]),
-        "group" => \validation\Validator::create([
-            \validation\IsInDatabase::create(Group::dao())
-        ]),
-        "password" => \validation\Validator::create([
-            \validation\NullOnEmpty::create(),
-            \validation\IsString::create(),
-            \validation\MinLength::create(8),
-            \validation\MaxLength::create(256)
-        ]),
-        "leadingCourse" => \validation\Validator::create([
-            \validation\NullOnEmpty::create(),
-            \validation\IsInDatabase::create(Course::dao())
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "user" => CommonValidators::user(false, [
+            "permissionLevel" => PermissionLevel::USER->value
+        ], t("The user that should be edited does not exist.")),
+        "firstName" => CommonValidators::name(),
+        "lastName" => CommonValidators::name(),
+        "group" => CommonValidators::group(false),
+        "password" => CommonValidators::password(false),
+        "leadingCourse" => CommonValidators::course(false)
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     Comm::apiSendJson(HTTPResponses::$RESPONSE_BAD_REQUEST, [
         "message" => $e->getMessage()
     ]);

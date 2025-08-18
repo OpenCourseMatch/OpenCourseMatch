@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
 $settings = SystemSetting::dao()->getObjects();
 $defaultValues = SystemSetting::dao()->defaultValues();
@@ -8,12 +8,12 @@ $defaultValues = SystemSetting::dao()->defaultValues();
 $breadcrumbs = [
     [
         "name" => t("Dashboard"),
-        "link" => Router::generate("dashboard"),
+        "link" => Router->generate("dashboard"),
         "iconComponent" => "components.icons.dashboard"
     ],
     [
         "name" => t("System settings"),
-        "link" => Router::generate("system-settings")
+        "link" => Router->generate("system-settings")
     ]
 ];
 

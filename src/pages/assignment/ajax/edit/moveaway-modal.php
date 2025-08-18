@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::ADMIN->value, Router::generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 $coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
@@ -9,21 +9,19 @@ if(!$coursesAssigned) {
     ]);
 }
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "user" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsInDatabase::create(User::dao(), [
-                "permissionLevel" => PermissionLevel::USER->value
-            ])
+$validation = Validation->create()
+    ->withErrorMessage(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."))
+    ->array()
+    ->required()
+    ->children([
+        "user" => CommonValidators::user(true, [
+            "permissionLevel" => PermissionLevel::USER->value
         ])
     ])
-])->setErrorMessage(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     Comm::apiSendJson(HTTPResponses::$RESPONSE_BAD_REQUEST, [
         "message" => $e->getMessage()
     ]);

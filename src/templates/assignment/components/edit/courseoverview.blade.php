@@ -11,18 +11,18 @@
         @if($course !== null)
             <div class="flex flex-wrap gap-2">
                 <div class="flex flex-row whitespace-nowrap">
-                    <span class="pl-2 pr-1 text-primary-font bg-primary rounded-l-full border border-primary">
+                    <span class="pl-2 pr-1 text-surface-100 bg-primary-500 rounded-l-full border border-primary-500">
                         {{ t("Participants") }}
                     </span>
-                    <span class="pl-1 pr-2 bg-primary bg-opacity-10 rounded-r-full border border-primary">
+                    <span class="pl-1 pr-2 bg-primary-200 rounded-r-full border border-primary-500">
                         {{ $course->getMinParticipants() }} / {{ $realParticipantCount }} / {{ $course->getMaxParticipants() }}
                     </span>
                 </div>
                 <div class="flex flex-row whitespace-nowrap">
-                    <span class="pl-2 pr-1 text-primary-font bg-primary rounded-l-full border border-primary">
+                    <span class="pl-2 pr-1 text-surface-100 bg-primary-500 rounded-l-full border border-primary-500">
                         {{ t("Clearance level") }}
                     </span>
-                    <span class="pl-1 pr-2 bg-primary bg-opacity-10 rounded-r-full border border-primary">
+                    <span class="pl-1 pr-2 bg-primary-200 rounded-r-full border border-primary-500">
                         {{ $course->getMinClearance() }} - {{ $course->getMaxClearance() }}
                     </span>
                 </div>
@@ -42,11 +42,11 @@
     {{-- User list --}}
     <table id="users-table" class="stripe"
         @if($course !== null)
-            data-table-ajax="{{ Router::generate("course-assignment-edit-courseoverview-table", [
+            data-table-ajax="{{ Router->generate("course-assignment-edit-courseoverview-table", [
                 "course" => $course?->getId()
             ]) }}"
         @else
-            data-table-ajax="{{ Router::generate("course-assignment-edit-courseoverview-table-unassigned") }}"
+            data-table-ajax="{{ Router->generate("course-assignment-edit-courseoverview-table-unassigned") }}"
         @endif>
         <thead>
             <tr>
@@ -71,14 +71,14 @@
     @endif
 
     <script type="module">
-        import * as EditCourseAssignment from "{{ Router::staticFilePath("js/assignment/edit.js") }}";
+        import * as EditCourseAssignment from "{{ Router->staticFilePath("js/assignment/edit.js") }}";
         EditCourseAssignment.initCourseOverview({
             "Search...": "{{ t("Search...") }}",
             "Loading...": "{{ t("Loading...") }}",
             "No entries": "{{ t("No entries") }}",
             "Back": "{{ t("Back") }}",
             "Next": "{{ t("Next") }}"
-        }, "{{ Router::generate("course-assignment-edit-moveaway-modal") }}", "{{ Router::generate("course-assignment-edit-movehere-modal") }}");
+        }, "{{ Router->generate("course-assignment-edit-moveaway-modal") }}", "{{ Router->generate("course-assignment-edit-movehere-modal") }}");
     </script>
 
     <div hidden>

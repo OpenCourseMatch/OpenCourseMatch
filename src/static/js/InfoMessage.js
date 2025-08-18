@@ -13,26 +13,30 @@ export const create = (message, type) => {
     messageElement.classList.add("rounded");
     switch(type) {
         case TYPE_INFO: {
-            messageElement.classList.add("bg-infomessage-info-background");
-            messageElement.classList.add("border-infomessage-info-border");
+            messageElement.classList.add("bg-info-200");
+            messageElement.classList.add("border-info-500");
+            messageElement.classList.add("text-info-900");
             messageElement.setAttribute("message-type", "info");
             break;
         }
         case TYPE_WARNING: {
-            messageElement.classList.add("bg-infomessage-warning-background");
-            messageElement.classList.add("border-infomessage-warning-border");
+            messageElement.classList.add("bg-warning-200");
+            messageElement.classList.add("border-warning-500");
+            messageElement.classList.add("text-warning-900");
             messageElement.setAttribute("message-type", "warning");
             break;
         }
         case TYPE_ERROR: {
-            messageElement.classList.add("bg-infomessage-error-background");
-            messageElement.classList.add("border-infomessage-error-border");
+            messageElement.classList.add("bg-danger-200");
+            messageElement.classList.add("border-danger-500");
+            messageElement.classList.add("text-danger-900");
             messageElement.setAttribute("message-type", "error");
             break;
         }
         case TYPE_SUCCESS: {
-            messageElement.classList.add("bg-infomessage-success-background");
-            messageElement.classList.add("border-infomessage-success-border");
+            messageElement.classList.add("bg-safe-200");
+            messageElement.classList.add("border-safe-500");
+            messageElement.classList.add("text-safe-900");
             messageElement.setAttribute("message-type", "success");
             break;
         }

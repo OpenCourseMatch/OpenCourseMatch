@@ -1,15 +1,22 @@
 {
     "name": "opencoursematch/opencoursematch",
     "description": "OpenCourseMatch is an open-source web application designed to automate the assignment of participants to courses depending on the participants' preferences and the courses' requirements.",
+    "version": "v3.2.0-alpha",
+    "type": "project",
     "license": "MIT",
     "require": {
         "php": ">=8.2",
-        "eftec/bladeone": "4.13.*",
-        "phpmailer/phpmailer": "~v6.9.1",
-        "jensostertag/curl-adapter": "~1.0.0",
-        "jensostertag/geocoding-util": "~1.0.0",
-        "jensostertag/uploadhelper": "~1.0.0",
-        "jensostertag/csvreader": "~1.0.0",
+        "eftec/bladeone": "^4.19.0",
+        "phpmailer/phpmailer": "~v6.10.0",
+        "struktal/struktal-router": "^1.2.1",
+        "struktal/struktal-orm": "^1.0.2",
+        "struktal/struktal-auth": "^2.0.1",
+        "struktal/struktal-validation": "^1.0.3",
+        "struktal/struktal-curl": "^1.2.0",
+        "struktal/struktal-file-uploads": "^2.0.0",
+        "struktal/struktal-csv-reader": "^1.1.0",
+        "struktal/struktal-geocoding-util": "^1.1.0",
+        "struktal/struktal-composer-reader": "^1.0.0",
         "erusev/parsedown": "~1.7.4",
         "ext-pdo": "*",
         "ext-curl": "*",
@@ -35,9 +42,6 @@
             "Composer\\Config::disableProcessTimeout",
             "docker compose -f docker-compose-dev.yml up --build"
         ],
-        "test": "vendor/bin/pest tests",
-        "build": "framework/src/lib/build/build.sh",
-        "tailwindcss": "framework/src/lib/tailwindcss/tailwindcss.sh",
-        "tailwindcss-compile": "framework/src/lib/tailwindcss/tailwindcss.sh --input src/static/css/base.css --output src/static/css/style.css --minify"
+        "test": "vendor/bin/pest tests"
     }
 }

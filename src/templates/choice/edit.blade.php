@@ -1,4 +1,4 @@
-@component("components.layout.appshell", [
+@component("components.shells.console", [
     "title" => t("Choose courses"),
     "breadcrumbs" => $breadcrumbs ?? []
 ])
@@ -65,7 +65,7 @@
     </form>
 
     <script type="module">
-        import * as Choice from "{{ Router::staticFilePath("js/choice/choice.js") }}";
+        import * as Choice from "{{ Router->staticFilePath("js/choice/choice.js") }}";
         Choice.init();
     </script>
 @endcomponent

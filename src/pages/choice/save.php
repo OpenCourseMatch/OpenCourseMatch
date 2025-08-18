@@ -1,46 +1,42 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::USER->value, Router::generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::USER->value, Router->generate("index"));
 
 if($user->getPermissionLevel() > PermissionLevel::USER->value) {
     new InfoMessage(t("Choosing courses is only available to participants and tutors."), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("index"));
+    Router->redirect(Router->generate("index"));
 }
 
 if(SystemStatus::dao()->get("userActionsAllowed") !== "true") {
     new InfoMessage(t("The course selection has already been disabled. You can no longer update your course preferences."), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("index"));
+    Router->redirect(Router->generate("index"));
 }
 
 $choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
 
-$singleChoiceValidation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsInDatabase::create(Course::dao())
-]);
-
 $choiceValidation = [];
 for($i = 0; $i < $choiceCount; $i++) {
-    $choiceValidation[$i] = $singleChoiceValidation;
+    $choiceValidation[$i] = CommonValidators::course();
 }
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "choice" => \validation\Validator::create([
-            \validation\IsArray::create(),
-            \validation\MinLength::create($choiceCount),
-            \validation\MaxLength::create($choiceCount),
-            \validation\HasChildren::create($choiceValidation)
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "choice" => Validation->create()
+            ->array()
+            ->minLength($choiceCount)
+            ->maxLength($choiceCount)
+            ->children($choiceValidation)
+            ->build()
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
-    Comm::redirect(Router::generate("choice-edit"));
+    Router->redirect(Router->generate("choice-edit"));
 }
 
 Logger::getLogger("Choices")->info("User {$user->getId()} ({$user->getFullName()}) is saving / updating their course choices.");
@@ -52,13 +48,13 @@ foreach($post["choice"] as $i => $course) {
     if(in_array($course->getId(), $chosenCourses)) {
         Logger::getLogger("Choices")->warn("User {$user->getId()} ({$user->getFullName()}) tried to choose course {$course->getId()} ({$course->getTitle()}) multiple times.");
         new InfoMessage(t("Each course can only be chosen once."), InfoMessageType::ERROR);
-        Comm::redirect(Router::generate("choice-edit"));
+        Router->redirect(Router->generate("choice-edit"));
     }
 
     if(!$course->canChooseCourse($user)) {
         Logger::getLogger("Choices")->warn("User {$user->getId()} ({$user->getFullName()}) tried to choose course {$course->getId()} ({$course->getTitle()}) but does not meet the requirements.");
         new InfoMessage(t("You do not meet the requirements to participate in at least one of your chosen courses."), InfoMessageType::ERROR);
-        Comm::redirect(Router::generate("choice-edit"));
+        Router->redirect(Router->generate("choice-edit"));
     }
 
     Logger::getLogger("Choices")->trace("User {$user->getId()} ({$user->getFullName()}) is choosing course {$course->getId()} ({$course->getTitle()}) with priority {$i}.");
@@ -88,4 +84,4 @@ foreach($choices as $choice) {
 Logger::getLogger("Choices")->info("User {$user->getId()} ({$user->getFullName()}) has saved / updated their course choices.");
 
 new InfoMessage(t("Your chosen courses have been saved."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("dashboard"));
+Router->redirect(Router->generate("dashboard"));

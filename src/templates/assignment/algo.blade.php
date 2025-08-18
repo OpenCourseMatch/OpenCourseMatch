@@ -1,4 +1,4 @@
-@component("components.layout.appshell", [
+@component("components.shells.console", [
     "title" => t("Course assignment algorithm"),
     "breadcrumbs" => $breadcrumbs ?? []
 ])
@@ -14,10 +14,10 @@
     </p>
 
     <script type="module">
-        import * as AssignmentAlgorithm from "{{ Router::staticFilePath("js/assignment/algo.js") }}";
+        import * as AssignmentAlgorithm from "{{ Router->staticFilePath("js/assignment/algo.js") }}";
         AssignmentAlgorithm.init(
-            "{{ Router::generate("course-assignment-status") }}",
-            "{{ Router::generate("course-assignment-redirect") }}"
+            "{{ Router->generate("course-assignment-status") }}",
+            "{{ Router->generate("course-assignment-redirect") }}"
         );
     </script>
 @endcomponent

@@ -1,4 +1,4 @@
-@component("components.layout.appshell", [
+@component("components.shells.console", [
     "title" => t("Groups"),
     "breadcrumbs" => $breadcrumbs ?? []
 ])
@@ -7,14 +7,14 @@
     </h1>
 
     <a id="create-group"
-       href="{{ Router::generate("groups-create") }}"
+       href="{{ Router->generate("groups-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">
         @include("components.icons.plus")
         {{ t("Create group") }}
     </a>
 
     <div class="overflow-x-auto">
-        <table id="groups-table" class="stripe" data-table-ajax="{{ Router::generate("groups-overview-table") }}">
+        <table id="groups-table" class="stripe" data-table-ajax="{{ Router->generate("groups-overview-table") }}">
             <thead>
                 <tr>
                     <th>{{ t("Group name") }}</th>
@@ -28,7 +28,7 @@
     </div>
 
     <script type="module">
-        import * as GroupsOverview from "{{ Router::staticFilePath("js/groups/overview.js") }}";
+        import * as GroupsOverview from "{{ Router->staticFilePath("js/groups/overview.js") }}";
         GroupsOverview.init({
             "Search...": "{{ t("Search...") }}",
             "Loading...": "{{ t("Loading...") }}",

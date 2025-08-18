@@ -10,4 +10,4 @@ if(php_sapi_name() !== "cli") {
 chdir("../../");
 const __APP_DIR__ = __DIR__ . "/../..";
 
-require_once(__APP_DIR__ . "/framework/framework.php");
+require_once(__APP_DIR__ . "/struktal/start.php");

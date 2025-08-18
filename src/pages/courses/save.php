@@ -1,72 +1,65 @@
 <?php
 
-$user = Auth::enforceLogin(PermissionLevel::FACILITATOR->value, Router::generate("index"));
+$user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "course" => \validation\Validator::create([
-            \validation\IsInDatabase::create(Course::dao())->setErrorMessage(t("The course that should be edited does not exist."))
-        ]),
-        "title" => \validation\Validator::create([
-            \validation\IsRequired::create(true),
-            \validation\IsString::create(),
-            \validation\MaxLength::create(256),
-        ]),
-        "organizer" => \validation\Validator::create([
-            \validation\NullOnEmpty::create(),
-            \validation\IsString::create(),
-            \validation\MaxLength::create(256)
-        ]),
-        "minClearance" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsInteger::create()
-        ]),
-        "maxClearance" => \validation\Validator::create([
-            \validation\NullOnEmpty::create(),
-            \validation\IsInteger::create()
-        ]),
-        "minParticipants" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsInteger::create(),
-            \validation\MinValue::create(0)
-        ]),
-        "maxParticipants" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsInteger::create(),
-            \validation\MinValue::create(1)
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "course" => CommonValidators::course(false, [], t("The course that should be edited does not exist.")),
+        "title" => Validation->create()
+            ->string()
+            ->maxLength(256)
+            ->build(),
+        "organizer" => Validation->create()
+            ->string(false)
+            ->maxLength(256)
+            ->build(),
+        "minClearance" => Validation->create()
+            ->int()
+            ->build(),
+        "maxClearance" => Validation->create()
+            ->int(false)
+            ->build(),
+        "minParticipants" => Validation->create()
+            ->int()
+            ->minValue(0)
+            ->build(),
+        "maxParticipants" => Validation->create()
+            ->int()
+            ->minValue(1)
+            ->build()
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     if(isset($_POST["course"]) && !Course::dao()->hasId($_POST["course"])) {
-        Comm::redirect(Router::generate("courses-overview"));
+        Router->redirect(Router->generate("courses-overview"));
     } else if(isset($_POST["course"])) {
-        Comm::redirect(Router::generate("courses-edit", ["course" => $_POST["course"]]));
+        Router->redirect(Router->generate("courses-edit", ["course" => $_POST["course"]]));
     } else {
-        Comm::redirect(Router::generate("courses-create"));
+        Router->redirect(Router->generate("courses-create"));
     }
 }
 
 if(isset($post["maxClearance"]) && $post["minClearance"] > $post["maxClearance"]) {
     new InfoMessage(t("The minimum clearance level must be lower than the maximum clearance level."), InfoMessageType::ERROR);
     if(isset($post["course"])) {
-        Comm::redirect(Router::generate("courses-edit", ["course" => $post["course"]->getId()]));
+        Router->redirect(Router->generate("courses-edit", ["course" => $post["course"]->getId()]));
     } else {
-        Comm::redirect(Router::generate("courses-create"));
+        Router->redirect(Router->generate("courses-create"));
     }
 }
 
 if(isset($post["maxParticipants"]) && $post["minParticipants"] > $post["maxParticipants"]) {
     new InfoMessage(t("The minimum number of participants must be lower than the maximum number of participants."), InfoMessageType::ERROR);
     if(isset($post["course"])) {
-        Comm::redirect(Router::generate("courses-edit", ["course" => $post["course"]->getId()]));
+        Router->redirect(Router->generate("courses-edit", ["course" => $post["course"]->getId()]));
     } else {
-        Comm::redirect(Router::generate("courses-create"));
+        Router->redirect(Router->generate("courses-create"));
     }
 }
 
@@ -86,4 +79,4 @@ Course::dao()->save($course);
 Logger::getLogger("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the course {$course->getId()} ({$course->getTitle()})");
 
 new InfoMessage(t("The course has been saved."), InfoMessageType::SUCCESS);
-Comm::redirect(Router::generate("courses-overview"));
+Router->redirect(Router->generate("courses-overview"));

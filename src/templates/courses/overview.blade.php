@@ -1,4 +1,4 @@
-@component("components.layout.appshell", [
+@component("components.shells.console", [
     "title" => t("Courses"),
     "breadcrumbs" => $breadcrumbs ?? []
 ])
@@ -7,14 +7,14 @@
     </h1>
 
     <a id="create-course"
-       href="{{ Router::generate("courses-create") }}"
+       href="{{ Router->generate("courses-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">
         @include("components.icons.plus")
         {{ t("Create course") }}
     </a>
 
     <div class="overflow-x-auto">
-        <table id="courses-table" class="stripe" data-table-ajax="{{ Router::generate("courses-overview-table") }}">
+        <table id="courses-table" class="stripe" data-table-ajax="{{ Router->generate("courses-overview-table") }}">
             <thead>
                 <tr>
                     <th>{{ t("Title") }}</th>
@@ -27,7 +27,7 @@
     </div>
 
     <script type="module">
-        import * as CoursesOverview from "{{ Router::staticFilePath("js/courses/overview.js") }}";
+        import * as CoursesOverview from "{{ Router->staticFilePath("js/courses/overview.js") }}";
         CoursesOverview.init({
             "Search...": "{{ t("Search...") }}",
             "Loading...": "{{ t("Loading...") }}",

@@ -1,4 +1,4 @@
-@component("components.layout.appshell", [
+@component("components.shells.console", [
     "title" => t("Participants and tutors"),
     "breadcrumbs" => $breadcrumbs ?? []
 ])
@@ -10,7 +10,7 @@
         @endif
     </h1>
 
-    <form method="post" action="{{ Router::generate("users-save") }}" data-redirect="{{ Router::generate("users-overview") }}" autocomplete="off">
+    <form method="post" action="{{ Router->generate("users-save") }}" data-redirect="{{ Router->generate("users-overview") }}" autocomplete="off">
         @if(!empty($user))
             <input type="hidden" name="user" value="{{ $user->getId() }}">
         @endif
@@ -115,7 +115,7 @@
             <button type="button"
                     id="delete-user"
                     class="{{ TailwindUtil::button(false, "danger") }} gap-2"
-                    data-delete-href="{{ Router::generate("users-delete", ["user" => $user->getId()]) }}">
+                    data-delete-href="{{ Router->generate("users-delete", ["user" => $user->getId()]) }}">
                 @include("components.icons.buttonload")
                 @include("components.icons.delete")
                 {{ t("Delete") }}
@@ -132,8 +132,8 @@
                 <span>
                     <b>{{ t("Choice \$\$index\$\$", ["index" => $i + 1]) }}:</b>
                     @if($choice instanceof Choice)
-                        <a class="text-primary hover:text-primary-effect underline transition-all"
-                           href="{{ Router::generate("courses-edit", ["course" => $choice->getCourseId()]) }}">
+                        <a class="text-primary-500 hover:text-primary-600 underline transition-all"
+                           href="{{ Router->generate("courses-edit", ["course" => $choice->getCourseId()]) }}">
                             {{ $choice->getCourse()->getTitle() }}
                         </a>
                     @else
@@ -143,7 +143,7 @@
             @endforeach
         </div>
 
-        <a href="{{ Router::generate("choice-edit-others", ["user" => $user->getId()]) }}"
+        <a href="{{ Router->generate("choice-edit-others", ["user" => $user->getId()]) }}"
            class="{{ TailwindUtil::button() }} gap-2">
             @include("components.icons.edit")
             {{ t("Edit choice") }}
@@ -152,7 +152,7 @@
 
     @include("components.modals.defaultabort")
     <script type="module">
-        import * as UsersEdit from "{{ Router::staticFilePath("js/users/edit.js") }}";
+        import * as UsersEdit from "{{ Router->staticFilePath("js/users/edit.js") }}";
         UsersEdit.init();
     </script>
 @endcomponent
