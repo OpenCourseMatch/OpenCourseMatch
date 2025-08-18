@@ -2,46 +2,39 @@
 
 $user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "course" => \validation\Validator::create([
-            \validation\IsInDatabase::create(Course::dao())->setErrorMessage(t("The course that should be edited does not exist."))
-        ]),
-        "title" => \validation\Validator::create([
-            \validation\IsRequired::create(true),
-            \validation\IsString::create(),
-            \validation\MaxLength::create(256),
-        ]),
-        "organizer" => \validation\Validator::create([
-            \validation\NullOnEmpty::create(),
-            \validation\IsString::create(),
-            \validation\MaxLength::create(256)
-        ]),
-        "minClearance" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsInteger::create()
-        ]),
-        "maxClearance" => \validation\Validator::create([
-            \validation\NullOnEmpty::create(),
-            \validation\IsInteger::create()
-        ]),
-        "minParticipants" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsInteger::create(),
-            \validation\MinValue::create(0)
-        ]),
-        "maxParticipants" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsInteger::create(),
-            \validation\MinValue::create(1)
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "course" => CommonValidators::course(false, [], t("The course that should be edited does not exist.")),
+        "title" => Validation->create()
+            ->string()
+            ->maxLength(256)
+            ->build(),
+        "organizer" => Validation->create()
+            ->string(false)
+            ->maxLength(256)
+            ->build(),
+        "minClearance" => Validation->create()
+            ->int()
+            ->build(),
+        "maxClearance" => Validation->create()
+            ->int(false)
+            ->build(),
+        "minParticipants" => Validation->create()
+            ->int()
+            ->minValue(0)
+            ->build(),
+        "maxParticipants" => Validation->create()
+            ->int()
+            ->minValue(1)
+            ->build()
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     if(isset($_POST["course"]) && !Course::dao()->hasId($_POST["course"])) {
         Router->redirect(Router->generate("courses-overview"));

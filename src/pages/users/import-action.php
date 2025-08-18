@@ -2,42 +2,36 @@
 
 $user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "group" => \validation\Validator::create([
-            \validation\IsInDatabase::create(Group::dao())
-        ]),
-        "password" => \validation\Validator::create([
-            \validation\NullOnEmpty::create(),
-            \validation\IsString::create(),
-            \validation\MinLength::create(8),
-            \validation\MaxLength::create(256)
-        ]),
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "group" => CommonValidators::group(false),
+        "password" => CommonValidators::password(false)
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     exit;
 }
 
-$uploadHelper = new \jensostertag\UploadHelper\UploadHelper();
-$uploadHelper->setInputName("file")
+$fileUpload = new \struktal\FileUpload\FileUpload();
+$fileUpload->setInputName("file")
     ->setMultiple(false)
     ->setAllowedMimeTypes(["text/csv"])
     ->setMaxSize(2)
     ->handleUploadedFiles();
-if(!$uploadHelper->successful() || empty($uploadHelper->getFiles())) {
+if(!$fileUpload->successful() || empty($fileUpload->getFiles())) {
     new InfoMessage(t("Please fill out all the required fields."), InfoMessageType::ERROR);
     exit;
 }
-$files = $uploadHelper->getFiles();
+$files = $fileUpload->getFiles();
 
-$csv = new \jensostertag\CSVReader\CSVReader();
-$csv->setFile($uploadHelper->getFiles()[0]["tmp_name"])
+$csv = new \struktal\CSVReader\CSVReader();
+$csv->setFile($fileUpload->getFiles()[0]["tmp_name"])
     ->detectDelimiter()
     ->read();
 $csvData = $csv->getData();

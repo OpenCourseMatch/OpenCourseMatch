@@ -2,35 +2,21 @@
 
 $user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "group" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsInDatabase::create(Group::dao())->setErrorMessage(t("The group that should be edited does not exist."))
-        ]),
-        "resetPassword" => \validation\Validator::create([
-            \validation\NullOnEmpty::create()
-        ]),
-        "newPassword" => \validation\Validator::create([
-            \validation\NullOnEmpty::create(),
-            \validation\IsString::create(),
-            \validation\MinLength::create(8),
-            \validation\MaxLength::create(256)
-        ]),
-        "changeGroup" => \validation\Validator::create([
-            \validation\NullOnEmpty::create()
-        ]),
-        "newGroup" => \validation\Validator::create([
-            \validation\NullOnEmpty::create(),
-            \validation\IsInDatabase::create(Group::dao())
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "group" => CommonValidators::group(false, [], t("The group that should be edited does not exist.")),
+        "resetPassword" => CommonValidators::checkbox(),
+        "newPassword" => CommonValidators::password(false),
+        "changeGroup" => CommonValidators::checkbox(),
+        "newGroup" => CommonValidators::group(false)
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     exit;
 }
@@ -40,7 +26,7 @@ if($post["resetPassword"] === null && $post["changeGroup"] === null) {
     exit;
 }
 
-$group = $post["group"];
+$group = $post["group"] ?? null;
 $accounts = User::dao()->getObjects([
     "groupId" => $group?->getId(),
     "permissionLevel" => PermissionLevel::USER->value
@@ -67,7 +53,7 @@ $passwords = [];
 foreach($accounts as $account) {
     $edited = false;
 
-    if($post["resetPassword"] === "1") {
+    if($post["resetPassword"] === 1) {
         $password = User::dao()->generatePassword();
         if($post["newPassword"] !== null) {
             $password = $post["newPassword"];
@@ -81,7 +67,7 @@ foreach($accounts as $account) {
         $passwords[$account->getId()] = null;
     }
 
-    if($post["changeGroup"] === "1") {
+    if($post["changeGroup"] === 1) {
         if($post["newGroup"] === null) {
             $account->setGroupId(null);
         } else {

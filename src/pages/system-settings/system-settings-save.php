@@ -6,20 +6,18 @@ $defaultValues = SystemSetting::dao()->defaultValues();
 
 $settingValidators = [];
 foreach($defaultValues as $key => $value) {
-    $settingValidators[$key] = \validation\Validator::create([
-        \validation\IsRequired::create(),
-        $value["validation"]
-    ]);
+    $settingValidators[$key] = $value["validation"];
 }
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create($settingValidators)
-])->setErrorMessage(t("Please fill out all the required fields."));
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children($settingValidators)
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     Router->redirect(Router->generate("system-settings"));
 }

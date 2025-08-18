@@ -2,20 +2,18 @@
 
 $user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
 
-$getValidation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "user" => \validation\Validator::create([
-            \validation\IsInDatabase::create(User::dao(), [
-                "permissionLevel" => PermissionLevel::USER->value,
-            ])->setErrorMessage(t("The user of which the choice should be edited does not exist."))
-        ])
+$getValidation = Validation->create()
+    ->array()
+    ->required()
+    ->children([
+        "user" => CommonValidators::user(true, [
+            "permissionLevel" => PermissionLevel::USER->value
+        ], t("The user of which the choice should be edited does not exist."))
     ])
-]);
+    ->build();
 try {
     $get = $getValidation->getValidatedValue($_GET);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     Router->redirect(Router->generate("users-overview"));
 }
@@ -24,31 +22,27 @@ $account = $get["user"];
 
 $choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
 
-$singleChoiceValidation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsInDatabase::create(Course::dao())
-]);
-
 $choiceValidation = [];
 for($i = 0; $i < $choiceCount; $i++) {
-    $choiceValidation[$i] = $singleChoiceValidation;
+    $choiceValidation[$i] = CommonValidators::course();
 }
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "choice" => \validation\Validator::create([
-            \validation\IsArray::create(),
-            \validation\MinLength::create($choiceCount),
-            \validation\MaxLength::create($choiceCount),
-            \validation\HasChildren::create($choiceValidation)
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "choice" => Validation->create()
+            ->array()
+            ->minLength($choiceCount)
+            ->maxLength($choiceCount)
+            ->children($choiceValidation)
+            ->build()
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     Router->redirect(Router->generate("choice-edit-others", ["user" => $account->getId()]));
 }

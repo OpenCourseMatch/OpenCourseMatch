@@ -2,27 +2,25 @@
 
 $user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "group" => \validation\Validator::create([
-            \validation\IsInDatabase::create(Group::dao())->setErrorMessage(t("The group that should be edited does not exist."))
-        ]),
-        "name" => \validation\Validator::create([
-            \validation\IsRequired::create(true),
-            \validation\IsString::create(),
-            \validation\MaxLength::create(256),
-        ]),
-        "clearance" => \validation\Validator::create([
-            \validation\IsRequired::create(),
-            \validation\IsInteger::create()
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("Please fill out all the required fields."))
+    ->array()
+    ->required()
+    ->children([
+        "group" => CommonValidators::group(false, [], t("The group that should be edited does not exist.")),
+        "name" => Validation->create()
+            ->string()
+            ->minLength(1)
+            ->maxLength(256)
+            ->build(),
+        "clearance" => Validation->create()
+            ->int()
+            ->build()
     ])
-])->setErrorMessage(t("Please fill out all the required fields."));
+    ->build();
 try {
     $post = $validation->getValidatedValue($_POST);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
     if(isset($_POST["group"]) && !Group::dao()->hasId($_POST["group"])) {
         Router->redirect(Router->generate("groups-overview"));

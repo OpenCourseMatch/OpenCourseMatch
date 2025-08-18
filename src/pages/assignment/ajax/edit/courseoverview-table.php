@@ -9,18 +9,17 @@ if(!$coursesAssigned) {
     ]);
 }
 
-$validation = \validation\Validator::create([
-    \validation\IsRequired::create(),
-    \validation\IsArray::create(),
-    \validation\HasChildren::create([
-        "course" => \validation\Validator::create([
-            \validation\IsInDatabase::create(Course::dao())
-        ])
+$validation = Validation->create()
+    ->withErrorMessage(t("An error has occurred whilst loading the course overview. Please try again later."))
+    ->array()
+    ->required()
+    ->children([
+        "course" => CommonValidators::course(false)
     ])
-])->setErrorMessage(t("An error has occurred whilst loading the course overview. Please try again later."));
+    ->build();
 try {
     $get = $validation->getValidatedValue($_GET);
-} catch(\validation\ValidationException $e) {
+} catch(\struktal\validation\ValidationException $e) {
     Comm::apiSendJson(HTTPResponses::$RESPONSE_BAD_REQUEST, [
         "message" => $e->getMessage()
     ]);
