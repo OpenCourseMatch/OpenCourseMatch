@@ -6,7 +6,7 @@
                  class="h-8 w-auto rounded"
             >
             <span class="hidden sm:block ml-2 font-bold">
-                {{ Config::$APP_SETTINGS["APP_NAME"] }}
+                {{ Config->getAppName() }}
             </span>
         </div>
 

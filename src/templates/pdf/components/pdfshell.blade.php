@@ -44,7 +44,7 @@
                     </td>
                     <td style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
                         <h1 style="margin: 0;">
-                            {{ Config::$APP_SETTINGS["APP_NAME"] }}
+                            {{ Config->getAppName() }}
                         </h1>
                         <p style="margin: 0;">
                             {{ $title }}
@@ -61,7 +61,7 @@
                 <tr style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
                     <td style="border-collapse: collapse; border: none; margin: 0; padding: 0; vertical-align: bottom;">
                         <h2 style="margin: 0;">
-                            {{ Config::$APP_SETTINGS["APP_NAME"] }}
+                            {{ Config->getAppName() }}
                         </h2>
                         <p style="margin: 0;">
                             Licensed under the MIT License.

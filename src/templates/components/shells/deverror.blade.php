@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="{{ Router->staticFilePath("css/style.css") }}">
 
         {{-- JavaScript --}}
-        @if(!Config::$APP_SETTINGS["PRODUCTION"])
+        @if(!Config->isProduction())
             <script src="{{ Router->staticFilePath("js/lib/LiveUpdate.js") }}"></script>
         @endif
     </head>

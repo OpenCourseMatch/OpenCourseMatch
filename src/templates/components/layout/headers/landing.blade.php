@@ -2,7 +2,7 @@
     <header class="flex justify-between items-center max-w-screen-xl m-auto">
         {{-- Logo --}}
         <div class="whitespace-nowrap">
-            <a href="{{ Router->generate(Config::$APP_SETTINGS["APP_URL"]) }}"
+            <a href="{{ Config->getAppUrl() }}"
                class="flex justify-start items-center"
             >
                 <img src="{{ Router->staticFilePath("img/logo.svg") }}"
@@ -10,7 +10,7 @@
                      class="h-12 w-auto rounded"
                 >
                 <span class="ml-2 font-bold">
-                    {{ Config::$APP_SETTINGS["APP_NAME"] }}
+                    {{ Config->getAppName() }}
                 </span>
             </a>
         </div>
