@@ -20,9 +20,9 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    Comm::apiSendJson(HTTPResponses::$RESPONSE_BAD_REQUEST, [
+    \struktal\API\API::sendWrappedJson([
         "message" => $e->getMessage()
-    ]);
+    ], \struktal\API\HTTPResponse::BAD_REQUEST);
 }
 
 $account = new User();

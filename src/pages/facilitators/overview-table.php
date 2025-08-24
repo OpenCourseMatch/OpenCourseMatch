@@ -21,4 +21,4 @@ $users = array_map(function(User $account) {
     return $array;
 }, $users);
 
-Comm::sendJson($users);
+\struktal\API\API::sendJson($users);

@@ -13,4 +13,4 @@ $groups = array_map(function(Group $group) {
     return $array;
 }, $groups);
 
-Comm::sendJson($groups);
+\struktal\API\API::sendJson($groups);
