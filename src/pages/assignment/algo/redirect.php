@@ -6,13 +6,13 @@ $algorithmRunning = SystemStatus::dao()->get("algorithmRunning") === "true";
 $coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if($algorithmRunning) {
-    new InfoMessage(t("The course assignment algorithm is currently running. Please wait until it has finished."), InfoMessageType::ERROR);
+    InfoMessage->error(t("The course assignment algorithm is currently running. Please wait until it has finished."));
     Router->redirect(Router->generate("index"));
 }
 
 if($coursesAssigned) {
     Router->redirect(Router->generate("course-assignment-edit"));
 } else {
-    new InfoMessage(t("An error has occurred whilst attempting to assign the courses to the participants. Please try again later."), InfoMessageType::ERROR);
+    InfoMessage->error(t("An error has occurred whilst attempting to assign the courses to the participants. Please try again later."));
     Router->redirect(Router->generate("index"));
 }

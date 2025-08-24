@@ -17,12 +17,12 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     exit;
 }
 
 if($post["resetPassword"] === null && $post["changeGroup"] === null) {
-    new InfoMessage(t("No actions were selected. No user data has been modified."), InfoMessageType::WARNING);
+    InfoMessage->warning(t("No actions were selected. No user data has been modified."));
     exit;
 }
 
@@ -33,7 +33,7 @@ $accounts = User::dao()->getObjects([
 ]);
 
 if(empty($accounts)) {
-    new InfoMessage(t("No users were found in the selected group. The actions have not been executed."), InfoMessageType::WARNING);
+    InfoMessage->warning(t("No users were found in the selected group. The actions have not been executed."));
     exit;
 }
 
@@ -83,7 +83,7 @@ foreach($accounts as $account) {
     }
 }
 
-new InfoMessage(t("The actions have been executed for all users of the selected group."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The actions have been executed for all users of the selected group."));
 
 header("Content-Type: application/pdf");
 $pdf = new PDF($user, t("Account credentials"), "pdf.accountcredentials", [

@@ -60,7 +60,7 @@ User::dao()->save($account);
 
 Logger->tag("Users")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the user {$account->getId()} ({$account->getFullName()})");
 
-new InfoMessage(t("The user has been saved."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The user has been saved."));
 
 header("Content-Type: application/pdf");
 $pdf = new PDF($user, t("Account credentials"), "pdf.accountcredentials", [

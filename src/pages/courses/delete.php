@@ -13,7 +13,7 @@ $validation = Validation->create()
 try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     Router->redirect(Router->generate("courses-overview"));
 }
 
@@ -24,5 +24,5 @@ Course::dao()->delete($course);
 
 Logger->tag("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the course {$course->getId()} ({$course->getTitle()})");
 
-new InfoMessage(t("The course has been deleted."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The course has been deleted."));
 Router->redirect(Router->generate("courses-overview"));

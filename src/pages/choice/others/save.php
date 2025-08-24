@@ -14,7 +14,7 @@ $getValidation = Validation->create()
 try {
     $get = $getValidation->getValidatedValue($_GET);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     Router->redirect(Router->generate("users-overview"));
 }
 
@@ -43,7 +43,7 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     Router->redirect(Router->generate("choice-edit-others", ["user" => $account->getId()]));
 }
 
@@ -55,13 +55,13 @@ $choices = [];
 foreach($post["choice"] as $i => $course) {
     if(in_array($course->getId(), $chosenCourses)) {
         Logger->tag("Choices")->warn("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) tried to choose course {$course->getId()} ({$course->getTitle()}) for user {$account->getId()} ({$account->getFullName()}) multiple times.");
-        new InfoMessage(t("Each course can only be chosen once."), InfoMessageType::ERROR);
+        InfoMessage->error(t("Each course can only be chosen once."));
         Router->redirect(Router->generate("choice-edit-others", ["user" => $account->getId()]));
     }
 
     if(!$course->canChooseCourse($account)) {
         Logger->tag("Choices")->warn("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) tried to choose course {$course->getId()} ({$course->getTitle()}) for user {$account->getId()} ({$account->getFullName()}) but they do not meet the requirements.");
-        new InfoMessage(t("The user of which the choice should be edited does not meet the requirements to participate in at least one of the chosen courses."), InfoMessageType::ERROR);
+        InfoMessage->error(t("The user of which the choice should be edited does not meet the requirements to participate in at least one of the chosen courses."));
         Router->redirect(Router->generate("choice-edit-others", ["user" => $account->getId()]));
     }
 
@@ -91,5 +91,5 @@ foreach($choices as $choice) {
 }
 Logger->tag("Choices")->info("User {$user->getId()} ({$user->getFullName()}) has saved / updated the course choices for user {$account->getId()} ({$account->getFullName()}).");
 
-new InfoMessage(t("The user's chosen courses have been saved."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The user's chosen courses have been saved."));
 Router->redirect(Router->generate("users-edit", ["user" => $account->getId()]));

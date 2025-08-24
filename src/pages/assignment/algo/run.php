@@ -6,12 +6,12 @@ $algorithmRunning = SystemStatus::dao()->get("algorithmRunning") === "true";
 $coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if($algorithmRunning) {
-    new InfoMessage(t("The course assignment algorithm is currently running. Please wait until it has finished."), InfoMessageType::ERROR);
+    InfoMessage->error(t("The course assignment algorithm is currently running. Please wait until it has finished."));
     Router->redirect(Router->generate("index"));
 }
 
 if($coursesAssigned) {
-    new InfoMessage(t("The courses have already been assigned. Please reset the course assignment before running the algorithm again."), InfoMessageType::ERROR);
+    InfoMessage->error(t("The courses have already been assigned. Please reset the course assignment before running the algorithm again."));
     Router->redirect(Router->generate("index"));
 }
 

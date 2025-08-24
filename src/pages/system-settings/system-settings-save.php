@@ -18,7 +18,7 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     Router->redirect(Router->generate("system-settings"));
 }
 
@@ -27,5 +27,5 @@ foreach($defaultValues as $key => $value) {
     Logger->tag("SystemSettings")->info("User {$user->getId()} ({$user->getFullName()}) changed the system setting \"{$key}\" to \"{$post[$key]}\"");
 }
 
-new InfoMessage(t("The system settings have been saved."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The system settings have been saved."));
 Router->redirect(Router->generate("dashboard"));

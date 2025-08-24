@@ -16,7 +16,7 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     Router->redirect(Router->generate("system-reset"));
 }
 
@@ -33,7 +33,7 @@ if($post["resetUsers"] !== null) {
         Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
     }
 
-    new InfoMessage(t("\$\$count\$\$ users have been deleted.", ["count" => $usersCount]), InfoMessageType::INFO);
+    InfoMessage->info(t("\$\$count\$\$ users have been deleted.", ["count" => $usersCount]));
 }
 
 if($post["resetFacilitators"] !== null) {
@@ -49,7 +49,7 @@ if($post["resetFacilitators"] !== null) {
         Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the facilitator {$account->getId()} ({$account->getFullName()})");
     }
 
-    new InfoMessage(t("\$\$count\$\$ facilitators have been deleted.", ["count" => $usersCount]), InfoMessageType::INFO);
+    InfoMessage->info(t("\$\$count\$\$ facilitators have been deleted.", ["count" => $usersCount]));
 }
 
 if($post["resetCourses"] !== null) {
@@ -65,7 +65,7 @@ if($post["resetCourses"] !== null) {
         Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the course {$course->getId()} ({$course->getTitle()})");
     }
 
-    new InfoMessage(t("\$\$count\$\$ courses have been deleted.", ["count" => $coursesCount]), InfoMessageType::INFO);
+    InfoMessage->info(t("\$\$count\$\$ courses have been deleted.", ["count" => $coursesCount]));
 }
 
 if($post["resetGroups"] !== null) {
@@ -81,8 +81,8 @@ if($post["resetGroups"] !== null) {
         Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the group {$group->getId()} ({$group->getName()})");
     }
 
-    new InfoMessage(t("\$\$count\$\$ groups have been deleted.", ["count" => $groupsCount]), InfoMessageType::INFO);
+    InfoMessage->info(t("\$\$count\$\$ groups have been deleted.", ["count" => $groupsCount]));
 }
 
-new InfoMessage(t("The selected system data has been reset."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The selected system data has been reset."));
 Router->redirect(Router->generate("dashboard"));

@@ -21,7 +21,7 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     if(isset($_POST["group"]) && !Group::dao()->hasId($_POST["group"])) {
         Router->redirect(Router->generate("groups-overview"));
     } else if(isset($_POST["group"])) {
@@ -42,5 +42,5 @@ Group::dao()->save($group);
 
 Logger->tag("Groups")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the group {$group->getId()} ({$group->getName()})");
 
-new InfoMessage(t("The group has been saved."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The group has been saved."));
 Router->redirect(Router->generate("groups-overview"));

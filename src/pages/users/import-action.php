@@ -14,7 +14,7 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     exit;
 }
 
@@ -25,7 +25,7 @@ $fileUpload->setInputName("file")
     ->setMaxSize(2)
     ->handleUploadedFiles();
 if(!$fileUpload->successful() || empty($fileUpload->getFiles())) {
-    new InfoMessage(t("Please fill out all the required fields."), InfoMessageType::ERROR);
+    InfoMessage->error(t("Please fill out all the required fields."));
     exit;
 }
 $files = $fileUpload->getFiles();
@@ -37,13 +37,13 @@ $csv->setFile($fileUpload->getFiles()[0]["tmp_name"])
 $csvData = $csv->getData();
 
 if(count($csvData) > 50) {
-    new InfoMessage(t("The CSV file contains too many entries. A maximum of 50 users can be imported at a time."), InfoMessageType::ERROR);
+    InfoMessage->error(t("The CSV file contains too many entries. A maximum of 50 users can be imported at a time."));
     exit;
 }
 
 foreach($csvData as $data) {
     if(!is_array($data) || sizeof($data) !== 2) {
-        new InfoMessage(t("The CSV file is not formatted correctly."), InfoMessageType::ERROR);
+        InfoMessage->error(t("The CSV file is not formatted correctly."));
         exit;
     }
 }
@@ -95,9 +95,9 @@ foreach($csvData as $data) {
 
 $userCount = count($importedUsers);
 
-new InfoMessage(t("\$\$count\$\$ users have been imported.", [
+InfoMessage->success(t("\$\$count\$\$ users have been imported.", [
     "count" => $userCount
-]), InfoMessageType::SUCCESS);
+]));
 
 if($groupId === null) {
     Logger->tag("Users")->info("User {$user->getId()} ({$user->getFullName()}) has imported {$userCount} users from CSV file with default group.");

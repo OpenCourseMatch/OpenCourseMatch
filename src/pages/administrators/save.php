@@ -55,7 +55,7 @@ User::dao()->save($account);
 
 Logger->tag("Administrators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the administrator {$account->getId()} ({$account->getFullName()})");
 
-new InfoMessage(t("The administrator has been saved."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The administrator has been saved."));
 
 header("Content-Type: application/pdf");
 $pdf = new PDF($user, t("Account credentials"), "pdf.accountcredentials", [

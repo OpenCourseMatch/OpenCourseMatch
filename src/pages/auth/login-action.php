@@ -18,13 +18,13 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     Router->redirect(Router->generate("auth-login"));
 }
 
 // Check whether there are no users
 if(count(User::dao()->getObjects([], "id", true, 1)) === 0) {
-    new InfoMessage(t("No users were registered yet. An administrator account has been created."), InfoMessageType::SUCCESS);
+    InfoMessage->success(t("No users were registered yet. An administrator account has been created."));
 
     $user = new User();
     $user->setUsername($post["username"]);
@@ -48,7 +48,7 @@ $user = User::dao()->login($post["username"], false, $post["password"]);
 
 if($user instanceof \struktal\Auth\LoginError) {
     Logger->tag("Login")->info("User \"{$post["username"]}\" failed to log in: " . $user->name);
-    new InfoMessage(t("An account with these credentials does not exist."), InfoMessageType::ERROR);
+    InfoMessage->error(t("An account with these credentials does not exist."));
     Router->redirect(Router->generate("auth-login"));
 }
 

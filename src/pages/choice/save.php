@@ -3,12 +3,12 @@
 $user = Auth->enforceLogin(PermissionLevel::USER->value, Router->generate("index"));
 
 if($user->getPermissionLevel() > PermissionLevel::USER->value) {
-    new InfoMessage(t("Choosing courses is only available to participants and tutors."), InfoMessageType::ERROR);
+    InfoMessage->error(t("Choosing courses is only available to participants and tutors."));
     Router->redirect(Router->generate("index"));
 }
 
 if(SystemStatus::dao()->get("userActionsAllowed") !== "true") {
-    new InfoMessage(t("The course selection has already been disabled. You can no longer update your course preferences."), InfoMessageType::ERROR);
+    InfoMessage->error(t("The course selection has already been disabled. You can no longer update your course preferences."));
     Router->redirect(Router->generate("index"));
 }
 
@@ -35,7 +35,7 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     Router->redirect(Router->generate("choice-edit"));
 }
 
@@ -47,13 +47,13 @@ $choices = [];
 foreach($post["choice"] as $i => $course) {
     if(in_array($course->getId(), $chosenCourses)) {
         Logger->tag("Choices")->warn("User {$user->getId()} ({$user->getFullName()}) tried to choose course {$course->getId()} ({$course->getTitle()}) multiple times.");
-        new InfoMessage(t("Each course can only be chosen once."), InfoMessageType::ERROR);
+        InfoMessage->error(t("Each course can only be chosen once."));
         Router->redirect(Router->generate("choice-edit"));
     }
 
     if(!$course->canChooseCourse($user)) {
         Logger->tag("Choices")->warn("User {$user->getId()} ({$user->getFullName()}) tried to choose course {$course->getId()} ({$course->getTitle()}) but does not meet the requirements.");
-        new InfoMessage(t("You do not meet the requirements to participate in at least one of your chosen courses."), InfoMessageType::ERROR);
+        InfoMessage->error(t("You do not meet the requirements to participate in at least one of your chosen courses."));
         Router->redirect(Router->generate("choice-edit"));
     }
 
@@ -83,5 +83,5 @@ foreach($choices as $choice) {
 }
 Logger->tag("Choices")->info("User {$user->getId()} ({$user->getFullName()}) has saved / updated their course choices.");
 
-new InfoMessage(t("Your chosen courses have been saved."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("Your chosen courses have been saved."));
 Router->redirect(Router->generate("dashboard"));

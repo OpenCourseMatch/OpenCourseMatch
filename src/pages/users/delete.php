@@ -15,7 +15,7 @@ $validation = Validation->create()
 try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     Router->redirect(Router->generate("users-overview"));
 }
 
@@ -26,5 +26,5 @@ User::dao()->delete($account);
 
 Logger->tag("Users")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
 
-new InfoMessage(t("The user has been deleted."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The user has been deleted."));
 Router->redirect(Router->generate("users-overview"));
