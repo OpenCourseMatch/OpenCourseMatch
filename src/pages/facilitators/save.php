@@ -53,7 +53,7 @@ $account->setOneTimePassword(null);
 $account->setOneTimePasswordExpiration(null);
 User::dao()->save($account);
 
-Logger::getLogger("Facilitators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the facilitator {$account->getId()} ({$account->getFullName()})");
+Logger->tag("Facilitators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the facilitator {$account->getId()} ({$account->getFullName()})");
 
 new InfoMessage(t("The facilitator has been saved."), InfoMessageType::SUCCESS);
 

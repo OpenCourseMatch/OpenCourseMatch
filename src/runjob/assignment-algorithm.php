@@ -3,7 +3,7 @@
 require __DIR__ . "/.runjob-setup.php";
 
 if(SystemStatus::dao()->get("algorithmRunning") === "true") {
-    Logger::getLogger("AssignmentAlgorithm")->info("Aborting assignment algorithm because it is already running");
+    Logger->tag("AssignmentAlgorithm")->info("Aborting assignment algorithm because it is already running");
     exit;
 }
 

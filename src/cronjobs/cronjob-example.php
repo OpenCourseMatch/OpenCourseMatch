@@ -2,4 +2,4 @@
 
 require __DIR__ . "/.cronjob-setup.php";
 
-Logger::getLogger("CRONJOB-EXAMPLE")->debug("Cronjob called");
+Logger->tag("CRONJOB-EXAMPLE")->debug("Cronjob called");

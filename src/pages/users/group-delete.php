@@ -28,14 +28,14 @@ if(empty($accounts)) {
     exit;
 } else {
     $oldGroup = $post["group"] ? $post["group"]->getId() : "DEFAULT";
-    Logger::getLogger("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is deleting all users of the group {$oldGroup}");
+    Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is deleting all users of the group {$oldGroup}");
 }
 
 foreach($accounts as $account) {
     $account->preDelete();
     User::dao()->delete($account);
 
-    Logger::getLogger("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
+    Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
 }
 
 new InfoMessage(t("All users of the selected group have been deleted."), InfoMessageType::SUCCESS);

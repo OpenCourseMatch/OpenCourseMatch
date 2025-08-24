@@ -41,13 +41,13 @@ if(count(User::dao()->getObjects([], "id", true, 1)) === 0) {
     $user->setOneTimePasswordExpiration(null);
     User::dao()->save($user);
 
-    Logger::getLogger("Login")->info("An initial administrator account has been created.");
+    Logger->tag("Login")->info("An initial administrator account has been created.");
 }
 
 $user = User::dao()->login($post["username"], false, $post["password"]);
 
 if($user instanceof \struktal\Auth\LoginError) {
-    Logger::getLogger("Login")->info("User \"{$post["username"]}\" failed to log in: " . $user->name);
+    Logger->tag("Login")->info("User \"{$post["username"]}\" failed to log in: " . $user->name);
     new InfoMessage(t("An account with these credentials does not exist."), InfoMessageType::ERROR);
     Router->redirect(Router->generate("auth-login"));
 }
@@ -61,6 +61,6 @@ User::dao()->save($user);
 // Check default values for system settings
 SystemSetting::dao()->setDefaults();
 
-Logger::getLogger("Login")->info("User \"{$post["username"]}\" has logged in (User ID {$user->getId()})");
+Logger->tag("Login")->info("User \"{$post["username"]}\" has logged in (User ID {$user->getId()})");
 Auth->login($user);
 Router->redirect(Router->generate("index"));

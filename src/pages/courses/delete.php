@@ -22,7 +22,7 @@ $course = $get["course"];
 $course->preDelete();
 Course::dao()->delete($course);
 
-Logger::getLogger("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the course {$course->getId()} ({$course->getTitle()})");
+Logger->tag("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the course {$course->getId()} ({$course->getTitle()})");
 
 new InfoMessage(t("The course has been deleted."), InfoMessageType::SUCCESS);
 Router->redirect(Router->generate("courses-overview"));

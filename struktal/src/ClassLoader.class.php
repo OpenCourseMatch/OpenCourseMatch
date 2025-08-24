@@ -62,7 +62,7 @@ class ClassLoader {
                 }
             }
         } else {
-            Logger::getLogger("ClassLoader")->error("Directory {$absolutePath} does not exist");
+            Logger->tag("ClassLoader")->error("Directory {$absolutePath} does not exist");
         }
     }
 
@@ -102,7 +102,7 @@ class ClassLoader {
                 }
             }
         } else {
-            Logger::getLogger("ClassLoader")->error("Directory {$absolutePath} does not exist");
+            Logger->tag("ClassLoader")->error("Directory {$absolutePath} does not exist");
         }
     }
 }

@@ -24,7 +24,7 @@ $account = $get["user"];
 $account->preDelete();
 User::dao()->delete($account);
 
-Logger::getLogger("Users")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
+Logger->tag("Users")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
 
 new InfoMessage(t("The user has been deleted."), InfoMessageType::SUCCESS);
 Router->redirect(Router->generate("users-overview"));

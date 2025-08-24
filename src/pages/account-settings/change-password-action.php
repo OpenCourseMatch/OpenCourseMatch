@@ -39,7 +39,7 @@ if(!($tempUser instanceof User) || $tempUser->getId() !== $user->getId()) {
 $user->setPassword($post["new-password"]);
 User::dao()->save($user);
 
-Logger::getLogger("ChangePassword")->info("User {$user->getId()} ({$user->getFullName()}) changed their password");
+Logger->tag("ChangePassword")->info("User {$user->getId()} ({$user->getFullName()}) changed their password");
 
 new InfoMessage(t("Your password has been updated."), InfoMessageType::SUCCESS);
 Router->redirect(Router->generate("account-settings"));
