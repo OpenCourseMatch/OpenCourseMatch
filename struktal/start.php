@@ -7,49 +7,38 @@ require_once(__APP_DIR__ . "/vendor/autoload.php");
 require_once(__APP_DIR__ . "/struktal/src/ClassLoader.class.php");
 $classLoader = ClassLoader::getInstance();
 
-// Load Logger
-$classLoader->loadClass(__APP_DIR__ . "/struktal/src/Logger.class.php");
+// Setup utility Composer libraries
+use struktal\Config\StruktalConfig;
+StruktalConfig::setConfigFilePath(__APP_DIR__ . "/config/config.json");
+const Config = new StruktalConfig();
 
-// Load Comm
-$classLoader->loadClass(__APP_DIR__ . "/struktal/src/Comm.class.php");
+use struktal\Logger\Logger;
+use struktal\Logger\LogLevel;
+Logger::setLogDirectory(__APP_DIR__ . "/logs/");
+Logger::setMinLogLevel(LogLevel::from(Config->getLogLevel()));
+const Logger = new Logger("App");
 
-// Configuration files
-require_once(__APP_DIR__ . "/struktal/config/Config.class.php");
-Config::init();
-require_once(__APP_DIR__ . "/src/config/app-config.php");
-
-// Load enums
-$classLoader->loadEnums(__APP_DIR__ . "/struktal/src/enum/");
-
-// Load libraries
-$classLoader->loadClasses(__APP_DIR__ . "/struktal/src/lib/");
-
-// Load extra enums and classes
-foreach(Config::$CLASS_LOADER_SETTINGS["CLASS_LOADER_IMPORT_PATHS"] as $path) {
-    $classLoader->loadEnums($path);
-    $classLoader->loadClasses($path);
-}
+// Load project files
+$classLoader->loadClasses(__APP_DIR__ . "/src/lib/");
+$classLoader->loadEnums(__APP_DIR__ . "/src/lib/");
 
 unset($classLoader);
 
 // Setup Composer libraries
-use eftec\bladeone\BladeOne;
-const Blade = new BladeOne(__APP_DIR__ . "/src/templates", __APP_DIR__ . "/template-cache", BladeOne::MODE_DEBUG);
-
 use struktal\Router\Router;
 const Router = new Router();
 Router->setPagesDirectory(__APP_DIR__ . "/src/pages/");
-Router->setAppUrl(Config::$APP_SETTINGS["APP_URL"]);
-Router->setAppBaseUri(Config::$ROUTER_SETTINGS["ROUTER_BASE_URI"]);
+Router->setAppUrl(Config->getAppUrl());
+Router->setAppBaseUri(Config->getBaseUri());
 Router->setStaticDirectoryUri("static/");
 
 use struktal\ORM\Database\Database;
-if(Config::$DB_SETTINGS["DB_USE"]) {
+if(Config->databaseEnabled()) {
     Database::connect(
-        Config::$DB_SETTINGS["DB_HOST"],
-        Config::$DB_SETTINGS["DB_NAME"],
-        Config::$DB_SETTINGS["DB_USER"],
-        Config::$DB_SETTINGS["DB_PASS"]
+        Config->getDatabaseHost(),
+        Config->getDatabaseName(),
+        Config->getDatabaseUsername(),
+        Config->getDatabasePassword()
     );
 }
 
@@ -59,6 +48,35 @@ Auth->setUserObjectName(User::class);
 
 use struktal\validation\ValidationBuilder;
 const Validation = new ValidationBuilder();
+
+use struktal\Translator\Translator;
+use struktal\Translator\LanguageUtil;
+Translator::setTranslationsDirectory(__APP_DIR__ . "/src/translations/");
+Translator::setDomain("messages");
+Translator::setLocale(LanguageUtil::getPreferredLocale());
+const Translator = new Translator();
+
+use eftec\bladeone\BladeOne;
+const Blade = new BladeOne(__APP_DIR__ . "/src/templates", __APP_DIR__ . "/template-cache", BladeOne::MODE_DEBUG);
+
+use struktal\MailWrapper\MailWrapper;
+MailWrapper::setSetupFunction(function(MailWrapper $mailWrapper) {
+    $mailWrapper->isSMTP();
+    $mailWrapper->Host = Config->getSmtpHost();
+    $mailWrapper->Port = Config->getSmtpPort();
+    $mailWrapper->SMTPAuth = Config->getSmtpAuth();
+    $mailWrapper->Username = Config->getSmtpUsername();
+    $mailWrapper->Password = Config->getSmtpPassword();
+    $mailWrapper->SMTPSecure = Config->getSmtpSecure();
+    $mailWrapper->CharSet = "UTF-8";
+});
+MailWrapper::setRedirectAllMails(
+    Config->redirectAllMails(),
+    Config->getRedirectMailAddress()
+);
+
+use struktal\InfoMessage\InfoMessageHandler;
+const InfoMessage = new InfoMessageHandler();
 
 use struktal\ComposerReader\ComposerReader;
 ComposerReader::setProjectDirectory(__APP_DIR__);
@@ -72,21 +90,21 @@ Blade->directive("include", function($expression) {
 });
 
 // Setup logger
-$sendEmailHandler = function(string $message) {
-    if(empty(Config::$LOG_SETTINGS["LOG_ERROR_REPORT"])) {
+$sendEmailHandler = function(string $formattedMessage, string $serializedMessage, mixed $originalMessage) {
+    if(empty(Config->getLogRecipients())) {
         return;
     }
 
-    $mail = new Mail();
-    $mail->setSubject("[" . Config::$APP_SETTINGS["APP_NAME"] . "] Error report")
-        ->setTextBody($message);
-    foreach(Config::$LOG_SETTINGS["LOG_ERROR_REPORT"] as $recipient) {
-        $mail->addRecipient($recipient);
+    $mail = new struktal\MailWrapper\MailWrapper();
+    $mail->Subject = "[" . Config->getAppName() . "] Error report";
+    $mail->Body = $formattedMessage;
+    foreach(Config->getLogRecipients() as $recipient) {
+        $mail->addAddress($recipient);
     }
     $mail->send();
 };
-Logger::addCustomLogHandler(Logger::$LOG_ERROR, $sendEmailHandler);
-Logger::addCustomLogHandler(Logger::$LOG_FATAL, $sendEmailHandler);
+Logger::addCustomLogHandler(LogLevel::ERROR, $sendEmailHandler);
+Logger::addCustomLogHandler(LogLevel::FATAL, $sendEmailHandler);
 unset($sendEmailHandler);
 
 // Initialize routes
@@ -97,13 +115,13 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
     $message .= "\"" . $errstr . "\"";
     $message .= " in " . $errfile . " on line " . $errline;
     try {
-        Logger::getLogger("PHP")->error($message);
+        Logger->tag("PHP")->error($message);
     } catch(Error|Exception $e) {
         // If the logger fails, log to the default PHP error log
         error_log($message);
     }
 
-    if(Config::$APP_SETTINGS["PRODUCTION"]) {
+    if(Config->isProduction()) {
         // Redirect to error page in production
         Router->redirect(Router->generate("500"));
     } else {
@@ -128,12 +146,12 @@ set_exception_handler(function($exception) {
     $message .= PHP_EOL . $exception->getTraceAsString();
 
     try {
-        Logger::getLogger("PHP")->fatal($message);
+        Logger->tag("PHP")->fatal($message);
     } catch(Error|Exception $e) {
         error_log($message);
     }
 
-    if(Config::$APP_SETTINGS["PRODUCTION"]) {
+    if(Config->isProduction()) {
         // Redirect to error page in production
         Router->redirect(Router->generate("500"));
     } else {

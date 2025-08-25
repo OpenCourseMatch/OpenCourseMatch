@@ -13,13 +13,13 @@
         <link rel="stylesheet" href="{{ Router->staticFilePath("css/style.css") }}">
 
         {{-- JavaScript --}}
-        @if(!Config::$APP_SETTINGS["PRODUCTION"])
+        @if(!Config->isProduction())
             <script src="{{ Router->staticFilePath("js/lib/LiveUpdate.js") }}"></script>
         @endif
     </head>
     <body class="overflow-x-hidden bg-[#202020]">
         <main class="px-content-padding-sm mt-4 md:px-content-padding-md lg:px-content-padding-lg min-h-[90vh]">
-            <h1 class="mb-4 text-4xl font-bold text-danger-500">
+            <h1 class="mb-4 text-4xl font-bold text-danger">
                 {{ $exceptionName }}
             </h1>
 
@@ -42,9 +42,15 @@
 
                     <div class="px-8 py-4 font-[#202020] bg-[#f0f0f0] rounded-b">
                         @php
-                            $fileContents = file($traceItem["file"]);
-                            $startLine = max(0, ($traceItem["line"] - 1) - 3);
-                            $endLine = min(count($fileContents) - 1, ($traceItem["line"] - 1) + 3);
+                            try {
+                                $fileContents = file($traceItem["file"]);
+                                $startLine = max(0, ($traceItem["line"] - 1) - 3);
+                                $endLine = min(count($fileContents) - 1, ($traceItem["line"] - 1) + 3);
+                            } catch(Error|Exception $e) {
+                                $fileContents = ["", "", ""];
+                                $startLine = 0;
+                                $endLine = 2;
+                            }
                         @endphp
 
                         <code class="text-[#202020]">

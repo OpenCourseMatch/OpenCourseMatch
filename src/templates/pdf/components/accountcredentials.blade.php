@@ -118,4 +118,4 @@
 <br><br>
 <img src="{{ $loginQrCodeData }}" alt="Login QR code" style="width: 25%;">
 <br><br>
-{{ t("Alternatively, you can also navigate to") }} <a href="{{ Config::$APP_SETTINGS["APP_URL"] }}">{{ Config::$APP_SETTINGS["APP_URL"] }}</a> {{ t("in any web browser of your choice") }}.
+{{ t("Alternatively, you can also navigate to") }} <a href="{{ Config->getAppUrl() }}">{{ Config->getAppUrl() }}</a> {{ t("in any web browser of your choice") }}.

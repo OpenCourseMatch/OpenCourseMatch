@@ -20,9 +20,9 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    Comm::apiSendJson(HTTPResponses::$RESPONSE_BAD_REQUEST, [
+    \struktal\API\API::sendWrappedJson([
         "message" => $e->getMessage()
-    ]);
+    ], \struktal\API\HTTPResponse::BAD_REQUEST);
 }
 
 $account = new User();
@@ -58,9 +58,9 @@ $account->setOneTimePassword(null);
 $account->setOneTimePasswordExpiration(null);
 User::dao()->save($account);
 
-Logger::getLogger("Users")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the user {$account->getId()} ({$account->getFullName()})");
+Logger->tag("Users")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the user {$account->getId()} ({$account->getFullName()})");
 
-new InfoMessage(t("The user has been saved."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The user has been saved."));
 
 header("Content-Type: application/pdf");
 $pdf = new PDF($user, t("Account credentials"), "pdf.accountcredentials", [

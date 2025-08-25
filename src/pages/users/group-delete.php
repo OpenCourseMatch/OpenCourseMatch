@@ -13,7 +13,7 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     exit;
 }
 
@@ -24,18 +24,18 @@ $accounts = User::dao()->getObjects([
 ]);
 
 if(empty($accounts)) {
-    new InfoMessage(t("No users were found in the selected group. The actions have not been executed."), InfoMessageType::WARNING);
+    InfoMessage->warning(t("No users were found in the selected group. The actions have not been executed."));
     exit;
 } else {
     $oldGroup = $post["group"] ? $post["group"]->getId() : "DEFAULT";
-    Logger::getLogger("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is deleting all users of the group {$oldGroup}");
+    Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is deleting all users of the group {$oldGroup}");
 }
 
 foreach($accounts as $account) {
     $account->preDelete();
     User::dao()->delete($account);
 
-    Logger::getLogger("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
+    Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
 }
 
-new InfoMessage(t("All users of the selected group have been deleted."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("All users of the selected group have been deleted."));

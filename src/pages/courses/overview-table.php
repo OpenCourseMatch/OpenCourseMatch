@@ -13,4 +13,4 @@ $courses = array_map(function(Course $course) {
     return $array;
 }, $courses);
 
-Comm::sendJson($courses);
+\struktal\API\API::sendJson($courses);

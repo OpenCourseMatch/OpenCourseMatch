@@ -4,9 +4,9 @@ $user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("inde
 $coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
-    Comm::apiSendJson(HTTPResponses::$RESPONSE_METHOD_NOT_ALLOWED, [
+    \struktal\API\API::sendWrappedJson([
         "message" => t("An error has occurred whilst loading the course overview. Please try again later.")
-    ]);
+    ], \struktal\API\HTTPResponse::METHOD_NOT_ALLOWED);
 }
 
 $validation = Validation->create()
@@ -20,9 +20,9 @@ $validation = Validation->create()
 try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\struktal\validation\ValidationException $e) {
-    Comm::apiSendJson(HTTPResponses::$RESPONSE_BAD_REQUEST, [
+    \struktal\API\API::sendWrappedJson([
         "message" => $e->getMessage()
-    ]);
+    ], \struktal\API\HTTPResponse::BAD_REQUEST);
 }
 
 if($get["course"] !== null) {
@@ -135,4 +135,4 @@ $users = array_map(function(User $account) use ($get) {
     return $array;
 }, $users);
 
-Comm::sendJson($users);
+\struktal\API\API::sendJson($users);

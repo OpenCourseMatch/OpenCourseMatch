@@ -4,7 +4,7 @@ $user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("inde
 $coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
-    new InfoMessage(t("An error has occurred whilst attempting to reset the course assignment. Please try again later."), InfoMessageType::ERROR);
+    InfoMessage->error(t("An error has occurred whilst attempting to reset the course assignment. Please try again later."));
     Router->redirect(Router->generate("index"));
 }
 
@@ -15,5 +15,5 @@ foreach($assignments as $assignment) {
 
 SystemStatus::dao()->set("coursesAssigned", "false");
 
-new InfoMessage(t("The course assignment has been reset."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The course assignment has been reset."));
 Router->redirect(Router->generate("index"));

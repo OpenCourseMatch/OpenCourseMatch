@@ -16,12 +16,12 @@ class AssignmentAlgorithm {
         // Set the assignment algorithm status to running
         AlgoUtil::setAssignmentStatus(false);
 
-        Logger::getLogger("AssignmentAlgorithm")->info("Starting assignment algorithm");
+        Logger->tag("AssignmentAlgorithm")->info("Starting assignment algorithm");
 
         //********************
         //* PHASE 0: Initialization
         //********************
-        Logger::getLogger("AssignmentAlgorithm")->info("PHASE 0: Initialization");
+        Logger->tag("AssignmentAlgorithm")->info("PHASE 0: Initialization");
         // Delete old assignments from database
         AlgoUtil::resetDatabaseAssignments();
 
@@ -35,7 +35,7 @@ class AssignmentAlgorithm {
         //********************
         //* PHASE 1: Exploratory course assignment
         //***********+********
-        Logger::getLogger("AssignmentAlgorithm")->info("PHASE 1: Exploratory course assignment");
+        Logger->tag("AssignmentAlgorithm")->info("PHASE 1: Exploratory course assignment");
         $this->probabilityAssignment();
         $this->chainingAssignment();
         $this->enhanceAssignment();
@@ -43,11 +43,11 @@ class AssignmentAlgorithm {
         //********************
         //* PHASE 2: Choose courses to be cancelled and reset choices and assignments
         //********************
-        Logger::getLogger("AssignmentAlgorithm")->info("PHASE 2: Choose courses to be cancelled");
+        Logger->tag("AssignmentAlgorithm")->info("PHASE 2: Choose courses to be cancelled");
         foreach($this->courses as $course) {
             if(!$course->hasEnoughParticipants()) {
                 $course->setCancelled();
-                Logger::getLogger("AssignmentAlgorithm")->trace("Course {$course->id} has been cancelled");
+                Logger->tag("AssignmentAlgorithm")->trace("Course {$course->id} has been cancelled");
             }
             $course->resetUserLists();
         }
@@ -59,7 +59,7 @@ class AssignmentAlgorithm {
         //********************
         //* PHASE 3: Confident course assignment
         //********************
-        Logger::getLogger("AssignmentAlgorithm")->info("PHASE 3: Confident course assignment");
+        Logger->tag("AssignmentAlgorithm")->info("PHASE 3: Confident course assignment");
         $this->probabilityAssignment();
         $this->chainingAssignment();
         $this->enhanceAssignment();
@@ -67,13 +67,13 @@ class AssignmentAlgorithm {
         //********************
         //* PHASE 4: Finalize assignment
         //********************
-        Logger::getLogger("AssignmentAlgorithm")->info("PHASE 4: Finalize assignment");
+        Logger->tag("AssignmentAlgorithm")->info("PHASE 4: Finalize assignment");
         // Choose courses to be cancelled
-        Logger::getLogger("AssignmentAlgorithm")->trace("Choose courses to be cancelled");
+        Logger->tag("AssignmentAlgorithm")->trace("Choose courses to be cancelled");
         foreach($this->getCoursesSortedByRelativeInterestRate() as $course) {
             if(!$course->hasEnoughParticipants() && !$course->isCancelled()) {
                 $course->setCancelled();
-                Logger::getLogger("AssignmentAlgorithm")->trace("Course {$course->id} has been cancelled");
+                Logger->tag("AssignmentAlgorithm")->trace("Course {$course->id} has been cancelled");
 
                 $users = array_merge($course->getParticipants(), $course->getCourseLeaders());
                 foreach($users as $user) {
@@ -93,7 +93,7 @@ class AssignmentAlgorithm {
         //********************
         //* PHASE 5: Save assignments to database
         //********************
-        Logger::getLogger("AssignmentAlgorithm")->info("PHASE 5: Save assignments to database");
+        Logger->tag("AssignmentAlgorithm")->info("PHASE 5: Save assignments to database");
         foreach($this->users as $user) {
             $user->saveAssignment();
         }
@@ -101,7 +101,7 @@ class AssignmentAlgorithm {
         // Set the assignment algorithm status to complete
         AlgoUtil::setAssignmentStatus(true);
 
-        Logger::getLogger("AssignmentAlgorithm")->info("Completed assignment algorithm");
+        Logger->tag("AssignmentAlgorithm")->info("Completed assignment algorithm");
     }
 
     /**
@@ -191,7 +191,7 @@ class AssignmentAlgorithm {
     }
 
     private function probabilityAssignment(): void {
-        Logger::getLogger("AssignmentAlgorithm")->trace("Coarse assignment of users to courses using the probability-based approach");
+        Logger->tag("AssignmentAlgorithm")->trace("Coarse assignment of users to courses using the probability-based approach");
         foreach($this->getCoursesSortedByRelativeInterestRate() as $course) {
             $course->coarseUserAssignment();
         }
@@ -199,7 +199,7 @@ class AssignmentAlgorithm {
     }
 
     private function chainingAssignment(): void {
-        Logger::getLogger("AssignmentAlgorithm")->trace("Assign unassigned users by finding assignment chains");
+        Logger->tag("AssignmentAlgorithm")->trace("Assign unassigned users by finding assignment chains");
         foreach($this->getUnassignedUsers(false) as $user) {
             $assignmentChain = $user->findAssignmentChain();
             if(empty($assignmentChain)) {
@@ -215,7 +215,7 @@ class AssignmentAlgorithm {
     }
 
     private function enhanceAssignment(): void {
-        Logger::getLogger("AssignmentAlgorithm")->trace("Fine-tune the assignment by reassigning users to courses with higher choice priority");
+        Logger->tag("AssignmentAlgorithm")->trace("Fine-tune the assignment by reassigning users to courses with higher choice priority");
         $iterations = 0;
         do {
             $swappedUsers = 0;
@@ -248,13 +248,13 @@ class AssignmentAlgorithm {
         $courseLeaders = 0;
         foreach($this->courses as $course) {
             if($course->isCancelled()) {
-                Logger::getLogger("AssignmentAlgorithm")->trace("Course {$course->id}: CANCELLED");
+                Logger->tag("AssignmentAlgorithm")->trace("Course {$course->id}: CANCELLED");
                 continue;
             }
 
             $courseLeaders += count($course->getCourseLeaders());
 
-            Logger::getLogger("AssignmentAlgorithm")->trace("Course {$course->id}: " . count($course->getParticipants()) . " / {$course->maxParticipants} (Min {$course->minParticipants})");
+            Logger->tag("AssignmentAlgorithm")->trace("Course {$course->id}: " . count($course->getParticipants()) . " / {$course->maxParticipants} (Min {$course->minParticipants})");
         }
 
         $message = "Users: ";
@@ -263,6 +263,6 @@ class AssignmentAlgorithm {
         $message .= count($this->getUnassignedUsers(false)) . " unassigned (excluding course leaders), ";
         $message .= $courseLeaders . " course leaders";
 
-        Logger::getLogger("AssignmentAlgorithm")->trace($message);
+        Logger->tag("AssignmentAlgorithm")->trace($message);
     }
 }

@@ -35,7 +35,7 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     if(isset($_POST["course"]) && !Course::dao()->hasId($_POST["course"])) {
         Router->redirect(Router->generate("courses-overview"));
     } else if(isset($_POST["course"])) {
@@ -46,7 +46,7 @@ try {
 }
 
 if(isset($post["maxClearance"]) && $post["minClearance"] > $post["maxClearance"]) {
-    new InfoMessage(t("The minimum clearance level must be lower than the maximum clearance level."), InfoMessageType::ERROR);
+    InfoMessage->error(t("The minimum clearance level must be lower than the maximum clearance level."));
     if(isset($post["course"])) {
         Router->redirect(Router->generate("courses-edit", ["course" => $post["course"]->getId()]));
     } else {
@@ -55,7 +55,7 @@ if(isset($post["maxClearance"]) && $post["minClearance"] > $post["maxClearance"]
 }
 
 if(isset($post["maxParticipants"]) && $post["minParticipants"] > $post["maxParticipants"]) {
-    new InfoMessage(t("The minimum number of participants must be lower than the maximum number of participants."), InfoMessageType::ERROR);
+    InfoMessage->error(t("The minimum number of participants must be lower than the maximum number of participants."));
     if(isset($post["course"])) {
         Router->redirect(Router->generate("courses-edit", ["course" => $post["course"]->getId()]));
     } else {
@@ -76,7 +76,7 @@ $course->setMinParticipants($post["minParticipants"]);
 $course->setMaxParticipants($post["maxParticipants"]);
 Course::dao()->save($course);
 
-Logger::getLogger("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the course {$course->getId()} ({$course->getTitle()})");
+Logger->tag("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the course {$course->getId()} ({$course->getTitle()})");
 
-new InfoMessage(t("The course has been saved."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The course has been saved."));
 Router->redirect(Router->generate("courses-overview"));

@@ -7,8 +7,8 @@
             </button>
 
             {{-- Logo --}}
-            <a href="{{ Router->generate(Config::$APP_SETTINGS["APP_URL"]) }}" class="ml-2 font-bold">
-                {{ Config::$APP_SETTINGS["APP_NAME"] }}
+            <a href="{{ Config->getAppUrl() }}" class="ml-2 font-bold">
+                {{ Config->getAppName() }}
             </a>
         </div>
 

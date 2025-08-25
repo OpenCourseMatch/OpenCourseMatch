@@ -4,9 +4,9 @@ $user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("inde
 $coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
-    Comm::apiSendJson(HTTPResponses::$RESPONSE_METHOD_NOT_ALLOWED, [
+    \struktal\API\API::sendWrappedJson([
         "message" => t("An error has occurred whilst attempting to edit the course assignment. Please try again later.")
-    ]);
+    ], \struktal\API\HTTPResponse::METHOD_NOT_ALLOWED);
 }
 
 $getValidation = Validation->create()
@@ -32,9 +32,9 @@ try {
     $get = $getValidation->getValidatedValue($_GET);
     $post = $postValidation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    Comm::apiSendJson(HTTPResponses::$RESPONSE_BAD_REQUEST, [
+    \struktal\API\API::sendWrappedJson([
         "message" => $e->getMessage()
-    ]);
+    ], \struktal\API\HTTPResponse::BAD_REQUEST);
 }
 
 $assignment = Assignment::dao()->getObject([
@@ -47,4 +47,4 @@ if(!$assignment instanceof Assignment) {
 $assignment->setCourseId($get["course"]->getId());
 Assignment::dao()->save($assignment);
 
-Comm::apiSendJson(HTTPResponses::$RESPONSE_OK, []);
+\struktal\API\API::sendWrappedJson([]);

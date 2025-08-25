@@ -15,31 +15,31 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     Router->redirect(Router->generate("account-settings-change-password"));
 }
 
 if(!(preg_match("/(?=.*[a-z])(?=.*[A-Z])(?=.*[\d\W]).{8,}/", $post["new-password"]))) {
-    new InfoMessage(t("The password does not meet the requirements."), InfoMessageType::ERROR);
+    InfoMessage->error(t("The password does not meet the requirements."));
     Router->redirect(Router->generate("account-settings-change-password"));
 }
 
 if($post["new-password"] != $post["new-password-repeat"]) {
-    new InfoMessage(t("The passwords do not match."), InfoMessageType::ERROR);
+    InfoMessage->error(t("The passwords do not match."));
     Router->redirect(Router->generate("account-settings-change-password"));
 }
 
 $tempUser = User::dao()->login($user->getUsername(), false, $post["current-password"]);
 
 if(!($tempUser instanceof User) || $tempUser->getId() !== $user->getId()) {
-    new InfoMessage(t("The current password is incorrect."), InfoMessageType::ERROR);
+    InfoMessage->error(t("The current password is incorrect."));
     Router->redirect(Router->generate("account-settings-change-password"));
 }
 
 $user->setPassword($post["new-password"]);
 User::dao()->save($user);
 
-Logger::getLogger("ChangePassword")->info("User {$user->getId()} ({$user->getFullName()}) changed their password");
+Logger->tag("ChangePassword")->info("User {$user->getId()} ({$user->getFullName()}) changed their password");
 
-new InfoMessage(t("Your password has been updated."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("Your password has been updated."));
 Router->redirect(Router->generate("account-settings"));

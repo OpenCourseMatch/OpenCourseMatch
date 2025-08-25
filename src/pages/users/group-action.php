@@ -17,12 +17,12 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     exit;
 }
 
 if($post["resetPassword"] === null && $post["changeGroup"] === null) {
-    new InfoMessage(t("No actions were selected. No user data has been modified."), InfoMessageType::WARNING);
+    InfoMessage->warning(t("No actions were selected. No user data has been modified."));
     exit;
 }
 
@@ -33,19 +33,19 @@ $accounts = User::dao()->getObjects([
 ]);
 
 if(empty($accounts)) {
-    new InfoMessage(t("No users were found in the selected group. The actions have not been executed."), InfoMessageType::WARNING);
+    InfoMessage->warning(t("No users were found in the selected group. The actions have not been executed."));
     exit;
 }
 
 if($post["resetPassword"] === "1") {
     $oldGroup = $post["group"] ? $post["group"]->getId() : "DEFAULT";
-    Logger::getLogger("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the password for all users of the group {$oldGroup}");
+    Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the password for all users of the group {$oldGroup}");
 }
 
 if($post["changeGroup"] === "1") {
     $oldGroup = $post["group"] ? $post["group"]->getId() : "DEFAULT";
     $newGroup = $post["newGroup"] ? $post["newGroup"]->getId() : "DEFAULT";
-    Logger::getLogger("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is changing the group for all users of the group {$oldGroup} to {$newGroup}");
+    Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is changing the group for all users of the group {$oldGroup} to {$newGroup}");
 }
 
 $passwords = [];
@@ -79,11 +79,11 @@ foreach($accounts as $account) {
 
     if($edited) {
         User::dao()->save($account);
-        Logger::getLogger("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the user {$account->getId()} ({$account->getFullName()})");
+        Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the user {$account->getId()} ({$account->getFullName()})");
     }
 }
 
-new InfoMessage(t("The actions have been executed for all users of the selected group."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The actions have been executed for all users of the selected group."));
 
 header("Content-Type: application/pdf");
 $pdf = new PDF($user, t("Account credentials"), "pdf.accountcredentials", [

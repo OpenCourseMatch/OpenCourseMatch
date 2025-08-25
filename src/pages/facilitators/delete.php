@@ -15,7 +15,7 @@ $validation = Validation->create()
 try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     Router->redirect(Router->generate("facilitators-overview"));
 }
 
@@ -24,7 +24,7 @@ $account = $get["user"];
 $account->preDelete();
 User::dao()->delete($account);
 
-Logger::getLogger("Facilitators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the facilitator {$account->getId()} ({$account->getFullName()})");
+Logger->tag("Facilitators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the facilitator {$account->getId()} ({$account->getFullName()})");
 
-new InfoMessage(t("The facilitator has been deleted."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The facilitator has been deleted."));
 Router->redirect(Router->generate("facilitators-overview"));

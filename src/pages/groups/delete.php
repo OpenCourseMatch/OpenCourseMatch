@@ -13,7 +13,7 @@ $validation = Validation->create()
 try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     Router->redirect(Router->generate("groups-overview"));
 }
 
@@ -22,7 +22,7 @@ $group = $get["group"];
 $group->preDelete();
 Group::dao()->delete($group);
 
-Logger::getLogger("Groups")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the group {$group->getId()} ({$group->getName()})");
+Logger->tag("Groups")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the group {$group->getId()} ({$group->getName()})");
 
-new InfoMessage(t("The group has been deleted."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The group has been deleted."));
 Router->redirect(Router->generate("groups-overview"));

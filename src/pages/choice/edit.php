@@ -3,12 +3,12 @@
 $user = Auth->enforceLogin(PermissionLevel::USER->value, Router->generate("index"));
 
 if($user->getPermissionLevel() > PermissionLevel::USER->value) {
-    new InfoMessage(t("Choosing courses is only available to participants and tutors."), InfoMessageType::ERROR);
+    InfoMessage->error(t("Choosing courses is only available to participants and tutors."));
     Router->redirect(Router->generate("index"));
 }
 
 if(SystemStatus::dao()->get("userActionsAllowed") !== "true") {
-    new InfoMessage(t("The course selection has already been disabled. You can no longer update your course preferences."), InfoMessageType::ERROR);
+    InfoMessage->error(t("The course selection has already been disabled. You can no longer update your course preferences."));
     Router->redirect(Router->generate("index"));
 }
 

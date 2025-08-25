@@ -7,8 +7,8 @@ $newUserActionsAllowed = $userActionsAllowed ? "false" : "true";
 SystemStatus::dao()->set("userActionsAllowed", $newUserActionsAllowed);
 
 if($newUserActionsAllowed === "true") {
-    $message = new InfoMessage(t("The course selection has been enabled."), InfoMessageType::SUCCESS);
+    $message = InfoMessage->success(t("The course selection has been enabled."));
 } else {
-    $message = new InfoMessage(t("The course selection has been disabled."), InfoMessageType::SUCCESS);
+    $message = InfoMessage->success(t("The course selection has been disabled."));
 }
 Router->redirect(Router->generate("index"));

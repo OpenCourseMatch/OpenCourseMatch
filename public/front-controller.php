@@ -14,12 +14,9 @@ if($loggedInUser instanceof User) {
 }
 unset($loggedInUser);
 
-// Set UI language
-Translator::setDomain("messages");
-Translator::setLocale(TranslationUtil::getPreferredLocale());
-
+// Global translation function
 function t(string $message, array $variables = []): string {
-    return Translator::translate($message, $variables);
+    return Translator->translate($message, $variables);
 }
 
 // Start the router

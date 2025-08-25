@@ -1,53 +1,21 @@
 {
-    "APP_SETTINGS": {
-        "APP_NAME": "OpenCourseMatch",
-        "WEBSITE_TITLE": "OpenCourseMatch",
-        "APP_URL": "http://localhost:3000",
-        "APP_FAVICON": "/static/img/logo.svg",
-        "APP_AUTHOR": "OpenCourseMatch contributors",
-        "PRODUCTION": true
-    },
-    "ROUTER_SETTINGS": {
-        "ROUTER_BASE_URI": "/"
-    },
-    "LOG_SETTINGS": {
-        "LOG_FILENAME": "log-%date%.log",
-        "LOG_LEVEL": 6,
-        "LOG_ERROR_REPORT": []
-    },
-    "DATABASE_SETTINGS": {
-        "DB_HOST": "database",
-        "DB_USER": "opencoursematch",
-        "DB_PASS": "opencoursematch",
-        "DB_NAME": "opencoursematch",
-        "DB_USE": true
-    },
-    "MAIL_SETTINGS": {
-        "MAIL_SMTP_HOST": "smtp.localhost",
-        "MAIL_SMTP_PORT": 25,
-        "MAIL_SMTP_USER": "username",
-        "MAIL_SMTP_PASS": "password",
-        "MAIL_SMTP_SECURE": "tls",
-        "MAIL_SMTP_AUTH": true,
-        "MAIL_DEFAULT_SENDER_EMAIL": "mail@opencoursematch",
-        "MAIL_DEFAULT_SENDER_NAME": "OpenCourseMatch",
-        "MAIL_DEFAULT_REPLY_TO": "mail@opencoursematch",
-        "MAIL_DEFAULT_SUBJECT": "OpenCourseMatch",
-        "MAIL_REDIRECT_ALL_MAILS": false,
-        "MAIL_REDIRECT_ALL_MAILS_TO": ""
-    },
-    "SEO_SETTINGS": {
-        "SEO_DEFAULT_DESCRIPTION": "OpenCourseMatch",
-        "SEO_KEYWORDS": [],
-        "SEO_IMAGE_PREVIEW": "/static/img/seo/preview.jpg",
-        "SEO_OPENGRAPH": {
-            "OPENGRAPH_SITE_NAME": null
-        },
-        "SEO_TWITTER": {
-            "TWITTER_SITE": null,
-            "TWITTER_CREATOR": null
-        },
-        "SEO_ROBOTS": ["noindex", "nofollow"],
-        "SEO_REVISIT": "7 days"
-    }
+    "APP_NAME": "OpenCourseMatch",
+    "APP_URL": "http://localhost:3000",
+    "BASE_URI": "/",
+    "PRODUCTION": true,
+    "LOG_RECIPIENTS": [],
+    "LOG_LEVEL": 6,
+    "DB_HOST": "database",
+    "DB_USER": "opencoursematch",
+    "DB_PASS": "opencoursematch",
+    "DB_NAME": "opencoursematch",
+    "DB_ENABLED": true,
+    "SMTP_HOST": "smtp.localhost",
+    "SMTP_PORT": 25,
+    "SMTP_USER": "username",
+    "SMTP_PASS": "password",
+    "SMTP_SECURE": "tls",
+    "SMTP_AUTH": true,
+    "REDIRECT_ALL_MAILS": false,
+    "REDIRECT_ALL_MAILS_ADDRESS": "mail@opencoursematch"
 }

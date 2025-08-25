@@ -15,7 +15,7 @@ $validation = Validation->create()
 try {
     $get = $validation->getValidatedValue($_GET);
 } catch(\struktal\validation\ValidationException $e) {
-    new InfoMessage($e->getMessage(), InfoMessageType::ERROR);
+    InfoMessage->error($e->getMessage());
     Router->redirect(Router->generate("administrators-overview"));
 }
 
@@ -24,7 +24,7 @@ $account = $get["user"];
 $account->preDelete();
 User::dao()->delete($account);
 
-Logger::getLogger("Administrators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the administrator {$account->getId()} ({$account->getFullName()})");
+Logger->tag("Administrators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the administrator {$account->getId()} ({$account->getFullName()})");
 
-new InfoMessage(t("The administrator has been deleted."), InfoMessageType::SUCCESS);
+InfoMessage->success(t("The administrator has been deleted."));
 Router->redirect(Router->generate("administrators-overview"));

@@ -4,9 +4,9 @@ $user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("inde
 $coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
-    Comm::apiSendJson(HTTPResponses::$RESPONSE_METHOD_NOT_ALLOWED, [
+    \struktal\API\API::sendWrappedJson([
         "message" => t("An error has occurred whilst attempting to edit the course assignment. Please try again later.")
-    ]);
+    ], \struktal\API\HTTPResponse::METHOD_NOT_ALLOWED);
 }
 
 $validation = Validation->create()
@@ -20,9 +20,9 @@ $validation = Validation->create()
 try {
     $post = $validation->getValidatedValue($_POST);
 } catch(\struktal\validation\ValidationException $e) {
-    Comm::apiSendJson(HTTPResponses::$RESPONSE_BAD_REQUEST, [
+    \struktal\API\API::sendWrappedJson([
         "message" => $e->getMessage()
-    ]);
+    ], \struktal\API\HTTPResponse::BAD_REQUEST);
 }
 
 $course = $post["course"];
@@ -87,6 +87,6 @@ $html = Blade->run("assignment.components.edit.modal.movehere", [
     "course" => $course
 ]);
 
-Comm::apiSendJson(HTTPResponses::$RESPONSE_OK, [
+\struktal\API\API::sendWrappedJson([
     "html" => $html
 ]);
