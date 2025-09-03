@@ -682,22 +682,21 @@
         },
         {
             "name": "struktal/struktal-auth",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Struktal/struktal-auth.git",
-                "reference": "717ed75562368f3307c2711d461e6451bc13b13a"
+                "reference": "c644fd5afa898084df3640c068d5108903045507"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Struktal/struktal-auth/zipball/717ed75562368f3307c2711d461e6451bc13b13a",
-                "reference": "717ed75562368f3307c2711d461e6451bc13b13a",
+                "url": "https://api.github.com/repos/Struktal/struktal-auth/zipball/c644fd5afa898084df3640c068d5108903045507",
+                "reference": "c644fd5afa898084df3640c068d5108903045507",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2.0",
-                "struktal/struktal-orm": "^1.0.1",
-                "struktal/struktal-router": "^1.2.0"
+                "struktal/struktal-orm": "^1.0.1"
             },
             "type": "library",
             "autoload": {
@@ -717,9 +716,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Struktal/struktal-auth/issues",
-                "source": "https://github.com/Struktal/struktal-auth/tree/2.0.1"
+                "source": "https://github.com/Struktal/struktal-auth/tree/2.0.2"
             },
-            "time": "2025-08-01T15:47:34+00:00"
+            "time": "2025-09-02T11:20:05+00:00"
         },
         {
             "name": "struktal/struktal-composer-reader",
@@ -5125,7 +5124,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -5134,9 +5133,9 @@
         "ext-curl": "*",
         "ext-json": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
