@@ -59,6 +59,7 @@ COPY --from=builder --chown=nginx:nginx /app/struktal ./struktal
 COPY --from=builder --chown=nginx:nginx /app/public ./public
 COPY --from=builder --chown=nginx:nginx /app/src ./src
 COPY --from=builder --chown=nginx:nginx /app/vendor ./vendor
+COPY --from=builder --chown=nginx:nginx /app/composer.json ./composer.json
 COPY --chown=nginx:nginx ./docker/entrypoint.sh .
 
 # Copy server configurations
