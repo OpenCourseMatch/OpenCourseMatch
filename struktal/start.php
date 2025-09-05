@@ -15,7 +15,7 @@ const Config = new StruktalConfig();
 use struktal\Logger\Logger;
 use struktal\Logger\LogLevel;
 Logger::setLogDirectory(__APP_DIR__ . "/logs/");
-Logger::setMinLogLevel(LogLevel::from(Config->getLogLevel()));
+Logger::setMinLogLevel(LogLevel::tryFrom(Config->getLogLevel()) ?? LogLevel::TRACE);
 const Logger = new Logger("App");
 
 // Load project files
@@ -126,7 +126,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
         Router->redirect(Router->generate("500"));
     } else {
         // Show stack trace screen in development
-        echo Blade->run("components.shells.deverror", [
+        echo Blade->run("shells.deverror", [
             "exceptionName" => "Error " . $errno,
             "exceptionMessage" => $errstr,
             "trace" => [
@@ -157,7 +157,7 @@ set_exception_handler(function($exception) {
     } else {
         // Show stack trace screen in development
         $trace = $exception->getTrace();
-        echo Blade->run("components.shells.deverror", [
+        echo Blade->run("shells.deverror", [
             "exceptionName" => get_class($exception),
             "exceptionMessage" => $exception->getMessage(),
             "trace" => [

@@ -9,7 +9,7 @@ $breadcrumbs = [
     [
         "name" => t("Dashboard"),
         "link" => Router->generate("dashboard"),
-        "iconComponent" => "components.icons.dashboard"
+        "iconComponent" => "icons.dashboard"
     ],
     [
         "name" => t("System settings"),
@@ -17,7 +17,7 @@ $breadcrumbs = [
     ]
 ];
 
-echo Blade->run("systemsettings.systemsettings", [
+echo Blade->run("pages.systemsettings.systemsettings", [
     "breadcrumbs" => $breadcrumbs,
     "settings" => $settings,
     "defaultValues" => $defaultValues

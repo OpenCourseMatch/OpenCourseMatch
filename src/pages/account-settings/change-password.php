@@ -2,4 +2,4 @@
 
 $user = Auth->enforceLogin(PermissionLevel::USER->value, Router->generate("index"));
 
-echo Blade->run("accountsettings.changepassword");
+echo Blade->run("pages.accountsettings.changepassword");

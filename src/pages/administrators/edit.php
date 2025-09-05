@@ -25,7 +25,7 @@ $breadcrumbs = [
     [
         "name" => t("Dashboard"),
         "link" => Router->generate("dashboard"),
-        "iconComponent" => "components.icons.dashboard"
+        "iconComponent" => "icons.dashboard"
     ],
     [
         "name" => t("Administrators"),
@@ -37,7 +37,7 @@ $breadcrumbs = [
     ]
 ];
 
-echo Blade->run("administrators.edit", [
+echo Blade->run("pages.administrators.edit", [
     "breadcrumbs" => $breadcrumbs,
     "user" => $account ?? null
 ]);

@@ -1,4 +1,4 @@
-@component("pdf.components.pdfshell")
+@component("shells.pdf")
     @foreach($assignments as $i => $assignment)
         @if($assignment["course"] instanceof Course)
             <h2>
@@ -10,7 +10,7 @@
             </h2>
         @endif
 
-        @include("pdf.components.assignment", [
+        @include("ui.pdf.assignment", [
             "assignment" => $assignment
         ])
 

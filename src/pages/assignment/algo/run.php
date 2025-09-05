@@ -21,10 +21,10 @@ $breadcrumbs = [
     [
         "name" => t("Dashboard"),
         "link" => Router->generate("dashboard"),
-        "iconComponent" => "components.icons.dashboard"
+        "iconComponent" => "icons.dashboard"
     ]
 ];
 
-echo Blade->run("assignment.algo", [
+echo Blade->run("pages.assignment.algo", [
     "breadcrumbs" => $breadcrumbs
 ]);

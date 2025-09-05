@@ -82,7 +82,7 @@ usort($users, function(User $a, User $b) use ($course) {
     return $a->getFullName() <=> $b->getFullName();
 });
 
-$html = Blade->run("assignment.components.edit.modal.movehere", [
+$html = Blade->run("ui.assignment.modal.movehere", [
     "users" => $users,
     "course" => $course
 ]);

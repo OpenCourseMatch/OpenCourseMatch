@@ -6,7 +6,7 @@ $breadcrumbs = [
     [
         "name" => t("Dashboard"),
         "link" => Router->generate("dashboard"),
-        "iconComponent" => "components.icons.dashboard"
+        "iconComponent" => "icons.dashboard"
     ],
     [
         "name" => t("Reset system data"),
@@ -14,6 +14,6 @@ $breadcrumbs = [
     ]
 ];
 
-echo Blade->run("systemsettings.systemreset", [
+echo Blade->run("pages.systemsettings.systemreset", [
     "breadcrumbs" => $breadcrumbs
 ]);

@@ -1,4 +1,4 @@
-@component("pdf.components.pdfshell")
+@component("shells.pdf")
     @foreach($accounts as $i => $account)
         <h2>
             {{ t("Account credentials for \$\$name\$\$", [
@@ -6,7 +6,7 @@
             ]) }}
         </h2>
 
-        @include("pdf.components.accountcredentials", [
+        @include("ui.pdf.accountcredentials", [
             "account" => $account,
             "password" => $passwords[$account->getId()] ?? null,
             "loginQrCodeData" => $loginQrCodeData

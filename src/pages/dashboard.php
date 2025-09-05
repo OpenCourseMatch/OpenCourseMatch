@@ -19,4 +19,4 @@ if($user->getPermissionLevel() === PermissionLevel::ADMIN->value) {
     $variables["numberOfCourses"] = $courses;
 }
 
-echo Blade->run("dashboard", $variables);
+echo Blade->run("pages.dashboard", $variables);

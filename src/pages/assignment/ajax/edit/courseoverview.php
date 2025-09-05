@@ -60,7 +60,7 @@ if($post["course"] !== null) {
     $realParticipantCount = count($users);
 }
 
-$html = Blade->run("assignment.components.edit.courseoverview", [
+$html = Blade->run("ui.assignment.courseoverview", [
     "course" => $post["course"],
     "realParticipantCount" => $realParticipantCount,
     "courseWarnings" => $courseWarnings

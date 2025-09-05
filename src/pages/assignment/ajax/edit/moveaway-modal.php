@@ -140,7 +140,7 @@ usort($courses, function(Course $a, Course $b) use ($highlighting) {
     return $highlightA <=> $highlightB;
 });
 
-$html = Blade->run("assignment.components.edit.modal.moveaway", [
+$html = Blade->run("ui.assignment.modal.moveaway", [
     "account" => $account,
     "userWarnings" => $userWarnings,
     "leadingCourse" => $leadingCourse,

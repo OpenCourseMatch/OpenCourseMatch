@@ -6,7 +6,7 @@ $breadcrumbs = [
     [
         "name" => t("Dashboard"),
         "link" => Router->generate("dashboard"),
-        "iconComponent" => "components.icons.dashboard"
+        "iconComponent" => "icons.dashboard"
     ],
     [
         "name" => t("Participants and tutors"),
@@ -14,6 +14,6 @@ $breadcrumbs = [
     ]
 ];
 
-echo Blade->run("users.overview", [
+echo Blade->run("pages.users.overview", [
     "breadcrumbs" => $breadcrumbs
 ]);

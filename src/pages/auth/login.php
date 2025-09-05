@@ -5,4 +5,4 @@ if(Auth->isLoggedIn()) {
     Router->redirect(Router->generate("index"));
 }
 
-echo Blade->run("auth.login");
+echo Blade->run("pages.auth.login");

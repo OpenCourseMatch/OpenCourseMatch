@@ -312,7 +312,7 @@ $breadcrumbs = [
     [
         "name" => t("Dashboard"),
         "link" => Router->generate("dashboard"),
-        "iconComponent" => "components.icons.dashboard"
+        "iconComponent" => "icons.dashboard"
     ],
     [
         "name" => t("Statistics"),
@@ -320,7 +320,7 @@ $breadcrumbs = [
     ]
 ];
 
-echo Blade->run("statistics.overview", [
+echo Blade->run("pages.statistics.overview", [
     "breadcrumbs" => $breadcrumbs,
     "statistics" => $statistics,
     "customGroups" => $customGroups

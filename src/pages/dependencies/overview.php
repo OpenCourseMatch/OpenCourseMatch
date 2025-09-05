@@ -1,3 +1,3 @@
 <?php
 
-echo Blade->run("dependencies.overview");
+echo Blade->run("pages.dependencies.overview");

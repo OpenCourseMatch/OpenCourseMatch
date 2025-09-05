@@ -5,4 +5,4 @@ if($user instanceof User) {
     Router->redirect(Router->generate("dashboard"));
 }
 
-echo Blade->run("index");
+echo Blade->run("pages.index");

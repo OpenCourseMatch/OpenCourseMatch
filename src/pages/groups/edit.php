@@ -23,7 +23,7 @@ $breadcrumbs = [
     [
         "name" => t("Dashboard"),
         "link" => Router->generate("dashboard"),
-        "iconComponent" => "components.icons.dashboard"
+        "iconComponent" => "icons.dashboard"
     ],
     [
         "name" => t("Groups"),
@@ -35,7 +35,7 @@ $breadcrumbs = [
     ]
 ];
 
-echo Blade->run("groups.edit", [
+echo Blade->run("pages.groups.edit", [
     "breadcrumbs" => $breadcrumbs,
     "group" => $group ?? null
 ]);
