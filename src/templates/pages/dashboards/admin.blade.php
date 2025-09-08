@@ -156,7 +156,7 @@
         ])
         @include("ui.dashboardlink", [
             "icon" => "icons.reset",
-            "href" => Router->generate("course-assignment-reset-confirm"),
+            "href" => Router->generate("course-assignment-reset"),
             "title" => t("Reset course assignment"),
             "description" => t("Reset the course assignment to re-run the assignment algorithm."),
             "scheme" => BoxScheme::DANGER

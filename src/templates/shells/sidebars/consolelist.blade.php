@@ -129,9 +129,9 @@
                 {{ t("Export course assignment") }}
             @endcomponent
             @component("shells.sidebars.sidebaritem", [
-                "href" => Router->generate("course-assignment-reset-confirm"),
+                "href" => Router->generate("course-assignment-reset"),
                 "icon" => "icons.reset",
-                "active" => in_array(Router->getCalledRouteName(), [ "course-assignment-reset-confirm" ])
+                "active" => in_array(Router->getCalledRouteName(), [ "course-assignment-reset" ])
             ])
                 {{ t("Reset course assignment") }}
             @endcomponent
