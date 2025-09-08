@@ -1,5 +1,5 @@
 @component("shells.console", [
-    "title" => t("Reset system data"),
+    "title" => t("Reset course assignment"),
     "breadcrumbs" => $breadcrumbs ?? []
 ])
     <h1 class="mb-2">
