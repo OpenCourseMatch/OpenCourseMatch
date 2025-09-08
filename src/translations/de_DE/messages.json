@@ -176,6 +176,7 @@
     "An error has occurred whilst attempting to assign the courses to the participants. Please try again later.": "Beim Einteilen der Teilnehmer zu den Kursen ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
     "Reset course assignment": "Kurseinteilung zurücksetzen",
     "Reset the course assignment to re-run the assignment algorithm.": "Setzen Sie die Kurseinteilung zurück, um den Einteilungsalgorithmus erneut auszuführen.",
+    "Do you really want to reset the course assignment?": "Möchten Sie die Kurseinteilung wirklich zurücksetzen?",
     "The course assignment has been reset.": "Die Kurseinteilung wurde zurückgesetzt.",
     "An error has occurred whilst attempting to reset the course assignment. Please try again later.": "Beim Zurücksetzen der Kurseinteilung ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
     "Export course assignment": "Kurseinteilung exportieren",

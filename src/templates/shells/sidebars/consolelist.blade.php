@@ -128,7 +128,13 @@
             ])
                 {{ t("Export course assignment") }}
             @endcomponent
-            {{-- TODO: Reset --}}
+            @component("shells.sidebars.sidebaritem", [
+                "href" => Router->generate("course-assignment-reset-confirm"),
+                "icon" => "icons.reset",
+                "active" => in_array(Router->getCalledRouteName(), [ "course-assignment-reset-confirm" ])
+            ])
+                {{ t("Reset course assignment") }}
+            @endcomponent
         @endif
 
         <span class="text-xl font-bold mt-4">

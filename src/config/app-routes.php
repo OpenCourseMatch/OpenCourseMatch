@@ -66,7 +66,8 @@ Router->addRoute("GET", "/courses/delete/{i:course}", "courses/delete.php", "cou
 Router->addRoute("GET", "/course-assignment", "assignment/algo/run.php", "course-assignment-run");
 Router->addRoute("POST", "/course-assignment/status", "assignment/algo/status.php", "course-assignment-status");
 Router->addRoute("GET", "/course-assignment/redirect", "assignment/algo/redirect.php", "course-assignment-redirect");
-Router->addRoute("GET", "/course-assignment/reset", "assignment/reset.php", "course-assignment-reset");
+Router->addRoute("GET", "/course-assignment/reset/confirm", "assignment/reset-confirm.php", "course-assignment-reset-confirm");
+Router->addRoute("POST", "/course-assignment/reset", "assignment/reset.php", "course-assignment-reset");
 Router->addRoute("GET", "/course-assignment/export", "assignment/export.php", "course-assignment-export");
 Router->addRoute("GET", "/course-assignment/edit", "assignment/edit.php", "course-assignment-edit");
 Router->addRoute("POST", "/course-assignment/ajax/edit/courseoverview", "assignment/ajax/edit/courseoverview.php", "course-assignment-edit-courseoverview");
