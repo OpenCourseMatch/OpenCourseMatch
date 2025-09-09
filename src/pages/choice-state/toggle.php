@@ -4,6 +4,19 @@ $user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("inde
 
 $userActionsAllowed = SystemStatus::dao()->get("userActionsAllowed") === "true";
 
+$breadcrumbs = [
+    [
+        "name" => t("Dashboard"),
+        "link" => Router->generate("dashboard"),
+        "iconComponent" => "icons.dashboard"
+    ],
+    [
+        "name" => $userActionsAllowed ? t("Disable course selection") : t("Enable course selection"),
+        "link" => Router->generate("choice-state-toggle")
+    ]
+];
+
 echo Blade->run("pages.choice-state.toggle", [
-    "userActionsAllowed" => $userActionsAllowed
+    "userActionsAllowed" => $userActionsAllowed,
+    "breadcrumbs" => $breadcrumbs
 ]);
