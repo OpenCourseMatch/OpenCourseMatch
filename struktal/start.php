@@ -115,6 +115,17 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
     $message .= "\"" . $errstr . "\"";
     $message .= " in " . $errfile . " on line " . $errline;
     try {
+        if($errno === E_USER_NOTICE) {
+            Logger->tag("PHP")->info($message);
+            return;
+        } else if($errno === E_USER_WARNING) {
+            Logger->tag("PHP")->warn($message);
+            return;
+        } else if($errno === E_USER_DEPRECATED) {
+            Logger->tag("PHP")->warn($message);
+            return;
+        }
+
         Logger->tag("PHP")->error($message);
     } catch(Error|Exception $e) {
         // If the logger fails, log to the default PHP error log

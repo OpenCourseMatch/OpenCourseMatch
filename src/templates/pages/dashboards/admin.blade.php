@@ -177,7 +177,7 @@
     ])
     @include("ui.dashboardlink", [
         "icon" => "icons.user",
-        "href" => Router->generate("user-actions-toggle"),
+        "href" => Router->generate("choice-state-toggle"),
         "title" => SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Course selection enabled") : t("Course selection disabled"),
         "description" => SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Disable the course selection for users.") : t("Enable the course selection for users."),
         "scheme" => SystemStatus::dao()->get("userActionsAllowed") === "true" ? BoxScheme::PRIMARY : BoxScheme::DANGER

@@ -128,7 +128,13 @@
             ])
                 {{ t("Export course assignment") }}
             @endcomponent
-            {{-- TODO: Reset --}}
+            @component("shells.sidebars.sidebaritem", [
+                "href" => Router->generate("course-assignment-reset"),
+                "icon" => "icons.reset",
+                "active" => in_array(Router->getCalledRouteName(), [ "course-assignment-reset" ])
+            ])
+                {{ t("Reset course assignment") }}
+            @endcomponent
         @endif
 
         <span class="text-xl font-bold mt-4">
@@ -151,6 +157,13 @@
             "active" => in_array(Router->getCalledRouteName(), [ "system-settings" ])
         ])
             {{ t("System settings") }}
+        @endcomponent
+        @component("shells.sidebars.sidebaritem", [
+            "href" => Router->generate("choice-state-toggle"),
+            "icon" => "icons.user",
+            "active" => in_array(Router->getCalledRouteName(), [ "choice-state-toggle" ])
+        ])
+            {{ SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Disable course selection") : t("Enable course selection") }}
         @endcomponent
         @component("shells.sidebars.sidebaritem", [
             "href" => Router->generate("system-reset"),

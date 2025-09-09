@@ -67,6 +67,7 @@ Router->addRoute("GET", "/course-assignment", "assignment/algo/run.php", "course
 Router->addRoute("POST", "/course-assignment/status", "assignment/algo/status.php", "course-assignment-status");
 Router->addRoute("GET", "/course-assignment/redirect", "assignment/algo/redirect.php", "course-assignment-redirect");
 Router->addRoute("GET", "/course-assignment/reset", "assignment/reset.php", "course-assignment-reset");
+Router->addRoute("POST", "/course-assignment/reset-action", "assignment/reset-action.php", "course-assignment-reset-action");
 Router->addRoute("GET", "/course-assignment/export", "assignment/export.php", "course-assignment-export");
 Router->addRoute("GET", "/course-assignment/edit", "assignment/edit.php", "course-assignment-edit");
 Router->addRoute("POST", "/course-assignment/ajax/edit/courseoverview", "assignment/ajax/edit/courseoverview.php", "course-assignment-edit-courseoverview");
@@ -84,7 +85,8 @@ Router->addRoute("GET", "/system-reset", "system-settings/system-reset.php", "sy
 Router->addRoute("POST", "/system-reset/action", "system-settings/system-reset-action.php", "system-reset-action");
 
 // Toggle user actions
-Router->addRoute("GET", "/user-actions/toggle", "user-actions/toggle.php", "user-actions-toggle");
+Router->addRoute("GET", "/choice-state/toggle", "choice-state/toggle.php", "choice-state-toggle");
+Router->addRoute("POST", "/choice-state/toggle-action", "choice-state/toggle-action.php", "choice-state-toggle-action");
 
 // Choice (for users)
 Router->addRoute("GET", "/choice", "choice/edit.php", "choice-edit");
