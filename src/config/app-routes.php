@@ -85,7 +85,8 @@ Router->addRoute("GET", "/system-reset", "system-settings/system-reset.php", "sy
 Router->addRoute("POST", "/system-reset/action", "system-settings/system-reset-action.php", "system-reset-action");
 
 // Toggle user actions
-Router->addRoute("GET", "/user-actions/toggle", "user-actions/toggle.php", "user-actions-toggle");
+Router->addRoute("GET", "/choice-state/toggle", "choice-state/toggle.php", "choice-state-toggle");
+Router->addRoute("POST", "/choice-state/toggle-action", "choice-state/toggle-action.php", "choice-state-toggle-action");
 
 // Choice (for users)
 Router->addRoute("GET", "/choice", "choice/edit.php", "choice-edit");

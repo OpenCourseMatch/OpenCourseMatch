@@ -217,6 +217,8 @@
     "The number of courses that the participants have to choose": "Die Anzahl der Kurse, die die Teilnehmer wählen müssen",
     "The participants have to choose at least one course.": "Die Teilnehmer müssen mindestens einen Kurs wählen.",
     "The system settings have been saved.": "Die Systemeinstellungen wurden gespeichert.",
+    "Enable course selection": "Kurswahl aktivieren",
+    "Disable course selection": "Kurswahl deaktivieren",
     "Course selection enabled": "Kurswahl aktiviert",
     "Course selection disabled": "Kurswahl deaktiviert",
     "Disable the course selection for users.": "Deaktivieren Sie die Kurswahl für Nutzer.",

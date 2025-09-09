@@ -217,6 +217,8 @@
     "The number of courses that the participants have to choose": "The number of courses that the participants have to choose",
     "The participants have to choose at least one course.": "The participants have to choose at least one course.",
     "The system settings have been saved.": "The system settings have been saved.",
+    "Enable course selection": "Enable course selection",
+    "Disable course selection": "Disable course selection",
     "Course selection enabled": "Choosing courses enabled",
     "Course selection disabled": "Choosing courses disabled",
     "Disable the course selection for users.": "Disable the course selection for users.",
