@@ -159,6 +159,13 @@
             {{ t("System settings") }}
         @endcomponent
         @component("shells.sidebars.sidebaritem", [
+            "href" => Router->generate("choice-state-toggle"),
+            "icon" => "icons.user",
+            "active" => in_array(Router->getCalledRouteName(), [ "choice-state-toggle" ])
+        ])
+            {{ SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Disable course selection") : t("Enable course selection") }}
+        @endcomponent
+        @component("shells.sidebars.sidebaritem", [
             "href" => Router->generate("system-reset"),
             "icon" => "icons.reset",
             "active" => in_array(Router->getCalledRouteName(), [ "system-reset" ])
