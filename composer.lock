@@ -1144,16 +1144,16 @@
         },
         {
             "name": "struktal/struktal-translator",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Struktal/struktal-translator.git",
-                "reference": "3a2e93380a0d00bb939f6e189b413616d1974b99"
+                "reference": "7820966a4e0dcfe8c8e4e905a6483bfb3952d9d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Struktal/struktal-translator/zipball/3a2e93380a0d00bb939f6e189b413616d1974b99",
-                "reference": "3a2e93380a0d00bb939f6e189b413616d1974b99",
+                "url": "https://api.github.com/repos/Struktal/struktal-translator/zipball/7820966a4e0dcfe8c8e4e905a6483bfb3952d9d5",
+                "reference": "7820966a4e0dcfe8c8e4e905a6483bfb3952d9d5",
                 "shasum": ""
             },
             "require": {
@@ -1176,9 +1176,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Struktal/struktal-translator/issues",
-                "source": "https://github.com/Struktal/struktal-translator/tree/1.0.0"
+                "source": "https://github.com/Struktal/struktal-translator/tree/1.1.0"
             },
-            "time": "2025-08-22T08:38:50+00:00"
+            "time": "2025-09-17T15:32:59+00:00"
         },
         {
             "name": "struktal/struktal-validation",
@@ -5128,7 +5128,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -5137,9 +5137,9 @@
         "ext-curl": "*",
         "ext-json": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
