@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "050dd93d81206066dd45d2d088fd345a",
+    "content-hash": "7560107db19402f4312edb752988d89a",
     "packages": [
         {
             "name": "chillerlan/php-qrcode",
@@ -682,21 +682,21 @@
         },
         {
             "name": "struktal/struktal-auth",
-            "version": "2.0.2",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Struktal/struktal-auth.git",
-                "reference": "c644fd5afa898084df3640c068d5108903045507"
+                "reference": "e9615899bba4402171283fea94ac2045afe2c137"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Struktal/struktal-auth/zipball/c644fd5afa898084df3640c068d5108903045507",
-                "reference": "c644fd5afa898084df3640c068d5108903045507",
+                "url": "https://api.github.com/repos/Struktal/struktal-auth/zipball/e9615899bba4402171283fea94ac2045afe2c137",
+                "reference": "e9615899bba4402171283fea94ac2045afe2c137",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2.0",
-                "struktal/struktal-orm": "^1.0.1"
+                "struktal/struktal-orm": "^2.4.0"
             },
             "type": "library",
             "autoload": {
@@ -716,9 +716,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Struktal/struktal-auth/issues",
-                "source": "https://github.com/Struktal/struktal-auth/tree/2.0.2"
+                "source": "https://github.com/Struktal/struktal-auth/tree/4.0.0"
             },
-            "time": "2025-09-02T11:20:05+00:00"
+            "time": "2025-10-05T18:03:11+00:00"
         },
         {
             "name": "struktal/struktal-composer-reader",
@@ -989,16 +989,16 @@
         },
         {
             "name": "struktal/struktal-logger",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Struktal/struktal-logger.git",
-                "reference": "af3ee3be27df1f5375d1b805d71d2d85dec7f077"
+                "reference": "551ccd5b9bee129185ca04c0b8a7b4a1c50a2b36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Struktal/struktal-logger/zipball/af3ee3be27df1f5375d1b805d71d2d85dec7f077",
-                "reference": "af3ee3be27df1f5375d1b805d71d2d85dec7f077",
+                "url": "https://api.github.com/repos/Struktal/struktal-logger/zipball/551ccd5b9bee129185ca04c0b8a7b4a1c50a2b36",
+                "reference": "551ccd5b9bee129185ca04c0b8a7b4a1c50a2b36",
                 "shasum": ""
             },
             "require": {
@@ -1020,22 +1020,22 @@
             ],
             "support": {
                 "issues": "https://github.com/Struktal/struktal-logger/issues",
-                "source": "https://github.com/Struktal/struktal-logger/tree/1.0.1"
+                "source": "https://github.com/Struktal/struktal-logger/tree/1.0.2"
             },
-            "time": "2025-08-20T16:10:48+00:00"
+            "time": "2025-09-17T15:07:01+00:00"
         },
         {
             "name": "struktal/struktal-orm",
-            "version": "1.0.2",
+            "version": "2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Struktal/struktal-orm.git",
-                "reference": "4539a2f496ef785b3e92f3ba9117733a3bf9318c"
+                "reference": "10a75cbb6f147ab55a57f847944e120e7198adda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Struktal/struktal-orm/zipball/4539a2f496ef785b3e92f3ba9117733a3bf9318c",
-                "reference": "4539a2f496ef785b3e92f3ba9117733a3bf9318c",
+                "url": "https://api.github.com/repos/Struktal/struktal-orm/zipball/10a75cbb6f147ab55a57f847944e120e7198adda",
+                "reference": "10a75cbb6f147ab55a57f847944e120e7198adda",
                 "shasum": ""
             },
             "require": {
@@ -1063,9 +1063,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Struktal/struktal-orm/issues",
-                "source": "https://github.com/Struktal/struktal-orm/tree/1.0.2"
+                "source": "https://github.com/Struktal/struktal-orm/tree/2.4.2"
             },
-            "time": "2025-08-12T11:46:47+00:00"
+            "time": "2025-09-14T16:51:46+00:00"
         },
         {
             "name": "struktal/struktal-phpmailer-wrapper",
@@ -1144,16 +1144,16 @@
         },
         {
             "name": "struktal/struktal-translator",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Struktal/struktal-translator.git",
-                "reference": "3a2e93380a0d00bb939f6e189b413616d1974b99"
+                "reference": "7820966a4e0dcfe8c8e4e905a6483bfb3952d9d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Struktal/struktal-translator/zipball/3a2e93380a0d00bb939f6e189b413616d1974b99",
-                "reference": "3a2e93380a0d00bb939f6e189b413616d1974b99",
+                "url": "https://api.github.com/repos/Struktal/struktal-translator/zipball/7820966a4e0dcfe8c8e4e905a6483bfb3952d9d5",
+                "reference": "7820966a4e0dcfe8c8e4e905a6483bfb3952d9d5",
                 "shasum": ""
             },
             "require": {
@@ -1176,28 +1176,28 @@
             ],
             "support": {
                 "issues": "https://github.com/Struktal/struktal-translator/issues",
-                "source": "https://github.com/Struktal/struktal-translator/tree/1.0.0"
+                "source": "https://github.com/Struktal/struktal-translator/tree/1.1.0"
             },
-            "time": "2025-08-22T08:38:50+00:00"
+            "time": "2025-09-17T15:32:59+00:00"
         },
         {
             "name": "struktal/struktal-validation",
-            "version": "1.0.3",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Struktal/struktal-validation.git",
-                "reference": "50c914b4146dd4a663717b8913545eaaa72e1be4"
+                "reference": "2edfa3525c73f45b613b9b0f6c418bffa80736bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Struktal/struktal-validation/zipball/50c914b4146dd4a663717b8913545eaaa72e1be4",
-                "reference": "50c914b4146dd4a663717b8913545eaaa72e1be4",
+                "url": "https://api.github.com/repos/Struktal/struktal-validation/zipball/2edfa3525c73f45b613b9b0f6c418bffa80736bf",
+                "reference": "2edfa3525c73f45b613b9b0f6c418bffa80736bf",
                 "shasum": ""
             },
             "require": {
                 "ext-pdo": "*",
                 "php": ">=8.2.0",
-                "struktal/struktal-orm": "^1.0.1"
+                "struktal/struktal-orm": "^2.2.0"
             },
             "require-dev": {
                 "pestphp/pest": "~v3.8.2"
@@ -1220,9 +1220,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Struktal/struktal-validation/issues",
-                "source": "https://github.com/Struktal/struktal-validation/tree/1.0.3"
+                "source": "https://github.com/Struktal/struktal-validation/tree/2.1.0"
             },
-            "time": "2025-08-01T16:01:44+00:00"
+            "time": "2025-10-02T09:22:23+00:00"
         }
     ],
     "packages-dev": [
@@ -5128,7 +5128,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -5137,9 +5137,9 @@
         "ext-curl": "*",
         "ext-json": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

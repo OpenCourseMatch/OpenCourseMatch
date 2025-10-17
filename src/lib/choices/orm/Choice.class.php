@@ -1,6 +1,10 @@
 <?php
 
-class Choice extends \struktal\ORM\GenericObject {
+namespace app\choices;
+
+use \app\courses\Course;
+
+class Choice extends \struktal\ORM\GenericEntity {
     public ?int $userId = null;
     public ?int $courseId = null;
     public ?int $priority = null;

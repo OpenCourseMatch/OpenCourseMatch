@@ -8,31 +8,30 @@ require_once(__APP_DIR__ . "/struktal/src/ClassLoader.class.php");
 $classLoader = ClassLoader::getInstance();
 
 // Setup utility Composer libraries
-use struktal\Config\StruktalConfig;
+use \struktal\Config\StruktalConfig;
 StruktalConfig::setConfigFilePath(__APP_DIR__ . "/config/config.json");
 const Config = new StruktalConfig();
 
-use struktal\Logger\Logger;
-use struktal\Logger\LogLevel;
+use \struktal\Logger\Logger;
+use \struktal\Logger\LogLevel;
 Logger::setLogDirectory(__APP_DIR__ . "/logs/");
 Logger::setMinLogLevel(LogLevel::tryFrom(Config->getLogLevel()) ?? LogLevel::TRACE);
 const Logger = new Logger("App");
 
 // Load project files
-$classLoader->loadClasses(__APP_DIR__ . "/src/lib/");
-$classLoader->loadEnums(__APP_DIR__ . "/src/lib/");
+$classLoader->loadDirectory(__APP_DIR__ . "/src/lib/");
 
 unset($classLoader);
 
 // Setup Composer libraries
-use struktal\Router\Router;
+use \struktal\Router\Router;
+Router::setPagesDirectory(__APP_DIR__ . "/src/pages/");
+Router::setAppUrl(Config->getAppUrl());
+Router::setAppBaseUri(Config->getBaseUri());
+Router::setStaticDirectoryUri("static/");
 const Router = new Router();
-Router->setPagesDirectory(__APP_DIR__ . "/src/pages/");
-Router->setAppUrl(Config->getAppUrl());
-Router->setAppBaseUri(Config->getBaseUri());
-Router->setStaticDirectoryUri("static/");
 
-use struktal\ORM\Database\Database;
+use \struktal\ORM\Database\Database;
 if(Config->databaseEnabled()) {
     Database::connect(
         Config->getDatabaseHost(),
@@ -42,15 +41,15 @@ if(Config->databaseEnabled()) {
     );
 }
 
-use struktal\Auth\Auth;
+use \struktal\Auth\Auth;
+Auth::setUserObjectName(\app\users\User::class);
 const Auth = new Auth();
-Auth->setUserObjectName(User::class);
 
-use struktal\validation\ValidationBuilder;
+use \struktal\validation\ValidationBuilder;
 const Validation = new ValidationBuilder();
 
-use struktal\Translator\Translator;
-use struktal\Translator\LanguageUtil;
+use \struktal\Translator\Translator;
+use \struktal\Translator\LanguageUtil;
 Translator::setTranslationsDirectory(__APP_DIR__ . "/src/translations/");
 Translator::setDomain("messages");
 Translator::setLocale(LanguageUtil::getPreferredLocale());
@@ -59,7 +58,7 @@ const Translator = new Translator();
 use eftec\bladeone\BladeOne;
 const Blade = new BladeOne(__APP_DIR__ . "/src/templates", __APP_DIR__ . "/template-cache", BladeOne::MODE_DEBUG);
 
-use struktal\MailWrapper\MailWrapper;
+use \struktal\MailWrapper\MailWrapper;
 MailWrapper::setSetupFunction(function(MailWrapper $mailWrapper) {
     $mailWrapper->isSMTP();
     $mailWrapper->Host = Config->getSmtpHost();
@@ -75,10 +74,10 @@ MailWrapper::setRedirectAllMails(
     Config->getRedirectMailAddress()
 );
 
-use struktal\InfoMessage\InfoMessageHandler;
+use \struktal\InfoMessage\InfoMessageHandler;
 const InfoMessage = new InfoMessageHandler();
 
-use struktal\ComposerReader\ComposerReader;
+use \struktal\ComposerReader\ComposerReader;
 ComposerReader::setProjectDirectory(__APP_DIR__);
 const ComposerReader = new ComposerReader();
 

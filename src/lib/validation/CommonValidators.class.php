@@ -1,6 +1,7 @@
 <?php
 
-use \struktal\validation\internals\Validator;
+use app\courses\Course;
+use struktal\validation\internals\Validator;
 
 class CommonValidators {
     public static function name(): Validator {
