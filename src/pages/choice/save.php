@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::USER->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::USER, Router->generate("index"));
 
 if($user->getPermissionLevel() > PermissionLevel::USER->value) {
     InfoMessage->error(t("Choosing courses is only available to participants and tutors."));

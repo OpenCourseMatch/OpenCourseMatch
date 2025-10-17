@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 
 $validation = Validation->create()
     ->withErrorMessage(t("Please fill out all the required fields."))

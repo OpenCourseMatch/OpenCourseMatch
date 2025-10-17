@@ -1,6 +1,6 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::FACILITATOR, Router->generate("index"));
 
 $validation = Validation->create()
     ->array()
