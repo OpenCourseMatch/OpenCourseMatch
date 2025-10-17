@@ -1,7 +1,19 @@
 <?php
 
+use \app\courses\Course;
+use \app\courses\CourseService;
+use \app\users\User;
+use \app\users\PermissionLevel;
+use \app\users\UserService;
+use \app\choices\Choice;
+use \app\choices\ChoiceService;
+use \app\assignments\Assignment;
+use \app\assignments\AssignmentService;
+use \app\groups\Group;
+use \app\groups\GroupService;
+
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
-$coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
+$coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
     \struktal\API\API::sendWrappedJson([
@@ -9,7 +21,7 @@ if(!$coursesAssigned) {
     ], \struktal\API\HTTPResponse::METHOD_NOT_ALLOWED);
 }
 
-$validation = Validation->create()
+$post = Validation->create()
     ->withErrorMessage(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."))
     ->array()
     ->required()
@@ -18,27 +30,23 @@ $validation = Validation->create()
             "permissionLevel" => PermissionLevel::USER->value
         ])
     ])
-    ->build();
-try {
-    $post = $validation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    \struktal\API\API::sendWrappedJson([
-        "message" => $e->getMessage()
-    ], \struktal\API\HTTPResponse::BAD_REQUEST);
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) {
+        \struktal\API\API::sendWrappedJson([
+            "message" => $e->getMessage()
+        ], \struktal\API\HTTPResponse::BAD_REQUEST);
+    });
 
+/** @var User $account */
 $account = $post["user"];
 
 // Get warnings for the user
 $userWarnings = [];
-$assignment = Assignment::dao()->getObject([
-    "userId" => $account->getId()
-]);
+$assignment = AssignmentService::getAssignmentForUser($account);
 if($assignment instanceof Assignment) {
     $course = $assignment->getCourse();
 
     // Check if the user has chosen the course
-    $chosenCourses = $account->getChoices();
+    $chosenCourses = ChoiceService::getChoicesOfUser($account);
     $chosenCourseIds = array_map(function(?Choice $choice) {
         return $choice?->getCourseId();
     }, $chosenCourses);
@@ -52,14 +60,16 @@ if($assignment instanceof Assignment) {
     }
 
     // Check if the user has to be assigned to his own course
-    if($account->getLeadingCourse() !== null && !$account->getLeadingCourse()->isCancelled() && $account->getLeadingCourseId() !== $course->getId()) {
+    $leadingCourse = $account->getLeadingCourse();
+    if($leadingCourse instanceof Course && !CourseService::isCancelled($leadingCourse) && $leadingCourse->getId()() !== $course->getId()) {
         $userWarnings[] = t("This user is not assigned to the course that they are leading.");
     }
 } else {
     $userWarnings[] = t("This user is not assigned to any course.");
 
     // Check if the user has to be assigned to his own course
-    if($account->getLeadingCourse() !== null && !$account->getLeadingCourse()->isCancelled()) {
+    $leadingCourse = $account->getLeadingCourse();
+    if($leadingCourse instanceof Course && !CourseService::isCancelled($leadingCourse)) {
         $userWarnings[] = t("This user is not assigned to the course that they are leading.");
     }
 }
@@ -70,10 +80,11 @@ $courses = Course::dao()->getObjects([], "minClearance");
 // Course highlighting
 $highlighting = [];
 $courseWarnings = [];
+/** @var Course $course */
 foreach($courses as $course) {
-    $spaceLeft = $course->isSpaceLeft();
+    $spaceLeft = CourseService::isSpaceLeft($course);
     $fulfillsRequirements = $course->canChooseCourse($account);
-    $isCancelled = $course->isCancelled();
+    $isCancelled = CourseService::isCancelled($course);
     $courseLeader = $course->getId() === $account->getLeadingCourseId();
 
     if(!$spaceLeft && !$courseLeader) {
@@ -118,7 +129,7 @@ array_filter($courses, function(Course $course) use ($post, $leadingCourse) {
 });
 
 $chosenCourses = [];
-foreach($account->getChoices() as $choice) {
+foreach(ChoiceService::getChoicesOfUser($account) as $choice) {
     if($choice instanceof Choice) {
         $chosenCourse = $choice->getCourse();
         if($chosenCourse instanceof Course) {

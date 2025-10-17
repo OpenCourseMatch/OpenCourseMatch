@@ -1,7 +1,19 @@
 <?php
 
+use \app\courses\Course;
+use \app\courses\CourseService;
+use \app\users\User;
+use \app\users\PermissionLevel;
+use \app\users\UserService;
+use \app\choices\Choice;
+use \app\choices\ChoiceService;
+use \app\assignments\Assignment;
+use \app\assignments\AssignmentService;
+use \app\groups\Group;
+use \app\groups\GroupService;
+
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
-$coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
+$coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
     \struktal\API\API::sendWrappedJson([
@@ -9,25 +21,24 @@ if(!$coursesAssigned) {
     ], \struktal\API\HTTPResponse::METHOD_NOT_ALLOWED);
 }
 
-$validation = Validation->create()
+$get = Validation->create()
     ->withErrorMessage(t("An error has occurred whilst loading the course overview. Please try again later."))
     ->array()
     ->required()
     ->children([
         "course" => CommonValidators::course(false)
     ])
-    ->build();
-try {
-    $get = $validation->getValidatedValue($_GET);
-} catch(\struktal\validation\ValidationException $e) {
-    \struktal\API\API::sendWrappedJson([
-        "message" => $e->getMessage()
-    ], \struktal\API\HTTPResponse::BAD_REQUEST);
-}
+    ->validate($_GET, function(\struktal\validation\ValidationException $e) {
+        \struktal\API\API::sendWrappedJson([
+            "message" => $e->getMessage()
+        ], \struktal\API\HTTPResponse::BAD_REQUEST);
+    });
 
-if($get["course"] !== null) {
+if($get["course"] instanceof Course) {
+    $course = $get["course"];
+
     // Load the assigned users of the course
-    $users = $get["course"]->getAssignedUsers();
+    $users = CourseService::getAssignedUsers($course);
 } else {
     // Load unassigned users
     $users = User::dao()->getUnassignedUsers();
@@ -63,19 +74,24 @@ function calculateTableHighlighting(bool $isCourseLeader, array $get, User $acco
         }
 
         // Checking whether the user is leading a course which takes place, but he is not assigned to it
-        if($account->getLeadingCourse() !== null && !$account->getLeadingCourse()->isCancelled() && $account->getLeadingCourseId() !== $get["course"]?->getId()) {
+        $leadingCourse = $account->getLeadingCourse();
+        if($leadingCourse instanceof Course && !CourseService::isCancelled($leadingCourse) && $leadingCourse->getId() !== $get["course"]?->getId()) {
             return 2; // Yellow
         }
 
         // Then we iterate over the chosen courses and check if there is another one with space left AND whether the user has actually chosen the current course
         $canBeReassigned = false;
         $hasChosenCourse = false;
-        foreach($account->getChoices() as $choice) {
+        foreach(ChoiceService::getChoicesOfUser($account) as $choice) {
             if($choice instanceof Choice) {
                 $chosenCourse = $choice->getCourse();
                 $notSameCourse = $chosenCourse?->getId() !== $get["course"]?->getId();
-                $notCancelled = !$chosenCourse?->isCancelled() ?? false;
-                $isSpaceLeft = $chosenCourse?->isSpaceLeft() ?? false;
+                $notCancelled = false;
+                $isSpaceLeft = false;
+                if($chosenCourse instanceof Course) {
+                    $notCancelled = !CourseService::isCancelled($chosenCourse);
+                    $isSpaceLeft = CourseService::isSpaceLeft($chosenCourse);
+                }
 
                 if(!$notSameCourse) {
                     $hasChosenCourse = true;

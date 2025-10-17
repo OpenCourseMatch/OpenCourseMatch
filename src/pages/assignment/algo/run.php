@@ -2,8 +2,8 @@
 
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 
-$algorithmRunning = SystemStatus::dao()->get("algorithmRunning") === "true";
-$coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
+$algorithmRunning = \app\settings\SystemStatus::dao()->get("algorithmRunning") === "true";
+$coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if($algorithmRunning) {
     InfoMessage->error(t("The course assignment algorithm is currently running. Please wait until it has finished."));

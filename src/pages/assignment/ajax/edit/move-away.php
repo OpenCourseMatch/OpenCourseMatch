@@ -1,7 +1,19 @@
 <?php
 
+use \app\courses\Course;
+use \app\courses\CourseService;
+use \app\users\User;
+use \app\users\PermissionLevel;
+use \app\users\UserService;
+use \app\choices\Choice;
+use \app\choices\ChoiceService;
+use \app\assignments\Assignment;
+use \app\assignments\AssignmentService;
+use \app\groups\Group;
+use \app\groups\GroupService;
+
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
-$coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
+$coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
     \struktal\API\API::sendWrappedJson([
@@ -9,7 +21,7 @@ if(!$coursesAssigned) {
     ], \struktal\API\HTTPResponse::METHOD_NOT_ALLOWED);
 }
 
-$getValidation = Validation->create()
+$get = Validation->create()
     ->withErrorMessage(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."))
     ->array()
     ->required()
@@ -18,29 +30,29 @@ $getValidation = Validation->create()
             "permissionLevel" => PermissionLevel::USER->value
         ])
     ])
-    ->build();
+    ->validate($_GET, function(\struktal\validation\ValidationException $e) {
+        \struktal\API\API::sendWrappedJson([
+            "message" => $e->getMessage()
+        ], \struktal\API\HTTPResponse::BAD_REQUEST);
+    });
 
-$postValidation = Validation->create()
+$post = Validation->create()
     ->withErrorMessage(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."))
     ->array()
     ->required()
     ->children([
         "course" => CommonValidators::course(false)
     ])
-    ->build();
-try {
-    $get = $getValidation->getValidatedValue($_GET);
-    $post = $postValidation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    \struktal\API\API::sendWrappedJson([
-        "message" => $e->getMessage()
-    ], \struktal\API\HTTPResponse::BAD_REQUEST);
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) {
+        \struktal\API\API::sendWrappedJson([
+            "message" => $e->getMessage()
+        ], \struktal\API\HTTPResponse::BAD_REQUEST);
+    });
 
-$assignment = Assignment::dao()->getObject([
-    "userId" => $get["user"]->getId()
-]);
+$assignment = AssignmentService::getAssignmentForUser($get["user"]);
 if($post["course"] instanceof Course) {
+    $course = $post["course"];
+
     if(!$assignment instanceof Assignment) {
         $assignment = new Assignment();
         $assignment->setUserId($get["user"]->getId());

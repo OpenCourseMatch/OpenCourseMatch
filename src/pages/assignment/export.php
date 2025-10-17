@@ -1,7 +1,12 @@
 <?php
 
+use \app\courses\Course;
+use \app\users\User;
+use \app\users\PermissionLevel;
+use \app\assignments\Assignment;
+
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
-$coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
+$coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
     InfoMessage->error(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."));

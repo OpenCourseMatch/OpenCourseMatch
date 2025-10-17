@@ -1,7 +1,19 @@
 <?php
 
+use \app\courses\Course;
+use \app\courses\CourseService;
+use \app\users\User;
+use \app\users\PermissionLevel;
+use \app\users\UserService;
+use \app\choices\Choice;
+use \app\choices\ChoiceService;
+use \app\assignments\Assignment;
+use \app\assignments\AssignmentService;
+use \app\groups\Group;
+use \app\groups\GroupService;
+
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
-$coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
+$coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
     \struktal\API\API::sendWrappedJson([
@@ -9,41 +21,40 @@ if(!$coursesAssigned) {
     ], \struktal\API\HTTPResponse::METHOD_NOT_ALLOWED);
 }
 
-$validation = Validation->create()
+$post = Validation->create()
     ->withErrorMessage(t("An error has occurred whilst loading the course overview. Please try again later."))
     ->array()
     ->required()
     ->children([
         "course" => CommonValidators::course(false)
     ])
-    ->build();
-try {
-    $post = $validation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    \struktal\API\API::sendWrappedJson([
-        "message" => $e->getMessage()
-    ], \struktal\API\HTTPResponse::BAD_REQUEST);
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) {
+        \struktal\API\API::sendWrappedJson([
+            "message" => $e->getMessage()
+        ], \struktal\API\HTTPResponse::BAD_REQUEST);
+    });
 
 $courseWarnings = [];
-if($post["course"] !== null) {
+if($post["course"] instanceof Course) {
+    $course = $post["course"];
+
     // Load the assigned users of the course
-    $users = $post["course"]->getAssignedUsers();
-    $realParticipantCount = count($post["course"]->getAssignedParticipants());
+    $users = CourseService::getAssignedUsers($course);
+    $realParticipantCount = count(CourseService::getAssignedParticipants($course));
 
     // Get warnings for the course
-    if($post["course"]->isCancelled()) {
+    if(CourseService::isCancelled($course)) {
         $courseWarnings[] = t("This course has been cancelled.");
     } else {
-        if($post["course"]->getMaxParticipants() < $realParticipantCount) {
+        if($course->getMaxParticipants() < $realParticipantCount) {
             $courseWarnings[] = t("The number of participants exceeds the maximum number of participants allowed for this course.");
         }
 
-        if($post["course"]->getMinParticipants() > $realParticipantCount) {
+        if($course->getMinParticipants() > $realParticipantCount) {
             $courseWarnings[] = t("The number of participants is below the minimum number of participants required for this course.");
         }
 
-        $courseLeaders = $post["course"]->getAllCourseLeaders();
+        $courseLeaders = CourseService::getCourseLeaders($course);
         $userIds = array_map(function(User $user) {
             return $user->getId();
         }, $users);

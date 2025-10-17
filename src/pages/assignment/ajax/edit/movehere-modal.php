@@ -1,7 +1,19 @@
 <?php
 
+use \app\courses\Course;
+use \app\courses\CourseService;
+use \app\users\User;
+use \app\users\PermissionLevel;
+use \app\users\UserService;
+use \app\choices\Choice;
+use \app\choices\ChoiceService;
+use \app\assignments\Assignment;
+use \app\assignments\AssignmentService;
+use \app\groups\Group;
+use \app\groups\GroupService;
+
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
-$coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
+$coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
     \struktal\API\API::sendWrappedJson([
@@ -9,22 +21,20 @@ if(!$coursesAssigned) {
     ], \struktal\API\HTTPResponse::METHOD_NOT_ALLOWED);
 }
 
-$validation = Validation->create()
+$post = Validation->create()
     ->withErrorMessage(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."))
     ->array()
     ->required()
     ->children([
         "course" => CommonValidators::course()
     ])
-    ->build();
-try {
-    $post = $validation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    \struktal\API\API::sendWrappedJson([
-        "message" => $e->getMessage()
-    ], \struktal\API\HTTPResponse::BAD_REQUEST);
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) {
+        \struktal\API\API::sendWrappedJson([
+            "message" => $e->getMessage()
+        ], \struktal\API\HTTPResponse::BAD_REQUEST);
+    });
 
+/** @var Course $course */
 $course = $post["course"];
 
 // Get the users that chose the course
