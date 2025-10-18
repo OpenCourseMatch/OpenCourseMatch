@@ -1,5 +1,7 @@
 <?php
 
+use \app\courses\Course;
+
 $user = Auth->requireLogin(\app\users\PermissionLevel::FACILITATOR, Router->generate("index"));
 
 $courses = Course::dao()->getObjects();
