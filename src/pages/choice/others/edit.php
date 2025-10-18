@@ -1,8 +1,12 @@
 <?php
 
+use \app\users\PermissionLevel;
+use \app\courses\CourseService;
+use \app\settings\SystemSetting;
+
 $user = Auth->requireLogin(\app\users\PermissionLevel::FACILITATOR, Router->generate("index"));
 
-$validation = Validation->create()
+$get = Validation->create()
     ->array()
     ->required()
     ->children([
@@ -10,17 +14,14 @@ $validation = Validation->create()
             "permissionLevel" => PermissionLevel::USER->value
         ], t("The user of which the choice should be edited does not exist."))
     ])
-    ->build();
-try {
-    $get = $validation->getValidatedValue($_GET);
-} catch(\struktal\validation\ValidationException $e) {
-    InfoMessage->error($e->getMessage());
-    Router->redirect(Router->generate("users-overview"));
-}
+    ->validate($_GET, function(\struktal\validation\ValidationException $e) {
+        InfoMessage->error($e->getMessage());
+        Router->redirect(Router->generate("users-overview"));
+    });
 
 $account = $get["user"];
 
-$choosableCourses = Course::dao()->getChoosableCourses($account);
+$choosableCourses = CourseService::getChoosableCourses($account);
 $choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
 $saveLink = Router->generate("choice-save-others", ["user" => $account->getId()]);
 

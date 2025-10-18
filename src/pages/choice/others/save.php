@@ -2,7 +2,11 @@
 
 $user = Auth->requireLogin(\app\users\PermissionLevel::FACILITATOR, Router->generate("index"));
 
-$getValidation = Validation->create()
+use \app\users\PermissionLevel;
+use \app\settings\SystemSetting;
+use \app\choices\Choice;
+
+$get = Validation->create()
     ->array()
     ->required()
     ->children([
@@ -10,13 +14,10 @@ $getValidation = Validation->create()
             "permissionLevel" => PermissionLevel::USER->value
         ], t("The user of which the choice should be edited does not exist."))
     ])
-    ->build();
-try {
-    $get = $getValidation->getValidatedValue($_GET);
-} catch(\struktal\validation\ValidationException $e) {
-    InfoMessage->error($e->getMessage());
-    Router->redirect(Router->generate("users-overview"));
-}
+    ->validate($_GET, function(\struktal\validation\ValidationException $e) {
+        InfoMessage->error($e->getMessage());
+        Router->redirect(Router->generate("users-overview"));
+    });
 
 $account = $get["user"];
 
@@ -27,7 +28,7 @@ for($i = 0; $i < $choiceCount; $i++) {
     $choiceValidation[$i] = CommonValidators::course();
 }
 
-$validation = Validation->create()
+$post = Validation->create()
     ->withErrorMessage(t("Please fill out all the required fields."))
     ->array()
     ->required()
@@ -39,13 +40,10 @@ $validation = Validation->create()
             ->children($choiceValidation)
             ->build()
     ])
-    ->build();
-try {
-    $post = $validation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    InfoMessage->error($e->getMessage());
-    Router->redirect(Router->generate("choice-edit-others", ["user" => $account->getId()]));
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) use ($account) {
+        InfoMessage->error($e->getMessage());
+        Router->redirect(Router->generate("choice-edit-others", ["user" => $account->getId()]));
+    });
 
 Logger->tag("Choices")->info("User {$user->getId()} ({$user->getFullName()}) is saving / updating the course choices for user {$account->getId()} ({$account->getFullName()}).");
 

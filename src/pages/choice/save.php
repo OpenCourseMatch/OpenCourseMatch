@@ -1,5 +1,10 @@
 <?php
 
+use \app\users\PermissionLevel;
+use \app\settings\SystemStatus;
+use \app\settings\SystemSetting;
+use \app\choices\Choice;
+
 $user = Auth->requireLogin(\app\users\PermissionLevel::USER, Router->generate("index"));
 
 if($user->getPermissionLevel() > PermissionLevel::USER->value) {
@@ -19,7 +24,7 @@ for($i = 0; $i < $choiceCount; $i++) {
     $choiceValidation[$i] = CommonValidators::course();
 }
 
-$validation = Validation->create()
+$post = Validation->create()
     ->withErrorMessage(t("Please fill out all the required fields."))
     ->array()
     ->required()
@@ -31,13 +36,10 @@ $validation = Validation->create()
             ->children($choiceValidation)
             ->build()
     ])
-    ->build();
-try {
-    $post = $validation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    InfoMessage->error($e->getMessage());
-    Router->redirect(Router->generate("choice-edit"));
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) {
+        InfoMessage->error($e->getMessage());
+        Router->redirect(Router->generate("choice-edit"));
+    });
 
 Logger->tag("Choices")->info("User {$user->getId()} ({$user->getFullName()}) is saving / updating their course choices.");
 

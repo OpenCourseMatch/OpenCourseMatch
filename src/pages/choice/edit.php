@@ -1,5 +1,10 @@
 <?php
 
+use \app\users\PermissionLevel;
+use \app\settings\SystemStatus;
+use \app\courses\CourseService;
+use \app\settings\SystemSetting;
+
 $user = Auth->requireLogin(\app\users\PermissionLevel::USER, Router->generate("index"));
 
 if($user->getPermissionLevel() > PermissionLevel::USER->value) {
@@ -12,7 +17,7 @@ if(SystemStatus::dao()->get("userActionsAllowed") !== "true") {
     Router->redirect(Router->generate("index"));
 }
 
-$choosableCourses = Course::dao()->getChoosableCourses($user);
+$choosableCourses = CourseService::getChoosableCourses($user);
 $choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
 $saveLink = Router->generate("choice-save");
 
