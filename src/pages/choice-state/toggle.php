@@ -1,5 +1,7 @@
 <?php
 
+use \app\settings\SystemStatus;
+
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 
 $userActionsAllowed = SystemStatus::dao()->get("userActionsAllowed") === "true";
