@@ -16,7 +16,7 @@ class GroupService {
         Group::dao()->delete($group);
     }
 
-    public function hasId(mixed $id): bool {
+    public static function hasId(mixed $id): bool {
         if(!is_numeric($id)) {
             return false;
         }
