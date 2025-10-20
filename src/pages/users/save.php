@@ -8,7 +8,7 @@ $validation = Validation->create()
     ->required()
     ->children([
         "user" => CommonValidators::user(false, [
-            "permissionLevel" => PermissionLevel::USER->value
+            "permissionLevel" => \app\users\PermissionLevel::USER->value
         ], t("The user that should be edited does not exist.")),
         "firstName" => CommonValidators::name(),
         "lastName" => CommonValidators::name(),
@@ -25,7 +25,7 @@ try {
     ], \struktal\API\HTTPResponse::BAD_REQUEST);
 }
 
-$account = new User();
+$account = new \app\users\User();
 if(isset($post["user"])) {
     $account = $post["user"];
 }
@@ -34,7 +34,7 @@ $groupId = isset($post["group"]) ? $post["group"]->getId() : null;
 $leadingCourseId = isset($post["leadingCourse"]) ? $post["leadingCourse"]->getId() : null;
 
 if($account->getUsername() === "") {
-    $username = User::dao()->generateUsername($post["firstName"], $post["lastName"]);
+    $username = \app\users\UserService::generateUsername($post["firstName"], $post["lastName"]);
     $account->setUsername($username);
     $account->setEmail($username);
 }
@@ -42,13 +42,13 @@ $password = null;
 if(!empty($post["password"])) {
     $password = $post["password"];
 } else if($account->getPassword() === "") {
-    $password = User::dao()->generatePassword();
+    $password = \app\users\UserService::generatePassword();
 }
 if($password !== null) {
     $account->setPassword($password);
 }
 $account->setEmailVerified(true);
-$account->setPermissionLevel(PermissionLevel::USER->value);
+$account->setPermissionLevel(\app\users\PermissionLevel::USER);
 $account->setFirstName($post["firstName"]);
 $account->setLastName($post["lastName"]);
 $account->setGroupId($groupId);
@@ -56,7 +56,7 @@ $account->setLeadingCourseId($leadingCourseId);
 $account->setLastLogin(null);
 $account->setOneTimePassword(null);
 $account->setOneTimePasswordExpiration(null);
-User::dao()->save($account);
+\app\users\User::dao()->save($account);
 
 Logger->tag("Users")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the user {$account->getId()} ({$account->getFullName()})");
 

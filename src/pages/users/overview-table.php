@@ -2,21 +2,21 @@
 
 $user = Auth->requireLogin(\app\users\PermissionLevel::FACILITATOR, Router->generate("index"));
 
-$users = User::dao()->getObjects([
-    "permissionLevel" => PermissionLevel::USER->value
+$users = \app\users\User::dao()->getObjects([
+    "permissionLevel" => \app\users\PermissionLevel::USER->value
 ]);
 
-$users = array_map(function(User $account) {
+$users = array_map(function(\app\users\User $account) {
     $array = $account->toArray();
     $array["editHref"] = Router->generate("users-edit", ["user" => $account->getId()]);
     $group = $account->getGroup();
-    if($group instanceof Group) {
+    if($group instanceof \app\groups\Group) {
         $array["group"] = $group->getName();
     } else {
         $array["group"] = t("Default group");
     }
     $array["choiceComplete"] = count($account->getChoices()) > 0 && array_reduce($account->getChoices(), function($carry, $choice) {
-        return $carry && $choice instanceof Choice && $choice->getCourseId() !== null;
+        return $carry && $choice instanceof \app\choices\Choice && $choice->getCourseId() !== null;
     }, true);
     unset($array["id"]);
     unset($array["password"]);

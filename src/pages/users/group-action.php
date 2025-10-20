@@ -2,7 +2,7 @@
 
 $user = Auth->requireLogin(\app\users\PermissionLevel::FACILITATOR, Router->generate("index"));
 
-$validation = Validation->create()
+$post = Validation->create()
     ->withErrorMessage(t("Please fill out all the required fields."))
     ->array()
     ->required()
@@ -13,13 +13,10 @@ $validation = Validation->create()
         "changeGroup" => CommonValidators::checkbox(),
         "newGroup" => CommonValidators::group(false)
     ])
-    ->build();
-try {
-    $post = $validation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    InfoMessage->error($e->getMessage());
-    exit;
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) {
+        InfoMessage->error($e->getMessage());
+        exit;
+    });
 
 if($post["resetPassword"] === null && $post["changeGroup"] === null) {
     InfoMessage->warning(t("No actions were selected. No user data has been modified."));
@@ -27,9 +24,9 @@ if($post["resetPassword"] === null && $post["changeGroup"] === null) {
 }
 
 $group = $post["group"] ?? null;
-$accounts = User::dao()->getObjects([
+$accounts = \app\users\User::dao()->getObjects([
     "groupId" => $group?->getId(),
-    "permissionLevel" => PermissionLevel::USER->value
+    "permissionLevel" => \app\users\PermissionLevel::USER->value
 ]);
 
 if(empty($accounts)) {
@@ -54,7 +51,7 @@ foreach($accounts as $account) {
     $edited = false;
 
     if($post["resetPassword"] === 1) {
-        $password = User::dao()->generatePassword();
+        $password = \app\users\UserService::generatePassword();
         if($post["newPassword"] !== null) {
             $password = $post["newPassword"];
         }
@@ -78,7 +75,7 @@ foreach($accounts as $account) {
     }
 
     if($edited) {
-        User::dao()->save($account);
+        \app\users\User::dao()->save($account);
         Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the user {$account->getId()} ({$account->getFullName()})");
     }
 }
