@@ -2,11 +2,11 @@
 
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 
-$users = User::dao()->getObjects([
-    "permissionLevel" => PermissionLevel::FACILITATOR->value
+$users = \app\users\User::dao()->getObjects([
+    "permissionLevel" => \app\users\PermissionLevel::FACILITATOR->value
 ]);
 
-$users = array_map(function(User $account) {
+$users = array_map(function(\app\users\User $account) {
     $array = $account->toArray();
     $array["editHref"] = Router->generate("facilitators-edit", ["user" => $account->getId()]);
     unset($array["id"]);
