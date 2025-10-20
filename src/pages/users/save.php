@@ -8,7 +8,7 @@ $validation = Validation->create()
     ->required()
     ->children([
         "user" => CommonValidators::user(false, [
-            "permissionLevel" => \app\users\PermissionLevel::USER->value
+            "permissionLevel" => \app\users\PermissionLevel::USER
         ], t("The user that should be edited does not exist.")),
         "firstName" => CommonValidators::name(),
         "lastName" => CommonValidators::name(),

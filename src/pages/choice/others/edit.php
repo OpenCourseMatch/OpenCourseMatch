@@ -11,7 +11,7 @@ $get = Validation->create()
     ->required()
     ->children([
         "user" => CommonValidators::user(true, [
-            "permissionLevel" => PermissionLevel::USER->value
+            "permissionLevel" => PermissionLevel::USER
         ], t("The user of which the choice should be edited does not exist."))
     ])
     ->validate($_GET, function(\struktal\validation\ValidationException $e) {

@@ -26,7 +26,7 @@ if($post["resetPassword"] === null && $post["changeGroup"] === null) {
 $group = $post["group"] ?? null;
 $accounts = \app\users\User::dao()->getObjects([
     "groupId" => $group?->getId(),
-    "permissionLevel" => \app\users\PermissionLevel::USER->value
+    "permissionLevel" => \app\users\PermissionLevel::USER
 ]);
 
 if(empty($accounts)) {

@@ -8,7 +8,7 @@ $post = Validation->create()
     ->required()
     ->children([
         "user" => CommonValidators::user(false, [
-            "permissionLevel" => \app\users\PermissionLevel::FACILITATOR->value
+            "permissionLevel" => \app\users\PermissionLevel::FACILITATOR
         ], t("The facilitator that should be edited does not exist.")),
         "firstName" => CommonValidators::name(),
         "lastName" => CommonValidators::name(),

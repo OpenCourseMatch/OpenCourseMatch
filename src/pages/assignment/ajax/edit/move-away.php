@@ -27,7 +27,7 @@ $get = Validation->create()
     ->required()
     ->children([
         "user" => CommonValidators::user(true, [
-            "permissionLevel" => PermissionLevel::USER->value
+            "permissionLevel" => PermissionLevel::USER
         ])
     ])
     ->validate($_GET, function(\struktal\validation\ValidationException $e) {

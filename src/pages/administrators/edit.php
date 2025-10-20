@@ -8,7 +8,7 @@ $get = Validation->create()
     ->required()
     ->children([
         "user" => CommonValidators::user(false, [
-            "permissionLevel" => \app\users\PermissionLevel::ADMIN->value
+            "permissionLevel" => \app\users\PermissionLevel::ADMIN
         ], t("The administrator that should be edited does not exist."))
     ])
     ->validate($_GET, function(\struktal\validation\ValidationException $e) {

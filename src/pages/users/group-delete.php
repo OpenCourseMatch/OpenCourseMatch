@@ -17,7 +17,7 @@ $post = Validation->create()
 $group = $post["group"];
 $accounts = \app\users\User::dao()->getObjects([
     "groupId" => $group?->getId(),
-    "permissionLevel" => \app\users\PermissionLevel::USER->value
+    "permissionLevel" => \app\users\PermissionLevel::USER
 ]);
 
 if(empty($accounts)) {

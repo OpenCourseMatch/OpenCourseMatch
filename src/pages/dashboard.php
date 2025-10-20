@@ -11,7 +11,7 @@ if($user->getPermissionLevel() === PermissionLevel::ADMIN->value) {
 $variables = [];
 if($user->getPermissionLevel() === PermissionLevel::ADMIN->value) {
     $users = count(User::dao()->getObjects([
-        "permissionLevel" => PermissionLevel::USER->value
+        "permissionLevel" => PermissionLevel::USER
     ]));
     $variables["numberOfParticipantsAndTutors"] = $users;
 

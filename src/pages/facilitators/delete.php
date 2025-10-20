@@ -8,7 +8,7 @@ $get = Validation->create()
     ->required()
     ->children([
         "user" => CommonValidators::user(true, [
-            "permissionLevel" => \app\users\PermissionLevel::FACILITATOR->value
+            "permissionLevel" => \app\users\PermissionLevel::FACILITATOR
         ], t("The facilitator that should be deleted does not exist."))
     ])
     ->validate($_GET, function(\struktal\validation\ValidationException $e) {

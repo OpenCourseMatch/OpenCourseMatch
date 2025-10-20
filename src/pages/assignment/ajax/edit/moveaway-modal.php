@@ -27,7 +27,7 @@ $post = Validation->create()
     ->required()
     ->children([
         "user" => CommonValidators::user(true, [
-            "permissionLevel" => PermissionLevel::USER->value
+            "permissionLevel" => PermissionLevel::USER
         ])
     ])
     ->validate($_POST, function(\struktal\validation\ValidationException $e) {

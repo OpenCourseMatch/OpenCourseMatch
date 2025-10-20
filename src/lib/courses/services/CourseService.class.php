@@ -44,7 +44,7 @@ class CourseService {
         if(self::$courseLeadersCache[$course->getId()] === null) {
             self::$courseLeadersCache[$course->getId()] = User::dao()->getObjects([
                 "leadingCourseId" => $course->getId(),
-                "permissionLevel" => PermissionLevel::USER->value
+                "permissionLevel" => PermissionLevel::USER
             ]);
         }
 

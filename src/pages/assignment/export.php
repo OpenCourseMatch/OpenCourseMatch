@@ -21,7 +21,7 @@ $assignmentsData = [
     ]
 ];
 
-$accounts = User::dao()->getObjects(["permissionLevel" => PermissionLevel::USER->value]);
+$accounts = User::dao()->getObjects(["permissionLevel" => PermissionLevel::USER]);
 $mappedAccounts = [];
 foreach($accounts as $account) {
     $mappedAccounts[$account->getId()] = $account;

@@ -21,7 +21,7 @@ try {
 }
 
 if($post["resetUsers"] !== null) {
-    $users = User::dao()->getObjects(["permissionLevel" => PermissionLevel::USER->value]);
+    $users = User::dao()->getObjects(["permissionLevel" => PermissionLevel::USER]);
     $usersCount = count($users);
 
     Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the users ({$usersCount})");
@@ -37,7 +37,7 @@ if($post["resetUsers"] !== null) {
 }
 
 if($post["resetFacilitators"] !== null) {
-    $users = User::dao()->getObjects(["permissionLevel" => PermissionLevel::FACILITATOR->value]);
+    $users = User::dao()->getObjects(["permissionLevel" => PermissionLevel::FACILITATOR]);
     $usersCount = count($users);
 
     Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the facilitators ({$usersCount})");

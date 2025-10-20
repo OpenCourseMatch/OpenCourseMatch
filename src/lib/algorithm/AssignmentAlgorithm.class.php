@@ -121,7 +121,7 @@ class AssignmentAlgorithm {
      */
     private function loadUsersFromDatabase(): void {
         $users = User::dao()->getObjects([
-            "permissionLevel" => PermissionLevel::USER->value
+            "permissionLevel" => PermissionLevel::USER
         ]);
         foreach($users as $user) {
             $this->users[] = AlgoUserData::fromDatabaseObject($user);

@@ -3,7 +3,7 @@
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 
 $users = \app\users\User::dao()->getObjects([
-    "permissionLevel" => \app\users\PermissionLevel::ADMIN->value
+    "permissionLevel" => \app\users\PermissionLevel::ADMIN
 ]);
 
 $users = array_map(function(\app\users\User $account) {
