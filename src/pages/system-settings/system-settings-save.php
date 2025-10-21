@@ -2,7 +2,7 @@
 
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 
-$defaultValues = SystemSetting::dao()->defaultValues();
+$defaultValues = \app\settings\SystemSetting::dao()->defaultValues();
 
 $settingValidators = [];
 foreach($defaultValues as $key => $value) {
@@ -23,7 +23,7 @@ try {
 }
 
 foreach($defaultValues as $key => $value) {
-    SystemSetting::dao()->set($key, strval($post[$key]));
+    \app\settings\SystemSetting::dao()->set($key, strval($post[$key]));
     Logger->tag("SystemSettings")->info("User {$user->getId()} ({$user->getFullName()}) changed the system setting \"{$key}\" to \"{$post[$key]}\"");
 }
 

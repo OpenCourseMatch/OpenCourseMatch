@@ -2,8 +2,8 @@
 
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 
-$settings = SystemSetting::dao()->getObjects();
-$defaultValues = SystemSetting::dao()->defaultValues();
+$settings = \app\settings\SystemSetting::dao()->getObjects();
+$defaultValues = \app\settings\SystemSetting::dao()->defaultValues();
 
 $breadcrumbs = [
     [
