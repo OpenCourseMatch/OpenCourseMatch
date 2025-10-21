@@ -1,5 +1,5 @@
 # System status table
-CREATE TABLE IF NOT EXISTS `SystemStatus` (
+CREATE TABLE IF NOT EXISTS `app\settings\SystemStatus` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `key` VARCHAR(256) NOT NULL,
     `value` VARCHAR(512) NOT NULL,
@@ -8,12 +8,12 @@ CREATE TABLE IF NOT EXISTS `SystemStatus` (
     PRIMARY KEY (`id`),
     UNIQUE KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-INSERT INTO SystemStatus VALUE (NULL, 'userActionsAllowed', 'true', NOW(), NOW());
-INSERT INTO SystemStatus VALUE (NULL, 'algorithmRunning', 'false', NOW(), NOW());
-INSERT INTO SystemStatus VALUE (NULL, 'coursesAssigned', 'false', NOW(), NOW());
+INSERT INTO `app\settings\SystemStatus` VALUE (NULL, 'userActionsAllowed', 'true', NOW(), NOW());
+INSERT INTO `app\settings\SystemStatus` VALUE (NULL, 'algorithmRunning', 'false', NOW(), NOW());
+INSERT INTO `app\settings\SystemStatus` VALUE (NULL, 'coursesAssigned', 'false', NOW(), NOW());
 
 # System setting table
-CREATE TABLE IF NOT EXISTS `SystemSetting` (
+CREATE TABLE IF NOT EXISTS `app\settings\SystemSetting` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `key` VARCHAR(256) NOT NULL,
     `value` VARCHAR(512) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `SystemSetting` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 # Group table
-CREATE TABLE IF NOT EXISTS `Group` (
+CREATE TABLE IF NOT EXISTS `app\groups\Group` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(256) NOT NULL,
     `clearance` INT NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `Group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 # Course table
-CREATE TABLE IF NOT EXISTS `Course` (
+CREATE TABLE IF NOT EXISTS `app\courses\Course` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(256) NOT NULL,
     `organizer` VARCHAR(256) NULL,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `Course` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 # User table
-CREATE TABLE IF NOT EXISTS `User` (
+CREATE TABLE IF NOT EXISTS `app\users\User` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `username` VARCHAR(256) NOT NULL,
     `password` VARCHAR(256) NOT NULL,
@@ -66,12 +66,12 @@ CREATE TABLE IF NOT EXISTS `User` (
     `updated` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     PRIMARY KEY (`id`),
     UNIQUE KEY (`username`),
-    FOREIGN KEY (`groupId`) REFERENCES `Group`(`id`) ON DELETE SET NULL,
-    FOREIGN KEY (`leadingCourseId`) REFERENCES `Course`(`id`) ON DELETE SET NULL
+    FOREIGN KEY (`groupId`) REFERENCES `app\groups\Group`(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`leadingCourseId`) REFERENCES `app\courses\Course`(`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 # Choice table
-CREATE TABLE IF NOT EXISTS `Choice` (
+CREATE TABLE IF NOT EXISTS `app\choices\Choice` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `userId` INT NOT NULL,
     `courseId` INT NOT NULL,
@@ -79,21 +79,21 @@ CREATE TABLE IF NOT EXISTS `Choice` (
     `created` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE,
-    FOREIGN KEY (`courseId`) REFERENCES `Course`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`userId`) REFERENCES `app\users\User`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`courseId`) REFERENCES `app\courses\Course`(`id`) ON DELETE CASCADE,
     UNIQUE KEY (`userId`, `courseId`),
     UNIQUE KEY (`userId`, `priority`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 # Assignment table
-CREATE TABLE IF NOT EXISTS `Assignment` (
+CREATE TABLE IF NOT EXISTS `app\assignments\Assignment` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `userId` INT NOT NULL,
     `courseId` INT NOT NULL,
     `created` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE,
-    FOREIGN KEY (`courseId`) REFERENCES `Course`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`userId`) REFERENCES `app\users\User`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`courseId`) REFERENCES `app\courses\Course`(`id`) ON DELETE CASCADE,
     UNIQUE KEY (`userId`, `courseId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
