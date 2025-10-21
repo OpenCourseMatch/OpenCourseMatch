@@ -109,7 +109,7 @@ class AssignmentAlgorithm {
      * @return void
      */
     private function loadCoursesFromDatabase(): void {
-        $courses = Course::dao()->getObjects();
+        $courses = \app\courses\Course::dao()->getObjects();
         foreach($courses as $course) {
             $this->courses[] = AlgoCourseData::fromDatabaseObject($course);
         }
@@ -120,8 +120,8 @@ class AssignmentAlgorithm {
      * @return void
      */
     private function loadUsersFromDatabase(): void {
-        $users = User::dao()->getObjects([
-            "permissionLevel" => PermissionLevel::USER
+        $users = \app\users\User::dao()->getObjects([
+            "permissionLevel" => \app\users\PermissionLevel::USER
         ]);
         foreach($users as $user) {
             $this->users[] = AlgoUserData::fromDatabaseObject($user);

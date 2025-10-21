@@ -3,7 +3,7 @@
 class AlgoUserData {
     private static array $instances = [];
 
-    public static function fromDatabaseObject(User $user): AlgoUserData {
+    public static function fromDatabaseObject(\app\users\User $user): AlgoUserData {
         if(isset(self::$instances[$user->getId()])) {
             return self::$instances[$user->getId()];
         }
@@ -30,7 +30,7 @@ class AlgoUserData {
         return self::$instances[$id];
     }
 
-    private User $databaseObject;
+    private \app\users\User $databaseObject;
 
     public int $id;
     public int $clearance;
@@ -72,7 +72,7 @@ class AlgoUserData {
     }
 
     public function loadChosenCourses(): void {
-        $choices = $this->databaseObject->getChoices();
+        $choices = \app\choices\ChoiceService::getChoicesOfUser($this->databaseObject);
         foreach($choices as $priority => $choice) {
             if($choice === null) {
                 continue;
@@ -218,19 +218,19 @@ class AlgoUserData {
     public function saveAssignment(): void {
         // If the user was assigned, save the assignment directly
         if($this->isAssigned()) {
-            $assignment = new Assignment();
+            $assignment = new \app\assignments\Assignment();
             $assignment->setUserId($this->id);
             $assignment->setCourseId($this->getAssignedCourse()->id);
-            Assignment::dao()->save($assignment);
+            \app\assignments\Assignment::dao()->save($assignment);
             return;
         }
 
         // If the user is leading a course which is not cancelled, assign the user to it
         if($this->getLeadingCourse() !== null && !$this->getLeadingCourse()->isCancelled()) {
-            $assignment = new Assignment();
+            $assignment = new \app\assignments\Assignment();
             $assignment->setUserId($this->id);
             $assignment->setCourseId($this->getLeadingCourse()->id);
-            Assignment::dao()->save($assignment);
+            \app\assignments\Assignment::dao()->save($assignment);
         }
     }
 }
