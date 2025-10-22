@@ -1,7 +1,7 @@
 {
     "name": "opencoursematch/opencoursematch",
     "description": "OpenCourseMatch is an open-source web application designed to automate the assignment of participants to courses depending on the participants' preferences and the courses' requirements.",
-    "version": "v3.2.1-alpha",
+    "version": "v3.3.1-alpha",
     "type": "project",
     "license": "MIT",
     "require": {
