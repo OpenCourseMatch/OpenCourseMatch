@@ -2,7 +2,7 @@
 
 require __DIR__ . "/.runjob-setup.php";
 
-if(SystemStatus::dao()->get("algorithmRunning") === "true") {
+if(\app\settings\SystemStatus::dao()->get("algorithmRunning") === "true") {
     Logger->tag("AssignmentAlgorithm")->info("Aborting assignment algorithm because it is already running");
     exit;
 }
@@ -11,7 +11,7 @@ try {
     $algorithm = new AssignmentAlgorithm();
     $algorithm->run();
 } catch(Exception $e) {
-    SystemStatus::dao()->set("algorithmRunning", "false");
-    SystemStatus::dao()->set("coursesAssigned", "false");
+    \app\settings\SystemStatus::dao()->set("algorithmRunning", "false");
+    \app\settings\SystemStatus::dao()->set("coursesAssigned", "false");
     throw $e;
 }

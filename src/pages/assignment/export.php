@@ -1,7 +1,7 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
-$coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
+$user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
+$coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
     InfoMessage->error(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."));
@@ -16,13 +16,13 @@ $assignmentsData = [
     ]
 ];
 
-$accounts = User::dao()->getObjects(["permissionLevel" => PermissionLevel::USER->value]);
+$accounts = \app\users\User::dao()->getObjects(["permissionLevel" => \app\users\PermissionLevel::USER]);
 $mappedAccounts = [];
 foreach($accounts as $account) {
     $mappedAccounts[$account->getId()] = $account;
 }
 
-$courseAssignments = Assignment::dao()->getObjects();
+$courseAssignments = \app\assignments\Assignment::dao()->getObjects();
 $mappedCourseAssignments = [];
 foreach($courseAssignments as $courseAssignment) {
     if(!isset($mappedCourseAssignments[$courseAssignment->getCourseId()])) {
@@ -31,7 +31,7 @@ foreach($courseAssignments as $courseAssignment) {
     $mappedCourseAssignments[$courseAssignment->getCourseId()][] = $courseAssignment;
 }
 
-$courses = Course::dao()->getObjects();
+$courses = \app\courses\Course::dao()->getObjects();
 foreach($courses as $course) {
     $assignments = $mappedCourseAssignments[$course->getId()] ?? [];
     $participants = [];

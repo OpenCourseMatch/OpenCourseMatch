@@ -1,11 +1,13 @@
 <?php
 
-class Choice extends \struktal\ORM\GenericObject {
+namespace app\choices;
+
+class Choice extends \struktal\ORM\GenericEntity {
     public ?int $userId = null;
     public ?int $courseId = null;
     public ?int $priority = null;
 
-    private ?Course $course = null;
+    private ?\app\courses\Course $course = null;
 
     public function getUserId(): ?int {
         return $this->userId;
@@ -31,9 +33,9 @@ class Choice extends \struktal\ORM\GenericObject {
         $this->priority = $priority;
     }
 
-    public function getCourse(): ?Course {
+    public function getCourse(): ?\app\courses\Course {
         if(!$this->course) {
-            $this->course = Course::dao()->getObject(["id" => $this->getCourseId()]);
+            $this->course = \app\courses\Course::dao()->getObject(["id" => $this->getCourseId()]);
         }
 
         return $this->course;

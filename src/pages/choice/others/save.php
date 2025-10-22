@@ -1,33 +1,30 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::FACILITATOR, Router->generate("index"));
 
-$getValidation = Validation->create()
+$get = Validation->create()
     ->array()
     ->required()
     ->children([
         "user" => CommonValidators::user(true, [
-            "permissionLevel" => PermissionLevel::USER->value
+            "permissionLevel" => \app\users\PermissionLevel::USER
         ], t("The user of which the choice should be edited does not exist."))
     ])
-    ->build();
-try {
-    $get = $getValidation->getValidatedValue($_GET);
-} catch(\struktal\validation\ValidationException $e) {
-    InfoMessage->error($e->getMessage());
-    Router->redirect(Router->generate("users-overview"));
-}
+    ->validate($_GET, function(\struktal\validation\ValidationException $e) {
+        InfoMessage->error($e->getMessage());
+        Router->redirect(Router->generate("users-overview"));
+    });
 
 $account = $get["user"];
 
-$choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
+$choiceCount = intval(\app\settings\SystemSetting::dao()->get("choiceCount"));
 
 $choiceValidation = [];
 for($i = 0; $i < $choiceCount; $i++) {
     $choiceValidation[$i] = CommonValidators::course();
 }
 
-$validation = Validation->create()
+$post = Validation->create()
     ->withErrorMessage(t("Please fill out all the required fields."))
     ->array()
     ->required()
@@ -39,13 +36,10 @@ $validation = Validation->create()
             ->children($choiceValidation)
             ->build()
     ])
-    ->build();
-try {
-    $post = $validation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    InfoMessage->error($e->getMessage());
-    Router->redirect(Router->generate("choice-edit-others", ["user" => $account->getId()]));
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) use ($account) {
+        InfoMessage->error($e->getMessage());
+        Router->redirect(Router->generate("choice-edit-others", ["user" => $account->getId()]));
+    });
 
 Logger->tag("Choices")->info("User {$user->getId()} ({$user->getFullName()}) is saving / updating the course choices for user {$account->getId()} ({$account->getFullName()}).");
 
@@ -68,7 +62,7 @@ foreach($post["choice"] as $i => $course) {
     Logger->tag("Choices")->trace("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is choosing course {$course->getId()} ({$course->getTitle()}) for user {$account->getId()} ({$account->getFullName()}) with priority {$i}.");
 
     $chosenCourses[] = $course->getId();
-    $choice = new Choice();
+    $choice = new \app\choices\Choice();
     $choice->setUserId($account->getId());
     $choice->setCourseId($course->getId());
     $choice->setPriority($i);
@@ -77,17 +71,17 @@ foreach($post["choice"] as $i => $course) {
 
 // Delete old choices from database to prevent collisions
 Logger->tag("Choices")->trace("Deleting all old choices for user {$account->getId()} ({$account->getFullName()})");
-$oldChoices = Choice::dao()->getObjects([
+$oldChoices = \app\choices\Choice::dao()->getObjects([
     "userId" => $account->getId()
 ]);
 foreach($oldChoices as $oldChoice) {
-    Choice::dao()->delete($oldChoice);
+    \app\choices\Choice::dao()->delete($oldChoice);
 }
 
 // Save new choices to database
 Logger->tag("Choices")->trace("Saving new choices for user {$account->getId()} ({$account->getFullName()}).");
 foreach($choices as $choice) {
-    Choice::dao()->save($choice);
+    \app\choices\Choice::dao()->save($choice);
 }
 Logger->tag("Choices")->info("User {$user->getId()} ({$user->getFullName()}) has saved / updated the course choices for user {$account->getId()} ({$account->getFullName()}).");
 

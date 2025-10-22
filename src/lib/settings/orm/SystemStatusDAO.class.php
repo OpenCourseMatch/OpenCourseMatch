@@ -1,6 +1,8 @@
 <?php
 
-class SystemStatusDAO extends \struktal\ORM\GenericObjectDAO {
+namespace app\settings;
+
+class SystemStatusDAO extends \struktal\ORM\GenericEntityDAO {
     public function get(string $key): ?string {
         $object = $this->getObject(["key" => $key]);
         if($object instanceof SystemStatus) {

@@ -1,8 +1,8 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 
-$validation = Validation->create()
+$post = Validation->create()
     ->withErrorMessage(t("Please fill out all the required fields."))
     ->array()
     ->required()
@@ -12,23 +12,20 @@ $validation = Validation->create()
         "resetFacilitators" => CommonValidators::checkbox(),
         "resetGroups" => CommonValidators::checkbox()
     ])
-    ->build();
-try {
-    $post = $validation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    InfoMessage->error($e->getMessage());
-    Router->redirect(Router->generate("system-reset"));
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) {
+        InfoMessage->error($e->getMessage());
+        Router->redirect(Router->generate("system-reset"));
+    });
 
 if($post["resetUsers"] !== null) {
-    $users = User::dao()->getObjects(["permissionLevel" => PermissionLevel::USER->value]);
+    $users = \app\users\User::dao()->getObjects(["permissionLevel" => \app\users\PermissionLevel::USER]);
     $usersCount = count($users);
 
     Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the users ({$usersCount})");
 
     foreach($users as $account) {
         $account->preDelete();
-        User::dao()->delete($account);
+        \app\users\User::dao()->delete($account);
 
         Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
     }
@@ -37,14 +34,14 @@ if($post["resetUsers"] !== null) {
 }
 
 if($post["resetFacilitators"] !== null) {
-    $users = User::dao()->getObjects(["permissionLevel" => PermissionLevel::FACILITATOR->value]);
+    $users = \app\users\User::dao()->getObjects(["permissionLevel" => \app\users\PermissionLevel::FACILITATOR]);
     $usersCount = count($users);
 
     Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the facilitators ({$usersCount})");
 
     foreach($users as $account) {
         $account->preDelete();
-        User::dao()->delete($account);
+        \app\users\User::dao()->delete($account);
 
         Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the facilitator {$account->getId()} ({$account->getFullName()})");
     }
@@ -53,14 +50,14 @@ if($post["resetFacilitators"] !== null) {
 }
 
 if($post["resetCourses"] !== null) {
-    $courses = Course::dao()->getObjects();
+    $courses = \app\courses\Course::dao()->getObjects();
     $coursesCount = count($courses);
 
     Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the courses ({$coursesCount})");
 
     foreach($courses as $course) {
         $course->preDelete();
-        Course::dao()->delete($course);
+        \app\courses\Course::dao()->delete($course);
 
         Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the course {$course->getId()} ({$course->getTitle()})");
     }
@@ -69,14 +66,14 @@ if($post["resetCourses"] !== null) {
 }
 
 if($post["resetGroups"] !== null) {
-    $groups = Group::dao()->getObjects();
+    $groups = \app\groups\Group::dao()->getObjects();
     $groupsCount = count($groups);
 
     Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the courses ({$groupsCount})");
 
     foreach($groups as $group) {
         $group->preDelete();
-        Group::dao()->delete($group);
+        \app\groups\Group::dao()->delete($group);
 
         Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the group {$group->getId()} ({$group->getName()})");
     }

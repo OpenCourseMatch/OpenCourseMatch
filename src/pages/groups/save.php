@@ -1,8 +1,8 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 
-$validation = Validation->create()
+$post = Validation->create()
     ->withErrorMessage(t("Please fill out all the required fields."))
     ->array()
     ->required()
@@ -17,28 +17,25 @@ $validation = Validation->create()
             ->int()
             ->build()
     ])
-    ->build();
-try {
-    $post = $validation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    InfoMessage->error($e->getMessage());
-    if(isset($_POST["group"]) && !Group::dao()->hasId($_POST["group"])) {
-        Router->redirect(Router->generate("groups-overview"));
-    } else if(isset($_POST["group"])) {
-        Router->redirect(Router->generate("groups-edit", ["group" => $_POST["group"]]));
-    } else {
-        Router->redirect(Router->generate("groups-create"));
-    }
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) {
+        InfoMessage->error($e->getMessage());
+        if(isset($_POST["group"]) && !\app\groups\Group::dao()->hasId($_POST["group"])) {
+            Router->redirect(Router->generate("groups-overview"));
+        } else if(isset($_POST["group"])) {
+            Router->redirect(Router->generate("groups-edit", ["group" => $_POST["group"]]));
+        } else {
+            Router->redirect(Router->generate("groups-create"));
+        }
+    });
 
-$group = new Group();
+$group = new \app\groups\Group();
 if(isset($post["group"])) {
     $group = $post["group"];
 }
 
 $group->setName($post["name"]);
 $group->setClearance($post["clearance"]);
-Group::dao()->save($group);
+\app\groups\Group::dao()->save($group);
 
 Logger->tag("Groups")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the group {$group->getId()} ({$group->getName()})");
 

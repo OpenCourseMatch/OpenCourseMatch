@@ -1,7 +1,7 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
-$coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
+$user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
+$coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
     \struktal\API\API::sendWrappedJson([
@@ -9,31 +9,28 @@ if(!$coursesAssigned) {
     ], \struktal\API\HTTPResponse::METHOD_NOT_ALLOWED);
 }
 
-$validation = Validation->create()
+$get = Validation->create()
     ->withErrorMessage(t("An error has occurred whilst loading the course overview. Please try again later."))
     ->array()
     ->required()
     ->children([
         "course" => CommonValidators::course(false)
     ])
-    ->build();
-try {
-    $get = $validation->getValidatedValue($_GET);
-} catch(\struktal\validation\ValidationException $e) {
-    \struktal\API\API::sendWrappedJson([
-        "message" => $e->getMessage()
-    ], \struktal\API\HTTPResponse::BAD_REQUEST);
-}
+    ->validate($_GET, function(\struktal\validation\ValidationException $e) {
+        \struktal\API\API::sendWrappedJson([
+            "message" => $e->getMessage()
+        ], \struktal\API\HTTPResponse::BAD_REQUEST);
+    });
 
 if($get["course"] !== null) {
     // Load the assigned users of the course
     $users = $get["course"]->getAssignedUsers();
 } else {
     // Load unassigned users
-    $users = User::dao()->getUnassignedUsers();
+    $users = \app\users\User::dao()->getUnassignedUsers();
 }
 
-usort($users, function(User $a, User $b) use ($get) {
+usort($users, function(\app\users\User $a, \app\users\User $b) use ($get) {
     // Course leaders are always first
     $aCourseLeader = $a->getLeadingCourseId() !== null && $a->getLeadingCourseId() === $get["course"]?->getId() ?? -1;
     $bCourseLeader = $b->getLeadingCourseId() !== null && $b->getLeadingCourseId() === $get["course"]?->getId() ?? -1;
@@ -54,7 +51,7 @@ usort($users, function(User $a, User $b) use ($get) {
     return $a->getFullName() <=> $b->getFullName();
 });
 
-function calculateTableHighlighting(bool $isCourseLeader, array $get, User $account): int {
+function calculateTableHighlighting(bool $isCourseLeader, array $get, \app\users\User $account): int {
     if(!$isCourseLeader) {
         // Checking whether the course requirements are fulfilled is the fastest check, therefore it is done first
         $doesntFulfillRequirements = !$get["course"]?->canChooseCourse($account);
@@ -71,7 +68,7 @@ function calculateTableHighlighting(bool $isCourseLeader, array $get, User $acco
         $canBeReassigned = false;
         $hasChosenCourse = false;
         foreach($account->getChoices() as $choice) {
-            if($choice instanceof Choice) {
+            if($choice instanceof \app\choices\Choice) {
                 $chosenCourse = $choice->getCourse();
                 $notSameCourse = $chosenCourse?->getId() !== $get["course"]?->getId();
                 $notCancelled = !$chosenCourse?->isCancelled() ?? false;
@@ -105,12 +102,12 @@ function calculateTableHighlighting(bool $isCourseLeader, array $get, User $acco
     return 0;
 }
 
-$users = array_map(function(User $account) use ($get) {
+$users = array_map(function(\app\users\User $account) use ($get) {
     $array = $account->toArray();
 
     // Check if user is course leader
     $isCourseLeader = false;
-    if($get["course"] instanceof Course) {
+    if($get["course"] instanceof \app\courses\Course) {
         $isCourseLeader = $account->getLeadingCourseId() === $get["course"]->getId();
     }
     $array["isCourseLeader"] = $isCourseLeader;
@@ -118,7 +115,7 @@ $users = array_map(function(User $account) use ($get) {
     $array["highlighting"] = calculateTableHighlighting($isCourseLeader, $get, $account);
 
     $group = $account->getGroup();
-    if($group instanceof Group) {
+    if($group instanceof \app\groups\Group) {
         $array["group"] = $group->getName();
     } else {
         $array["group"] = t("Default group");

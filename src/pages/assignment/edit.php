@@ -1,14 +1,14 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
-$coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
+$user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
+$coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
     InfoMessage->error(t("An error has occurred whilst attempting to edit the course assignment. Please try again later."));
     Router->redirect(Router->generate("index"));
 }
 
-$courses = Course::dao()->getObjects([], "minClearance");
+$courses = \app\courses\Course::dao()->getObjects([], "minClearance");
 $courseIds = [null];
 foreach($courses as $course) {
     $courseIds[] = $course->getId();

@@ -1,10 +1,10 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::FACILITATOR, Router->generate("index"));
 
-$courses = Course::dao()->getObjects();
+$courses = \app\courses\Course::dao()->getObjects();
 
-$courses = array_map(function(Course $course) {
+$courses = array_map(function(\app\courses\Course $course) {
     $array = $course->toArray();
     $array["editHref"] = Router->generate("courses-edit", ["course" => $course->getId()]);
     unset($array["id"]);

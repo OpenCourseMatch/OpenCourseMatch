@@ -1,35 +1,32 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 
-$validation = Validation->create()
+$post = Validation->create()
     ->withErrorMessage(t("Please fill out all the required fields."))
     ->array()
     ->required()
     ->children([
         "user" => CommonValidators::user(false, [
-            "permissionLevel" => PermissionLevel::ADMIN->value
+            "permissionLevel" => \app\users\PermissionLevel::ADMIN
         ], t("The administrator that should be edited does not exist.")),
         "firstName" => CommonValidators::name(),
         "lastName" => CommonValidators::name(),
         "password" => CommonValidators::password(false)
     ])
-    ->build();
-try {
-    $post = $validation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    \struktal\API\API::sendWrappedJson([
-        "message" => $e->getMessage()
-    ], \struktal\API\HTTPResponse::BAD_REQUEST);
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) {
+        \struktal\API\API::sendWrappedJson([
+            "message" => $e->getMessage()
+        ], \struktal\API\HTTPResponse::BAD_REQUEST);
+    });
 
-$account = new User();
+$account = new \app\users\User();
 if(isset($post["user"])) {
     $account = $post["user"];
 }
 
 if($account->getUsername() === "") {
-    $username = User::dao()->generateUsername($post["firstName"], $post["lastName"]);
+    $username = \app\users\User::dao()->generateUsername($post["firstName"], $post["lastName"]);
     $account->setUsername($username);
     $account->setEmail($username);
 }
@@ -37,13 +34,13 @@ $password = null;
 if(!empty($post["password"])) {
     $password = $post["password"];
 } else if($account->getPassword() === "") {
-    $password = User::dao()->generatePassword();
+    $password = \app\users\User::dao()->generatePassword();
 }
 if($password !== null) {
     $account->setPassword($password);
 }
 $account->setEmailVerified(true);
-$account->setPermissionLevel(PermissionLevel::ADMIN->value);
+$account->setPermissionLevel(\app\users\PermissionLevel::ADMIN);
 $account->setFirstName($post["firstName"]);
 $account->setLastName($post["lastName"]);
 $account->setGroupId(null);
@@ -51,7 +48,7 @@ $account->setLeadingCourseId(null);
 $account->setLastLogin(null);
 $account->setOneTimePassword(null);
 $account->setOneTimePasswordExpiration(null);
-User::dao()->save($account);
+\app\users\User::dao()->save($account);
 
 Logger->tag("Administrators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the administrator {$account->getId()} ({$account->getFullName()})");
 

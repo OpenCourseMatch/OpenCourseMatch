@@ -1,27 +1,24 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::FACILITATOR, Router->generate("index"));
 
-$validation = Validation->create()
+$get = Validation->create()
     ->array()
     ->required()
     ->children([
         "user" => CommonValidators::user(true, [
-            "permissionLevel" => PermissionLevel::USER->value
+            "permissionLevel" => \app\users\PermissionLevel::USER
         ], t("The user of which the choice should be edited does not exist."))
     ])
-    ->build();
-try {
-    $get = $validation->getValidatedValue($_GET);
-} catch(\struktal\validation\ValidationException $e) {
-    InfoMessage->error($e->getMessage());
-    Router->redirect(Router->generate("users-overview"));
-}
+    ->validate($_GET, function(\struktal\validation\ValidationException $e) {
+        InfoMessage->error($e->getMessage());
+        Router->redirect(Router->generate("users-overview"));
+    });
 
 $account = $get["user"];
 
-$choosableCourses = Course::dao()->getChoosableCourses($account);
-$choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
+$choosableCourses = \app\courses\Course::dao()->getChoosableCourses($account);
+$choiceCount = intval(\app\settings\SystemSetting::dao()->get("choiceCount"));
 $saveLink = Router->generate("choice-save-others", ["user" => $account->getId()]);
 
 $breadcrumbs = [

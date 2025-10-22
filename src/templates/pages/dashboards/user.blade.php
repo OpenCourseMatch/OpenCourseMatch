@@ -1,7 +1,7 @@
 <h2 class="mt-4 mb-2">
     {{ t("Choose courses") }}
 </h2>
-@if(SystemStatus::dao()->get("userActionsAllowed") !== "true")
+@if(\app\settings\SystemStatus::dao()->get("userActionsAllowed") !== "true")
     @component("shells.generic.infomessage", [
         "type" => \struktal\InfoMessage\InfoMessageType::WARNING
     ])

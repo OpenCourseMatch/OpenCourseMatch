@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ Translator::getLocaleForHtmlLang() }}">
+<html lang="{{ Translator->getLocaleForHtmlLang() }}">
     <head>
         <title>
             {{ $title }}

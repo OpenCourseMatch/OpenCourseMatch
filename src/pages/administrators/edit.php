@@ -1,23 +1,20 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 
-$validation = Validation->create()
+$get = Validation->create()
     ->withErrorMessage(t("Please fill out all the required fields."))
     ->array()
     ->required()
     ->children([
         "user" => CommonValidators::user(false, [
-            "permissionLevel" => PermissionLevel::ADMIN->value
+            "permissionLevel" => \app\users\PermissionLevel::ADMIN
         ], t("The administrator that should be edited does not exist."))
     ])
-    ->build();
-try {
-    $get = $validation->getValidatedValue($_GET);
-} catch(\struktal\validation\ValidationException $e) {
-    InfoMessage->error($e->getMessage());
-    Router->redirect(Router->generate("administrators-overview"));
-}
+    ->validate($_GET, function(\struktal\validation\ValidationException $e) {
+        InfoMessage->error($e->getMessage());
+        Router->redirect(Router->generate("administrators-overview"));
+    });
 
 $account = $get["user"];
 

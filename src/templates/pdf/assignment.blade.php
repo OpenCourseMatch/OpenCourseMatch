@@ -1,6 +1,6 @@
 @component("shells.pdf")
     @foreach($assignments as $i => $assignment)
-        @if($assignment["course"] instanceof Course)
+        @if($assignment["course"] instanceof \app\courses\Course)
             <h2>
                 {{ $assignment["course"]->getTitle() }}
             </h2>

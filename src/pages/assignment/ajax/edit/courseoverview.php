@@ -1,7 +1,7 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
-$coursesAssigned = SystemStatus::dao()->get("coursesAssigned") === "true";
+$user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
+$coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
 if(!$coursesAssigned) {
     \struktal\API\API::sendWrappedJson([
@@ -9,21 +9,18 @@ if(!$coursesAssigned) {
     ], \struktal\API\HTTPResponse::METHOD_NOT_ALLOWED);
 }
 
-$validation = Validation->create()
+$post = Validation->create()
     ->withErrorMessage(t("An error has occurred whilst loading the course overview. Please try again later."))
     ->array()
     ->required()
     ->children([
         "course" => CommonValidators::course(false)
     ])
-    ->build();
-try {
-    $post = $validation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    \struktal\API\API::sendWrappedJson([
-        "message" => $e->getMessage()
-    ], \struktal\API\HTTPResponse::BAD_REQUEST);
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) {
+        \struktal\API\API::sendWrappedJson([
+            "message" => $e->getMessage()
+        ], \struktal\API\HTTPResponse::BAD_REQUEST);
+    });
 
 $courseWarnings = [];
 if($post["course"] !== null) {
@@ -44,10 +41,10 @@ if($post["course"] !== null) {
         }
 
         $courseLeaders = $post["course"]->getAllCourseLeaders();
-        $userIds = array_map(function(User $user) {
+        $userIds = array_map(function(\app\users\User $user) {
             return $user->getId();
         }, $users);
-        $courseLeaderIds = array_map(function(User $user) {
+        $courseLeaderIds = array_map(function(\app\users\User $user) {
             return $user->getId();
         }, $courseLeaders);
         if(count(array_diff($courseLeaderIds, $userIds)) > 0) {
@@ -56,7 +53,7 @@ if($post["course"] !== null) {
     }
 } else {
     // Load unassigned users
-    $users = User::dao()->getUnassignedUsers();
+    $users = \app\users\User::dao()->getUnassignedUsers();
     $realParticipantCount = count($users);
 }
 

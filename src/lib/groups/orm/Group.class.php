@@ -1,6 +1,8 @@
 <?php
 
-class Group extends \struktal\ORM\GenericObject {
+namespace app\groups;
+
+class Group extends \struktal\ORM\GenericEntity {
     public ?string $name = null;
     public ?int $clearance = null;
 
@@ -22,10 +24,10 @@ class Group extends \struktal\ORM\GenericObject {
 
     public function preDelete(): void {
         // Remove all users from the group
-        $users = User::dao()->getObjects(["groupId" => $this->getId()]);
+        $users = \app\users\User::dao()->getObjects(["groupId" => $this->getId()]);
         foreach($users as $user) {
             $user->setGroupId(null);
-            User::dao()->save($user);
+            \app\users\User::dao()->save($user);
         }
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 
-$groups = Group::dao()->getObjects();
+$groups = \app\groups\Group::dao()->getObjects();
 
-$groups = array_map(function(Group $group) {
+$groups = array_map(function(\app\groups\Group $group) {
     $array = $group->toArray();
     $array["editHref"] = Router->generate("groups-edit", ["group" => $group->getId()]);
     unset($array["id"]);

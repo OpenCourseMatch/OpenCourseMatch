@@ -1,6 +1,8 @@
 <?php
 
-class SystemSetting extends \struktal\ORM\GenericObject {
+namespace app\settings;
+
+class SystemSetting extends \struktal\ORM\GenericEntity {
     public ?string $key = null;
     public ?string $value = null;
 

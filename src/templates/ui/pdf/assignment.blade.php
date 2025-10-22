@@ -38,7 +38,7 @@
         <thead>
             <tr>
                 <th colspan="4">
-                    @if($assignment["course"] instanceof Course)
+                    @if($assignment["course"] instanceof \app\courses\Course)
                         {{ $assignment["course"]->getTitle() }}
                     @else
                         {{ t("Not assigned to any course") }}
@@ -94,7 +94,7 @@
         <thead>
             <tr>
                 <th colspan="4">
-                    @if($assignment["course"] instanceof Course)
+                    @if($assignment["course"] instanceof \app\courses\Course)
                         {{ $assignment["course"]->getTitle() }}
                     @else
                         {{ t("Not assigned to any course") }}

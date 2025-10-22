@@ -1,8 +1,8 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::ADMIN->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 
-$userActionsAllowed = SystemStatus::dao()->get("userActionsAllowed") === "true";
+$userActionsAllowed = \app\settings\SystemStatus::dao()->get("userActionsAllowed") === "true";
 
 $breadcrumbs = [
     [

@@ -1,8 +1,8 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::FACILITATOR, Router->generate("index"));
 
-$validation = Validation->create()
+$post = Validation->create()
     ->withErrorMessage(t("Please fill out all the required fields."))
     ->array()
     ->required()
@@ -10,13 +10,10 @@ $validation = Validation->create()
         "group" => CommonValidators::group(false),
         "password" => CommonValidators::password(false)
     ])
-    ->build();
-try {
-    $post = $validation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    InfoMessage->error($e->getMessage());
-    exit;
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) {
+        InfoMessage->error($e->getMessage());
+        exit;
+    });
 
 $fileUpload = new \struktal\FileUpload\FileUpload();
 $fileUpload->setInputName("file")
@@ -62,22 +59,22 @@ $importedUsersPasswords = [];
 foreach($csvData as $data) {
     $lastName = trim($data[0]);
     $firstName = trim($data[1]);
-    $username = User::dao()->generateUsername($firstName, $lastName);
+    $username = \app\users\User::dao()->generateUsername($firstName, $lastName);
 
     Logger->tag("Users")->trace("Importing user with name {$firstName} {$lastName} and username {$username}.");
 
-    $account = new User();
+    $account = new \app\users\User();
     $account->setUsername($username);
     $account->setEmail($username);
     $password = null;
     if(!empty($post["password"])) {
         $password = $post["password"];
     } else {
-        $password = User::dao()->generatePassword();
+        $password = \app\users\User::dao()->generatePassword();
     }
     $account->setPassword($password);
     $account->setEmailVerified(true);
-    $account->setPermissionLevel(PermissionLevel::USER->value);
+    $account->setPermissionLevel(\app\users\PermissionLevel::USER);
     $account->setFirstName($firstName);
     $account->setLastName($lastName);
     $account->setGroupId($groupId);
@@ -85,7 +82,7 @@ foreach($csvData as $data) {
     $account->setLastLogin(null);
     $account->setOneTimePassword(null);
     $account->setOneTimePasswordExpiration(null);
-    User::dao()->save($account);
+    \app\users\User::dao()->save($account);
 
     Logger->tag("Users")->trace("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) imported the user {$account->getId()} ({$account->getFullName()}).");
 

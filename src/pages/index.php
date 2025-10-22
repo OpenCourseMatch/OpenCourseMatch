@@ -1,7 +1,7 @@
 <?php
 
 $user = Auth->getLoggedInUser();
-if($user instanceof User) {
+if($user instanceof \app\users\User) {
     Router->redirect(Router->generate("dashboard"));
 }
 

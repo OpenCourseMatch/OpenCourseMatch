@@ -1,19 +1,19 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::USER->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::USER, Router->generate("index"));
 
-if($user->getPermissionLevel() > PermissionLevel::USER->value) {
+if($user->getPermissionLevel()->value > \app\users\PermissionLevel::USER->value) {
     InfoMessage->error(t("Choosing courses is only available to participants and tutors."));
     Router->redirect(Router->generate("index"));
 }
 
-if(SystemStatus::dao()->get("userActionsAllowed") !== "true") {
+if(\app\settings\SystemStatus::dao()->get("userActionsAllowed") !== "true") {
     InfoMessage->error(t("The course selection has already been disabled. You can no longer update your course preferences."));
     Router->redirect(Router->generate("index"));
 }
 
-$choosableCourses = Course::dao()->getChoosableCourses($user);
-$choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
+$choosableCourses = \app\courses\Course::dao()->getChoosableCourses($user);
+$choiceCount = intval(\app\settings\SystemSetting::dao()->get("choiceCount"));
 $saveLink = Router->generate("choice-save");
 
 $breadcrumbs = [

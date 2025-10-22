@@ -6,61 +6,52 @@ if(Auth->isLoggedIn()) {
 }
 
 // Check whether form fields are given
-$validation = Validation->create()
-    ->withErrorMessage(t("Please enter your account credentials to log in."))
+$post = Validation->create()
+    ->withErrorMessage(t("Please log in with your account's credentials."))
     ->array()
     ->required()
     ->children([
-        "username" => CommonValidators::username(),
-        "password" => CommonValidators::password()
+        "username" => \app\users\Validations::username(),
+        "password" => \app\users\Validations::password()
     ])
-    ->build();
-try {
-    $post = $validation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    InfoMessage->error($e->getMessage());
-    Router->redirect(Router->generate("auth-login"));
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) {
+        InfoMessage->error($e->getMessage());
+        Router->redirect(Router->generate("auth-login"));
+    });
 
 // Check whether there are no users
-if(count(User::dao()->getObjects([], "id", true, 1)) === 0) {
+if(!\app\users\UserService::userExists(null, null)) {
+    try {
+        \app\users\Validations::checkPassword($post["password"]);
+    } catch(\app\users\WeakPasswordException $e) {
+        InfoMessage->error(t("The password does not meet the requirements."));
+        Router->redirect(Router->generate("auth-login"));
+    }
+
+    \app\users\UserService::register(
+        $post["username"],
+        $post["password"],
+        \app\users\PermissionLevel::ADMIN,
+        "Admin",
+        "",
+        null,
+        null
+    );
+
     InfoMessage->success(t("No users were registered yet. An administrator account has been created."));
-
-    $user = new User();
-    $user->setUsername($post["username"]);
-    $user->setPassword($post["password"]);
-    $user->setEmail($post["username"]);
-    $user->setEmailVerified(true);
-    $user->setPermissionLevel(PermissionLevel::ADMIN->value);
-    $user->setFirstName("Admin");
-    $user->setLastName("");
-    $user->setGroupId(null);
-    $user->setLeadingCourseId(null);
-    $user->setLastLogin(null);
-    $user->setOneTimePassword(null);
-    $user->setOneTimePasswordExpiration(null);
-    User::dao()->save($user);
-
     Logger->tag("Login")->info("An initial administrator account has been created.");
 }
 
-$user = User::dao()->login($post["username"], false, $post["password"]);
-
-if($user instanceof \struktal\Auth\LoginError) {
-    Logger->tag("Login")->info("User \"{$post["username"]}\" failed to log in: " . $user->name);
+try {
+    $user = \app\users\UserService::login($post["username"], false, $post["password"]);
+} catch(\app\users\UserNotFoundException | \app\users\InvalidPasswordException | \app\users\EmailNotVerifiedException $e) {
     InfoMessage->error(t("An account with these credentials does not exist."));
     Router->redirect(Router->generate("auth-login"));
 }
 
-// Reset possibly existing one-time password
-$user->setLastLogin(new DateTimeImmutable());
-$user->setOneTimePassword(null);
-$user->setOneTimePasswordExpiration(null);
-User::dao()->save($user);
-
 // Check default values for system settings
-SystemSetting::dao()->setDefaults();
+\app\settings\SystemSetting::dao()->setDefaults();
 
 Logger->tag("Login")->info("User \"{$post["username"]}\" has logged in (User ID {$user->getId()})");
-Auth->login($user);
+Auth->sessionLogin($user);
 Router->redirect(Router->generate("index"));

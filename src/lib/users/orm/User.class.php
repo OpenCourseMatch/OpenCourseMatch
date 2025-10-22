@@ -1,16 +1,20 @@
 <?php
 
+namespace app\users;
+
 class User extends \struktal\ORM\GenericUser {
+    #[\struktal\ORM\InheritedType(PermissionLevel::class)]
+    public ?\struktal\Auth\PermissionLevel $permissionLevel = null;
     public ?string $firstName = null;
     public ?string $lastName = null;
     public ?int $groupId = null;
     public ?int $leadingCourseId = null;
-    public ?DateTimeImmutable $lastLogin = null;
+    public ?\DateTimeImmutable $lastLogin = null;
 
-    private ?Group $group = null;
-    private ?Course $leadingCourse = null;
+    private ?\app\groups\Group $group = null;
+    private ?\app\courses\Course $leadingCourse = null;
     private ?array $chosenCourses = null;
-    private ?Course $assignedCourse = null;
+    private ?\app\courses\Course $assignedCourse = null;
 
     public function getFirstName(): ?string {
         return $this->firstName;
@@ -44,11 +48,11 @@ class User extends \struktal\ORM\GenericUser {
         $this->leadingCourseId = $leadingCourseId;
     }
 
-    public function getLastLogin(): ?DateTimeImmutable {
+    public function getLastLogin(): ?\DateTimeImmutable {
         return $this->lastLogin;
     }
 
-    public function setLastLogin(?DateTimeImmutable $lastLogin): void {
+    public function setLastLogin(?\DateTimeImmutable $lastLogin): void {
         $this->lastLogin = $lastLogin;
     }
 
@@ -56,24 +60,24 @@ class User extends \struktal\ORM\GenericUser {
         return $this->getFirstName() . " " . $this->getLastName();
     }
 
-    public function getGroup(): ?Group {
+    public function getGroup(): ?\app\groups\Group {
         if(!$this->group) {
             if($this->getGroupId() === null) {
                 $this->group = null;
             } else {
-                $this->group = Group::dao()->getObject(["id" => $this->getGroupId()]);
+                $this->group = \app\groups\Group::dao()->getObject(["id" => $this->getGroupId()]);
             }
         }
 
         return $this->group;
     }
 
-    public function getLeadingCourse(): ?Course {
+    public function getLeadingCourse(): ?\app\courses\Course {
         if(!$this->leadingCourse) {
             if($this->getLeadingCourseId() === null) {
                 $this->leadingCourse = null;
             } else {
-                $this->leadingCourse = Course::dao()->getObject(["id" => $this->getLeadingCourseId()]);
+                $this->leadingCourse = \app\courses\Course::dao()->getObject(["id" => $this->getLeadingCourseId()]);
             }
         }
 
@@ -82,8 +86,8 @@ class User extends \struktal\ORM\GenericUser {
 
     public function getChoices(): array {
         if(!$this->chosenCourses) {
-            $chosenCourses = Choice::dao()->getObjects(["userId" => $this->getId()], "priority");
-            $choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
+            $chosenCourses = \app\choices\Choice::dao()->getObjects(["userId" => $this->getId()], "priority");
+            $choiceCount = intval(\app\settings\SystemSetting::dao()->get("choiceCount"));
 
             $this->chosenCourses = [];
             for($i = 0; $i < $choiceCount; $i++) {
@@ -98,12 +102,12 @@ class User extends \struktal\ORM\GenericUser {
         return $this->chosenCourses;
     }
 
-    public function getChoice(int $priority): ?Choice {
+    public function getChoice(int $priority): ?\app\choices\Choice {
         $chosenCourses = $this->getChoices();
         return $chosenCourses[$priority];
     }
 
-    public function getCoursePriority(Course $course): ?int {
+    public function getCoursePriority(\app\courses\Course $course): ?int {
         $chosenCourses = $this->getChoices();
         foreach($chosenCourses as $priority => $chosenCourse) {
             if($chosenCourse?->getCourseId() === $course->getId()) {
@@ -114,9 +118,9 @@ class User extends \struktal\ORM\GenericUser {
         return null;
     }
 
-    public function getAssignedCourse(): ?Course {
+    public function getAssignedCourse(): ?\app\courses\Course {
         if(!$this->assignedCourse) {
-            $assignment = Assignment::dao()->getObject([
+            $assignment = \app\assignments\Assignment::dao()->getObject([
                 "userId" => $this->getId()
             ]);
             $this->assignedCourse = $assignment?->getCourse();
@@ -129,17 +133,17 @@ class User extends \struktal\ORM\GenericUser {
         // Delete all choices
         $choices = $this->getChoices();
         foreach($choices as $choice) {
-            if($choice instanceof Choice) {
-                Choice::dao()->delete($choice);
+            if($choice instanceof \app\choices\Choice) {
+                \app\choices\Choice::dao()->delete($choice);
             }
         }
 
         // Delete assignment
-        $assignment = Assignment::dao()->getObject([
+        $assignment = \app\assignments\Assignment::dao()->getObject([
             "userId" => $this->getId()
         ]);
-        if($assignment instanceof Assignment) {
-            Assignment::dao()->delete($assignment);
+        if($assignment instanceof \app\assignments\Assignment) {
+            \app\assignments\Assignment::dao()->delete($assignment);
         }
     }
 }

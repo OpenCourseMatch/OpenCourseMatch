@@ -3,7 +3,7 @@
 class AlgoCourseData {
     private static array $instances = [];
 
-    public static function fromDatabaseObject(Course $course): AlgoCourseData {
+    public static function fromDatabaseObject(\app\courses\Course $course): AlgoCourseData {
         if(isset(self::$instances[$course->getId()])) {
             return self::$instances[$course->getId()];
         }
@@ -33,7 +33,7 @@ class AlgoCourseData {
         return self::$instances[$id];
     }
 
-    private Course $databaseObject;
+    private \app\courses\Course $databaseObject;
 
     public int $id;
     public int $minClearance;

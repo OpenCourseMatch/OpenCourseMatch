@@ -1,26 +1,23 @@
 <?php
 
-$user = Auth->enforceLogin(PermissionLevel::FACILITATOR->value, Router->generate("index"));
+$user = Auth->requireLogin(\app\users\PermissionLevel::FACILITATOR, Router->generate("index"));
 
-$validation = Validation->create()
+$post = Validation->create()
     ->withErrorMessage(t("Please fill out all the required fields."))
     ->array()
     ->required()
     ->children([
         "group" => CommonValidators::group(true, [], t("The group of which the users should be deleted does not exist."))
     ])
-    ->build();
-try {
-    $post = $validation->getValidatedValue($_POST);
-} catch(\struktal\validation\ValidationException $e) {
-    InfoMessage->error($e->getMessage());
-    exit;
-}
+    ->validate($_POST, function(\struktal\validation\ValidationException $e) {
+        InfoMessage->error($e->getMessage());
+        exit;
+    });
 
 $group = $post["group"];
-$accounts = User::dao()->getObjects([
+$accounts = \app\users\User::dao()->getObjects([
     "groupId" => $group?->getId(),
-    "permissionLevel" => PermissionLevel::USER->value
+    "permissionLevel" => \app\users\PermissionLevel::USER
 ]);
 
 if(empty($accounts)) {
@@ -33,7 +30,7 @@ if(empty($accounts)) {
 
 foreach($accounts as $account) {
     $account->preDelete();
-    User::dao()->delete($account);
+    \app\users\User::dao()->delete($account);
 
     Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
 }

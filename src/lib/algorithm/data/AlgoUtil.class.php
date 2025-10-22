@@ -2,14 +2,14 @@
 
 class AlgoUtil {
     public static function setAssignmentStatus(bool $complete): void {
-        SystemStatus::dao()->set("algorithmRunning", $complete ? "false" : "true");
-        SystemStatus::dao()->set("coursesAssigned", $complete ? "true" : "false");
+        \app\settings\SystemStatus::dao()->set("algorithmRunning", $complete ? "false" : "true");
+        \app\settings\SystemStatus::dao()->set("coursesAssigned", $complete ? "true" : "false");
     }
 
     public static function resetDatabaseAssignments(): void {
-        $assignments = Assignment::dao()->getObjects();
+        $assignments = \app\assignments\Assignment::dao()->getObjects();
         foreach($assignments as $assignment) {
-            Assignment::dao()->delete($assignment);
+            \app\assignments\Assignment::dao()->delete($assignment);
         }
     }
 

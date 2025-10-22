@@ -5,7 +5,7 @@ class PDF {
     private $documentTitle;
 
     public function __construct(
-        User $creatingUser,
+        \app\users\User $creatingUser,
         string $title,
         string $template,
         array $data
