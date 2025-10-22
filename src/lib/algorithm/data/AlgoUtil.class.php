@@ -9,7 +9,7 @@ class AlgoUtil {
     public static function resetDatabaseAssignments(): void {
         $assignments = \app\assignments\Assignment::dao()->getObjects();
         foreach($assignments as $assignment) {
-            \app\assignments\AssignmentService::delete($assignment);
+            \app\assignments\Assignment::dao()->delete($assignment);
         }
     }
 

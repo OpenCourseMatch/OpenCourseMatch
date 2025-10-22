@@ -1,7 +1,5 @@
 <?php
 
-use \app\courses\Course;
-
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 $coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
@@ -10,7 +8,7 @@ if(!$coursesAssigned) {
     Router->redirect(Router->generate("index"));
 }
 
-$courses = Course::dao()->getObjects([], "minClearance");
+$courses = \app\courses\Course::dao()->getObjects([], "minClearance");
 $courseIds = [null];
 foreach($courses as $course) {
     $courseIds[] = $course->getId();

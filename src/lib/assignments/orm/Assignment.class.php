@@ -2,15 +2,12 @@
 
 namespace app\assignments;
 
-use \app\users\User;
-use \app\courses\Course;
-
 class Assignment extends \struktal\ORM\GenericEntity {
     public ?int $userId = null;
     public ?int $courseId = null;
 
-    private ?User $user = null;
-    private ?Course $course = null;
+    private ?\app\users\User $user = null;
+    private ?\app\courses\Course $course = null;
 
     public function getUserId(): ?int {
         return $this->userId;
@@ -28,17 +25,17 @@ class Assignment extends \struktal\ORM\GenericEntity {
         $this->courseId = $courseId;
     }
 
-    public function getUser(): ?User {
+    public function getUser(): ?\app\users\User {
         if(!$this->user) {
-            $this->user = User::dao()->getObject(["id" => $this->getUserId()]);
+            $this->user = \app\users\User::dao()->getObject(["id" => $this->getUserId()]);
         }
 
         return $this->user;
     }
 
-    public function getCourse(): ?Course {
+    public function getCourse(): ?\app\courses\Course {
         if(!$this->course) {
-            $this->course = Course::dao()->getObject(["id" => $this->getCourseId()]);
+            $this->course = \app\courses\Course::dao()->getObject(["id" => $this->getCourseId()]);
         }
 
         return $this->course;

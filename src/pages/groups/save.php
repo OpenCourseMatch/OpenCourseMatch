@@ -19,7 +19,7 @@ $post = Validation->create()
     ])
     ->validate($_POST, function(\struktal\validation\ValidationException $e) {
         InfoMessage->error($e->getMessage());
-        if(isset($_POST["group"]) && !\app\groups\GroupService::hasId($_POST["group"])) {
+        if(isset($_POST["group"]) && !\app\groups\Group::dao()->hasId($_POST["group"])) {
             Router->redirect(Router->generate("groups-overview"));
         } else if(isset($_POST["group"])) {
             Router->redirect(Router->generate("groups-edit", ["group" => $_POST["group"]]));

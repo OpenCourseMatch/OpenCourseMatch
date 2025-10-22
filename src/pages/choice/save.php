@@ -1,23 +1,18 @@
 <?php
 
-use \app\users\PermissionLevel;
-use \app\settings\SystemStatus;
-use \app\settings\SystemSetting;
-use \app\choices\Choice;
-
 $user = Auth->requireLogin(\app\users\PermissionLevel::USER, Router->generate("index"));
 
-if($user->getPermissionLevel() > PermissionLevel::USER->value) {
+if($user->getPermissionLevel()->value > \app\users\PermissionLevel::USER->value) {
     InfoMessage->error(t("Choosing courses is only available to participants and tutors."));
     Router->redirect(Router->generate("index"));
 }
 
-if(SystemStatus::dao()->get("userActionsAllowed") !== "true") {
+if(\app\settings\SystemStatus::dao()->get("userActionsAllowed") !== "true") {
     InfoMessage->error(t("The course selection has already been disabled. You can no longer update your course preferences."));
     Router->redirect(Router->generate("index"));
 }
 
-$choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
+$choiceCount = intval(\app\settings\SystemSetting::dao()->get("choiceCount"));
 
 $choiceValidation = [];
 for($i = 0; $i < $choiceCount; $i++) {
@@ -62,7 +57,7 @@ foreach($post["choice"] as $i => $course) {
     Logger->tag("Choices")->trace("User {$user->getId()} ({$user->getFullName()}) is choosing course {$course->getId()} ({$course->getTitle()}) with priority {$i}.");
 
     $chosenCourses[] = $course->getId();
-    $choice = new Choice();
+    $choice = new \app\choices\Choice();
     $choice->setUserId($user->getId());
     $choice->setCourseId($course->getId());
     $choice->setPriority($i);
@@ -71,17 +66,17 @@ foreach($post["choice"] as $i => $course) {
 
 // Delete old choices from database to prevent collisions
 Logger->tag("Choices")->trace("Deleting all old choices for user {$user->getId()} ({$user->getFullName()})");
-$oldChoices = Choice::dao()->getObjects([
+$oldChoices = \app\choices\Choice::dao()->getObjects([
     "userId" => $user->getId()
 ]);
 foreach($oldChoices as $oldChoice) {
-    Choice::dao()->delete($oldChoice);
+    \app\choices\Choice::dao()->delete($oldChoice);
 }
 
 // Save new choices to database
 Logger->tag("Choices")->trace("Saving new choices for user {$user->getId()} ({$user->getFullName()}).");
 foreach($choices as $choice) {
-    Choice::dao()->save($choice);
+    \app\choices\Choice::dao()->save($choice);
 }
 Logger->tag("Choices")->info("User {$user->getId()} ({$user->getFullName()}) has saved / updated their course choices.");
 

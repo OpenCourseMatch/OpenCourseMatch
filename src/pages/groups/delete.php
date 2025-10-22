@@ -16,7 +16,8 @@ $get = Validation->create()
 
 $group = $get["group"];
 
-\app\groups\GroupService::delete($group);
+$group->preDelete();
+\app\groups\Group::dao()->delete($group);
 
 Logger->tag("Groups")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the group {$group->getId()} ({$group->getName()})");
 

@@ -50,7 +50,7 @@ try {
 }
 
 // Check default values for system settings
-SystemSetting::dao()->setDefaults();
+\app\settings\SystemSetting::dao()->setDefaults();
 
 Logger->tag("Login")->info("User \"{$post["username"]}\" has logged in (User ID {$user->getId()})");
 Auth->sessionLogin($user);

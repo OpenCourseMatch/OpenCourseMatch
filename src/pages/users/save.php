@@ -34,7 +34,7 @@ $groupId = isset($post["group"]) ? $post["group"]->getId() : null;
 $leadingCourseId = isset($post["leadingCourse"]) ? $post["leadingCourse"]->getId() : null;
 
 if($account->getUsername() === "") {
-    $username = \app\users\UserService::generateUsername($post["firstName"], $post["lastName"]);
+    $username = \app\users\User::dao()->generateUsername($post["firstName"], $post["lastName"]);
     $account->setUsername($username);
     $account->setEmail($username);
 }
@@ -42,7 +42,7 @@ $password = null;
 if(!empty($post["password"])) {
     $password = $post["password"];
 } else if($account->getPassword() === "") {
-    $password = \app\users\UserService::generatePassword();
+    $password = \app\users\User::dao()->generatePassword();
 }
 if($password !== null) {
     $account->setPassword($password);

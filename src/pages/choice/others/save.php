@@ -2,16 +2,12 @@
 
 $user = Auth->requireLogin(\app\users\PermissionLevel::FACILITATOR, Router->generate("index"));
 
-use \app\users\PermissionLevel;
-use \app\settings\SystemSetting;
-use \app\choices\Choice;
-
 $get = Validation->create()
     ->array()
     ->required()
     ->children([
         "user" => CommonValidators::user(true, [
-            "permissionLevel" => PermissionLevel::USER
+            "permissionLevel" => \app\users\PermissionLevel::USER
         ], t("The user of which the choice should be edited does not exist."))
     ])
     ->validate($_GET, function(\struktal\validation\ValidationException $e) {
@@ -21,7 +17,7 @@ $get = Validation->create()
 
 $account = $get["user"];
 
-$choiceCount = intval(SystemSetting::dao()->get("choiceCount"));
+$choiceCount = intval(\app\settings\SystemSetting::dao()->get("choiceCount"));
 
 $choiceValidation = [];
 for($i = 0; $i < $choiceCount; $i++) {
@@ -66,7 +62,7 @@ foreach($post["choice"] as $i => $course) {
     Logger->tag("Choices")->trace("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is choosing course {$course->getId()} ({$course->getTitle()}) for user {$account->getId()} ({$account->getFullName()}) with priority {$i}.");
 
     $chosenCourses[] = $course->getId();
-    $choice = new Choice();
+    $choice = new \app\choices\Choice();
     $choice->setUserId($account->getId());
     $choice->setCourseId($course->getId());
     $choice->setPriority($i);
@@ -75,17 +71,17 @@ foreach($post["choice"] as $i => $course) {
 
 // Delete old choices from database to prevent collisions
 Logger->tag("Choices")->trace("Deleting all old choices for user {$account->getId()} ({$account->getFullName()})");
-$oldChoices = Choice::dao()->getObjects([
+$oldChoices = \app\choices\Choice::dao()->getObjects([
     "userId" => $account->getId()
 ]);
 foreach($oldChoices as $oldChoice) {
-    Choice::dao()->delete($oldChoice);
+    \app\choices\Choice::dao()->delete($oldChoice);
 }
 
 // Save new choices to database
 Logger->tag("Choices")->trace("Saving new choices for user {$account->getId()} ({$account->getFullName()}).");
 foreach($choices as $choice) {
-    Choice::dao()->save($choice);
+    \app\choices\Choice::dao()->save($choice);
 }
 Logger->tag("Choices")->info("User {$user->getId()} ({$user->getFullName()}) has saved / updated the course choices for user {$account->getId()} ({$account->getFullName()}).");
 

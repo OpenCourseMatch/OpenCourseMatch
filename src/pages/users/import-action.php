@@ -59,7 +59,7 @@ $importedUsersPasswords = [];
 foreach($csvData as $data) {
     $lastName = trim($data[0]);
     $firstName = trim($data[1]);
-    $username = \app\users\UserService::generateUsername($firstName, $lastName);
+    $username = \app\users\User::dao()->generateUsername($firstName, $lastName);
 
     Logger->tag("Users")->trace("Importing user with name {$firstName} {$lastName} and username {$username}.");
 
@@ -70,7 +70,7 @@ foreach($csvData as $data) {
     if(!empty($post["password"])) {
         $password = $post["password"];
     } else {
-        $password = \app\users\UserService::generatePassword();
+        $password = \app\users\User::dao()->generatePassword();
     }
     $account->setPassword($password);
     $account->setEmailVerified(true);

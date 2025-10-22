@@ -21,4 +21,13 @@ class Group extends \struktal\ORM\GenericEntity {
     public function setClearance(?int $clearance): void {
         $this->clearance = $clearance;
     }
+
+    public function preDelete(): void {
+        // Remove all users from the group
+        $users = \app\users\User::dao()->getObjects(["groupId" => $this->getId()]);
+        foreach($users as $user) {
+            $user->setGroupId(null);
+            \app\users\User::dao()->save($user);
+        }
+    }
 }

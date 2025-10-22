@@ -72,7 +72,7 @@ class AlgoUserData {
     }
 
     public function loadChosenCourses(): void {
-        $choices = \app\choices\ChoiceService::getChoicesOfUser($this->databaseObject);
+        $choices = $this->databaseObject->getChoices();
         foreach($choices as $priority => $choice) {
             if($choice === null) {
                 continue;

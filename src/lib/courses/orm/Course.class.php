@@ -2,9 +2,6 @@
 
 namespace app\courses;
 
-use \app\users\User;
-use \app\groups\Group;
-
 class Course extends \struktal\ORM\GenericEntity {
     public ?string $title = null;
     public ?string $organizer = null;
@@ -12,6 +9,10 @@ class Course extends \struktal\ORM\GenericEntity {
     public ?int $maxClearance = null;
     public ?int $minParticipants = null;
     public ?int $maxParticipants = null;
+
+    private ?array $users = null;
+    private ?array $participants = null;
+    private ?array $courseLeaders = null;
 
     public function getTitle(): ?string {
         return $this->title;
@@ -61,14 +62,14 @@ class Course extends \struktal\ORM\GenericEntity {
         $this->maxParticipants = $maxParticipants;
     }
 
-    public function canChooseCourse(User $user): bool {
+    public function canChooseCourse(\app\users\User $user): bool {
         $clearancePassed = $this->isGroupAllowed($user->getGroup());
         $notLeadingCoursePassed = $user->getLeadingCourseId() !== $this->getId();
 
         return $clearancePassed && $notLeadingCoursePassed;
     }
 
-    public function isGroupAllowed(?Group $group = null): bool {
+    public function isGroupAllowed(?\app\groups\Group $group = null): bool {
         $clearance = 0;
         if($group !== null) {
             $clearance = $group->getClearance();
@@ -78,5 +79,71 @@ class Course extends \struktal\ORM\GenericEntity {
         $maxClearancePassed = $this->getMaxClearance() === null || $clearance <= $this->getMaxClearance();
 
         return $minClearancePassed && $maxClearancePassed;
+    }
+
+    public function isCancelled(): bool {
+        $algorithmComplete = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
+        $participants = \app\assignments\Assignment::dao()->getObjects(["courseId" => $this->getId()]);
+        return $algorithmComplete && empty($participants);
+    }
+
+    public function getAssignedUsers(): array {
+        if($this->users === null) {
+            $assignments = \app\assignments\Assignment::dao()->getObjects(["courseId" => $this->getId()]);
+            $this->users = array_map(function(\app\assignments\Assignment $assignment) {
+                return $assignment->getUser();
+            }, $assignments);
+        }
+
+        return $this->users;
+    }
+
+    public function getAssignedParticipants(): array {
+        if($this->participants === null) {
+            $users = $this->getAssignedUsers();
+            $this->participants = array_filter($users, function(\app\users\User $user) {
+                return $user->getLeadingCourseId() !== $this->getId();
+            });
+        }
+
+        return $this->participants;
+    }
+
+    public function getAllCourseLeaders(): array {
+        if($this->courseLeaders === null) {
+            $this->courseLeaders = \app\users\User::dao()->getObjects([
+                "leadingCourseId" => $this->getId(),
+                "permissionLevel" => \app\users\PermissionLevel::USER
+            ]);
+        }
+
+        return $this->courseLeaders;
+    }
+
+    public function isSpaceLeft(): bool {
+        $participants = $this->getAssignedParticipants();
+        $participantCount = count($participants);
+        return $participantCount < $this->getMaxParticipants();
+    }
+
+    public function preDelete(): void {
+        // Delete all choices for this course
+        $choices = \app\choices\Choice::dao()->getObjects(["courseId" => $this->getId()]);
+        foreach($choices as $choice) {
+            \app\choices\Choice::dao()->delete($choice);
+        }
+
+        // Delete all assignments for this course
+        $assignments = \app\assignments\Assignment::dao()->getObjects(["courseId" => $this->getId()]);
+        foreach($assignments as $assignment) {
+            \app\assignments\Assignment::dao()->delete($assignment);
+        }
+
+        // Delete all course leaders for this course
+        $courseLeaders = $this->getAllCourseLeaders();
+        foreach($courseLeaders as $courseLeader) {
+            $courseLeader->setLeadingCourseId(null);
+            \app\users\User::dao()->save($courseLeader);
+        }
     }
 }

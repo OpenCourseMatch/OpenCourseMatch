@@ -51,7 +51,7 @@ foreach($accounts as $account) {
     $edited = false;
 
     if($post["resetPassword"] === 1) {
-        $password = \app\users\UserService::generatePassword();
+        $password = \app\users\User::dao()->generatePassword();
         if($post["newPassword"] !== null) {
             $password = $post["newPassword"];
         }

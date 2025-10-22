@@ -1,7 +1,5 @@
 <?php
 
-use \app\courses\CourseService;
-
 $user = Auth->requireLogin(\app\users\PermissionLevel::FACILITATOR, Router->generate("index"));
 
 $get = Validation->create()
@@ -18,7 +16,8 @@ $get = Validation->create()
 
 $course = $get["course"];
 
-CourseService::delete($course);
+$course->preDelete();
+\app\courses\Course::dao()->delete($course);
 
 Logger->tag("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the course {$course->getId()} ({$course->getTitle()})");
 

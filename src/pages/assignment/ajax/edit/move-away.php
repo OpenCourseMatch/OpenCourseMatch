@@ -1,17 +1,5 @@
 <?php
 
-use \app\courses\Course;
-use \app\courses\CourseService;
-use \app\users\User;
-use \app\users\PermissionLevel;
-use \app\users\UserService;
-use \app\choices\Choice;
-use \app\choices\ChoiceService;
-use \app\assignments\Assignment;
-use \app\assignments\AssignmentService;
-use \app\groups\Group;
-use \app\groups\GroupService;
-
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 $coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
@@ -27,7 +15,7 @@ $get = Validation->create()
     ->required()
     ->children([
         "user" => CommonValidators::user(true, [
-            "permissionLevel" => PermissionLevel::USER
+            "permissionLevel" => \app\users\PermissionLevel::USER
         ])
     ])
     ->validate($_GET, function(\struktal\validation\ValidationException $e) {
@@ -49,19 +37,19 @@ $post = Validation->create()
         ], \struktal\API\HTTPResponse::BAD_REQUEST);
     });
 
-$assignment = AssignmentService::getAssignmentForUser($get["user"]);
-if($post["course"] instanceof Course) {
-    $course = $post["course"];
-
-    if(!$assignment instanceof Assignment) {
-        $assignment = new Assignment();
+$assignment = \app\assignments\Assignment::dao()->getObject([
+    "userId" => $get["user"]->getId()
+]);
+if($post["course"] instanceof \app\courses\Course) {
+    if(!$assignment instanceof \app\assignments\Assignment) {
+        $assignment = new \app\assignments\Assignment();
         $assignment->setUserId($get["user"]->getId());
     }
     $assignment->setCourseId($post["course"]->getId());
-    Assignment::dao()->save($assignment);
+    \app\assignments\Assignment::dao()->save($assignment);
 } else {
-    if($assignment instanceof Assignment) {
-        Assignment::dao()->delete($assignment);
+    if($assignment instanceof \app\assignments\Assignment) {
+        \app\assignments\Assignment::dao()->delete($assignment);
     }
 }
 

@@ -1,6 +1,5 @@
 <?php
 
-use app\courses\Course;
 use struktal\validation\internals\Validator;
 
 class CommonValidators {
@@ -33,7 +32,7 @@ class CommonValidators {
         if($errorMessage !== null) {
             $validation->withErrorMessage($errorMessage);
         }
-        $validation->inDatabase(User::dao(), $additionalFilters);
+        $validation->inDatabase(\app\users\User::dao(), $additionalFilters);
         if($required) {
             $validation->required();
         }
@@ -46,7 +45,7 @@ class CommonValidators {
         if($errorMessage !== null) {
             $validation->withErrorMessage($errorMessage);
         }
-        $validation->inDatabase(Course::dao(), $additionalFilters);
+        $validation->inDatabase(\app\courses\Course::dao(), $additionalFilters);
         if($required) {
             $validation->required();
         }
@@ -59,7 +58,7 @@ class CommonValidators {
         if($errorMessage !== null) {
             $validation->withErrorMessage($errorMessage);
         }
-        $validation->inDatabase(Group::dao(), $additionalFilters);
+        $validation->inDatabase(\app\groups\Group::dao(), $additionalFilters);
         if($required) {
             $validation->required();
         }

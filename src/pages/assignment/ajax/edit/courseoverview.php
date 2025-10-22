@@ -1,17 +1,5 @@
 <?php
 
-use \app\courses\Course;
-use \app\courses\CourseService;
-use \app\users\User;
-use \app\users\PermissionLevel;
-use \app\users\UserService;
-use \app\choices\Choice;
-use \app\choices\ChoiceService;
-use \app\assignments\Assignment;
-use \app\assignments\AssignmentService;
-use \app\groups\Group;
-use \app\groups\GroupService;
-
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 $coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
@@ -35,30 +23,28 @@ $post = Validation->create()
     });
 
 $courseWarnings = [];
-if($post["course"] instanceof Course) {
-    $course = $post["course"];
-
+if($post["course"] !== null) {
     // Load the assigned users of the course
-    $users = CourseService::getAssignedUsers($course);
-    $realParticipantCount = count(CourseService::getAssignedParticipants($course));
+    $users = $post["course"]->getAssignedUsers();
+    $realParticipantCount = count($post["course"]->getAssignedParticipants());
 
     // Get warnings for the course
-    if(CourseService::isCancelled($course)) {
+    if($post["course"]->isCancelled()) {
         $courseWarnings[] = t("This course has been cancelled.");
     } else {
-        if($course->getMaxParticipants() < $realParticipantCount) {
+        if($post["course"]->getMaxParticipants() < $realParticipantCount) {
             $courseWarnings[] = t("The number of participants exceeds the maximum number of participants allowed for this course.");
         }
 
-        if($course->getMinParticipants() > $realParticipantCount) {
+        if($post["course"]->getMinParticipants() > $realParticipantCount) {
             $courseWarnings[] = t("The number of participants is below the minimum number of participants required for this course.");
         }
 
-        $courseLeaders = CourseService::getCourseLeaders($course);
-        $userIds = array_map(function(User $user) {
+        $courseLeaders = $post["course"]->getAllCourseLeaders();
+        $userIds = array_map(function(\app\users\User $user) {
             return $user->getId();
         }, $users);
-        $courseLeaderIds = array_map(function(User $user) {
+        $courseLeaderIds = array_map(function(\app\users\User $user) {
             return $user->getId();
         }, $courseLeaders);
         if(count(array_diff($courseLeaderIds, $userIds)) > 0) {
@@ -67,7 +53,7 @@ if($post["course"] instanceof Course) {
     }
 } else {
     // Load unassigned users
-    $users = User::dao()->getUnassignedUsers();
+    $users = \app\users\User::dao()->getUnassignedUsers();
     $realParticipantCount = count($users);
 }
 

@@ -1,17 +1,5 @@
 <?php
 
-use \app\courses\Course;
-use \app\courses\CourseService;
-use \app\users\User;
-use \app\users\PermissionLevel;
-use \app\users\UserService;
-use \app\choices\Choice;
-use \app\choices\ChoiceService;
-use \app\assignments\Assignment;
-use \app\assignments\AssignmentService;
-use \app\groups\Group;
-use \app\groups\GroupService;
-
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 $coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
@@ -40,7 +28,7 @@ $post = Validation->create()
     ->required()
     ->children([
         "user" => CommonValidators::user(true, [
-            "permissionLevel" => PermissionLevel::USER
+            "permissionLevel" => \app\users\PermissionLevel::USER
         ])
     ])
     ->validate($_POST, function(\struktal\validation\ValidationException $e) {
@@ -49,12 +37,14 @@ $post = Validation->create()
         ], \struktal\API\HTTPResponse::BAD_REQUEST);
     });
 
-$assignment = AssignmentService::getAssignmentForUser($post["user"]);
-if(!$assignment instanceof Assignment) {
-    $assignment = new Assignment();
+$assignment = \app\assignments\Assignment::dao()->getObject([
+    "userId" => $post["user"]->getId()
+]);
+if(!$assignment instanceof \app\assignments\Assignment) {
+    $assignment = new \app\assignments\Assignment();
     $assignment->setUserId($post["user"]->getId());
 }
 $assignment->setCourseId($get["course"]->getId());
-Assignment::dao()->save($assignment);
+\app\assignments\Assignment::dao()->save($assignment);
 
 \struktal\API\API::sendWrappedJson([]);

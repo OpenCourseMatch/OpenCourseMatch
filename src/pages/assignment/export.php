@@ -1,10 +1,5 @@
 <?php
 
-use \app\courses\Course;
-use \app\users\User;
-use \app\users\PermissionLevel;
-use \app\assignments\Assignment;
-
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 $coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
@@ -21,13 +16,13 @@ $assignmentsData = [
     ]
 ];
 
-$accounts = User::dao()->getObjects(["permissionLevel" => PermissionLevel::USER]);
+$accounts = \app\users\User::dao()->getObjects(["permissionLevel" => \app\users\PermissionLevel::USER]);
 $mappedAccounts = [];
 foreach($accounts as $account) {
     $mappedAccounts[$account->getId()] = $account;
 }
 
-$courseAssignments = Assignment::dao()->getObjects();
+$courseAssignments = \app\assignments\Assignment::dao()->getObjects();
 $mappedCourseAssignments = [];
 foreach($courseAssignments as $courseAssignment) {
     if(!isset($mappedCourseAssignments[$courseAssignment->getCourseId()])) {
@@ -36,7 +31,7 @@ foreach($courseAssignments as $courseAssignment) {
     $mappedCourseAssignments[$courseAssignment->getCourseId()][] = $courseAssignment;
 }
 
-$courses = Course::dao()->getObjects();
+$courses = \app\courses\Course::dao()->getObjects();
 foreach($courses as $course) {
     $assignments = $mappedCourseAssignments[$course->getId()] ?? [];
     $participants = [];

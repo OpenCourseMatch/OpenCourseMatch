@@ -2,20 +2,20 @@
 
 $user = Auth->requireLogin(\app\users\PermissionLevel::USER, Router->generate("index"));
 
-if($user->getPermissionLevel() === PermissionLevel::ADMIN->value) {
-    if(SystemStatus::dao()->get("algorithmRunning") === "true") {
+if($user->getPermissionLevel() === \app\users\PermissionLevel::ADMIN) {
+    if(\app\settings\SystemStatus::dao()->get("algorithmRunning") === "true") {
         InfoMessage->warning(t("The course assignment algorithm is currently running. Meanwhile, some actions from your dashboard might be unavailable."));
     }
 }
 
 $variables = [];
-if($user->getPermissionLevel() === PermissionLevel::ADMIN->value) {
-    $users = count(User::dao()->getObjects([
-        "permissionLevel" => PermissionLevel::USER
+if($user->getPermissionLevel() === \app\users\PermissionLevel::ADMIN) {
+    $users = count(\app\users\User::dao()->getObjects([
+        "permissionLevel" => \app\users\PermissionLevel::USER
     ]));
     $variables["numberOfParticipantsAndTutors"] = $users;
 
-    $courses = count(Course::dao()->getObjects());
+    $courses = count(\app\courses\Course::dao()->getObjects());
     $variables["numberOfCourses"] = $courses;
 }
 

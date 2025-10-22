@@ -88,7 +88,6 @@ for($i = 0; $i < $choiceCount; $i++) {
 $users = \app\users\User::dao()->getObjects();
 $assignmentsCache = [];
 
-/** @var \app\users\User $account */
 foreach($users as $account) {
     if($account->getPermissionLevel() === \app\users\PermissionLevel::USER) {
         // Account types (user case)
@@ -102,7 +101,7 @@ foreach($users as $account) {
         }
 
         // Groups
-        $choices = \app\choices\ChoiceService::getChoicesOfUser($account);
+        $choices = $account->getChoices();
         $allChoices = true;
         $noChoices = true;
         foreach($choices as $choice) {
@@ -156,13 +155,8 @@ foreach($users as $account) {
             }
         }
 
-        $assignment = \app\assignments\AssignmentService::getAssignmentForUser($account);
-        $assignedCourse = null;
-        if($assignment instanceof \app\assignments\Assignment) {
-            $assignedCourse = $assignment->getCourse();
-        }
-
-        if($assignedCourse instanceof \app\courses\Course) {
+        $assignedCourse = $account->getAssignedCourse();
+        if($assignedCourse !== null) {
             // Save assignment for later
             if(!isset($assignmentsCache[$assignedCourse->getId()])) {
                 $assignmentsCache[$assignedCourse->getId()] = [
@@ -194,7 +188,7 @@ foreach($users as $account) {
             }
 
             // Course priorities
-            $coursePriority = \app\choices\ChoiceService::getCoursePriority($account, $assignedCourse);
+            $coursePriority = $account->getCoursePriority($assignedCourse);
             if($account->getLeadingCourseId() === $assignedCourse->getId()) {
                 $statistics["consideredPriorities"]["courseLeader"]++;
             } else if($coursePriority !== null) {
@@ -245,7 +239,6 @@ foreach($users as $account) {
 
 $courses = \app\courses\Course::dao()->getObjects();
 
-/** @var \app\courses\Course $course */
 foreach($courses as $course) {
     $courseLeaders = \app\users\User::dao()->getObjects([
         "leadingCourseId" => $course->getId()
@@ -259,7 +252,7 @@ foreach($courses as $course) {
     }
     $availablePlaces = $totalPlaces - $occupiedPlaces;
 
-    if(\app\courses\CourseService::isCancelled($course)) {
+    if($course->isCancelled()) {
         // Available places (cancelled case)
         $statistics["courseLeaderships"]["cancelled"]++;
         $statistics["places"]["cancelled"] += $availablePlaces;
@@ -280,7 +273,7 @@ foreach($courses as $course) {
     if($course->isGroupAllowed(null)) {
         $statistics["coursesByGroup"]["default"]++;
 
-        if(\app\courses\CourseService::isCancelled($course)) {
+        if($course->isCancelled()) {
             $statistics["placesByGroup"]["default"]["cancelled"] += $availablePlaces;
         } else {
             $statistics["placesByGroup"]["default"]["available"] += $availablePlaces;
@@ -305,7 +298,7 @@ foreach($courses as $course) {
                 ];
             }
 
-            if(\app\courses\CourseService::isCancelled($course)) {
+            if($course->isCancelled()) {
                 $statistics["placesByGroup"]["customData"][$group->getId()]["cancelled"] += $availablePlaces;
             } else {
                 $statistics["placesByGroup"]["customData"][$group->getId()]["available"] += $availablePlaces;

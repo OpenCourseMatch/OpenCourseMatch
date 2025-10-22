@@ -1,17 +1,5 @@
 <?php
 
-use \app\courses\Course;
-use \app\courses\CourseService;
-use \app\users\User;
-use \app\users\PermissionLevel;
-use \app\users\UserService;
-use \app\choices\Choice;
-use \app\choices\ChoiceService;
-use \app\assignments\Assignment;
-use \app\assignments\AssignmentService;
-use \app\groups\Group;
-use \app\groups\GroupService;
-
 $user = Auth->requireLogin(\app\users\PermissionLevel::ADMIN, Router->generate("index"));
 $coursesAssigned = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
 
@@ -27,7 +15,7 @@ $post = Validation->create()
     ->required()
     ->children([
         "user" => CommonValidators::user(true, [
-            "permissionLevel" => PermissionLevel::USER
+            "permissionLevel" => \app\users\PermissionLevel::USER
         ])
     ])
     ->validate($_POST, function(\struktal\validation\ValidationException $e) {
@@ -36,18 +24,19 @@ $post = Validation->create()
         ], \struktal\API\HTTPResponse::BAD_REQUEST);
     });
 
-/** @var User $account */
 $account = $post["user"];
 
 // Get warnings for the user
 $userWarnings = [];
-$assignment = AssignmentService::getAssignmentForUser($account);
-if($assignment instanceof Assignment) {
+$assignment = \app\assignments\Assignment::dao()->getObject([
+    "userId" => $account->getId()
+]);
+if($assignment instanceof \app\assignments\Assignment) {
     $course = $assignment->getCourse();
 
     // Check if the user has chosen the course
-    $chosenCourses = ChoiceService::getChoicesOfUser($account);
-    $chosenCourseIds = array_map(function(?Choice $choice) {
+    $chosenCourses = $account->getChoices();
+    $chosenCourseIds = array_map(function(?\app\choices\Choice $choice) {
         return $choice?->getCourseId();
     }, $chosenCourses);
     if(!in_array($course->getId(), $chosenCourseIds) && $account->getLeadingCourseId() !== $course->getId()) {
@@ -60,31 +49,28 @@ if($assignment instanceof Assignment) {
     }
 
     // Check if the user has to be assigned to his own course
-    $leadingCourse = $account->getLeadingCourse();
-    if($leadingCourse instanceof Course && !CourseService::isCancelled($leadingCourse) && $leadingCourse->getId()() !== $course->getId()) {
+    if($account->getLeadingCourse() !== null && !$account->getLeadingCourse()->isCancelled() && $account->getLeadingCourseId() !== $course->getId()) {
         $userWarnings[] = t("This user is not assigned to the course that they are leading.");
     }
 } else {
     $userWarnings[] = t("This user is not assigned to any course.");
 
     // Check if the user has to be assigned to his own course
-    $leadingCourse = $account->getLeadingCourse();
-    if($leadingCourse instanceof Course && !CourseService::isCancelled($leadingCourse)) {
+    if($account->getLeadingCourse() !== null && !$account->getLeadingCourse()->isCancelled()) {
         $userWarnings[] = t("This user is not assigned to the course that they are leading.");
     }
 }
 
 // Get all courses
-$courses = Course::dao()->getObjects([], "minClearance");
+$courses = \app\courses\Course::dao()->getObjects([], "minClearance");
 
 // Course highlighting
 $highlighting = [];
 $courseWarnings = [];
-/** @var Course $course */
 foreach($courses as $course) {
-    $spaceLeft = CourseService::isSpaceLeft($course);
+    $spaceLeft = $course->isSpaceLeft();
     $fulfillsRequirements = $course->canChooseCourse($account);
-    $isCancelled = CourseService::isCancelled($course);
+    $isCancelled = $course->isCancelled();
     $courseLeader = $course->getId() === $account->getLeadingCourseId();
 
     if(!$spaceLeft && !$courseLeader) {
@@ -108,44 +94,44 @@ foreach($courses as $course) {
 }
 
 // Remove the course to which the user is currently assigned
-$assignment = Assignment::dao()->getObject([
+$assignment = \app\assignments\Assignment::dao()->getObject([
     "userId" => $account->getId()
 ]);
 $assignedToLeadingCourse = false;
-if($assignment instanceof Assignment) {
+if($assignment instanceof \app\assignments\Assignment) {
     $currentCourse = $assignment->getCourse();
     if($currentCourse->getId() === $account->getLeadingCourseId()) {
         $assignedToLeadingCourse = true;
     }
-    $courses = array_filter($courses, function(Course $course) use ($currentCourse) {
+    $courses = array_filter($courses, function(\app\courses\Course $course) use ($currentCourse) {
         return $course->getId() !== $currentCourse->getId();
     });
 }
 
 // Split into chosen, not chosen, and leading course
 $leadingCourse = !$assignedToLeadingCourse ? $account->getLeadingCourse() : null;
-array_filter($courses, function(Course $course) use ($post, $leadingCourse) {
+array_filter($courses, function(\app\courses\Course $course) use ($post, $leadingCourse) {
     return $course->getId() === $post["user"]->getLeadingCourseId();
 });
 
 $chosenCourses = [];
-foreach(ChoiceService::getChoicesOfUser($account) as $choice) {
-    if($choice instanceof Choice) {
+foreach($account->getChoices() as $choice) {
+    if($choice instanceof \app\choices\Choice) {
         $chosenCourse = $choice->getCourse();
-        if($chosenCourse instanceof Course) {
+        if($chosenCourse instanceof \app\courses\Course) {
             $chosenCourses[] = $chosenCourse;
         }
     }
 }
-$chosenCourseIds = array_map(function(Course $course) {
+$chosenCourseIds = array_map(function(\app\courses\Course $course) {
     return $course->getId();
 }, $chosenCourses);
-array_filter($courses, function(Course $course) use ($chosenCourseIds) {
+array_filter($courses, function(\app\courses\Course $course) use ($chosenCourseIds) {
     return in_array($course->getId(), $chosenCourseIds);
 });
 
 // Sort remaining courses by highlighting
-usort($courses, function(Course $a, Course $b) use ($highlighting) {
+usort($courses, function(\app\courses\Course $a, \app\courses\Course $b) use ($highlighting) {
     $highlightA = $highlighting[$a->getId()] ?? 0;
     $highlightB = $highlighting[$b->getId()] ?? 0;
     return $highlightA <=> $highlightB;

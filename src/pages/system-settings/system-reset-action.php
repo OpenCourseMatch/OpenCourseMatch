@@ -24,7 +24,8 @@ if($post["resetUsers"] !== null) {
     Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the users ({$usersCount})");
 
     foreach($users as $account) {
-        \app\users\UserService::delete($account);
+        $account->preDelete();
+        \app\users\User::dao()->delete($account);
 
         Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
     }
@@ -39,7 +40,8 @@ if($post["resetFacilitators"] !== null) {
     Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the facilitators ({$usersCount})");
 
     foreach($users as $account) {
-        \app\users\UserService::delete($account);
+        $account->preDelete();
+        \app\users\User::dao()->delete($account);
 
         Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the facilitator {$account->getId()} ({$account->getFullName()})");
     }
@@ -54,7 +56,8 @@ if($post["resetCourses"] !== null) {
     Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the courses ({$coursesCount})");
 
     foreach($courses as $course) {
-        \app\courses\CourseService::delete($course);
+        $course->preDelete();
+        \app\courses\Course::dao()->delete($course);
 
         Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the course {$course->getId()} ({$course->getTitle()})");
     }
@@ -69,7 +72,8 @@ if($post["resetGroups"] !== null) {
     Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the courses ({$groupsCount})");
 
     foreach($groups as $group) {
-        \app\groups\GroupService::delete($group);
+        $group->preDelete();
+        \app\groups\Group::dao()->delete($group);
 
         Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the group {$group->getId()} ({$group->getName()})");
     }

@@ -1,8 +1,5 @@
 <?php
 
-use \app\courses\Course;
-use \app\courses\CourseService;
-
 $user = Auth->requireLogin(\app\users\PermissionLevel::FACILITATOR, Router->generate("index"));
 
 $post = Validation->create()
@@ -36,7 +33,7 @@ $post = Validation->create()
     ])
     ->validate($_POST, function(\struktal\validation\ValidationException $e) {
         InfoMessage->error($e->getMessage());
-        if(isset($_POST["course"]) && !CourseService::hasId($_POST["course"])) {
+        if(isset($_POST["course"]) && !\app\courses\Course::dao()->hasId($_POST["course"])) {
             Router->redirect(Router->generate("courses-overview"));
         } else if(isset($_POST["course"])) {
             Router->redirect(Router->generate("courses-edit", ["course" => $_POST["course"]]));
@@ -63,7 +60,7 @@ if(isset($post["maxParticipants"]) && $post["minParticipants"] > $post["maxParti
     }
 }
 
-$course = new Course();
+$course = new \app\courses\Course();
 if(isset($post["course"])) {
     $course = $post["course"];
 }
@@ -74,7 +71,7 @@ $course->setMinClearance($post["minClearance"]);
 $course->setMaxClearance($post["maxClearance"]);
 $course->setMinParticipants($post["minParticipants"]);
 $course->setMaxParticipants($post["maxParticipants"]);
-Course::dao()->save($course);
+\app\courses\Course::dao()->save($course);
 
 Logger->tag("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the course {$course->getId()} ({$course->getTitle()})");
 

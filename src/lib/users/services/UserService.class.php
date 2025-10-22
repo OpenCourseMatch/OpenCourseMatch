@@ -81,65 +81,6 @@ class UserService {
         Logger->tag("ChangePassword")->info("User \"{$user->getUsername()}\" has changed their password");
     }
 
-    public static function delete(User $user): void {
-        // Delete all choices
-        $choices = \app\choices\ChoiceService::getChoicesOfUser($user);
-        foreach($choices as $choice) {
-            \app\choices\ChoiceService::delete($choice);
-        }
-
-        // Delete assignment
-        $assignment = \app\assignments\AssignmentService::getAssignmentForUser($user);
-        if($assignment instanceof \app\assignments\Assignment) {
-            \app\assignments\AssignmentService::delete($assignment);
-        }
-
-        User::dao()->delete($user);
-        Logger->tag("DeleteUser")->info("User \"{$user->getUsername()}\" has been deleted");
-    }
-
-    public function hasId(mixed $id): bool {
-        if(!is_numeric($id)) {
-            return false;
-        }
-
-        $numericId = intval($id);
-        return User::dao()->getObject([ "id" => $numericId ]) instanceof User;
-    }
-
-    public static function generateUsername(string $firstName, string $lastName): string {
-        $slugify = function($input) {
-            $slugified = strtolower(str_replace(["ä", "ö", "ü", "ß"], ["ae", "oe", "ue", "ss"], $input));
-            return preg_replace("/[^a-zA-Z0-9]/", "", $slugified);
-        };
-
-        $firstName = $slugify($firstName);
-        $lastName = $slugify($lastName);
-
-        $userSlug = $lastName;
-        if(strlen($firstName) > 0) {
-            $userSlug .= $firstName[0] . $firstName[strlen($firstName) - 1];
-        }
-
-        do {
-            $randomNumber = rand(0, 999);
-            $appendix = str_pad($randomNumber, 3, "0", STR_PAD_LEFT);
-            $appendedUsername = $userSlug . "-" . $appendix;
-        } while(count(User::dao()->getObjects([ "username" => $appendedUsername ])) > 0);
-
-        return $appendedUsername;
-    }
-
-    public static function generatePassword(): string {
-        $chars = "123456789abcdefhijkmnoprstuvwxyzABCDEFGHJKLMNPRSTUVWXYZ";
-        $password = "";
-        for($i = 0; $i < 8; $i++) {
-            $password .= $chars[rand(0, strlen($chars) - 1)];
-        }
-
-        return $password;
-    }
-
     public static function generateOneTimePassword(): string {
         $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         $oneTimePassword = "";

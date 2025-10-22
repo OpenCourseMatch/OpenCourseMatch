@@ -18,7 +18,8 @@ $get = Validation->create()
 
 $account = $get["user"];
 
-\app\users\UserService::delete($account);
+$account->preDelete();
+\app\users\User::dao()->delete($account);
 
 Logger->tag("Administrators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the administrator {$account->getId()} ({$account->getFullName()})");
 
