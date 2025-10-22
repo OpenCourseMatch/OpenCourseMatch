@@ -16,8 +16,8 @@
         @endcomponent
     @endauth
 
-    @auth(PermissionLevel::USER->value)
-        @if(SystemStatus::dao()->get("userActionsAllowed") === "true")
+    @auth(\app\users\PermissionLevel::USER->value)
+        @if(\app\settings\SystemStatus::dao()->get("userActionsAllowed") === "true")
             <span class="text-lg font-bold mt-4">
                 {{ t("Courses") }}
             </span>
@@ -31,7 +31,7 @@
         @endif
     @endauth
 
-    @auth(PermissionLevel::FACILITATOR->value)
+    @auth(\app\users\PermissionLevel::FACILITATOR->value)
         <span class="text-lg font-bold mt-4">
             {{ t("Manage accounts") }}
         </span>
@@ -55,7 +55,7 @@
         @endcomponent
     @endauth
 
-    @auth(PermissionLevel::ADMIN->value)
+    @auth(\app\users\PermissionLevel::ADMIN->value)
         <span class="text-lg font-bold mt-4">
             {{ t("Manage accounts") }}
         </span>
@@ -99,7 +99,7 @@
             {{ t("Courses") }}
         @endcomponent
 
-        @if(SystemStatus::dao()->get("coursesAssigned") !== "true" && SystemStatus::dao()->get("algorithmRunning") !== "true")
+        @if(\app\settings\SystemStatus::dao()->get("coursesAssigned") !== "true" && \app\settings\SystemStatus::dao()->get("algorithmRunning") !== "true")
             <span class="text-lg font-bold mt-4">
                 {{ t("Course assignment") }}
             </span>
@@ -110,7 +110,7 @@
             ])
                 {{ t("Run course assignment") }}
             @endcomponent
-        @elseif(SystemStatus::dao()->get("coursesAssigned") === "true")
+        @elseif(\app\settings\SystemStatus::dao()->get("coursesAssigned") === "true")
             <span class="text-lg font-bold mt-4">
                 {{ t("Course assignment") }}
             </span>
@@ -163,7 +163,7 @@
             "icon" => "icons.user",
             "active" => in_array(Router->getCalledRouteName(), [ "choice-state-toggle" ])
         ])
-            {{ SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Disable course selection") : t("Enable course selection") }}
+            {{ \app\settings\SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Disable course selection") : t("Enable course selection") }}
         @endcomponent
         @component("shells.sidebars.sidebaritem", [
             "href" => Router->generate("system-reset"),

@@ -10,7 +10,7 @@
         </p>
 
         <div class="flex gap-2">
-            @if(SystemStatus::dao()->get("userActionsAllowed") === "true")
+            @if(\app\settings\SystemStatus::dao()->get("userActionsAllowed") === "true")
                 @include("icons.checkcircle", [
                     "class" => "fill-safe-500"
                 ])
@@ -25,7 +25,7 @@
         </div>
 
         <div class="flex gap-2">
-            @if(SystemStatus::dao()->get("coursesAssigned") === "true")
+            @if(\app\settings\SystemStatus::dao()->get("coursesAssigned") === "true")
                 @include("icons.checkcircle", [
                     "class" => "fill-safe-500"
                 ])
@@ -122,7 +122,7 @@
     ])
 </div>
 
-@if(SystemStatus::dao()->get("coursesAssigned") !== "true" && SystemStatus::dao()->get("algorithmRunning") !== "true")
+@if(\app\settings\SystemStatus::dao()->get("coursesAssigned") !== "true" && \app\settings\SystemStatus::dao()->get("algorithmRunning") !== "true")
     <h2 class="mt-4 mb-2">
         {{ t("Course assignment") }}
     </h2>
@@ -135,7 +135,7 @@
             "scheme" => BoxScheme::PRIMARY
         ])
     </div>
-@elseif(SystemStatus::dao()->get("coursesAssigned") === "true")
+@elseif(\app\settings\SystemStatus::dao()->get("coursesAssigned") === "true")
     <h2 class="mt-4 mb-2">
         {{ t("Course assignment") }}
     </h2>
@@ -178,9 +178,9 @@
     @include("ui.dashboardlink", [
         "icon" => "icons.user",
         "href" => Router->generate("choice-state-toggle"),
-        "title" => SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Course selection enabled") : t("Course selection disabled"),
-        "description" => SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Disable the course selection for users.") : t("Enable the course selection for users."),
-        "scheme" => SystemStatus::dao()->get("userActionsAllowed") === "true" ? BoxScheme::PRIMARY : BoxScheme::DANGER
+        "title" => \app\settings\SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Course selection enabled") : t("Course selection disabled"),
+        "description" => \app\settings\SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Disable the course selection for users.") : t("Enable the course selection for users."),
+        "scheme" => \app\settings\SystemStatus::dao()->get("userActionsAllowed") === "true" ? BoxScheme::PRIMARY : BoxScheme::DANGER
     ])
     @include("ui.dashboardlink", [
         "icon" => "icons.reset",

@@ -54,7 +54,7 @@
         {{ t("Assignments") }}
     </h2>
 
-    @if(SystemStatus::dao()->get("coursesAssigned") === "true")
+    @if(\app\settings\SystemStatus::dao()->get("coursesAssigned") === "true")
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div class="flex flex-col w-full justify-center">
                 <canvas id="statistics-assignments"></canvas>
@@ -167,7 +167,7 @@
             cancelled: "{!! t("Cancelled") !!}"
         }, @json($statistics["placesByGroup"]), @json($customGroups));
 
-        @if(SystemStatus::dao()->get("coursesAssigned") === "true")
+        @if(\app\settings\SystemStatus::dao()->get("coursesAssigned") === "true")
             StatisticsOverview.initAssignmentsChart({
                 title: "{!! t("Assignments") !!}",
                 dataLabel: "{!! t("Users") !!}",
