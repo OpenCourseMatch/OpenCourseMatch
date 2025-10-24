@@ -4,11 +4,23 @@ updates:
       directory: "/"
       schedule:
           interval: "daily"
+          time: "12:00"
+      groups:
+          struktal:
+              patterns:
+                  - "struktal/**"
     - package-ecosystem: "npm"
       directory: "/docker/nodejs"
       schedule:
           interval: "daily"
+          time: "12:00"
+      groups:
+          tailwind:
+              patterns:
+                  - "tailwindcss"
+                  - "@tailwindcss/**"
     - package-ecosystem: "github-actions"
       directory: "/.github/workflows"
       schedule:
           interval: "daily"
+          time: "12:00"
