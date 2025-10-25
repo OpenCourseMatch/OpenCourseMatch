@@ -132,7 +132,7 @@
             @foreach($user->getSortedChoices() as $i => $choice)
                 <span>
                     <b>{{ t("Choice \$\$index\$\$", ["index" => $i + 1]) }}:</b>
-                    @if($choice instanceof Choice)
+                    @if($choice instanceof \app\choices\Choice)
                         <a class="text-primary-500 hover:text-primary-600 underline transition-all"
                            href="{{ Router->generate("courses-edit", ["course" => $choice->getCourseId()]) }}">
                             {{ $choice->getCourse()->getTitle() }}
