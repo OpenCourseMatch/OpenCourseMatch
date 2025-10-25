@@ -23,4 +23,28 @@ class AssignmentService {
 
         return null;
     }
+
+    public static function setAssignedCourseForUser(\app\users\User $user, ?\app\courses\Course $course): void {
+        if(!$course instanceof \app\courses\Course) {
+            self::deleteAssignmentForUser($user);
+            return;
+        }
+
+        $assignment = self::getAssignmentForUser($user);
+        if(!$assignment instanceof Assignment) {
+            $assignment = new Assignment();
+            $assignment->setUserId($user->getId());
+        }
+
+        $assignment->setCourseId($course->getId());
+
+        Assignment::dao()->save($assignment);
+    }
+
+    public static function deleteAssignmentForUser(\app\users\User $user): void {
+        $assignment = self::getAssignmentForUser($user);
+        if($assignment instanceof Assignment) {
+            Assignment::dao()->delete($assignment);
+        }
+    }
 }

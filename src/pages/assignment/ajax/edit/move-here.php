@@ -37,14 +37,6 @@ $post = Validation->create()
         ], \struktal\API\HTTPResponse::BAD_REQUEST);
     });
 
-$assignment = \app\assignments\Assignment::dao()->getObject([
-    "userId" => $post["user"]->getId()
-]);
-if(!$assignment instanceof \app\assignments\Assignment) {
-    $assignment = new \app\assignments\Assignment();
-    $assignment->setUserId($post["user"]->getId());
-}
-$assignment->setCourseId($get["course"]->getId());
-\app\assignments\Assignment::dao()->save($assignment);
+\app\assignments\AssignmentService::setAssignedCourseForUser($post["user"], $get["course"]);
 
 \struktal\API\API::sendWrappedJson([]);

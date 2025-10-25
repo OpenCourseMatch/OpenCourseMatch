@@ -34,6 +34,9 @@ class AlgoCourseData {
     }
 
     private \app\courses\Course $databaseObject;
+    public function getDatabaseObject(): \app\courses\Course {
+        return $this->databaseObject;
+    }
 
     public int $id;
     public int $minClearance;

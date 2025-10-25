@@ -28,9 +28,7 @@ $account = $post["user"];
 
 // Get warnings for the user
 $userWarnings = [];
-$assignment = \app\assignments\Assignment::dao()->getObject([
-    "userId" => $account->getId()
-]);
+$assignment = \app\assignments\AssignmentService::getAssignmentForUser($account);
 if($assignment instanceof \app\assignments\Assignment) {
     $course = $assignment->getCourse();
 
@@ -94,9 +92,6 @@ foreach($courses as $course) {
 }
 
 // Remove the course to which the user is currently assigned
-$assignment = \app\assignments\Assignment::dao()->getObject([
-    "userId" => $account->getId()
-]);
 $assignedToLeadingCourse = false;
 if($assignment instanceof \app\assignments\Assignment) {
     $currentCourse = $assignment->getCourse();

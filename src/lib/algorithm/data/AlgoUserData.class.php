@@ -31,6 +31,9 @@ class AlgoUserData {
     }
 
     private \app\users\User $databaseObject;
+    public function getDatabaseObject(): \app\users\User {
+        return $this->databaseObject;
+    }
 
     public int $id;
     public int $clearance;
@@ -218,19 +221,13 @@ class AlgoUserData {
     public function saveAssignment(): void {
         // If the user was assigned, save the assignment directly
         if($this->isAssigned()) {
-            $assignment = new \app\assignments\Assignment();
-            $assignment->setUserId($this->id);
-            $assignment->setCourseId($this->getAssignedCourse()->id);
-            \app\assignments\Assignment::dao()->save($assignment);
+            \app\assignments\AssignmentService::setAssignedCourseForUser($this->databaseObject, $this->getAssignedCourse()->getDatabaseObject());
             return;
         }
 
         // If the user is leading a course which is not cancelled, assign the user to it
         if($this->getLeadingCourse() !== null && !$this->getLeadingCourse()->isCancelled()) {
-            $assignment = new \app\assignments\Assignment();
-            $assignment->setUserId($this->id);
-            $assignment->setCourseId($this->getLeadingCourse()->id);
-            \app\assignments\Assignment::dao()->save($assignment);
+            \app\assignments\AssignmentService::setAssignedCourseForUser($this->databaseObject, $this->getLeadingCourse()->getDatabaseObject());
         }
     }
 }
