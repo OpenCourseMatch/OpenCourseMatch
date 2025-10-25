@@ -38,45 +38,18 @@ $post = Validation->create()
 
 Logger->tag("Choices")->info("User {$user->getId()} ({$user->getFullName()}) is saving / updating their course choices.");
 
-// Create new choices and check if there are duplicates
-$chosenCourses = [];
-$choices = [];
-foreach($post["choice"] as $i => $course) {
-    if(in_array($course->getId(), $chosenCourses)) {
-        Logger->tag("Choices")->warn("User {$user->getId()} ({$user->getFullName()}) tried to choose course {$course->getId()} ({$course->getTitle()}) multiple times.");
-        InfoMessage->error(t("Each course can only be chosen once."));
-        Router->redirect(Router->generate("choice-edit"));
-    }
-
-    if(!$course->canChooseCourse($user)) {
-        Logger->tag("Choices")->warn("User {$user->getId()} ({$user->getFullName()}) tried to choose course {$course->getId()} ({$course->getTitle()}) but does not meet the requirements.");
-        InfoMessage->error(t("You do not meet the requirements to participate in at least one of your chosen courses."));
-        Router->redirect(Router->generate("choice-edit"));
-    }
-
-    Logger->tag("Choices")->trace("User {$user->getId()} ({$user->getFullName()}) is choosing course {$course->getId()} ({$course->getTitle()}) with priority {$i}.");
-
-    $chosenCourses[] = $course->getId();
-    $choice = new \app\choices\Choice();
-    $choice->setUserId($user->getId());
-    $choice->setCourseId($course->getId());
-    $choice->setPriority($i);
-    $choices[] = $choice;
+try {
+    \app\choices\ChoiceService::setChoicesForUser($user, $post["choice"]);
+} catch(\app\choices\IllegalAmountOfChosenCoursesException $e) {
+    InfoMessage->error(t("Please fill out all the required fields."));
+    Router->redirect(Router->generate("choice-edit"));
+} catch(\app\choices\CourseChosenMultipleTimesException $e) {
+    InfoMessage->error(t("Each course can only be chosen once."));
+    Router->redirect(Router->generate("choice-edit"));
+} catch(\app\choices\CourseRequirementsNotMetException $e) {
+    InfoMessage->error(t("You do not meet the requirements to participate in at least one of your chosen courses."));
+    Router->redirect(Router->generate("choice-edit"));
 }
-
-// Delete old choices from database to prevent collisions
-Logger->tag("Choices")->trace("Deleting all old choices for user {$user->getId()} ({$user->getFullName()})");
-$oldChoices = \app\choices\ChoiceService::getChoicesForUser($user);
-foreach($oldChoices as $oldChoice) {
-    \app\choices\Choice::dao()->delete($oldChoice);
-}
-
-// Save new choices to database
-Logger->tag("Choices")->trace("Saving new choices for user {$user->getId()} ({$user->getFullName()}).");
-foreach($choices as $choice) {
-    \app\choices\Choice::dao()->save($choice);
-}
-Logger->tag("Choices")->info("User {$user->getId()} ({$user->getFullName()}) has saved / updated their course choices.");
 
 InfoMessage->success(t("Your chosen courses have been saved."));
 Router->redirect(Router->generate("dashboard"));
