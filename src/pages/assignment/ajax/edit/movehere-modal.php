@@ -25,9 +25,7 @@ $post = Validation->create()
 $course = $post["course"];
 
 // Get the users that chose the course
-$choices = \app\choices\Choice::dao()->getObjects([
-    "courseId" => $course->getId()
-]);
+$choices = $course->getChoices();
 $chosenUserIds = array_map(function(\app\choices\Choice $choice) {
     return $choice->getUserId();
 }, $choices);

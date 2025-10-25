@@ -9,6 +9,12 @@ class ChoiceService {
         ]);
     }
 
+    public static function getChoicesForCourse(\app\courses\Course $course): array {
+        return Choice::dao()->getObjects([
+            "courseId" => $course->getId()
+        ]);
+    }
+
     public static function getSortedChoicesForUser(\app\users\User $user): array {
         $choiceObjects = self::getChoicesForUser($user);
         $choiceCount = intval(\app\settings\SystemSetting::dao()->get("choiceCount"));

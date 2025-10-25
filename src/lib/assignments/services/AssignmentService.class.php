@@ -15,6 +15,12 @@ class AssignmentService {
         return null;
     }
 
+    public static function getAssignmentsForCourse(\app\courses\Course $course): array {
+        return Assignment::dao()->getObjects([
+            "courseId" => $course->getId()
+        ]);
+    }
+
     public static function getAssignedCourseForUser(\app\users\User $user): ?\app\courses\Course {
         $assignment = self::getAssignmentForUser($user);
         if($assignment instanceof Assignment) {

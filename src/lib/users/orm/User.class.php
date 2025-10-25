@@ -118,9 +118,7 @@ class User extends \struktal\ORM\GenericUser {
         }
 
         // Delete assignment
-        $assignment = \app\assignments\Assignment::dao()->getObject([
-            "userId" => $this->getId()
-        ]);
+        $assignment = \app\assignments\AssignmentService::getAssignmentForUser($this);
         if($assignment instanceof \app\assignments\Assignment) {
             \app\assignments\Assignment::dao()->delete($assignment);
         }

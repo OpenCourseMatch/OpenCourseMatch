@@ -87,6 +87,14 @@ class Course extends \struktal\ORM\GenericEntity {
         return $algorithmComplete && empty($participants);
     }
 
+    public function getChoices(): array {
+        return \app\choices\ChoiceService::getChoicesForCourse($this);
+    }
+
+    public function getAssignments(): array {
+        return \app\assignments\AssignmentService::getAssignmentsForCourse($this);
+    }
+
     public function getAssignedUsers(): array {
         if($this->users === null) {
             $assignments = \app\assignments\Assignment::dao()->getObjects(["courseId" => $this->getId()]);
@@ -128,13 +136,13 @@ class Course extends \struktal\ORM\GenericEntity {
 
     public function preDelete(): void {
         // Delete all choices for this course
-        $choices = \app\choices\Choice::dao()->getObjects(["courseId" => $this->getId()]);
+        $choices = $this->getChoices();
         foreach($choices as $choice) {
             \app\choices\Choice::dao()->delete($choice);
         }
 
         // Delete all assignments for this course
-        $assignments = \app\assignments\Assignment::dao()->getObjects(["courseId" => $this->getId()]);
+        $assignments = $this->getAssignments();
         foreach($assignments as $assignment) {
             \app\assignments\Assignment::dao()->delete($assignment);
         }
