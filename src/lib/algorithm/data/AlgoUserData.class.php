@@ -75,7 +75,7 @@ class AlgoUserData {
     }
 
     public function loadChosenCourses(): void {
-        $choices = $this->databaseObject->getChoices();
+        $choices = $this->databaseObject->getSortedChoices();
         foreach($choices as $priority => $choice) {
             if($choice === null) {
                 continue;

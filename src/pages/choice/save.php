@@ -66,9 +66,7 @@ foreach($post["choice"] as $i => $course) {
 
 // Delete old choices from database to prevent collisions
 Logger->tag("Choices")->trace("Deleting all old choices for user {$user->getId()} ({$user->getFullName()})");
-$oldChoices = \app\choices\Choice::dao()->getObjects([
-    "userId" => $user->getId()
-]);
+$oldChoices = \app\choices\ChoiceService::getChoicesForUser($user);
 foreach($oldChoices as $oldChoice) {
     \app\choices\Choice::dao()->delete($oldChoice);
 }

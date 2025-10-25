@@ -33,7 +33,7 @@ if($assignment instanceof \app\assignments\Assignment) {
     $course = $assignment->getCourse();
 
     // Check if the user has chosen the course
-    $chosenCourses = $account->getChoices();
+    $chosenCourses = $account->getSortedChoices();
     $chosenCourseIds = array_map(function(?\app\choices\Choice $choice) {
         return $choice?->getCourseId();
     }, $chosenCourses);
@@ -110,7 +110,7 @@ array_filter($courses, function(\app\courses\Course $course) use ($post, $leadin
 });
 
 $chosenCourses = [];
-foreach($account->getChoices() as $choice) {
+foreach($account->getSortedChoices() as $choice) {
     if($choice instanceof \app\choices\Choice) {
         $chosenCourse = $choice->getCourse();
         if($chosenCourse instanceof \app\courses\Course) {

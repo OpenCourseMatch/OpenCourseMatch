@@ -72,7 +72,7 @@
                 {{ t("Chosen courses") }}:
             </td>
             <td style="padding-left: 1em;">
-                @foreach($account->getChoices() as $i => $choice)
+                @foreach($account->getSortedChoices() as $i => $choice)
                     @if($choice !== null)
                         @if($i > 0)
                             <br>
@@ -118,4 +118,5 @@
 <br><br>
 <img src="{{ $loginQrCodeData }}" alt="Login QR code" style="width: 25%;">
 <br><br>
-{{ t("Alternatively, you can also navigate to") }} <a href="{{ Config->getAppUrl() }}">{{ Config->getAppUrl() }}</a> {{ t("in any web browser of your choice") }}.
+{{ t("Alternatively, you can also navigate to") }} <a
+        href="{{ Config->getAppUrl() }}">{{ Config->getAppUrl() }}</a> {{ t("in any web browser of your choice") }}.

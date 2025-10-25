@@ -13,7 +13,7 @@ class User extends \struktal\ORM\GenericUser {
 
     private ?\app\groups\Group $group = null;
     private ?\app\courses\Course $leadingCourse = null;
-    private ?array $chosenCourses = null;
+    private ?array $choices = null;
     private ?\app\courses\Course $assignedCourse = null;
 
     public function getFirstName(): ?string {
@@ -84,38 +84,20 @@ class User extends \struktal\ORM\GenericUser {
         return $this->leadingCourse;
     }
 
-    public function getChoices(): array {
-        if(!$this->chosenCourses) {
-            $chosenCourses = \app\choices\Choice::dao()->getObjects(["userId" => $this->getId()], "priority");
-            $choiceCount = intval(\app\settings\SystemSetting::dao()->get("choiceCount"));
-
-            $this->chosenCourses = [];
-            for($i = 0; $i < $choiceCount; $i++) {
-                $this->chosenCourses[$i] = null;
-            }
-
-            foreach($chosenCourses as $chosenCourse) {
-                $this->chosenCourses[$chosenCourse->getPriority()] = $chosenCourse;
-            }
+    public function getSortedChoices(): array {
+        if(!$this->choices) {
+            $this->choices = \app\choices\ChoiceService::getSortedChoicesForUser($this);
         }
 
-        return $this->chosenCourses;
+        return $this->choices;
     }
 
     public function getChoice(int $priority): ?\app\choices\Choice {
-        $chosenCourses = $this->getChoices();
-        return $chosenCourses[$priority];
+        return \app\choices\ChoiceService::getChoiceWithPriorityForUser($this, $priority);
     }
 
     public function getCoursePriority(\app\courses\Course $course): ?int {
-        $chosenCourses = $this->getChoices();
-        foreach($chosenCourses as $priority => $chosenCourse) {
-            if($chosenCourse?->getCourseId() === $course->getId()) {
-                return $priority;
-            }
-        }
-
-        return null;
+        return \app\choices\ChoiceService::getCoursePriorityForUser($this, $course);
     }
 
     public function getAssignedCourse(): ?\app\courses\Course {
@@ -128,7 +110,7 @@ class User extends \struktal\ORM\GenericUser {
 
     public function preDelete(): void {
         // Delete all choices
-        $choices = $this->getChoices();
+        $choices = $this->getSortedChoices();
         foreach($choices as $choice) {
             if($choice instanceof \app\choices\Choice) {
                 \app\choices\Choice::dao()->delete($choice);

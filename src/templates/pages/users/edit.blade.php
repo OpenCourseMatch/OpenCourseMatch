@@ -10,7 +10,8 @@
         @endif
     </h1>
 
-    <form method="post" action="{{ Router->generate("users-save") }}" data-redirect="{{ Router->generate("users-overview") }}" autocomplete="off">
+    <form method="post" action="{{ Router->generate("users-save") }}"
+          data-redirect="{{ Router->generate("users-overview") }}" autocomplete="off">
         @if(!empty($user))
             <input type="hidden" name="user" value="{{ $user->getId() }}">
         @endif
@@ -128,7 +129,7 @@
             {{ t("Chosen courses") }}
         </h2>
         <div class="flex flex-col gap-1 mb-2">
-            @foreach($user->getChoices() as $i => $choice)
+            @foreach($user->getSortedChoices() as $i => $choice)
                 <span>
                     <b>{{ t("Choice \$\$index\$\$", ["index" => $i + 1]) }}:</b>
                     @if($choice instanceof Choice)
@@ -153,6 +154,7 @@
     @include("ui.modals.defaultabort")
     <script type="module">
         import * as UsersEdit from "{{ Router->staticFilePath("js/users/edit.js") }}";
+
         UsersEdit.init();
     </script>
 @endcomponent

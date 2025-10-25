@@ -101,7 +101,7 @@ foreach($users as $account) {
         }
 
         // Groups
-        $choices = $account->getChoices();
+        $choices = $account->getSortedChoices();
         $allChoices = true;
         $noChoices = true;
         foreach($choices as $choice) {

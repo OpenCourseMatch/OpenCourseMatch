@@ -67,7 +67,7 @@ function calculateTableHighlighting(bool $isCourseLeader, array $get, \app\users
         // Then we iterate over the chosen courses and check if there is another one with space left AND whether the user has actually chosen the current course
         $canBeReassigned = false;
         $hasChosenCourse = false;
-        foreach($account->getChoices() as $choice) {
+        foreach($account->getSortedChoices() as $choice) {
             if($choice instanceof \app\choices\Choice) {
                 $chosenCourse = $choice->getCourse();
                 $notSameCourse = $chosenCourse?->getId() !== $get["course"]?->getId();

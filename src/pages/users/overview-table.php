@@ -15,7 +15,7 @@ $users = array_map(function(\app\users\User $account) {
     } else {
         $array["group"] = t("Default group");
     }
-    $array["choiceComplete"] = count($account->getChoices()) > 0 && array_reduce($account->getChoices(), function($carry, $choice) {
+    $array["choiceComplete"] = count($account->getSortedChoices()) > 0 && array_reduce($account->getSortedChoices(), function($carry, $choice) {
             return $carry && $choice instanceof \app\choices\Choice && $choice->getCourseId() !== null;
         }, true);
     unset($array["id"]);
