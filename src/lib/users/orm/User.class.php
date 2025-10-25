@@ -120,10 +120,7 @@ class User extends \struktal\ORM\GenericUser {
 
     public function getAssignedCourse(): ?\app\courses\Course {
         if(!$this->assignedCourse) {
-            $assignment = \app\assignments\Assignment::dao()->getObject([
-                "userId" => $this->getId()
-            ]);
-            $this->assignedCourse = $assignment?->getCourse();
+            $this->assignedCourse = \app\assignments\AssignmentService::getAssignedCourseForUser($this);
         }
 
         return $this->assignedCourse;

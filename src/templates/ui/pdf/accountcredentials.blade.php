@@ -99,7 +99,7 @@
                 {{ t("Assigned course") }}:
             </td>
             <td style="padding-left: 1em;">
-                @if($account->getAssignedCourse() !== null)
+                @if($account->getAssignedCourse() instanceof \app\courses\Course)
                     <span style="font-family: monospace; font-weight: bolder;">
                         {{ $account->getAssignedCourse()->getTitle() }}
                     </span>
