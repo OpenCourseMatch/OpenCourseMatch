@@ -10,10 +10,6 @@ class Course extends \struktal\ORM\GenericEntity {
     public ?int $minParticipants = null;
     public ?int $maxParticipants = null;
 
-    private ?array $users = null;
-    private ?array $participants = null;
-    private ?array $courseLeaders = null;
-
     public function getTitle(): ?string {
         return $this->title;
     }
@@ -62,29 +58,20 @@ class Course extends \struktal\ORM\GenericEntity {
         $this->maxParticipants = $maxParticipants;
     }
 
-    public function canChooseCourse(\app\users\User $user): bool {
-        $clearancePassed = $this->isGroupAllowed($user->getGroup());
-        $notLeadingCoursePassed = $user->getLeadingCourseId() !== $this->getId();
-
-        return $clearancePassed && $notLeadingCoursePassed;
+    public function isGroupAllowed(?\app\groups\Group $group = null): bool {
+        return CourseService::isGroupAllowedForCourse($this, $group);
     }
 
-    public function isGroupAllowed(?\app\groups\Group $group = null): bool {
-        $clearance = 0;
-        if($group !== null) {
-            $clearance = $group->getClearance();
-        }
-
-        $minClearancePassed = $clearance >= $this->getMinClearance();
-        $maxClearancePassed = $this->getMaxClearance() === null || $clearance <= $this->getMaxClearance();
-
-        return $minClearancePassed && $maxClearancePassed;
+    public function canChooseCourse(\app\users\User $user): bool {
+        return CourseService::canChooseCourse($this, $user);
     }
 
     public function isCancelled(): bool {
-        $algorithmComplete = \app\settings\SystemStatus::dao()->get("coursesAssigned") === "true";
-        $participants = \app\assignments\Assignment::dao()->getObjects(["courseId" => $this->getId()]);
-        return $algorithmComplete && empty($participants);
+        return CourseService::isCourseCancelled($this);
+    }
+
+    public function isSpaceLeft(): bool {
+        return CourseService::isSpaceLeft($this);
     }
 
     public function getChoices(): array {
@@ -96,42 +83,15 @@ class Course extends \struktal\ORM\GenericEntity {
     }
 
     public function getAssignedUsers(): array {
-        if($this->users === null) {
-            $assignments = \app\assignments\Assignment::dao()->getObjects(["courseId" => $this->getId()]);
-            $this->users = array_map(function(\app\assignments\Assignment $assignment) {
-                return $assignment->getUser();
-            }, $assignments);
-        }
-
-        return $this->users;
+        return CourseService::getAssignedUsers($this, false, false);
     }
 
     public function getAssignedParticipants(): array {
-        if($this->participants === null) {
-            $users = $this->getAssignedUsers();
-            $this->participants = array_filter($users, function(\app\users\User $user) {
-                return $user->getLeadingCourseId() !== $this->getId();
-            });
-        }
-
-        return $this->participants;
+        return CourseService::getAssignedUsers($this, true, false);
     }
 
     public function getAllCourseLeaders(): array {
-        if($this->courseLeaders === null) {
-            $this->courseLeaders = \app\users\User::dao()->getObjects([
-                "leadingCourseId" => $this->getId(),
-                "permissionLevel" => \app\users\PermissionLevel::USER
-            ]);
-        }
-
-        return $this->courseLeaders;
-    }
-
-    public function isSpaceLeft(): bool {
-        $participants = $this->getAssignedParticipants();
-        $participantCount = count($participants);
-        return $participantCount < $this->getMaxParticipants();
+        return CourseService::getCourseLeaders($this);
     }
 
     public function preDelete(): void {
