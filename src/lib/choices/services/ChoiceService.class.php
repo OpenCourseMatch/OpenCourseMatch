@@ -98,10 +98,7 @@ class ChoiceService {
 
         // Delete old choices from database to prevent collisions
         Logger->tag("Choices")->trace("Deleting all old choices for user {$user->getId()} ({$user->getFullName()})");
-        $oldChoices = self::getChoicesForUser($user);
-        foreach($oldChoices as $oldChoice) {
-            Choice::dao()->delete($oldChoice);
-        }
+        self::deleteChoicesForUser($user);
 
         // Save new choices to database
         Logger->tag("Choices")->trace("Saving new choices for user {$user->getId()} ({$user->getFullName()}).");
@@ -109,5 +106,31 @@ class ChoiceService {
             Choice::dao()->save($choice);
         }
         Logger->tag("Choices")->info("User {$user->getId()} ({$user->getFullName()}) has saved / updated their course choices.");
+    }
+
+    public static function deleteChoicesForUser(\app\users\User $user): void {
+        $choices = self::getChoicesForUser($user);
+        foreach($choices as $choice) {
+            if(!$choice instanceof Choice) {
+                continue;
+            }
+
+            self::delete($choice);
+        }
+    }
+
+    public static function deleteChoicesForCourse(\app\courses\Course $course): void {
+        $choices = self::getChoicesForCourse($course);
+        foreach($choices as $choice) {
+            if(!$choice instanceof Choice) {
+                continue;
+            }
+
+            self::delete($choice);
+        }
+    }
+
+    public static function delete(Choice $choice): void {
+        Choice::dao()->delete($choice);
     }
 }

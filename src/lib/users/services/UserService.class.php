@@ -95,4 +95,12 @@ class UserService {
 
         return $oneTimePassword;
     }
+
+    public static function delete(User $user): void {
+        // Delete all choices of the user
+        \app\choices\ChoiceService::deleteChoicesForUser($user);
+
+        // Delete the assignment for the user
+        \app\assignments\AssignmentService::deleteAssignmentForUser($user);
+    }
 }
