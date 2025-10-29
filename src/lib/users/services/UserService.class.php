@@ -102,5 +102,8 @@ class UserService {
 
         // Delete the assignment for the user
         \app\assignments\AssignmentService::deleteAssignmentForUser($user);
+
+        // Delete the user
+        \app\users\User::dao()->delete($user);
     }
 }

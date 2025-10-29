@@ -2,6 +2,8 @@
 
 namespace app\groups;
 
+use app\courses\Course;
+
 class GroupService {
     public static function getUsersInGroup(Group $group): array {
         return \app\users\User::dao()->getObjects([
@@ -20,5 +22,8 @@ class GroupService {
             $user->setGroupId(null);
             \app\users\User::dao()->save($user);
         }
+
+        // Delete the course
+        Course::dao()->delete($group);
     }
 }

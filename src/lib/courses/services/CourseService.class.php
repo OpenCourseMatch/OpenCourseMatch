@@ -84,5 +84,8 @@ class CourseService {
             $courseLeader->setLeadingCourseId(null);
             \app\users\User::dao()->save($courseLeader);
         }
+
+        // Delete the course
+        Course::dao()->delete($course);
     }
 }
