@@ -18,8 +18,7 @@ $get = Validation->create()
 
 $account = $get["user"];
 
-$account->preDelete();
-\app\users\User::dao()->delete($account);
+\app\users\UserService::delete($account);
 
 Logger->tag("Users")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
 

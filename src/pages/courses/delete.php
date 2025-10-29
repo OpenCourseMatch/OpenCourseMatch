@@ -16,8 +16,7 @@ $get = Validation->create()
 
 $course = $get["course"];
 
-$course->preDelete();
-\app\courses\Course::dao()->delete($course);
+\app\courses\CourseService::delete($course);
 
 Logger->tag("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the course {$course->getId()} ({$course->getTitle()})");
 
