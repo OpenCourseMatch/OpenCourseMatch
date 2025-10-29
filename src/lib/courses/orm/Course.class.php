@@ -93,25 +93,4 @@ class Course extends \struktal\ORM\GenericEntity {
     public function getAllCourseLeaders(): array {
         return CourseService::getCourseLeaders($this);
     }
-
-    public function preDelete(): void {
-        // Delete all choices for this course
-        $choices = $this->getChoices();
-        foreach($choices as $choice) {
-            \app\choices\Choice::dao()->delete($choice);
-        }
-
-        // Delete all assignments for this course
-        $assignments = $this->getAssignments();
-        foreach($assignments as $assignment) {
-            \app\assignments\Assignment::dao()->delete($assignment);
-        }
-
-        // Delete all course leaders for this course
-        $courseLeaders = $this->getAllCourseLeaders();
-        foreach($courseLeaders as $courseLeader) {
-            $courseLeader->setLeadingCourseId(null);
-            \app\users\User::dao()->save($courseLeader);
-        }
-    }
 }
