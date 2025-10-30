@@ -50,7 +50,22 @@ class AssignmentService {
     public static function deleteAssignmentForUser(\app\users\User $user): void {
         $assignment = self::getAssignmentForUser($user);
         if($assignment instanceof Assignment) {
-            Assignment::dao()->delete($assignment);
+            self::delete($assignment);
         }
+    }
+
+    public static function deleteAssignmentsForCourse(\app\courses\Course $course): void {
+        $assignments = self::getAssignmentsForCourse($course);
+        foreach($assignments as $assignment) {
+            if(!$assignment instanceof Assignment) {
+                continue;
+            }
+
+            self::delete($assignment);
+        }
+    }
+
+    public static function delete(Assignment $assignment): void {
+        Assignment::dao()->delete($assignment);
     }
 }

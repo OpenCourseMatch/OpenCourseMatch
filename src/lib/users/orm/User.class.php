@@ -107,20 +107,4 @@ class User extends \struktal\ORM\GenericUser {
 
         return $this->assignedCourse;
     }
-
-    public function preDelete(): void {
-        // Delete all choices
-        $choices = $this->getSortedChoices();
-        foreach($choices as $choice) {
-            if($choice instanceof \app\choices\Choice) {
-                \app\choices\Choice::dao()->delete($choice);
-            }
-        }
-
-        // Delete assignment
-        $assignment = \app\assignments\AssignmentService::getAssignmentForUser($this);
-        if($assignment instanceof \app\assignments\Assignment) {
-            \app\assignments\Assignment::dao()->delete($assignment);
-        }
-    }
 }

@@ -66,4 +66,26 @@ class CourseService {
             "permissionLevel" => \app\users\PermissionLevel::USER
         ]);
     }
+
+    public static function delete(Course $course): void {
+        // Delete all choices for this course
+        \app\choices\ChoiceService::deleteChoicesForCourse($course);
+
+        // Delete all assignments for this course
+        \app\assignments\AssignmentService::deleteAssignmentsForCourse($course);
+
+        // Unset the leading course id for all course leaders
+        $courseLeaders = self::getCourseLeaders($course);
+        foreach($courseLeaders as $courseLeader) {
+            if(!$courseLeader instanceof \app\users\User) {
+                continue;
+            }
+
+            $courseLeader->setLeadingCourseId(null);
+            \app\users\User::dao()->save($courseLeader);
+        }
+
+        // Delete the course
+        Course::dao()->delete($course);
+    }
 }

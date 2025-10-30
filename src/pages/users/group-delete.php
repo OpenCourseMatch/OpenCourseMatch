@@ -29,8 +29,7 @@ if(empty($accounts)) {
 }
 
 foreach($accounts as $account) {
-    $account->preDelete();
-    \app\users\User::dao()->delete($account);
+    \app\users\UserService::delete($account);
 
     Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
 }
