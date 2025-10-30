@@ -23,7 +23,7 @@ class GroupService {
             \app\users\User::dao()->save($user);
         }
 
-        // Delete the course
-        Course::dao()->delete($group);
+        // Delete the group
+        Group::dao()->delete($group);
     }
 }
