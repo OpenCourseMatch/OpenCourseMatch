@@ -2,6 +2,9 @@ server {
     listen 80;
     listen [::]:80;
 
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
     root /app/public;
 
     index index.php index.html index.htm;
@@ -9,7 +12,7 @@ server {
     location ~* /static/ {
         access_log off;
         log_not_found off;
-        expires 7d;
+        add_header Cache-Control "public, max-age=31536000, no-transform";
         rewrite ^(.*)/static/(.*)$ /static/$2 break;
     }
 

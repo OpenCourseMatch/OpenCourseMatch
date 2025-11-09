@@ -9,3 +9,13 @@ RewriteRule deploy deployment/deploy.php [L]
 
 # Rewrite all other requests to front-controller.php
 RewriteRule ^.*$ front-controller.php [L]
+
+# GZIP compression
+AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
+
+# Cache control
+<IfModule mod_headers.c>
+    <FilesMatch "\.(ico|jpg|jpeg|png|webp|gif|pdf|mp3|mp4|svg|css|js|ttf)$">
+        Header set Cache-Control "public, max-age=31536000, no transform"
+    </FilesMatch>
+</IfModule>

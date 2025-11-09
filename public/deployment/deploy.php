@@ -133,7 +133,7 @@ $detailedLog .= PHP_EOL;
 $commands = [
     "whoami",
     "git pull",
-    "cd ../.. && composer build"
+    "cd ../.. && composer install --no-dev"
 ];
 
 $detailedLog .= "Running commands " . json_encode($commands) . PHP_EOL;
