@@ -1026,16 +1026,16 @@
         },
         {
             "name": "struktal/struktal-orm",
-            "version": "2.4.2",
+            "version": "2.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Struktal/struktal-orm.git",
-                "reference": "10a75cbb6f147ab55a57f847944e120e7198adda"
+                "reference": "63bbe70ebcbcce71c0cf0e323557341cbb19966f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Struktal/struktal-orm/zipball/10a75cbb6f147ab55a57f847944e120e7198adda",
-                "reference": "10a75cbb6f147ab55a57f847944e120e7198adda",
+                "url": "https://api.github.com/repos/Struktal/struktal-orm/zipball/63bbe70ebcbcce71c0cf0e323557341cbb19966f",
+                "reference": "63bbe70ebcbcce71c0cf0e323557341cbb19966f",
                 "shasum": ""
             },
             "require": {
@@ -1063,9 +1063,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Struktal/struktal-orm/issues",
-                "source": "https://github.com/Struktal/struktal-orm/tree/2.4.2"
+                "source": "https://github.com/Struktal/struktal-orm/tree/2.4.4"
             },
-            "time": "2025-09-14T16:51:46+00:00"
+            "time": "2025-11-18T17:52:11+00:00"
         },
         {
             "name": "struktal/struktal-phpmailer-wrapper",
@@ -5139,7 +5139,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -5148,9 +5148,9 @@
         "ext-curl": "*",
         "ext-json": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
