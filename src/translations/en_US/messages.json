@@ -200,7 +200,7 @@
     "Move users to this course": "Move users to this course",
     "This course has been cancelled.": "This course has been cancelled.",
     "The number of participants exceeds the maximum number of participants allowed for this course.": "The number of participants exceeds the maximum number of participants allowed for this course.",
-    "The number of participants is below the minimum number of participants allowed for this course.": "The number of participants is below the minimum number of participants allowed for this course.",
+    "The number of participants is below the minimum number of participants required for this course.": "The number of participants is below the minimum number of participants required for this course.",
     "Not all course leaders have been assigned to this course.": "Not all course leaders have been assigned to this course.",
     "This user has not chosen any courses.": "This user has not chosen any courses.",
     "This user has not chosen the course.": "This user has not chosen the course.",
