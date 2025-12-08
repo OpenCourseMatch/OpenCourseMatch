@@ -1026,16 +1026,16 @@
         },
         {
             "name": "struktal/struktal-orm",
-            "version": "2.4.2",
+            "version": "2.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Struktal/struktal-orm.git",
-                "reference": "10a75cbb6f147ab55a57f847944e120e7198adda"
+                "reference": "63bbe70ebcbcce71c0cf0e323557341cbb19966f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Struktal/struktal-orm/zipball/10a75cbb6f147ab55a57f847944e120e7198adda",
-                "reference": "10a75cbb6f147ab55a57f847944e120e7198adda",
+                "url": "https://api.github.com/repos/Struktal/struktal-orm/zipball/63bbe70ebcbcce71c0cf0e323557341cbb19966f",
+                "reference": "63bbe70ebcbcce71c0cf0e323557341cbb19966f",
                 "shasum": ""
             },
             "require": {
@@ -1063,9 +1063,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Struktal/struktal-orm/issues",
-                "source": "https://github.com/Struktal/struktal-orm/tree/2.4.2"
+                "source": "https://github.com/Struktal/struktal-orm/tree/2.4.4"
             },
-            "time": "2025-09-14T16:51:46+00:00"
+            "time": "2025-11-18T17:52:11+00:00"
         },
         {
             "name": "struktal/struktal-phpmailer-wrapper",
@@ -1182,21 +1182,21 @@
         },
         {
             "name": "struktal/struktal-validation",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Struktal/struktal-validation.git",
-                "reference": "2edfa3525c73f45b613b9b0f6c418bffa80736bf"
+                "reference": "b7811737f5691b99d0fe5e92f71a5a4454d7eb55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Struktal/struktal-validation/zipball/2edfa3525c73f45b613b9b0f6c418bffa80736bf",
-                "reference": "2edfa3525c73f45b613b9b0f6c418bffa80736bf",
+                "url": "https://api.github.com/repos/Struktal/struktal-validation/zipball/b7811737f5691b99d0fe5e92f71a5a4454d7eb55",
+                "reference": "b7811737f5691b99d0fe5e92f71a5a4454d7eb55",
                 "shasum": ""
             },
             "require": {
                 "ext-pdo": "*",
-                "php": ">=8.2.0",
+                "php": ">=8",
                 "struktal/struktal-orm": "^2.2.0"
             },
             "require-dev": {
@@ -1220,9 +1220,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Struktal/struktal-validation/issues",
-                "source": "https://github.com/Struktal/struktal-validation/tree/2.1.0"
+                "source": "https://github.com/Struktal/struktal-validation/tree/2.1.1"
             },
-            "time": "2025-10-02T09:22:23+00:00"
+            "time": "2025-12-07T16:02:17+00:00"
         }
     ],
     "packages-dev": [
@@ -5139,7 +5139,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -5148,9 +5148,9 @@
         "ext-curl": "*",
         "ext-json": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.2"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
