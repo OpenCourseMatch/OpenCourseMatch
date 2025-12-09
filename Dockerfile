@@ -6,10 +6,10 @@ RUN apk update && apk upgrade
 RUN apk --no-cache add tzdata
 
 # Install PHP, composer, nodejs and npm
-RUN apk --no-cache add php83 php83-fpm composer nodejs npm git
+RUN apk --no-cache add nginx php85 php85-fpm php85-phar composer nodejs npm git
 
 # Install PHP packages
-RUN apk --no-cache add php-session php-tokenizer php-mysqli php-pdo php-pdo_mysql php-curl php-gd php-intl php-mbstring php-xml php-simplexml php-dom php-ctype php-apcu
+RUN apk --no-cache add php85-session php85-tokenizer php85-mysqli php85-pdo php85-pdo_mysql php85-curl php85-gd php85-intl php85-mbstring php85-iconv php85-xml php85-simplexml php85-xmlwriter php85-dom php85-ctype php85-apcu
 
 # Set working directory
 WORKDIR /app
@@ -22,7 +22,7 @@ COPY ./docker/nodejs .
 RUN rm -rf /app/public/static && ln -s /app/src/static /app/public/static
 
 # Install composer dependencies
-RUN composer install --no-dev --no-interaction
+RUN php85 $(which composer).phar install --no-dev --no-interaction
 
 # Install npm dependencies
 RUN npm install
@@ -40,7 +40,7 @@ RUN apk update && apk upgrade
 RUN apk --no-cache add tzdata
 
 # Install nginx and PHP
-RUN apk --no-cache add nginx php83 php83-fpm git
+RUN apk --no-cache add nginx php85 php85-fpm git
 
 # Install PHP packages
 RUN apk --no-cache add php-session php-tokenizer php-mysqli php-pdo php-pdo_mysql php-curl php-gd php-intl php-mbstring php-xml php-simplexml php-dom php-ctype php-apcu
@@ -64,7 +64,7 @@ COPY --chown=nginx:nginx ./docker/entrypoint.sh .
 
 # Copy server configurations
 COPY ./docker/nginx-config /etc/nginx
-COPY ./docker/php-fpm-config /etc/php83/php-fpm.d
+COPY ./docker/php-fpm-config /etc/php85/php-fpm.d
 
 # Adjust permissions
 RUN mkdir -p logs && chown -R nginx:nginx logs && \

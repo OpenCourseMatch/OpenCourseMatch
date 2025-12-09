@@ -1,11 +1,11 @@
-<div class="p-4 bg-surface-100 text-surface-700">
+<div class="p-4 sm:px-12 bg-surface-100 text-surface-700">
     <footer class="max-w-screen-xl m-auto">
         <div class="flex justify-start items-center">
             <img src="{{ Router->staticFilePath("img/logo.svg") }}"
                  alt="Logo"
                  class="h-8 w-auto rounded"
             >
-            <span class="hidden sm:block ml-2 font-bold">
+            <span class="ml-2 font-bold">
                 {{ Config->getAppName() }}
             </span>
         </div>

@@ -1,4 +1,4 @@
-<div class="p-4 bg-surface-100">
+<div class="p-4 sm:px-12 bg-surface-100">
     <header class="flex justify-between items-center max-w-screen-xl m-auto">
         {{-- Logo --}}
         <div class="whitespace-nowrap">
