@@ -15,7 +15,7 @@ if($coursesAssigned) {
     Router->redirect(Router->generate("index"));
 }
 
-exec("php " . __APP_DIR__ . "/src/runjob/assignment-algorithm.php > /dev/null 2>&1 &");
+exec("php85 " . __APP_DIR__ . "/src/runjob/assignment-algorithm.php > /dev/null 2>&1 &");
 
 $breadcrumbs = [
     [
