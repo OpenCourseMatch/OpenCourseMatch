@@ -56,6 +56,8 @@ class CourseService {
             if($excludeParticipants && $user->getLeadingCourseId() !== $course->getId()) {
                 continue;
             }
+
+            $users[] = $user;
         }
         return $users;
     }
