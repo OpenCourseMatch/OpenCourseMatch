@@ -200,7 +200,7 @@
     "Move users to this course": "Nutzer in diesen Kurs verschieben",
     "This course has been cancelled.": "Dieser Kurs wurde abgesagt.",
     "The number of participants exceeds the maximum number of participants allowed for this course.": "Die Anzahl der Teilnehmer überschreitet die höchstens erlaubte Teilnehmeranzahl für diesen Kurs.",
-    "The number of participants is below the minimum number of participants allowed for this course.": "Die Anzahl der Teilnehmer liegt unter der mindestens erforderlichen Teilnehmeranzahl für diesen Kurs.",
+    "The number of participants is below the minimum number of participants required for this course.": "Die Anzahl der Teilnehmer liegt unter der mindestens erforderlichen Teilnehmeranzahl für diesen Kurs.",
     "Not all course leaders have been assigned to this course.": "Es wurden nicht alle Kursleiter diesem Kurs zugewiesen.",
     "This user has not chosen any courses.": "Dieser Nutzer hat keine Kurse gewählt.",
     "This user has not chosen the course.": "Dieser Nutzer hat diesen Kurs nicht gewählt.",
