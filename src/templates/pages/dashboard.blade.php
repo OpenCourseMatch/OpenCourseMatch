@@ -6,14 +6,19 @@
         {{ t("Dashboard") }}
     </h1>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        @include("ui.dashboardlink", [
-            "icon" => "icons.accountsettings",
-            "href" => Router->generate("account-settings"),
-            "title" => t("Account settings"),
-            "description" => t("Manage your personal information, security settings, and account preferences."),
-            "scheme" => BoxScheme::PRIMARY
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        @component("ui.box", [
+            "scheme" => BoxScheme::SURFACE
         ])
+            <div>
+                <p>
+                    {{ t("Welcome") }},
+                </p>
+                <p class="text-lg font-bold">
+                    {{ Auth->getLoggedInUser()->getFullName() }}!
+                </p>
+            </div>
+        @endcomponent
     </div>
 
     @auth(0)
@@ -25,4 +30,19 @@
     @auth(2)
         @include("pages.dashboards.admin")
     @endauth
+
+    <h2 class="mt-4 mb-2">
+        {{ t("About OpenCourseMatch") }}
+    </h2>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        @include("ui.dashboardlink", [
+            "icon" => "icons.bug",
+            "href" => "https://github.com/OpenCourseMatch/OpenCourseMatch/issues/new/choose",
+            "title" => t("Bug reports and feature requests"),
+            "description" => t("Found a bug or have an idea to improve OpenCourseMatch? Please create an issue in our GitHub repository."),
+            "scheme" => BoxScheme::SURFACE,
+            "external" => true
+        ])
+    </div>
 @endcomponent

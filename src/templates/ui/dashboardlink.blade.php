@@ -4,9 +4,9 @@
     "external" => $external ?? false
 ])
     <div class="flex items-center justify-between">
-        <div class="flex items-center justify-center shrink-0 w-10 h-10 bg-secondary-500 rounded-full shadow">
+        <div class="flex items-center justify-center shrink-0 w-10 h-10 bg-primary-500 rounded-full shadow">
             @include($icon, [
-                "class" => "w-2/3 h-2/3 fill-surface-900"
+                "class" => "w-2/3 h-2/3 fill-surface-100"
             ])
         </div>
 
