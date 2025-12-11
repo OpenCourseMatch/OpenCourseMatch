@@ -25,13 +25,13 @@ if(empty($accounts)) {
     exit;
 } else {
     $oldGroup = $post["group"] ? $post["group"]->getId() : "DEFAULT";
-    Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is deleting all users of the group {$oldGroup}");
+    Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) is deleting all users of the group {$oldGroup}");
 }
 
 foreach($accounts as $account) {
     \app\users\UserService::delete($account);
 
-    Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
+    Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) deleted the user {$account->getId()} ({$account->getFullName()})");
 }
 
 InfoMessage->success(t("All users of the selected group have been deleted."));

@@ -18,7 +18,7 @@ $course = $get["course"];
 
 \app\courses\CourseService::delete($course);
 
-Logger->tag("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the course {$course->getId()} ({$course->getTitle()})");
+Logger->tag("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) deleted the course {$course->getId()} ({$course->getTitle()})");
 
 InfoMessage->success(t("The course has been deleted."));
 Router->redirect(Router->generate("courses-overview"));

@@ -58,7 +58,7 @@ $account->setOneTimePassword(null);
 $account->setOneTimePasswordExpiration(null);
 \app\users\User::dao()->save($account);
 
-Logger->tag("Users")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the user {$account->getId()} ({$account->getFullName()})");
+Logger->tag("Users")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) saved the user {$account->getId()} ({$account->getFullName()})");
 
 InfoMessage->success(t("The user has been saved."));
 

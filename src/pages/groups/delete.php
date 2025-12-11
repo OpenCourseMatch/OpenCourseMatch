@@ -18,7 +18,7 @@ $group = $get["group"];
 
 \app\groups\GroupService::delete($group);
 
-Logger->tag("Groups")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the group {$group->getId()} ({$group->getName()})");
+Logger->tag("Groups")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) deleted the group {$group->getId()} ({$group->getName()})");
 
 InfoMessage->success(t("The group has been deleted."));
 Router->redirect(Router->generate("groups-overview"));

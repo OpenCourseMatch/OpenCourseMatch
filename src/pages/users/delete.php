@@ -20,7 +20,7 @@ $account = $get["user"];
 
 \app\users\UserService::delete($account);
 
-Logger->tag("Users")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
+Logger->tag("Users")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) deleted the user {$account->getId()} ({$account->getFullName()})");
 
 InfoMessage->success(t("The user has been deleted."));
 Router->redirect(Router->generate("users-overview"));
