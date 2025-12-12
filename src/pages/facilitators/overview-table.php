@@ -8,7 +8,7 @@ $users = \app\users\User::dao()->getObjects([
 
 $users = array_map(function(\app\users\User $account) {
     $array = $account->toArray();
-    $array["editHref"] = Router->generate("facilitators-edit", ["user" => $account->getId()]);
+    $array["href"] = Router->generate("facilitators-edit", ["user" => $account->getId()]);
     unset($array["id"]);
     unset($array["password"]);
     unset($array["email"]);
