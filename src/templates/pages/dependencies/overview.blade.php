@@ -1,4 +1,8 @@
-@component("shells.console")
+@auth
+    @component("shells.console")
+@elseauth
+    @component("shells.landing")
+@endauth
     <h1>
         Dependencies
     </h1>
@@ -22,7 +26,7 @@
     <ul>
         <li>
             <strong>Struktal Framework</strong>.
-            GitHub: <a href="https://github.com/Struktal/Struktal">Struktal Framework</a>.
+            GitHub: <a href="https://github.com/Struktal/">Struktal</a>.
         </li>
         <li>
             <strong>BladeOne</strong>.
@@ -75,4 +79,20 @@
             Licensed under the <a href="https://github.com/chartjs/Chart.js/blob/master/LICENSE.md">MIT license</a>.
         </li>
     </ul>
+
+    <h2 class="mb-2 mt-4">
+        🍃 No-AI
+    </h2>
+
+    <p>
+        This software was developed by human contributors.
+        <strong>No</strong> AI-driven, prompt-based coding agents were used to design, architect, or implement the it's core logic.
+        While AI-based tools may have been used for assistive tasks, their usage did <strong>not</strong> replace developer experience, decision-making, or understanding of the codebase.
+        Furthermore, this software does not incorporate any generative AI models or services.
+        <a href="https://wikipedia.org/wiki/Generative_artificial_intelligence#Concerns"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="text-primary-500 hover:text-primary-700 transition-colors">
+            Read more about concerns regarding generative AI</a>.
+    </p>
 @endcomponent
