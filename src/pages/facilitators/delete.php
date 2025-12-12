@@ -20,7 +20,7 @@ $account = $get["user"];
 
 \app\users\UserService::delete($account);
 
-Logger->tag("Facilitators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the facilitator {$account->getId()} ({$account->getFullName()})");
+Logger->tag("Facilitators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) deleted the facilitator {$account->getId()} ({$account->getFullName()})");
 
 InfoMessage->success(t("The facilitator has been deleted."));
 Router->redirect(Router->generate("facilitators-overview"));

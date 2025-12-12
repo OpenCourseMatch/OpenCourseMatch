@@ -1,18 +1,18 @@
 {
     "name": "opencoursematch/opencoursematch",
     "description": "OpenCourseMatch is an open-source web application designed to automate the assignment of participants to courses depending on the participants' preferences and the courses' requirements.",
-    "version": "v3.3.1-alpha",
+    "version": "dev-latest",
     "type": "project",
     "license": "MIT",
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.4",
         "ext-pdo": "*",
         "ext-curl": "*",
         "ext-json": "*",
 
         "struktal/struktal-config": "^1.0.1",
         "struktal/struktal-logger": "^1.0.2",
-        "struktal/struktal-router": "^1.2.1",
+        "struktal/struktal-router": "^2.0.0",
         "struktal/struktal-api": "^1.0.0",
         "struktal/struktal-orm": "^2.4.2",
         "struktal/struktal-auth": "^4.0.0",
@@ -28,7 +28,7 @@
         "struktal/struktal-geocoding-util": "^1.1.0",
         "struktal/struktal-composer-reader": "^1.0.0",
 
-        "erusev/parsedown": "~1.7.4",
+        "parsedown/parsedown": "~1.7.4",
         "dompdf/dompdf": "^3.0",
         "chillerlan/php-qrcode": "^5.0"
     },
@@ -36,9 +36,6 @@
         "pestphp/pest": "~3.8.2"
     },
     "config": {
-        "platform": {
-            "php": "8.2"
-        },
         "vendor-dir": "vendor",
         "allow-plugins": {
             "pestphp/pest-plugin": true

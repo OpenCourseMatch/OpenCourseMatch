@@ -50,7 +50,7 @@ $account->setOneTimePassword(null);
 $account->setOneTimePasswordExpiration(null);
 \app\users\User::dao()->save($account);
 
-Logger->tag("Administrators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the administrator {$account->getId()} ({$account->getFullName()})");
+Logger->tag("Administrators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) saved the administrator {$account->getId()} ({$account->getFullName()})");
 
 InfoMessage->success(t("The administrator has been saved."));
 

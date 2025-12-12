@@ -6,7 +6,7 @@
         {{ t("Courses") }}
     </h1>
 
-    <a id="create-course"
+    <a id="create"
        href="{{ Router->generate("courses-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">
         @include("icons.plus")
@@ -14,26 +14,33 @@
     </a>
 
     <div class="overflow-x-auto">
-        <table id="courses-table" class="stripe" data-table-ajax="{{ Router->generate("courses-overview-table") }}">
+        <table id="table" class="stripe">
             <thead>
                 <tr>
                     <th>{{ t("Title") }}</th>
                 </tr>
             </thead>
             <tbody>
-                {{-- Contents filled by courses/overview.js --}}
+                {{-- Contents filled by TableOverview.js --}}
             </tbody>
         </table>
     </div>
 
     <script type="module">
-        import * as CoursesOverview from "{{ Router->staticFilePath("js/courses/overview.js") }}";
-        CoursesOverview.init({
-            "Search...": "{{ t("Search...") }}",
-            "Loading...": "{{ t("Loading...") }}",
-            "No entries": "{{ t("No entries") }}",
-            "Back": "{{ t("Back") }}",
-            "Next": "{{ t("Next") }}"
-        });
+        import * as TableOverview from "{{ Router->staticFilePath("js/TableOverview.js") }}";
+        TableOverview.init(
+            "table",
+            "{{ Router->generate("courses-overview-table") }}",
+            {
+                "title": {}
+            },
+            {
+                "Search...": "{{ t("Search...") }}",
+                "Loading...": "{{ t("Loading...") }}",
+                "No entries": "{{ t("No entries") }}",
+                "Back": "{{ t("Back") }}",
+                "Next": "{{ t("Next") }}"
+            }
+        );
     </script>
 @endcomponent

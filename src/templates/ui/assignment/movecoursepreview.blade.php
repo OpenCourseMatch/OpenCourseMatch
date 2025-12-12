@@ -1,13 +1,13 @@
-<button class="flex flex-col w-full p-4 gap-2 rounded border border-2 text-left hover:scale-[1.025] transition-all
+<button class="flex flex-col w-full p-4 gap-2 rounded rounded-lg border border-2 text-left transition-colors
     @if(isset($highlighting[$course->getId()]))
         @if($highlighting[$course->getId()] === 1)
-            bg-info-200 border-info-500
+            bg-info-200 border-info-500 hover:bg-info-300
         @elseif($highlighting[$course->getId()] === 2)
-            bg-warning-200 border-warning-500
+            bg-warning-200 border-warning-500 hover:bg-warning-300
         @elseif($highlighting[$course->getId()] === 3)
-            bg-surface-200 border-surface-500
+            bg-surface-200 border-surface-500 hover:bg-surface-300
         @else
-            bg-primary-200 border-primary-500
+            bg-surface-200 border-surface-500 hover:bg-surface-300
         @endif
     @endif"
     data-course="{{ $course->getId() }}">

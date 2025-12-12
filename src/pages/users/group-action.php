@@ -36,13 +36,13 @@ if(empty($accounts)) {
 
 if($post["resetPassword"] === "1") {
     $oldGroup = $post["group"] ? $post["group"]->getId() : "DEFAULT";
-    Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the password for all users of the group {$oldGroup}");
+    Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) is resetting the password for all users of the group {$oldGroup}");
 }
 
 if($post["changeGroup"] === "1") {
     $oldGroup = $post["group"] ? $post["group"]->getId() : "DEFAULT";
     $newGroup = $post["newGroup"] ? $post["newGroup"]->getId() : "DEFAULT";
-    Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is changing the group for all users of the group {$oldGroup} to {$newGroup}");
+    Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) is changing the group for all users of the group {$oldGroup} to {$newGroup}");
 }
 
 $passwords = [];
@@ -76,7 +76,7 @@ foreach($accounts as $account) {
 
     if($edited) {
         \app\users\User::dao()->save($account);
-        Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the user {$account->getId()} ({$account->getFullName()})");
+        Logger->tag("GroupActions")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) saved the user {$account->getId()} ({$account->getFullName()})");
     }
 }
 

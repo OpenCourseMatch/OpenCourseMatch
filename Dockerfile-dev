@@ -5,10 +5,10 @@ RUN apk update && apk upgrade
 RUN apk --no-cache add tzdata
 
 # Install nginx, PHP, composer, nodejs and npm
-RUN apk --no-cache add nginx php83 php83-fpm composer nodejs npm git
+RUN apk --no-cache add nginx php84 php84-fpm php84-phar composer nodejs npm git
 
 # Install PHP packages
-RUN apk --no-cache add php-session php-tokenizer php-mysqli php-pdo php-pdo_mysql php-curl php-gd php-intl php-mbstring php-xml php-simplexml php-dom php-ctype php-apcu
+RUN apk --no-cache add php84-session php84-tokenizer php84-mysqli php84-pdo php84-pdo_mysql php84-curl php84-gd php84-intl php84-mbstring php84-iconv php84-xml php84-simplexml php84-xmlwriter php84-dom php84-ctype php84-apcu
 
 # Set working directory
 WORKDIR /app
@@ -18,7 +18,7 @@ RUN chown -R nginx:nginx /app
 COPY --chown=nginx:nginx . .
 COPY --chown=nginx:nginx ./docker/nodejs .
 COPY --chown=nginx:nginx ./docker/nginx-config /etc/nginx
-COPY --chown=nginx:nginx ./docker/php-fpm-config /etc/php83/php-fpm.d
+COPY --chown=nginx:nginx ./docker/php-fpm-config /etc/php84/php-fpm.d
 COPY --chown=nginx:nginx ./docker/entrypoint-dev.sh .
 
 # Adjust permissions
@@ -34,13 +34,13 @@ RUN mkdir -p logs && chown -R nginx:nginx logs && \
 RUN rm -rf /app/public/static && ln -s /app/src/static /app/public/static
 
 # Install composer dependencies
-RUN composer install --no-dev --no-interaction
+RUN php84 $(which composer).phar install --no-dev --no-interaction
 
 # Install npm dependencies
 RUN npm install
 
 # Build tailwindcss
-RUN #npx @tailwindcss/cli --input src/static/css/base.css --output src/static/css/style.css --minify
+RUN npx @tailwindcss/cli --input src/static/css/base.css --output src/static/css/style.css --minify
 
 # Setup crontab
 RUN crontab -u nginx /app/src/cronjobs/.crontab

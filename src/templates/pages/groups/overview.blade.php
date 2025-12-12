@@ -6,7 +6,7 @@
         {{ t("Groups") }}
     </h1>
 
-    <a id="create-group"
+    <a id="create"
        href="{{ Router->generate("groups-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">
         @include("icons.plus")
@@ -14,7 +14,7 @@
     </a>
 
     <div class="overflow-x-auto">
-        <table id="groups-table" class="stripe" data-table-ajax="{{ Router->generate("groups-overview-table") }}">
+        <table id="table" class="stripe">
             <thead>
                 <tr>
                     <th>{{ t("Group name") }}</th>
@@ -22,19 +22,27 @@
                 </tr>
             </thead>
             <tbody>
-                {{-- Contents filled by groups/overview.js --}}
+                {{-- Contents filled by TableOverview.js --}}
             </tbody>
         </table>
     </div>
 
     <script type="module">
-        import * as GroupsOverview from "{{ Router->staticFilePath("js/groups/overview.js") }}";
-        GroupsOverview.init({
-            "Search...": "{{ t("Search...") }}",
-            "Loading...": "{{ t("Loading...") }}",
-            "No entries": "{{ t("No entries") }}",
-            "Back": "{{ t("Back") }}",
-            "Next": "{{ t("Next") }}"
-        });
+        import * as TableOverview from "{{ Router->staticFilePath("js/TableOverview.js") }}";
+        TableOverview.init(
+            "table",
+            "{{ Router->generate("groups-overview-table") }}",
+            {
+                "name": {},
+                "clearance": {}
+            },
+            {
+                "Search...": "{{ t("Search...") }}",
+                "Loading...": "{{ t("Loading...") }}",
+                "No entries": "{{ t("No entries") }}",
+                "Back": "{{ t("Back") }}",
+                "Next": "{{ t("Next") }}"
+            }
+        );
     </script>
 @endcomponent

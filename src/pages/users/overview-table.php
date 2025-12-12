@@ -8,7 +8,7 @@ $users = \app\users\User::dao()->getObjects([
 
 $users = array_map(function(\app\users\User $account) {
     $array = $account->toArray();
-    $array["editHref"] = Router->generate("users-edit", ["user" => $account->getId()]);
+    $array["href"] = Router->generate("users-edit", ["user" => $account->getId()]);
     $group = $account->getGroup();
     if($group instanceof \app\groups\Group) {
         $array["group"] = $group->getName();

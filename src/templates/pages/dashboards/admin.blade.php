@@ -1,13 +1,23 @@
 <h2 class="mt-4 mb-2">
     {{ t("Statistics") }}
 </h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
     @component("ui.box", [
-        "scheme" => BoxScheme::PRIMARY
+        "scheme" => BoxScheme::SURFACE
     ])
-        <p class="text-xl font-bold">
-            {{ t("System status") }}
-        </p>
+        <div class="flex items-center gap-4">
+            <div class="hidden sm:flex items-center justify-center shrink-0 w-10 h-10 bg-primary-500 rounded-full shadow">
+                {{-- TODO: Icon visibility on mobile --}}
+                @include("icons.status", [
+                    "class" => "w-2/3 h-2/3 fill-surface-100"
+                ])
+            </div>
+
+            <p class="text-xl font-bold">
+                {{ t("System status") }}
+            </p>
+        </div>
 
         <div class="flex gap-2">
             @if(\app\settings\SystemStatus::dao()->get("userActionsAllowed") === "true")
@@ -39,9 +49,11 @@
             </p>
         </div>
     @endcomponent
+</div>
 
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
     @component("ui.box", [
-        "scheme" => BoxScheme::PRIMARY
+        "scheme" => BoxScheme::SURFACE
     ])
         <div class="flex flex-col justify-center items-center h-full">
             <p class="text-4xl font-bold">
@@ -54,7 +66,7 @@
     @endcomponent
 
     @component("ui.box", [
-        "scheme" => BoxScheme::PRIMARY
+        "scheme" => BoxScheme::SURFACE
     ])
         <div class="flex flex-col justify-center items-center h-full">
             <p class="text-4xl font-bold">
@@ -65,143 +77,4 @@
             </p>
         </div>
     @endcomponent
-
-    @include("ui.dashboardlink", [
-        "icon" => "icons.statistics",
-        "href" => Router->generate("statistics-overview"),
-        "title" => t("Statistics"),
-        "description" => t("View more detailed statistics."),
-        "scheme" => BoxScheme::PRIMARY
-    ])
-</div>
-
-<h2 class="mt-4 mb-2">
-    {{ t("Manage accounts") }}
-</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    @include("ui.dashboardlink", [
-        "icon" => "icons.group",
-        "href" => Router->generate("groups-overview"),
-        "title" => t("Groups"),
-        "description" => t("Customize user groups to model the participation requirements of the courses."),
-        "scheme" => BoxScheme::PRIMARY
-    ])
-    @include("ui.dashboardlink", [
-        "icon" => "icons.user",
-        "href" => Router->generate("users-overview"),
-        "title" => t("Participants and tutors"),
-        "description" => t("Manage accounts of participants and tutors."),
-        "scheme" => BoxScheme::PRIMARY
-    ])
-    @include("ui.dashboardlink", [
-        "icon" => "icons.user",
-        "href" => Router->generate("facilitators-overview"),
-        "title" => t("Facilitators"),
-        "description" => t("Manage accounts of facilitators."),
-        "scheme" => BoxScheme::PRIMARY
-    ])
-    @include("ui.dashboardlink", [
-        "icon" => "icons.user",
-        "href" => Router->generate("administrators-overview"),
-        "title" => t("Administrators"),
-        "description" => t("Manage accounts of administrators."),
-        "scheme" => BoxScheme::PRIMARY
-    ])
-</div>
-
-<h2 class="mt-4 mb-2">
-    {{ t("Manage courses") }}
-</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    @include("ui.dashboardlink", [
-        "icon" => "icons.course",
-        "href" => Router->generate("courses-overview"),
-        "title" => t("Courses"),
-        "description" => t("Manage the available courses."),
-        "scheme" => BoxScheme::PRIMARY
-    ])
-</div>
-
-@if(\app\settings\SystemStatus::dao()->get("coursesAssigned") !== "true" && \app\settings\SystemStatus::dao()->get("algorithmRunning") !== "true")
-    <h2 class="mt-4 mb-2">
-        {{ t("Course assignment") }}
-    </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        @include("ui.dashboardlink", [
-            "icon" => "icons.algorithm",
-            "href" => Router->generate("course-assignment-run"),
-            "title" => t("Run course assignment"),
-            "description" => t("Start the assignment algorithm to group participants to the courses based on their preferences."),
-            "scheme" => BoxScheme::PRIMARY
-        ])
-    </div>
-@elseif(\app\settings\SystemStatus::dao()->get("coursesAssigned") === "true")
-    <h2 class="mt-4 mb-2">
-        {{ t("Course assignment") }}
-    </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        @include("ui.dashboardlink", [
-            "icon" => "icons.assignment",
-            "href" => Router->generate("course-assignment-edit"),
-            "title" => t("Edit course assignment"),
-            "description" => t("Optimize the course assignment manually."),
-            "scheme" => BoxScheme::PRIMARY
-        ])
-        @include("ui.dashboardlink", [
-            "icon" => "icons.export",
-            "href" => Router->generate("course-assignment-export"),
-            "title" => t("Export course assignment"),
-            "description" => t("Download the course assignment in PDF format."),
-            "scheme" => BoxScheme::PRIMARY
-        ])
-        @include("ui.dashboardlink", [
-            "icon" => "icons.reset",
-            "href" => Router->generate("course-assignment-reset"),
-            "title" => t("Reset course assignment"),
-            "description" => t("Reset the course assignment to re-run the assignment algorithm."),
-            "scheme" => BoxScheme::DANGER
-        ])
-    </div>
-@endif
-
-<h2 class="mt-4 mb-2">
-    {{ t("Settings") }}
-</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    @include("ui.dashboardlink", [
-        "icon" => "icons.gear",
-        "href" => Router->generate("system-settings"),
-        "title" => t("System settings"),
-        "description" => t("Configure OpenCourseMatch to your organizations' needs."),
-        "scheme" => BoxScheme::PRIMARY
-    ])
-    @include("ui.dashboardlink", [
-        "icon" => "icons.user",
-        "href" => Router->generate("choice-state-toggle"),
-        "title" => \app\settings\SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Course selection enabled") : t("Course selection disabled"),
-        "description" => \app\settings\SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Disable the course selection for users.") : t("Enable the course selection for users."),
-        "scheme" => \app\settings\SystemStatus::dao()->get("userActionsAllowed") === "true" ? BoxScheme::PRIMARY : BoxScheme::DANGER
-    ])
-    @include("ui.dashboardlink", [
-        "icon" => "icons.reset",
-        "href" => Router->generate("system-reset"),
-        "title" => t("Reset system data"),
-        "description" => t("Reset selectable data saved by the system."),
-        "scheme" => BoxScheme::DANGER
-    ])
-</div>
-
-<h2 class="mt-4 mb-2">
-    {{ t("About OpenCourseMatch") }}
-</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-    @include("ui.dashboardlink", [
-        "icon" => "icons.bug",
-        "href" => "https://github.com/OpenCourseMatch/OpenCourseMatch/issues/new/choose",
-        "title" => t("Bug reports and feature requests"),
-        "description" => t("Found a bug or have an idea to improve OpenCourseMatch? Please create an issue in our GitHub repository."),
-        "scheme" => BoxScheme::PRIMARY,
-        "external" => true
-    ])
-    {{-- Changelog --}}
 </div>

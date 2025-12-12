@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ Translator->getLocaleForHtmlLang() }}">
     <head>
         {{-- Encoding --}}
         <meta charset="utf-8">
@@ -32,7 +32,7 @@
 
         @include("shells.headers.landing")
 
-        <div class="px-4">
+        <div class="px-4 sm:px-12">
             <main class="max-w-screen-xl m-auto min-h-[90vh]">
                 @include("shells.generic.infomessagelist")
 

@@ -21,12 +21,12 @@ if($post["resetUsers"] !== null) {
     $users = \app\users\User::dao()->getObjects(["permissionLevel" => \app\users\PermissionLevel::USER]);
     $usersCount = count($users);
 
-    Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the users ({$usersCount})");
+    Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) is resetting the users ({$usersCount})");
 
     foreach($users as $account) {
         \app\users\UserService::delete($account);
 
-        Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the user {$account->getId()} ({$account->getFullName()})");
+        Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) deleted the user {$account->getId()} ({$account->getFullName()})");
     }
 
     InfoMessage->info(t("\$\$count\$\$ users have been deleted.", ["count" => $usersCount]));
@@ -36,12 +36,12 @@ if($post["resetFacilitators"] !== null) {
     $users = \app\users\User::dao()->getObjects(["permissionLevel" => \app\users\PermissionLevel::FACILITATOR]);
     $usersCount = count($users);
 
-    Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the facilitators ({$usersCount})");
+    Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) is resetting the facilitators ({$usersCount})");
 
     foreach($users as $account) {
         \app\users\UserService::delete($account);
 
-        Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the facilitator {$account->getId()} ({$account->getFullName()})");
+        Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) deleted the facilitator {$account->getId()} ({$account->getFullName()})");
     }
 
     InfoMessage->info(t("\$\$count\$\$ facilitators have been deleted.", ["count" => $usersCount]));
@@ -51,12 +51,12 @@ if($post["resetCourses"] !== null) {
     $courses = \app\courses\Course::dao()->getObjects();
     $coursesCount = count($courses);
 
-    Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the courses ({$coursesCount})");
+    Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) is resetting the courses ({$coursesCount})");
 
     foreach($courses as $course) {
         \app\courses\CourseService::delete($course);
 
-        Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the course {$course->getId()} ({$course->getTitle()})");
+        Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) deleted the course {$course->getId()} ({$course->getTitle()})");
     }
 
     InfoMessage->info(t("\$\$count\$\$ courses have been deleted.", ["count" => $coursesCount]));
@@ -66,12 +66,12 @@ if($post["resetGroups"] !== null) {
     $groups = \app\groups\Group::dao()->getObjects();
     $groupsCount = count($groups);
 
-    Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) is resetting the courses ({$groupsCount})");
+    Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) is resetting the courses ({$groupsCount})");
 
     foreach($groups as $group) {
         \app\groups\GroupService::delete($group);
 
-        Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the group {$group->getId()} ({$group->getName()})");
+        Logger->tag("SystemReset")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) deleted the group {$group->getId()} ({$group->getName()})");
     }
 
     InfoMessage->info(t("\$\$count\$\$ groups have been deleted.", ["count" => $groupsCount]));

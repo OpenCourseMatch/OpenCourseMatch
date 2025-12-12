@@ -85,7 +85,7 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
         {{-- Unassign option --}}
-        <button class="flex flex-col w-full p-4 gap-2 rounded border border-2 text-left hover:scale-[1.025] transition-all bg-warning-200 border-warning-500"
+        <button class="flex flex-col w-full p-4 gap-2 rounded rounded-lg border border-2 text-left transition-colors bg-warning-200 border-warning-500 hover:bg-warning-300"
                 data-course="">
             <span class="text-xl font-bold">
                 {{ t("Unassign") }}

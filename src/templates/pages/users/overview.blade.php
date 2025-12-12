@@ -7,7 +7,7 @@
     </h1>
 
     <div id="table-actions" class="flex flex-col sm:flex-row gap-2">
-        <a id="create-user"
+        <a id="create"
            href="{{ Router->generate("users-create") }}"
            class="{{ TailwindUtil::button() }} gap-2">
             @include("icons.plus")
@@ -30,7 +30,7 @@
     </div>
 
     <div class="overflow-x-auto">
-        <table id="users-table" class="stripe" data-table-ajax="{{ Router->generate("users-overview-table") }}">
+        <table id="table" class="stripe">
             <thead>
                 <tr>
                     <th>{{ t("Username") }}</th>
@@ -41,19 +41,32 @@
                 </tr>
             </thead>
             <tbody>
-                {{-- Contents filled by users/overview.js --}}
+                {{-- Contents filled by TableOverview.js --}}
             </tbody>
         </table>
     </div>
 
     <script type="module">
-        import * as UsersOverview from "{{ Router->staticFilePath("js/users/overview.js") }}";
-        UsersOverview.init({
-            "Search...": "{{ t("Search...") }}",
-            "Loading...": "{{ t("Loading...") }}",
-            "No entries": "{{ t("No entries") }}",
-            "Back": "{{ t("Back") }}",
-            "Next": "{{ t("Next") }}"
-        });
+        import * as TableOverview from "{{ Router->staticFilePath("js/TableOverview.js") }}";
+        TableOverview.init(
+            "table",
+            "{{ Router->generate("users-overview-table") }}",
+            {
+                "username": {},
+                "firstName": {},
+                "lastName": {},
+                "group": {},
+                "choiceComplete": {
+                    render: TableOverview.renderBoolean
+                }
+            },
+            {
+                "Search...": "{{ t("Search...") }}",
+                "Loading...": "{{ t("Loading...") }}",
+                "No entries": "{{ t("No entries") }}",
+                "Back": "{{ t("Back") }}",
+                "Next": "{{ t("Next") }}"
+            }
+        );
     </script>
 @endcomponent

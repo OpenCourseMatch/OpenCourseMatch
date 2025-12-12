@@ -6,7 +6,7 @@ $groups = \app\groups\Group::dao()->getObjects();
 
 $groups = array_map(function(\app\groups\Group $group) {
     $array = $group->toArray();
-    $array["editHref"] = Router->generate("groups-edit", ["group" => $group->getId()]);
+    $array["href"] = Router->generate("groups-edit", ["group" => $group->getId()]);
     unset($array["id"]);
     unset($array["created"]);
     unset($array["updated"]);

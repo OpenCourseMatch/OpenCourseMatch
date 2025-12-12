@@ -6,7 +6,7 @@
         {{ t("Facilitators") }}
     </h1>
 
-    <a id="create-user"
+    <a id="create"
        href="{{ Router->generate("facilitators-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">
         @include("icons.plus")
@@ -14,7 +14,7 @@
     </a>
 
     <div class="overflow-x-auto">
-        <table id="users-table" class="stripe" data-table-ajax="{{ Router->generate("facilitators-overview-table") }}">
+        <table id="table" class="stripe">
             <thead>
                 <tr>
                     <th>{{ t("Username") }}</th>
@@ -23,19 +23,28 @@
                 </tr>
             </thead>
             <tbody>
-                {{-- Contents filled by facilitators/overview.js --}}
+                {{-- Contents filled by TableOverview.js --}}
             </tbody>
         </table>
     </div>
 
     <script type="module">
-        import * as FacilitatorsOverview from "{{ Router->staticFilePath("js/facilitators/overview.js") }}";
-        FacilitatorsOverview.init({
-            "Search...": "{{ t("Search...") }}",
-            "Loading...": "{{ t("Loading...") }}",
-            "No entries": "{{ t("No entries") }}",
-            "Back": "{{ t("Back") }}",
-            "Next": "{{ t("Next") }}"
-        });
+        import * as TableOverview from "{{ Router->staticFilePath("js/TableOverview.js") }}";
+        TableOverview.init(
+            "table",
+            "{{ Router->generate("facilitators-overview-table") }}",
+            {
+                "username": {},
+                "firstName": {},
+                "lastName": {}
+            },
+            {
+                "Search...": "{{ t("Search...") }}",
+                "Loading...": "{{ t("Loading...") }}",
+                "No entries": "{{ t("No entries") }}",
+                "Back": "{{ t("Back") }}",
+                "Next": "{{ t("Next") }}"
+            }
+        );
     </script>
 @endcomponent

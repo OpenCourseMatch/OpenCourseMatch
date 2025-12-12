@@ -20,7 +20,7 @@ $account = $get["user"];
 
 \app\users\UserService::delete($account);
 
-Logger->tag("Administrators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) deleted the administrator {$account->getId()} ({$account->getFullName()})");
+Logger->tag("Administrators")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) deleted the administrator {$account->getId()} ({$account->getFullName()})");
 
 InfoMessage->success(t("The administrator has been deleted."));
 Router->redirect(Router->generate("administrators-overview"));

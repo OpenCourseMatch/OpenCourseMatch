@@ -84,7 +84,7 @@ foreach($csvData as $data) {
     $account->setOneTimePasswordExpiration(null);
     \app\users\User::dao()->save($account);
 
-    Logger->tag("Users")->trace("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) imported the user {$account->getId()} ({$account->getFullName()}).");
+    Logger->tag("Users")->trace("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) imported the user {$account->getId()} ({$account->getFullName()}).");
 
     $importedUsers[] = $account;
     $importedUsersPasswords[$account->getId()] = $password;

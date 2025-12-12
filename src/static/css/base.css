@@ -134,6 +134,14 @@ button:not(:disabled) {
     @apply flex flex-col-reverse sm:flex-row items-center justify-between w-full gap-2;
 }
 
+/* Style table */
+.dt-container table tbody tr[data-href] {
+    @apply cursor-pointer transition-colors;
+}
+.dt-container table tbody tr[data-href]:hover {
+    @apply bg-surface-200;
+}
+
 /* Style search bar */
 .dt-container .dt-search {
     @apply inline-block;

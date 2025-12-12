@@ -73,7 +73,7 @@ $course->setMinParticipants($post["minParticipants"]);
 $course->setMaxParticipants($post["maxParticipants"]);
 \app\courses\Course::dao()->save($course);
 
-Logger->tag("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()}) saved the course {$course->getId()} ({$course->getTitle()})");
+Logger->tag("Courses")->info("User {$user->getId()} ({$user->getFullName()}, PL {$user->getPermissionLevel()->name}) saved the course {$course->getId()} ({$course->getTitle()})");
 
 InfoMessage->success(t("The course has been saved."));
 Router->redirect(Router->generate("courses-overview"));
