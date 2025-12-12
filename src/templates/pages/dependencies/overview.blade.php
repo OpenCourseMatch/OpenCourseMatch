@@ -50,8 +50,8 @@
         </li>
         <li>
             <strong>Parsedown</strong>.
-            GitHub: <a href="https://github.com/erusev/parsedown">erusev/parsedown</a>.
-            Licensed under the <a href="https://github.com/erusev/parsedown/blob/master/LICENSE.txt">MIT license</a>.
+            GitHub: <a href="https://github.com/parsedown/parsedown">parsedown/parsedown</a>.
+            Licensed under the <a href="https://github.com/parsedown/parsedown/blob/master/LICENSE.txt">MIT license</a>.
         </li>
         <li>
             <strong>Pest</strong>.
