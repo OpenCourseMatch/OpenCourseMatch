@@ -37,6 +37,14 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
         @include("ui.dashboardlink", [
+            "icon" => "icons.dependencies",
+            "href" => Router->generate("dependencies-overview"),
+            "title" => t("Dependencies"),
+            "description" => t("OpenCourseMatch is built using these open-source packages."),
+            "scheme" => BoxScheme::SURFACE
+        ])
+
+        @include("ui.dashboardlink", [
             "icon" => "icons.bug",
             "href" => "https://github.com/OpenCourseMatch/OpenCourseMatch/issues/new/choose",
             "title" => t("Bug reports and feature requests"),

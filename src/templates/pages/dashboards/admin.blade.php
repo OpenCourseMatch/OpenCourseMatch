@@ -8,9 +8,8 @@
     ])
         <div class="flex items-center gap-4">
             <div class="hidden sm:flex items-center justify-center shrink-0 w-10 h-10 bg-primary-500 rounded-full shadow">
-                {{-- TODO: Different icon --}}
                 {{-- TODO: Icon visibility on mobile --}}
-                @include("icons.statistics", [
+                @include("icons.status", [
                     "class" => "w-2/3 h-2/3 fill-surface-100"
                 ])
             </div>

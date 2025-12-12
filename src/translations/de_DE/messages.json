@@ -256,6 +256,8 @@
     "The user of which the choice should be edited does not meet the requirements to participate in at least one of the chosen courses.": "Der Nutzer, dessen Kurswahl bearbeitet werden soll, erfüllt die Teilnahmevoraussetzungen zu mindestens einem gewählten Kurs nicht.",
 
     "About OpenCourseMatch": "Über OpenCourseMatch",
+    "Dependencies": "Software-Abhängigkeiten",
+    "OpenCourseMatch is built using these open-source packages.": "OpenCourseMatch wurde mit diesen Open-Source-Paketen entwickelt.",
     "Bug reports and feature requests": "Fehlermeldungen und Funktionsanfragen",
     "Found a bug or have an idea to improve OpenCourseMatch? Please create an issue in our GitHub repository.": "Haben Sie einen Bug gefunden oder eine Idee, um OpenCourseMatch zu verbessern? Bitte erstellen Sie ein Issue in unserem GitHub-Repository.",
 
