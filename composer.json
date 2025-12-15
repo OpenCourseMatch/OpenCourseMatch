@@ -33,7 +33,7 @@
         "chillerlan/php-qrcode": "^5.0"
     },
     "require-dev": {
-        "pestphp/pest": "~3.8.2"
+        "pestphp/pest": "~4.2.0"
     },
     "config": {
         "vendor-dir": "vendor",
