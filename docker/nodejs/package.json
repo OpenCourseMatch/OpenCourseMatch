@@ -2,7 +2,7 @@
     "type": "module",
     "dependencies": {
         "@tailwindcss/cli": "^4.1.18",
-        "chokidar": "^4.0.3",
+        "chokidar": "^5.0.0",
         "tailwindcss": "^4.1.13",
         "ws": "^8.18.3"
     }
