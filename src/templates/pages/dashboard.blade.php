@@ -40,7 +40,7 @@
             "icon" => "icons.dependencies",
             "href" => Router->generate("dependencies-overview"),
             "title" => t("Dependencies"),
-            "description" => t("OpenCourseMatch is built using these open-source packages."),
+            "description" => t("License information about the open-source projects that are used in OpenCourseMatch."),
             "scheme" => BoxScheme::SURFACE
         ])
 
