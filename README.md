@@ -33,7 +33,7 @@ This software uses the following dependencies:
 - **TailwindCSS**. GitHub: [tailwindlabs/tailwindcss](https://github.com/tailwindlabs/tailwindcss). Licensed under the [MIT license](https://github.com/tailwindlabs/tailwindcss/blob/main/LICENSE).
 - **dompdf**. GitHub: [dompdf/dompdf](https://github.com/dompdf/dompdf). Licensed under the [LGPL-2.1 license](https://github.com/dompdf/dompdf/blob/master/LICENSE.LGPL).
 - **php-qrcode**. GitHub: [chillerlan/php-qrcode](https://github.com/chillerlan/php-qrcode). Licensed under the [MIT license](https://github.com/chillerlan/php-qrcode/blob/main/LICENSE-MIT).
-- **Parsedown**. GitHub: [erusev/parsedown](https://github.com/erusev/parsedown). Licensed under the [MIT license](https://github.com/erusev/parsedown/blob/master/LICENSE.txt).
+- **Parsedown**. GitHub: [parsedown/parsedown](https://github.com/erusev/parsedown). Licensed under the [MIT license](https://github.com/parsedown/parsedown/blob/master/LICENSE.txt).
 - **Pest**. GitHub: [pestphp/pest](https://github.com/pestphp/pest). Licensed under the [MIT license](https://github.com/pestphp/pest/blob/3.x/LICENSE.md).
 - **jQuery**. GitHub: [jquery/jquery](https://github.com/jquery/jquery). Licensed under the [MIT license](https://github.com/jquery/jquery/blob/main/LICENSE.txt).
 - **DataTables**. GitHub: [DataTables/DataTables](https://github.com/DataTables/DataTables). Licensed under the [MIT license](https://github.com/DataTables/DataTables/blob/master/license.txt).
