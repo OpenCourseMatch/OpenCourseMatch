@@ -6,6 +6,12 @@
         {{ t("Reset system data") }}
     </h1>
 
+    <div class="mb-4">
+        @component("ui.box")
+            {{ t("Reset selectable data saved by the system.") }}
+        @endcomponent
+    </div>
+
     <form method="post" action="{{ Router->generate("system-reset-action") }}">
         <div class="{{ TailwindUtil::inputGroup() }} mb-2">
             <input id="resetCourses"

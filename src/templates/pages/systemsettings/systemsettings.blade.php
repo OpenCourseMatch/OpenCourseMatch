@@ -6,6 +6,12 @@
         {{ t("System settings") }}
     </h1>
 
+    <div class="mb-4">
+        @component("ui.box")
+            {{ t("Configure OpenCourseMatch to your organizations' needs.") }}
+        @endcomponent
+    </div>
+
     <form method="post" action="{{ Router->generate("system-settings-save") }}">
         @foreach($settings as $setting)
             <div class="{{ TailwindUtil::inputGroup() }} mb-2">
