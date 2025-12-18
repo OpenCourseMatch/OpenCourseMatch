@@ -6,6 +6,12 @@
         {{ t("Account settings") }}
     </h1>
 
+    <div class="mb-4">
+        @component("ui.box")
+            {{ t("Manage your personal information, security settings, and account preferences.") }}
+        @endcomponent
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
         @include("ui.dashboardlink", [
             "icon" => "icons.password",

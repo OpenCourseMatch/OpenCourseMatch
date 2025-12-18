@@ -6,6 +6,12 @@
         {{ t("Administrators") }}
     </h1>
 
+    <div class="mb-4">
+        @component("ui.box")
+            {{ t("Manage accounts of administrators.") }}
+        @endcomponent
+    </div>
+
     <a id="create"
        href="{{ Router->generate("administrators-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">

@@ -6,6 +6,12 @@
         {{ t("Participants and tutors") }}
     </h1>
 
+    <div class="mb-4">
+        @component("ui.box")
+            {{ t("Manage accounts of participants and tutors.") }}
+        @endcomponent
+    </div>
+
     <div id="table-actions" class="flex flex-col sm:flex-row gap-2">
         <a id="create"
            href="{{ Router->generate("users-create") }}"

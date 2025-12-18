@@ -6,6 +6,12 @@
         {{ t("Courses") }}
     </h1>
 
+    <div class="mb-4">
+        @component("ui.box")
+            {{ t("Manage the available courses.") }}
+        @endcomponent
+    </div>
+
     <a id="create"
        href="{{ Router->generate("courses-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">
