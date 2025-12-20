@@ -6,6 +6,12 @@
         {{ t("Choose courses") }}
     </h1>
 
+    <div class="mb-4">
+        @component("ui.box")
+            {{ t("Rank your favourite courses that you would like to participate in.") }}
+        @endcomponent
+    </div>
+
     <form method="post" action="{{ $saveLink }}">
         @for($i = 0; $i < $choiceCount; $i++)
             <input type="hidden" name="choice[]"
