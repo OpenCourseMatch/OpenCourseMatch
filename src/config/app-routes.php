@@ -12,6 +12,7 @@ Router->addRoute("GET", "/dashboard", "dashboard.php", "dashboard");
 
 // Account settings
 Router->addRoute("GET", "/account-settings", "account-settings/account-settings.php", "account-settings");
+Router->addRoute("POST", "/account-settings", "account-settings/account-settings-save.php", "account-settings-save");
 Router->addRoute("GET", "/account-settings/change-password", "account-settings/change-password.php", "account-settings-change-password");
 Router->addRoute("POST", "/account-settings/change-password", "account-settings/change-password-action.php", "account-settings-change-password-action");
 

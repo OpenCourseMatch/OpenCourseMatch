@@ -9,6 +9,7 @@ class User extends \struktal\ORM\GenericUser {
     public ?string $lastName = null;
     public ?int $groupId = null;
     public ?int $leadingCourseId = null;
+    public ?bool $showHelpBoxes = null;
     public ?\DateTimeImmutable $lastLogin = null;
 
     private ?\app\groups\Group $group = null;
@@ -46,6 +47,14 @@ class User extends \struktal\ORM\GenericUser {
 
     public function setLeadingCourseId(?int $leadingCourseId): void {
         $this->leadingCourseId = $leadingCourseId;
+    }
+
+    public function getShowHelpBoxes(): ?bool {
+        return $this->showHelpBoxes;
+    }
+
+    public function setShowHelpBoxes(?bool $showHelpBoxes): void {
+        $this->showHelpBoxes = $showHelpBoxes;
     }
 
     public function getLastLogin(): ?\DateTimeImmutable {
