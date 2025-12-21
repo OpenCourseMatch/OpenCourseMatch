@@ -7,7 +7,7 @@
     </h1>
 
     <div class="mb-4">
-        @component("ui.box")
+        @component("ui.helpbox")
             {{ t("View more detailed statistics.") }}
         @endcomponent
     </div>

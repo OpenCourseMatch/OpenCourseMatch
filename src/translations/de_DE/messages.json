@@ -217,7 +217,7 @@
 
     "Settings": "Einstellungen",
     "System settings": "Systemeinstellungen",
-    "Configure OpenCourseMatch to your organizations' needs.": "Passen Sie OpenCourseMatch an die Bedürfnisse Ihrer Organisation an.",
+    "Configure OpenCourseMatch to your organization's needs.": "Passen Sie OpenCourseMatch an die Bedürfnisse Ihrer Organisation an.",
     "Choice count": "Anzahl der Wahlmöglichkeiten",
     "The number of courses that the participants have to choose": "Die Anzahl der Kurse, die die Teilnehmer wählen müssen",
     "The participants have to choose at least one course.": "Die Teilnehmer müssen mindestens einen Kurs wählen.",
@@ -285,6 +285,7 @@
     "Password": "Passwort",
     "Please enter your account credentials to log in.": "Bitte geben Sie Ihre Zugangsdaten ein, um sich anzumelden.",
     "No users were registered yet. An administrator account has been created.": "Es wurden noch keine Nutzer registriert. Ein Administratoraccount wurde erstellt.",
+    "Please log in with your account's credentials.": "Bitte melden Sie sich mit den Zugangsdaten Ihres Accounts an.",
     "An account with these credentials does not exist.": "Es wurde kein Account mit diesen Zugangsdaten gefunden.",
     "Version:": "Version:"
 }

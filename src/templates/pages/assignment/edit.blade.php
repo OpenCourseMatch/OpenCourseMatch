@@ -7,7 +7,7 @@
     </h1>
 
     <div class="mb-4">
-        @component("ui.box")
+        @component("ui.helpbox")
             {{ t("Optimize the course assignment manually.") }}
         @endcomponent
     </div>

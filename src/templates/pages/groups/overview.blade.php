@@ -7,7 +7,7 @@
     </h1>
 
     <div class="mb-4">
-        @component("ui.box")
+        @component("ui.helpbox")
             {{ t("Customize user groups to model the participation requirements of the courses.") }}
         @endcomponent
     </div>

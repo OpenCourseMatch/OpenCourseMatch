@@ -7,7 +7,7 @@
     </h1>
 
     <div class="mb-4">
-        @component("ui.box")
+        @component("ui.helpbox")
             {{ t("Manage your personal information, security settings, and account preferences.") }}
         @endcomponent
     </div>

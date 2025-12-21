@@ -7,7 +7,7 @@
     </h1>
 
     <div class="mb-4">
-        @component("ui.box")
+        @component("ui.helpbox")
             {{ t("Rank your favourite courses that you would like to participate in.") }}
         @endcomponent
     </div>

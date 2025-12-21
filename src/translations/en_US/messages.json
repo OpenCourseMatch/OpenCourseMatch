@@ -217,7 +217,7 @@
 
     "Settings": "Settings",
     "System settings": "System settings",
-    "Configure OpenCourseMatch to your organizations' needs.": "Configure OpenCourseMatch to your organizations' needs.",
+    "Configure OpenCourseMatch to your organization's needs.": "Configure OpenCourseMatch to your organization's needs.",
     "Choice count": "Choice count",
     "The number of courses that the participants have to choose": "The number of courses that the participants have to choose",
     "The participants have to choose at least one course.": "The participants have to choose at least one course.",
@@ -285,6 +285,7 @@
     "Password": "Password",
     "Please enter your account credentials to log in.": "Please enter your account credentials to log in.",
     "No users were registered yet. An administrator account has been created.": "No users were registered yet. An administrator account has been created.",
+    "Please log in with your account's credentials.": "Please log in with your account's credentials.",
     "An account with these credentials does not exist.": "An account with these credentials does not exist.",
     "Version:": "Version:"
 }
