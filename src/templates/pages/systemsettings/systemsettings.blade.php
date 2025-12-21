@@ -7,8 +7,8 @@
     </h1>
 
     <div class="mb-4">
-        @component("ui.box")
-            {{ t("Configure OpenCourseMatch to your organizations' needs.") }}
+        @component("ui.helpbox")
+            {{ t("Configure OpenCourseMatch to your organization's needs.") }}
         @endcomponent
     </div>
 

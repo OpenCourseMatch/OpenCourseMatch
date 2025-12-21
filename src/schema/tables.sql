@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `app\users\User` (
     `lastName` VARCHAR(64) NOT NULL,
     `groupId` INT NULL,
     `leadingCourseId` INT NULL,
+    `showHelpBoxes` TINYINT NOT NULL DEFAULT 1,
     `lastLogin` DATETIME(3) NULL,
     `oneTimePassword` VARCHAR(256) NULL,
     `oneTimePasswordExpiration` DATETIME(3) NULL,

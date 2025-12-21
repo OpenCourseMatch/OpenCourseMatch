@@ -6,6 +6,12 @@
         {{ t("Reset course assignment") }}
     </h1>
 
+    <div class="mb-4">
+        @component("ui.helpbox")
+            {{ t("Reset the course assignment to re-run the assignment algorithm.") }}
+        @endcomponent
+    </div>
+
     <p class="mb-2">
         {{ t("Do you really want to reset the course assignment?") }}
     </p>
