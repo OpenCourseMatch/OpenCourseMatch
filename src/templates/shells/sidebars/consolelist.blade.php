@@ -167,7 +167,7 @@
         @endcomponent
         @component("shells.sidebars.sidebaritem", [
             "href" => Router->generate("assignment-public-state-toggle"),
-            "icon" => "icons.user",
+            "icon" => "icons.public",
             "active" => in_array(Router->getCalledRouteName(), [ "assignment-public-state-toggle" ])
         ])
             {{ \app\settings\SystemStatus::dao()->get("courseAssignmentPublic") === "true" ? t("Hide course assignment") : t("Publish course assignment") }}

@@ -14,7 +14,7 @@
         <input type="hidden" name="courseAssignmentPublic" value="{{ $courseAssignmentPublic ? "0" : "1" }}">
         <button type="submit" class="{{ TailwindUtil::button(false, "danger") }} gap-2">
             @include("icons.buttonload")
-            @include("icons.user")
+            @include("icons.public")
             {{ $courseAssignmentPublic ? t("Hide course assignment") : t("Publish course assignment") }}
         </button>
     </form>
