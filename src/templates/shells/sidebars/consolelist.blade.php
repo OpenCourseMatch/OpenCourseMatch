@@ -160,7 +160,7 @@
         @endcomponent
         @component("shells.sidebars.sidebaritem", [
             "href" => Router->generate("choice-state-toggle"),
-            "icon" => "icons.user",
+            "icon" => "icons.ballot",
             "active" => in_array(Router->getCalledRouteName(), [ "choice-state-toggle" ])
         ])
             {{ \app\settings\SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Disable course selection") : t("Enable course selection") }}

@@ -14,7 +14,7 @@
         <input type="hidden" name="userActionsAllowed" value="{{ $userActionsAllowed ? "0" : "1" }}">
         <button type="submit" class="{{ TailwindUtil::button(false, "danger") }} gap-2">
             @include("icons.buttonload")
-            @include("icons.user")
+            @include("icons.ballot")
             {{ $userActionsAllowed ? t("Disable course selection") : t("Enable course selection") }}
         </button>
     </form>
