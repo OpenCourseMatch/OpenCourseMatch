@@ -6,6 +6,12 @@
         {{ t("Facilitators") }}
     </h1>
 
+    <div class="mb-4">
+        @component("ui.helpbox")
+            {{ t("Manage accounts of facilitators.") }}
+        @endcomponent
+    </div>
+
     <a id="create"
        href="{{ Router->generate("facilitators-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">

@@ -6,6 +6,12 @@
         {{ t("Groups") }}
     </h1>
 
+    <div class="mb-4">
+        @component("ui.helpbox")
+            {{ t("Customize user groups to model the participation requirements of the courses.") }}
+        @endcomponent
+    </div>
+
     <a id="create"
        href="{{ Router->generate("groups-create") }}"
        class="{{ TailwindUtil::button() }} gap-2">

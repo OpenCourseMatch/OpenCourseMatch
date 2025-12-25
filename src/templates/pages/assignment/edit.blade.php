@@ -6,6 +6,12 @@
         {{ t("Edit course assignment") }}
     </h1>
 
+    <div class="mb-4">
+        @component("ui.helpbox")
+            {{ t("Optimize the course assignment manually.") }}
+        @endcomponent
+    </div>
+
     <div class="flex justify-between gap-2 mb-2">
         <button class="{{ TailwindUtil::button() }} mb-2 gap-2" id="previous-course">
             @include("icons.left")

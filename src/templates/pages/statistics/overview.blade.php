@@ -6,6 +6,12 @@
         {{ t("Statistics") }}
     </h1>
 
+    <div class="mb-4">
+        @component("ui.helpbox")
+            {{ t("View more detailed statistics.") }}
+        @endcomponent
+    </div>
+
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div class="flex flex-col w-full justify-center">
             <canvas id="statistics-account-types"></canvas>

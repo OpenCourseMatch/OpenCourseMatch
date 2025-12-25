@@ -16,4 +16,5 @@ $breadcrumbs = [
 
 echo Blade->run("pages.accountsettings.accountsettings", [
     "breadcrumbs" => $breadcrumbs,
+    "user" => $user
 ]);
