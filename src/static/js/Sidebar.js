@@ -20,6 +20,12 @@ export const init = (breakpoint = null) => {
             toggle();
         });
     });
+
+    window.addEventListener("beforeunload", () => {
+        saveScrollPosition();
+    });
+
+    loadScrollPosition();
 }
 
 const updateSidebarState = (breakpoint = null) => {
@@ -68,6 +74,27 @@ export const toggle = () => {
     }
 
     updateClasses();
+}
+
+const saveScrollPosition = () => {
+    const sidebarContent = document.querySelector("[data-sidebar-active]");
+    if(!sidebarContent) {
+        return;
+    }
+
+    sessionStorage.setItem("__SIDEBAR__SCROLL_POS", sidebarContent.scrollTop.toString());
+}
+
+const loadScrollPosition = () => {
+    const sidebarContent = document.querySelector("[data-sidebar-active]");
+    if(!sidebarContent) {
+        return;
+    }
+
+    const scrollPosition = sessionStorage.getItem("__SIDEBAR__SCROLL_POS");
+    if(scrollPosition) {
+        sidebarContent.scrollTop = parseInt(scrollPosition);
+    }
 }
 
 export default { init, toggle };
