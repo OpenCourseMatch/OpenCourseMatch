@@ -20,6 +20,7 @@ $post = Validation->create()
             ->int()
             ->build(),
         "maxClearance" => Validation->create()
+            ->nullOnEmpty()
             ->int(false)
             ->build(),
         "minParticipants" => Validation->create()
@@ -36,7 +37,7 @@ $post = Validation->create()
         if(isset($_POST["course"]) && !\app\courses\Course::dao()->hasId($_POST["course"])) {
             Router->redirect(Router->generate("courses-overview"));
         } else if(isset($_POST["course"])) {
-            Router->redirect(Router->generate("courses-edit", ["course" => $_POST["course"]]));
+            Router->redirect(Router->generate("courses-edit", ["course" => intval($_POST["course"])]));
         } else {
             Router->redirect(Router->generate("courses-create"));
         }

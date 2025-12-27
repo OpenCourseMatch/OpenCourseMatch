@@ -65,6 +65,7 @@ class UserService {
         $user->setLastName($lastName);
         $user->setGroupId($group?->getId());
         $user->setLeadingCourseId($leadingCourse?->getId());
+        $user->setShowHelpBoxes(true);
         $user->setLastLogin(null);
 
         User::dao()->save($user);

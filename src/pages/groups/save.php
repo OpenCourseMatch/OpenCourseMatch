@@ -22,7 +22,7 @@ $post = Validation->create()
         if(isset($_POST["group"]) && !\app\groups\Group::dao()->hasId($_POST["group"])) {
             Router->redirect(Router->generate("groups-overview"));
         } else if(isset($_POST["group"])) {
-            Router->redirect(Router->generate("groups-edit", ["group" => $_POST["group"]]));
+            Router->redirect(Router->generate("groups-edit", ["group" => intval($_POST["group"])]));
         } else {
             Router->redirect(Router->generate("groups-create"));
         }

@@ -53,6 +53,7 @@ $account->setFirstName($post["firstName"]);
 $account->setLastName($post["lastName"]);
 $account->setGroupId($groupId);
 $account->setLeadingCourseId($leadingCourseId);
+$account->setShowHelpBoxes(true);
 $account->setLastLogin(null);
 $account->setOneTimePassword(null);
 $account->setOneTimePasswordExpiration(null);
