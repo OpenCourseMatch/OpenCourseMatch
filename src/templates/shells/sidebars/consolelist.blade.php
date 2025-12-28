@@ -166,6 +166,13 @@
             {{ \app\settings\SystemStatus::dao()->get("userActionsAllowed") === "true" ? t("Disable course selection") : t("Enable course selection") }}
         @endcomponent
         @component("shells.sidebars.sidebaritem", [
+            "href" => Router->generate("assignment-public-state-toggle"),
+            "icon" => "icons.public",
+            "active" => in_array(Router->getCalledRouteName(), [ "assignment-public-state-toggle" ])
+        ])
+            {{ \app\settings\SystemStatus::dao()->get("courseAssignmentPublic") === "true" ? t("Hide course assignment") : t("Publish course assignment") }}
+        @endcomponent
+        @component("shells.sidebars.sidebaritem", [
             "href" => Router->generate("system-reset"),
             "icon" => "icons.reset",
             "active" => in_array(Router->getCalledRouteName(), [ "system-reset" ])

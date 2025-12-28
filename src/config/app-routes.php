@@ -89,6 +89,10 @@ Router->addRoute("POST", "/system-reset/action", "system-settings/system-reset-a
 Router->addRoute("GET", "/choice-state/toggle", "choice-state/toggle.php", "choice-state-toggle");
 Router->addRoute("POST", "/choice-state/toggle-action", "choice-state/toggle-action.php", "choice-state-toggle-action");
 
+// Toggle course assignment published state
+Router->addRoute("GET", "/assignment-public-state/toggle", "assignment-public-state/toggle.php", "assignment-public-state-toggle");
+Router->addRoute("POST", "/assignment-public-state/toggle-action", "assignment-public-state/toggle-action.php", "assignment-public-state-toggle-action");
+
 // Choice (for users)
 Router->addRoute("GET", "/choice", "choice/edit.php", "choice-edit");
 Router->addRoute("POST", "/choice/save", "choice/save.php", "choice-save");

@@ -18,5 +18,15 @@ if($user->getPermissionLevel() === \app\users\PermissionLevel::ADMIN) {
     $courses = count(\app\courses\Course::dao()->getObjects());
     $variables["numberOfCourses"] = $courses;
 }
+if($user->getPermissionLevel() === \app\users\PermissionLevel::USER) {
+    if(\app\settings\SystemStatus::dao()->get("courseAssignmentPublic") === "true") {
+        $assignedCourse = \app\assignments\AssignmentService::getAssignedCourseForUser($user);
+        $variables["assignedCourse"] = $assignedCourse;
+
+        $leadingCourse = $user->getLeadingCourse();
+        $leadingCourseWasCancelled = $leadingCourse instanceof \app\courses\Course ? \app\courses\CourseService::isCourseCancelled($leadingCourse) : false;
+        $variables["leadingCourseWasCancelled"] = $leadingCourseWasCancelled;
+    }
+}
 
 echo Blade->run("pages.dashboard", $variables);

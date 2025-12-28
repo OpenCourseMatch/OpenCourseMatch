@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `app\settings\SystemStatus` (
 INSERT INTO `app\settings\SystemStatus` VALUE (NULL, 'userActionsAllowed', 'true', NOW(), NOW());
 INSERT INTO `app\settings\SystemStatus` VALUE (NULL, 'algorithmRunning', 'false', NOW(), NOW());
 INSERT INTO `app\settings\SystemStatus` VALUE (NULL, 'coursesAssigned', 'false', NOW(), NOW());
+INSERT INTO `app\settings\SystemStatus` VALUE (NULL, 'courseAssignmentPublic', 'false', NOW(), NOW());
 
 # System setting table
 CREATE TABLE IF NOT EXISTS `app\settings\SystemSetting` (

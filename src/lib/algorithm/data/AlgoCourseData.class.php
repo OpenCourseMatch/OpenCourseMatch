@@ -12,7 +12,7 @@ class AlgoCourseData {
         $data->databaseObject = $course;
         $data->id = $course->getId();
         $data->minClearance = $course->getMinClearance();
-        $data->maxClearance = $course->getMaxClearance();
+        $data->maxClearance = $course->getMaxClearance() ?? PHP_INT_MAX;
         $data->minParticipants = $course->getMinParticipants();
         $data->maxParticipants = $course->getMaxParticipants();
 

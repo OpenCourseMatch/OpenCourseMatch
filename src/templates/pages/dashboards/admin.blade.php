@@ -48,6 +48,21 @@
                 {{ t("Courses assigned") }}
             </p>
         </div>
+
+        <div class="flex gap-2">
+            @if(\app\settings\SystemStatus::dao()->get("courseAssignmentPublic") === "true")
+                @include("icons.checkcircle", [
+                    "class" => "fill-safe-500"
+                ])
+            @else
+                @include("icons.crosscircle", [
+                    "class" => "fill-danger-500"
+                ])
+            @endif
+            <p>
+                {{ t("Course assignment public") }}
+            </p>
+        </div>
     @endcomponent
 </div>
 

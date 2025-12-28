@@ -1,4 +1,4 @@
-<div class="flex flex-col w-full p-4 gap-2 bg-surface-200 hover:bg-surface-300 rounded rounded-lg border border-2 border-surface-500 cursor-pointer transition-colors"
+<div class="flex flex-col w-full p-4 gap-2 bg-surface-200 @if($choice !== -1) hover:bg-surface-300 cursor-pointer @endif rounded rounded-lg border border-2 border-surface-500 transition-colors"
      data-choice-index="{{ $choice }}" data-course-id="{{ $course->getId() }}">
     <div class="flex items-center justify-between">
         <div class="flex items-center justify-center shrink-0 w-10 h-10 bg-primary-500 rounded-full">
