@@ -31,7 +31,7 @@
     <br><br>
 @endif
 
-@if($account->getPermissionLevel() === PermissionLevel::USER->value)
+@if($account->getPermissionLevel() === \app\users\PermissionLevel::USER->value)
     <table style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
         <tr style="border-collapse: collapse; border: none; margin: 0; padding: 0;">
             <td style="padding: 0;">
