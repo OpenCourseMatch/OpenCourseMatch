@@ -30,7 +30,7 @@ $breadcrumbs = [
     ],
     [
         "name" => isset($account) ? t("Edit administrator \$\$name\$\$", ["name" => $account->getFullName()]) : t("Create administrator"),
-        "link" => Router->generate(isset($account) ? "administrators-edit" : "administrators-create", isset($account) ? ["userId" => $account->getId()] : [])
+        "link" => Router->generate(isset($account) ? "administrators-edit" : "administrators-create", isset($account) ? ["user" => $account->getId()] : [])
     ]
 ];
 
