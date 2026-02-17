@@ -28,7 +28,7 @@
         "struktal/struktal-geocoding-util": "^1.1.0",
         "struktal/struktal-composer-reader": "^1.0.0",
 
-        "parsedown/parsedown": "~1.7.4",
+        "parsedown/parsedown": "~1.8.0",
         "dompdf/dompdf": "^3.0",
         "chillerlan/php-qrcode": "^5.0"
     },
