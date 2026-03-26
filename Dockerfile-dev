@@ -5,10 +5,10 @@ RUN apk update && apk upgrade
 RUN apk --no-cache add tzdata
 
 # Install nginx, PHP, composer, nodejs and npm
-RUN apk --no-cache add nginx php84 php84-fpm php84-phar composer nodejs npm git
+RUN apk --no-cache add nginx php85 php85-fpm php85-phar composer nodejs npm git
 
 # Install PHP packages
-RUN apk --no-cache add php84-session php84-tokenizer php84-mysqli php84-pdo php84-pdo_mysql php84-curl php84-gd php84-intl php84-mbstring php84-iconv php84-xml php84-simplexml php84-xmlwriter php84-dom php84-ctype php84-apcu
+RUN apk --no-cache add php85-session php85-tokenizer php85-mysqli php85-pdo php85-pdo_mysql php85-curl php85-gd php85-intl php85-mbstring php85-iconv php85-xml php85-simplexml php85-xmlwriter php85-dom php85-ctype php85-apcu
 
 # Set working directory
 WORKDIR /app
@@ -16,10 +16,15 @@ RUN chown -R nginx:nginx /app
 
 # Copy application files
 COPY --chown=nginx:nginx . .
-COPY --chown=nginx:nginx ./docker/nodejs .
-COPY --chown=nginx:nginx ./docker/nginx-config /etc/nginx
-COPY --chown=nginx:nginx ./docker/php-fpm-config /etc/php84/php-fpm.d
-COPY --chown=nginx:nginx ./docker/entrypoint-dev.sh .
+
+# Link src/static to public/static
+RUN rm -rf /app/public/static && ln -s /app/src/static /app/public/static
+
+# Install composer dependencies
+RUN php85 $(which composer).phar install --no-dev --no-interaction
+
+# Copy docker files
+RUN /app/vendor/struktal/struktal-core/docker/docker-export.sh
 
 # Adjust permissions
 RUN mkdir -p logs && chown -R nginx:nginx logs && \
@@ -29,12 +34,6 @@ RUN mkdir -p logs && chown -R nginx:nginx logs && \
     chmod 777 /app/files && \
     chmod 777 /app/template-cache && \
     chmod +x /app/entrypoint-dev.sh
-
-# Link src/static to public/static
-RUN rm -rf /app/public/static && ln -s /app/src/static /app/public/static
-
-# Install composer dependencies
-RUN php84 $(which composer).phar install --no-dev --no-interaction
 
 # Install npm dependencies
 RUN npm install

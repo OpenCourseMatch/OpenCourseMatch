@@ -86,7 +86,7 @@
 
     <p>
         This software was developed by human contributors.
-        <strong>No</strong> AI-driven, prompt-based coding agents were used to design, architect, or implement the it's core logic.
+        <strong>No</strong> AI-driven coding agents were used to design, architect, or implement it's core logic.
         While AI-based tools may have been used for assistive tasks, their usage did <strong>not</strong> replace developer experience, decision-making, or understanding of the codebase.
         Furthermore, this software does not incorporate any generative AI models or services.
         <a href="https://wikipedia.org/wiki/Generative_artificial_intelligence#Concerns"

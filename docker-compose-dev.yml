@@ -11,6 +11,11 @@ services:
     database:
         image: "mysql:8.2"
         restart: "no"
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping" ]
+            interval: 5s
+            timeout: 3s
+            retries: 5
         environment:
             TZ: "UTC"
             MYSQL_ROOT_PASSWORD: "root"
@@ -29,6 +34,9 @@ services:
             context: "."
             dockerfile: "Dockerfile-dev"
         restart: "no"
+        depends_on:
+            database:
+                condition: service_healthy
         environment:
             TZ: "UTC"
         volumes:

@@ -1,9 +1,0 @@
-{
-    "type": "module",
-    "dependencies": {
-        "@tailwindcss/cli": "^4.2.1",
-        "chokidar": "^5.0.0",
-        "tailwindcss": "^4.1.13",
-        "ws": "^8.19.0"
-    }
-}
