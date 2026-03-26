@@ -30,7 +30,7 @@
                 ])
             @endif
             <p>
-                {{ t("Course choice") }}
+                {{ t("Course choice allowed") }}
             </p>
         </div>
 

@@ -6,23 +6,25 @@ RUN apk update && apk upgrade
 RUN apk --no-cache add tzdata
 
 # Install PHP, composer, nodejs and npm
-RUN apk --no-cache add nginx php84 php84-fpm php84-phar composer nodejs npm git
+RUN apk --no-cache add nginx php85 php85-fpm php85-phar composer nodejs npm git
 
 # Install PHP packages
-RUN apk --no-cache add php84-session php84-tokenizer php84-mysqli php84-pdo php84-pdo_mysql php84-curl php84-gd php84-intl php84-mbstring php84-iconv php84-xml php84-simplexml php84-xmlwriter php84-dom php84-ctype php84-apcu
+RUN apk --no-cache add php85-session php85-tokenizer php85-mysqli php85-pdo php85-pdo_mysql php85-curl php85-gd php85-intl php85-mbstring php85-iconv php85-xml php85-simplexml php85-xmlwriter php85-dom php85-ctype php85-apcu
 
 # Set working directory
 WORKDIR /app
 
 # Copy application files
 COPY --chown=nginx:nginx . .
-COPY ./docker/nodejs .
 
 # Link src/static to public/static
 RUN rm -rf /app/public/static && ln -s /app/src/static /app/public/static
 
 # Install composer dependencies
-RUN php84 $(which composer).phar install --no-dev --no-interaction
+RUN php85 $(which composer).phar install --no-dev --no-interaction
+
+# Copy docker files
+RUN /app/vendor/struktal/struktal-core/docker/docker-export.sh
 
 # Install npm dependencies
 RUN npm install
@@ -40,10 +42,10 @@ RUN apk update && apk upgrade
 RUN apk --no-cache add tzdata
 
 # Install nginx and PHP
-RUN apk --no-cache add nginx php84 php84-fpm git
+RUN apk --no-cache add nginx php85 php85-fpm git
 
 # Install PHP packages
-RUN apk --no-cache add php84-session php84-tokenizer php84-mysqli php84-pdo php84-pdo_mysql php84-curl php84-gd php84-intl php84-mbstring php84-iconv php84-xml php84-simplexml php84-xmlwriter php84-dom php84-ctype php84-apcu
+RUN apk --no-cache add php85-session php85-tokenizer php85-mysqli php85-pdo php85-pdo_mysql php85-curl php85-gd php85-intl php85-mbstring php85-iconv php85-xml php85-simplexml php85-xmlwriter php85-dom php85-ctype php85-apcu
 
 # Set working directory
 WORKDIR /app
@@ -60,11 +62,9 @@ COPY --from=builder --chown=nginx:nginx /app/public ./public
 COPY --from=builder --chown=nginx:nginx /app/src ./src
 COPY --from=builder --chown=nginx:nginx /app/vendor ./vendor
 COPY --from=builder --chown=nginx:nginx /app/composer.json ./composer.json
-COPY --chown=nginx:nginx ./docker/entrypoint.sh .
 
-# Copy server configurations
-COPY ./docker/nginx-config /etc/nginx
-COPY ./docker/php-fpm-config /etc/php84/php-fpm.d
+# Copy docker files
+RUN /app/vendor/struktal/struktal-core/docker/docker-export.sh
 
 # Adjust permissions
 RUN mkdir -p logs && chown -R nginx:nginx logs && \
