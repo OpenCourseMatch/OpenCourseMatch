@@ -813,16 +813,16 @@
         },
         {
             "name": "struktal/struktal-core",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Struktal/struktal-core.git",
-                "reference": "5ab25bf7e85a3a7db008308a3d7e584267fe044d"
+                "reference": "9ce8e9a4c8f0ab74e643abe1d6c3f26f566f4ab5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Struktal/struktal-core/zipball/5ab25bf7e85a3a7db008308a3d7e584267fe044d",
-                "reference": "5ab25bf7e85a3a7db008308a3d7e584267fe044d",
+                "url": "https://api.github.com/repos/Struktal/struktal-core/zipball/9ce8e9a4c8f0ab74e643abe1d6c3f26f566f4ab5",
+                "reference": "9ce8e9a4c8f0ab74e643abe1d6c3f26f566f4ab5",
                 "shasum": ""
             },
             "require": {
@@ -837,6 +837,7 @@
                 "struktal/struktal-file-uploads": "^2.0.0",
                 "struktal/struktal-geocoding-util": "^1.1.0",
                 "struktal/struktal-infomessages": "^1.0.0",
+                "struktal/struktal-job-executor": "^1.0.0",
                 "struktal/struktal-logger": "^1.0.2",
                 "struktal/struktal-orm": "^3.0.1",
                 "struktal/struktal-phpmailer-wrapper": "^1.0.0",
@@ -861,9 +862,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Struktal/struktal-core/issues",
-                "source": "https://github.com/Struktal/struktal-core/tree/1.0.2"
+                "source": "https://github.com/Struktal/struktal-core/tree/1.0.3"
             },
-            "time": "2026-03-19T13:54:54+00:00"
+            "time": "2026-04-16T12:44:47+00:00"
         },
         {
             "name": "struktal/struktal-csv-reader",
@@ -1057,6 +1058,43 @@
                 "source": "https://github.com/Struktal/struktal-infomessages/tree/1.0.0"
             },
             "time": "2025-08-23T14:33:07+00:00"
+        },
+        {
+            "name": "struktal/struktal-job-executor",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Struktal/struktal-job-executor.git",
+                "reference": "7ff69156320916ae06139a48796ae82a62e89fe4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Struktal/struktal-job-executor/zipball/7ff69156320916ae06139a48796ae82a62e89fe4",
+                "reference": "7ff69156320916ae06139a48796ae82a62e89fe4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "struktal\\jobexecutor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP library for executing jobs in a separate PHP process",
+            "keywords": [
+                "job-executor"
+            ],
+            "support": {
+                "issues": "https://github.com/Struktal/struktal-job-executor/issues",
+                "source": "https://github.com/Struktal/struktal-job-executor/tree/1.0.0"
+            },
+            "time": "2026-04-14T16:55:56+00:00"
         },
         {
             "name": "struktal/struktal-logger",
@@ -5338,7 +5376,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -5347,6 +5385,6 @@
         "ext-curl": "*",
         "ext-json": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }
