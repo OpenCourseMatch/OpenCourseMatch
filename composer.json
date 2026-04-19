@@ -10,14 +10,14 @@
         "ext-curl": "*",
         "ext-json": "*",
 
-        "struktal/struktal-core": "^1.0.2",
+        "struktal/struktal-core": "^1.0.4",
 
         "parsedown/parsedown": "~1.8.0",
         "dompdf/dompdf": "^3.0",
         "chillerlan/php-qrcode": "^5.0"
     },
     "require-dev": {
-        "pestphp/pest": "^4.2.0"
+        "struktal/struktal-dev-core": "^1.1.0"
     },
     "config": {
         "vendor-dir": "vendor",
@@ -26,10 +26,18 @@
         }
     },
     "scripts": {
+        "post-install-cmd": [
+            "struktal\\core\\StruktalDevCoreInitializer::installPlaywrightDependencies"
+        ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "docker compose -f docker-compose-dev.yml up --build"
         ],
-        "test": "vendor/bin/pest tests"
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "docker compose -f docker-compose-test.yml up -d --wait",
+            "vendor/bin/pest",
+            "docker compose -f docker-compose-test.yml down"
+        ]
     }
 }
