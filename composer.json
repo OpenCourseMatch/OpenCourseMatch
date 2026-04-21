@@ -14,7 +14,7 @@
 
         "parsedown/parsedown": "~1.8.0",
         "dompdf/dompdf": "^3.0",
-        "chillerlan/php-qrcode": "^5.0"
+        "chillerlan/php-qrcode": "^6.0"
     },
     "require-dev": {
         "struktal/struktal-dev-core": "^1.1.0"
