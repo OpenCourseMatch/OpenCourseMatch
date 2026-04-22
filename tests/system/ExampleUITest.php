@@ -1,54 +1,53 @@
 <?php
 
+use DOMDocument;
+use DOMXPath;
 use Playwright\Playwright;
 
 const TEST_BASE_URL = "http://localhost:3000";
 
-test("Landing page loads and links to login", function() {
-    $browser = Playwright::firefox();
+function createXPath(string $html): DOMXPath {
+    $document = new DOMDocument();
+    libxml_use_internal_errors(true);
+    $document->loadHTML($html);
+    libxml_clear_errors();
 
+    return new DOMXPath($document);
+}
+
+function visitPage(string $path, callable $assertions): void {
+    $browser = Playwright::firefox();
     try {
         $page = $browser->newPage();
-        $request = $page->goto(TEST_BASE_URL . "/");
-
-        expect($request)->not()->toBeNull()
-            ->and($request->ok())->toBeTrue()
-            ->and(str_contains($page->content(), "href=\"/authentication/login\""))->toBeTrue();
+        $request = $page->goto(TEST_BASE_URL . $path);
+        $assertions($page, $request, createXPath($page->content()));
     } finally {
         $browser->close();
     }
+}
+
+test("Landing page loads and links to login", function() {
+    visitPage("/", function($page, $request, DOMXPath $xPath) {
+        expect($request)->not()->toBeNull()
+            ->and($request->ok())->toBeTrue()
+            ->and($xPath->evaluate("count(//a[@href='/authentication/login']) > 0"))->toBeTrue();
+    });
 });
 
 test("Login page displays credential form fields", function() {
-    $browser = Playwright::firefox();
-
-    try {
-        $page = $browser->newPage();
-        $request = $page->goto(TEST_BASE_URL . "/authentication/login");
-        $content = $page->content();
-
+    visitPage("/authentication/login", function($page, $request, DOMXPath $xPath) {
         expect($request)->not()->toBeNull()
             ->and($request->ok())->toBeTrue()
-            ->and(str_contains($content, "name=\"username\""))->toBeTrue()
-            ->and(str_contains($content, "name=\"password\""))->toBeTrue()
-            ->and(str_contains($content, "<form method=\"post\" action=\"/authentication/login\">"))->toBeTrue();
-    } finally {
-        $browser->close();
-    }
+            ->and($xPath->evaluate("count(//input[@name='username']) > 0"))->toBeTrue()
+            ->and($xPath->evaluate("count(//input[@name='password']) > 0"))->toBeTrue()
+            ->and($xPath->evaluate("count(//form[translate(@method, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = 'post' and @action='/authentication/login']) > 0"))->toBeTrue();
+    });
 });
 
 test("Unknown route renders the 404 error page", function() {
-    $browser = Playwright::firefox();
-
-    try {
-        $page = $browser->newPage();
-        $request = $page->goto(TEST_BASE_URL . "/this-route-does-not-exist");
-        $content = $page->content();
-
+    visitPage("/this-route-does-not-exist", function($page, $request, DOMXPath $xPath) {
         expect($request)->not()->toBeNull()
             ->and($request->status())->toBe(404)
-            ->and(str_contains($content, "The requested resource could not be found."))->toBeTrue();
-    } finally {
-        $browser->close();
-    }
+            ->and($xPath->evaluate("count(//p[contains(normalize-space(), 'The requested resource could not be found.')]) > 0"))->toBeTrue();
+    });
 });
