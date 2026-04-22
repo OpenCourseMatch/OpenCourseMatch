@@ -2,7 +2,10 @@
 
 use Playwright\Playwright;
 
+const LOGIN_ROUTE = "/authentication/login";
 const NOT_FOUND_MESSAGE = "The requested resource could not be found.";
+const LOGIN_LINK_SELECTOR = "//a[@href='/authentication/login']";
+const LOGIN_FORM_SELECTOR = "//form[@method='post' and @action='/authentication/login']";
 
 function testBaseUrl(): string {
     return getenv("OCM_TEST_BASE_URL") ?: "http://localhost:3000";
@@ -40,17 +43,17 @@ test("Landing page loads and links to login", function() {
     visitPage("/", function($page, $request, \DOMXPath $xPath) {
         expect($request)->not()->toBeNull()
             ->and($request->ok())->toBeTrue()
-            ->and(elementExists($xPath, "//a[@href='/authentication/login']"))->toBeTrue();
+            ->and(elementExists($xPath, LOGIN_LINK_SELECTOR))->toBeTrue();
     });
 });
 
 test("Login page displays credential form fields", function() {
-    visitPage("/authentication/login", function($page, $request, \DOMXPath $xPath) {
+    visitPage(LOGIN_ROUTE, function($page, $request, \DOMXPath $xPath) {
         expect($request)->not()->toBeNull()
             ->and($request->ok())->toBeTrue()
             ->and(elementExists($xPath, "//input[@name='username']"))->toBeTrue()
             ->and(elementExists($xPath, "//input[@name='password']"))->toBeTrue()
-            ->and(elementExists($xPath, "//form[@method='post' and @action='/authentication/login']"))->toBeTrue();
+            ->and(elementExists($xPath, LOGIN_FORM_SELECTOR))->toBeTrue();
     });
 });
 
