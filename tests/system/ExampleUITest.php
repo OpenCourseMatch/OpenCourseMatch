@@ -29,7 +29,7 @@ function visitPage(string $path, callable $assertions): void {
 }
 
 function elementExists(\DOMXPath $xPath, string $selector): bool {
-    return $xPath->evaluate("count($selector) > 0");
+    return (bool) $xPath->evaluate("boolean(count($selector))");
 }
 
 test("Landing page loads and links to login", function() {
