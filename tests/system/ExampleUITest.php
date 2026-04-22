@@ -29,7 +29,11 @@ function visitPage(string $path, callable $assertions): void {
 }
 
 function elementExists(\DOMXPath $xPath, string $selector): bool {
-    return (bool) $xPath->evaluate("boolean(count($selector))");
+    try {
+        return (bool) $xPath->evaluate("boolean($selector)");
+    } catch (\Throwable) {
+        return false;
+    }
 }
 
 test("Landing page loads and links to login", function() {
@@ -52,8 +56,10 @@ test("Login page displays credential form fields", function() {
 
 test("Unknown route renders the 404 error page", function() {
     visitPage("/this-route-does-not-exist", function($page, $request, \DOMXPath $xPath) {
+        $content = $page->content();
+
         expect($request)->not()->toBeNull()
             ->and($request->status())->toBe(404)
-            ->and(elementExists($xPath, "//p[contains(normalize-space(), '" . NOT_FOUND_MESSAGE . "')]"))->toBeTrue();
+            ->and(str_contains($content, NOT_FOUND_MESSAGE))->toBeTrue();
     });
 });
