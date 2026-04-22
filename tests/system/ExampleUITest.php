@@ -2,6 +2,8 @@
 
 use Playwright\Playwright;
 
+const NOT_FOUND_MESSAGE = "The requested resource could not be found.";
+
 function testBaseUrl(): string {
     return getenv("OCM_TEST_BASE_URL") ?: "http://localhost:3000";
 }
@@ -52,6 +54,6 @@ test("Unknown route renders the 404 error page", function() {
     visitPage("/this-route-does-not-exist", function($page, $request, \DOMXPath $xPath) {
         expect($request)->not()->toBeNull()
             ->and($request->status())->toBe(404)
-            ->and(elementExists($xPath, "//p[contains(normalize-space(), 'The requested resource could not be found.')]"))->toBeTrue();
+            ->and(elementExists($xPath, "//p[contains(normalize-space(), '" . NOT_FOUND_MESSAGE . "')]"))->toBeTrue();
     });
 });
