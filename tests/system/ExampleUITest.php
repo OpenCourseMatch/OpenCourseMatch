@@ -2,9 +2,19 @@
 
 use Playwright\Playwright;
 
-const SYSTEM_TEST_BASE_URL = "http://localhost:3000";
-const SYSTEM_TEST_ADMIN_USERNAME = "system-admin@example.test";
-const SYSTEM_TEST_ADMIN_PASSWORD = "TestPassword123!";
+const SYSTEM_TEST_GROUP_A_NAME = "System Test Group A";
+const SYSTEM_TEST_GROUP_B_NAME = "System Test Group B";
+const SYSTEM_TEST_GROUP_A_CLEARANCE = 1;
+const SYSTEM_TEST_GROUP_B_CLEARANCE = 2;
+const SYSTEM_TEST_COURSE_ONE_TITLE = "System Test Course 1";
+const SYSTEM_TEST_COURSE_TWO_TITLE = "System Test Course 2";
+const SYSTEM_TEST_COURSE_ONE_MIN_CLEARANCE = 0;
+const SYSTEM_TEST_COURSE_TWO_MIN_CLEARANCE = 1;
+const SYSTEM_TEST_COURSE_ONE_MAX_PARTICIPANTS = 15;
+const SYSTEM_TEST_COURSE_TWO_MAX_PARTICIPANTS = 10;
+const SYSTEM_TEST_COURSE_DEFAULT_MAX_CLEARANCE = null;
+const SYSTEM_TEST_COURSE_ORGANIZER = "OpenCourseMatch";
+const SYSTEM_TEST_COURSE_DEFAULT_MIN_PARTICIPANTS = 0;
 
 beforeAll(function() {
     setupExampleGroups();
@@ -13,46 +23,37 @@ beforeAll(function() {
 });
 
 test("Loading the index page works", function() {
-    $browser = Playwright::firefox();
-    $page = $browser->newPage();
+    withBrowserPage(function($page) {
+        $request = $page->goto(getSystemTestBaseUrl());
 
-    $request = $page->goto(SYSTEM_TEST_BASE_URL);
-
-    expect($request)->not()->toBeNull()
-        ->and($request->ok())->toBeTrue()
-        ->and($page->content())->toContain("OpenCourseMatch");
-
-    $browser->close();
+        expect($request)->not()->toBeNull()
+            ->and($request->ok())->toBeTrue()
+            ->and($page->content())->toContain("OpenCourseMatch");
+    });
 });
 
 test("Loading the login page works", function() {
-    $browser = Playwright::firefox();
-    $page = $browser->newPage();
+    withBrowserPage(function($page) {
+        $request = $page->goto(getSystemTestBaseUrl() . "/authentication/login");
 
-    $request = $page->goto(SYSTEM_TEST_BASE_URL . "/authentication/login");
-
-    expect($request)->not()->toBeNull()
-        ->and($request->ok())->toBeTrue()
-        ->and($page->content())->toContain("Please enter your account credentials to log in.");
-
-    $browser->close();
+        expect($request)->not()->toBeNull()
+            ->and($request->ok())->toBeTrue()
+            ->and($page->content())->toContain("Please enter your account credentials to log in.");
+    });
 });
 
 test("Loading a route that was not registered returns a 404 error", function() {
-    $browser = Playwright::firefox();
-    $page = $browser->newPage();
+    withBrowserPage(function($page) {
+        $request = $page->goto(getSystemTestBaseUrl() . "/route-that-is-not-registered");
 
-    $request = $page->goto(SYSTEM_TEST_BASE_URL . "/route-that-is-not-registered");
-
-    expect($request)->not()->toBeNull()
-        ->and($request->status())->toBe(404)
-        ->and($page->content())->toContain("The requested resource could not be found.");
-
-    $browser->close();
+        expect($request)->not()->toBeNull()
+            ->and($request->status())->toBe(404)
+            ->and($page->content())->toContain("The requested resource could not be found.");
+    });
 });
 
 test("Logging in works", function() {
-    $response = executeLoginRequest(SYSTEM_TEST_ADMIN_USERNAME, SYSTEM_TEST_ADMIN_PASSWORD);
+    $response = executeLoginRequest(getSystemTestAdminUsername(), getSystemTestAdminPassword());
 
     expect($response["status"])->toBe(200)
         ->and($response["body"])->toContain("Dashboard")
@@ -60,11 +61,14 @@ test("Logging in works", function() {
 });
 
 function setupExampleUsers(): void {
-    $group = \app\groups\Group::dao()->getObject(["name" => "System Test Group A"]);
+    $group = \app\groups\Group::dao()->getObject(["name" => SYSTEM_TEST_GROUP_A_NAME]);
+    if (!$group instanceof \app\groups\Group) {
+        throw new RuntimeException("Required system test group is missing: " . SYSTEM_TEST_GROUP_A_NAME);
+    }
 
     setupUser(
-        SYSTEM_TEST_ADMIN_USERNAME,
-        SYSTEM_TEST_ADMIN_PASSWORD,
+        getSystemTestAdminUsername(),
+        getSystemTestAdminPassword(),
         \app\users\PermissionLevel::ADMIN,
         "System",
         "Admin",
@@ -73,7 +77,7 @@ function setupExampleUsers(): void {
 
     setupUser(
         "system-facilitator@example.test",
-        "TestPassword123!",
+        getSystemTestDefaultPassword(),
         \app\users\PermissionLevel::FACILITATOR,
         "System",
         "Facilitator",
@@ -82,11 +86,11 @@ function setupExampleUsers(): void {
 
     setupUser(
         "system-user@example.test",
-        "TestPassword123!",
+        getSystemTestDefaultPassword(),
         \app\users\PermissionLevel::USER,
         "System",
         "User",
-        $group instanceof \app\groups\Group ? $group : null
+        $group
     );
 }
 
@@ -100,15 +104,7 @@ function setupUser(
 ): void {
     $user = \app\users\User::dao()->getObject(["username" => $username]);
 
-    if($user instanceof \app\users\User) {
-        $user->setPassword($password);
-        $user->setPermissionLevel($permissionLevel);
-        $user->setFirstName($firstName);
-        $user->setLastName($lastName);
-        $user->setGroupId($group?->getId());
-        $user->setLeadingCourseId(null);
-        \app\users\User::dao()->save($user);
-
+    if ($user instanceof \app\users\User) {
         return;
     }
 
@@ -124,13 +120,13 @@ function setupUser(
 }
 
 function setupExampleGroups(): void {
-    setupGroup("System Test Group A", 1);
-    setupGroup("System Test Group B", 2);
+    setupGroup(SYSTEM_TEST_GROUP_A_NAME, SYSTEM_TEST_GROUP_A_CLEARANCE);
+    setupGroup(SYSTEM_TEST_GROUP_B_NAME, SYSTEM_TEST_GROUP_B_CLEARANCE);
 }
 
 function setupGroup(string $name, int $clearance): void {
     $group = \app\groups\Group::dao()->getObject(["name" => $name]);
-    if(!$group instanceof \app\groups\Group) {
+    if (!$group instanceof \app\groups\Group) {
         $group = new \app\groups\Group();
     }
 
@@ -141,8 +137,22 @@ function setupGroup(string $name, int $clearance): void {
 }
 
 function setupExampleCourses(): void {
-    setupCourse("System Test Course 1", "OpenCourseMatch", 0, null, 0, 15);
-    setupCourse("System Test Course 2", "OpenCourseMatch", 1, null, 0, 10);
+    setupCourse(
+        SYSTEM_TEST_COURSE_ONE_TITLE,
+        SYSTEM_TEST_COURSE_ORGANIZER,
+        SYSTEM_TEST_COURSE_ONE_MIN_CLEARANCE,
+        SYSTEM_TEST_COURSE_DEFAULT_MAX_CLEARANCE,
+        SYSTEM_TEST_COURSE_DEFAULT_MIN_PARTICIPANTS,
+        SYSTEM_TEST_COURSE_ONE_MAX_PARTICIPANTS
+    );
+    setupCourse(
+        SYSTEM_TEST_COURSE_TWO_TITLE,
+        SYSTEM_TEST_COURSE_ORGANIZER,
+        SYSTEM_TEST_COURSE_TWO_MIN_CLEARANCE,
+        SYSTEM_TEST_COURSE_DEFAULT_MAX_CLEARANCE,
+        SYSTEM_TEST_COURSE_DEFAULT_MIN_PARTICIPANTS,
+        SYSTEM_TEST_COURSE_TWO_MAX_PARTICIPANTS
+    );
 }
 
 function setupCourse(
@@ -154,7 +164,7 @@ function setupCourse(
     int $maxParticipants
 ): void {
     $course = \app\courses\Course::dao()->getObject(["title" => $title]);
-    if(!$course instanceof \app\courses\Course) {
+    if (!$course instanceof \app\courses\Course) {
         $course = new \app\courses\Course();
     }
 
@@ -169,34 +179,101 @@ function setupCourse(
 }
 
 function executeLoginRequest(string $username, string $password): array {
-    $cookieFile = tempnam(sys_get_temp_dir(), "ocm-system-test-cookies-");
-    expect($cookieFile)->not()->toBeFalse();
+    $cookieFileHandle = tmpfile();
+    if ($cookieFileHandle === false) {
+        throw new RuntimeException("Failed to create temporary cookie file handle.");
+    }
 
-    $ch = curl_init(SYSTEM_TEST_BASE_URL . "/authentication/login-action");
-    expect($ch)->not()->toBeFalse();
+    try {
+        $cookieFileMeta = stream_get_meta_data($cookieFileHandle);
+        $cookieFile = $cookieFileMeta["uri"];
 
-    curl_setopt_array($ch, [
-        CURLOPT_POST => true,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_COOKIEJAR => $cookieFile,
-        CURLOPT_COOKIEFILE => $cookieFile,
-        CURLOPT_POSTFIELDS => http_build_query([
-            "username" => $username,
-            "password" => $password
-        ])
-    ]);
+        $ch = curl_init(getSystemTestBaseUrl() . "/authentication/login-action");
+        if ($ch === false) {
+            throw new RuntimeException("Failed to initialize cURL.");
+        }
 
-    $responseBody = curl_exec($ch);
-    $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $responseBody = "";
+        $statusCode = 0;
 
-    curl_close($ch);
-    unlink($cookieFile);
+        curl_setopt_array($ch, [
+            CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_COOKIEJAR => $cookieFile,
+            CURLOPT_COOKIEFILE => $cookieFile,
+            CURLOPT_POSTFIELDS => http_build_query([
+                "username" => $username,
+                "password" => $password
+            ])
+        ]);
 
-    expect($responseBody)->not()->toBeFalse();
+        try {
+            $responseBody = curl_exec($ch);
+            $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        } finally {
+            curl_close($ch);
+        }
 
-    return [
-        "status" => $statusCode,
-        "body" => strval($responseBody)
-    ];
+        if ($responseBody === false) {
+            throw new RuntimeException("Failed to execute login request.");
+        }
+
+        return [
+            "status" => $statusCode,
+            "body" => strval($responseBody)
+        ];
+    } finally {
+        fclose($cookieFileHandle);
+    }
+}
+
+function getSystemTestAdminUsername(): string {
+    $username = getenv("SYSTEM_TEST_ADMIN_USERNAME");
+    if ($username === false || trim($username) === "") {
+        static $generatedUsername = null;
+        if ($generatedUsername === null) {
+            $generatedUsername = "system-admin-" . bin2hex(random_bytes(8)) . "@example.test";
+        }
+
+        return $generatedUsername;
+    }
+
+    return $username;
+}
+
+function getSystemTestBaseUrl(): string {
+    $baseUrl = getenv("SYSTEM_TEST_BASE_URL");
+    if ($baseUrl === false || trim($baseUrl) === "") {
+        return "http://localhost:3000";
+    }
+
+    return rtrim($baseUrl, "/");
+}
+
+function getSystemTestAdminPassword(): string {
+    $password = getenv("SYSTEM_TEST_ADMIN_PASSWORD");
+    if ($password === false || trim($password) === "") {
+        return getSystemTestDefaultPassword();
+    }
+
+    return $password;
+}
+
+function getSystemTestDefaultPassword(): string {
+    static $generatedPassword = null;
+    if ($generatedPassword === null) {
+        $generatedPassword = bin2hex(random_bytes(32));
+    }
+
+    return $generatedPassword;
+}
+
+function withBrowserPage(callable $callback): void {
+    $browser = Playwright::firefox();
+    try {
+        $callback($browser->newPage());
+    } finally {
+        $browser->close();
+    }
 }
