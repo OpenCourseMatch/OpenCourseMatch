@@ -26,7 +26,6 @@ function ensureSystemTestData(): void {
         return;
     }
 
-    \app\settings\SystemSetting::dao()->setDefaults();
     \app\settings\SystemSetting::dao()->set("choiceCount", "3");
     \app\settings\SystemStatus::dao()->set("userActionsAllowed", "true");
     \app\settings\SystemStatus::dao()->set("algorithmRunning", "false");
