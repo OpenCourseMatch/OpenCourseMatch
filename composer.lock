@@ -1065,16 +1065,16 @@
         },
         {
             "name": "struktal/struktal-job-executor",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Struktal/struktal-job-executor.git",
-                "reference": "7ff69156320916ae06139a48796ae82a62e89fe4"
+                "reference": "f19b6457296e818660165108d542dcf853fce17c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Struktal/struktal-job-executor/zipball/7ff69156320916ae06139a48796ae82a62e89fe4",
-                "reference": "7ff69156320916ae06139a48796ae82a62e89fe4",
+                "url": "https://api.github.com/repos/Struktal/struktal-job-executor/zipball/f19b6457296e818660165108d542dcf853fce17c",
+                "reference": "f19b6457296e818660165108d542dcf853fce17c",
                 "shasum": ""
             },
             "require": {
@@ -1096,9 +1096,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Struktal/struktal-job-executor/issues",
-                "source": "https://github.com/Struktal/struktal-job-executor/tree/1.0.0"
+                "source": "https://github.com/Struktal/struktal-job-executor/tree/1.0.1"
             },
-            "time": "2026-04-14T16:55:56+00:00"
+            "time": "2026-04-21T20:25:41+00:00"
         },
         {
             "name": "struktal/struktal-logger",
@@ -1939,23 +1939,23 @@
         },
         {
             "name": "nunomaduro/collision",
-            "version": "v8.9.3",
+            "version": "v8.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/collision.git",
-                "reference": "b0d8ab95b29c3189aeeb902d81215231df4c1b64"
+                "reference": "716af8f95a470e9094cfca09ed897b023be191a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/b0d8ab95b29c3189aeeb902d81215231df4c1b64",
-                "reference": "b0d8ab95b29c3189aeeb902d81215231df4c1b64",
+                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/716af8f95a470e9094cfca09ed897b023be191a5",
+                "reference": "716af8f95a470e9094cfca09ed897b023be191a5",
                 "shasum": ""
             },
             "require": {
                 "filp/whoops": "^2.18.4",
                 "nunomaduro/termwind": "^2.4.0",
                 "php": "^8.2.0",
-                "symfony/console": "^7.4.8 || ^8.0.4"
+                "symfony/console": "^7.4.8 || ^8.0.8"
             },
             "conflict": {
                 "laravel/framework": "<11.48.0 || >=14.0.0",
@@ -1963,12 +1963,12 @@
             },
             "require-dev": {
                 "brianium/paratest": "^7.8.5",
-                "larastan/larastan": "^3.9.3",
-                "laravel/framework": "^11.48.0 || ^12.56.0 || ^13.2.0",
-                "laravel/pint": "^1.29.0",
-                "orchestra/testbench-core": "^9.12.0 || ^10.12.1 || ^11.0.0",
+                "larastan/larastan": "^3.9.6",
+                "laravel/framework": "^11.48.0 || ^12.56.0 || ^13.5.0",
+                "laravel/pint": "^1.29.1",
+                "orchestra/testbench-core": "^9.12.0 || ^10.12.1 || ^11.2.1",
                 "pestphp/pest": "^3.8.5 || ^4.4.3 || ^5.0.0",
-                "sebastian/environment": "^7.2.1 || ^8.0.4 || ^9.0.0"
+                "sebastian/environment": "^7.2.1 || ^8.0.4 || ^9.3.0"
             },
             "type": "library",
             "extra": {
@@ -2031,7 +2031,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2026-04-06T19:25:53+00:00"
+            "time": "2026-04-21T14:04:20+00:00"
         },
         {
             "name": "nunomaduro/termwind",
@@ -4526,16 +4526,16 @@
         },
         {
             "name": "struktal/struktal-dev-core",
-            "version": "1.1.0",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Struktal/struktal-dev-core.git",
-                "reference": "860efb3bfab91e330cc7048ddce4505279f4a7a2"
+                "reference": "848a78b2a7fbafb266fc364b9832a74041c99036"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Struktal/struktal-dev-core/zipball/860efb3bfab91e330cc7048ddce4505279f4a7a2",
-                "reference": "860efb3bfab91e330cc7048ddce4505279f4a7a2",
+                "url": "https://api.github.com/repos/Struktal/struktal-dev-core/zipball/848a78b2a7fbafb266fc364b9832a74041c99036",
+                "reference": "848a78b2a7fbafb266fc364b9832a74041c99036",
                 "shasum": ""
             },
             "require": {
@@ -4544,6 +4544,11 @@
                 "playwright-php/playwright": "^1.2.0"
             },
             "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "struktal\\devcore\\": "src/"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
@@ -4554,9 +4559,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Struktal/struktal-dev-core/issues",
-                "source": "https://github.com/Struktal/struktal-dev-core/tree/1.1.0"
+                "source": "https://github.com/Struktal/struktal-dev-core/tree/1.1.3"
             },
-            "time": "2026-04-16T09:07:54+00:00"
+            "time": "2026-04-24T15:37:23+00:00"
         },
         {
             "name": "symfony/console",
@@ -5534,7 +5539,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -5543,6 +5548,6 @@
         "ext-curl": "*",
         "ext-json": "*"
     },
-    "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }

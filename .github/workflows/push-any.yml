@@ -3,35 +3,35 @@ name: "Push to any except main branch"
 on:
     push:
         branches:
-          - "**"
-          - "!main"
+            - "**"
+            - "!main"
     workflow_dispatch:
 
 jobs:
     build:
         runs-on: "ubuntu-latest"
         steps:
-          - name: "Checkout"
-            uses: "actions/checkout@v6"
+            - name: "Checkout"
+              uses: "actions/checkout@v6"
 
-          - name: "Get lowercase repository details"
-            id: "lowercase-repo-details"
-            run: |
-                echo "REPOSITORYLC=${GITHUB_REPOSITORY@L}" >> "${GITHUB_ENV}"
+            - name: "Get lowercase repository details"
+              id: "lowercase-repo-details"
+              run: |
+                  echo "REPOSITORYLC=${GITHUB_REPOSITORY@L}" >> "${GITHUB_ENV}"
 
-          - name: "Docker Buildx setup"
-            uses: "docker/setup-buildx-action@v4"
+            - name: "Docker Buildx setup"
+              uses: "docker/setup-buildx-action@v4"
 
-          - name: "Build development image"
-            uses: "docker/build-push-action@v7"
-            with:
-                context: "."
-                push: "false"
-                tags: |
-                    ghcr.io/${{ env.REPOSITORYLC }}:dev-latest
-                    ghcr.io/${{ env.REPOSITORYLC }}:dev-${{ github.sha }}
-                cache-from: "type=gha"
-                cache-to: "type=gha,mode=max"
+            - name: "Build development image"
+              uses: "docker/build-push-action@v7"
+              with:
+                  context: "."
+                  push: "false"
+                  tags: |
+                      ghcr.io/${{ env.REPOSITORYLC }}:dev-latest
+                      ghcr.io/${{ env.REPOSITORYLC }}:dev-${{ github.sha }}
+                  cache-from: "type=gha"
+                  cache-to: "type=gha,mode=max"
 
     test:
         runs-on: "ubuntu-latest"
@@ -62,22 +62,6 @@ jobs:
                   php config/generate-testing-config.php
                   echo "127.0.0.1 database" | sudo tee -a /etc/hosts
 
-            - name: "Docker Buildx setup (for test image)"
-              uses: "docker/setup-buildx-action@v4"
-
-            - name: "Build test image"
-              uses: "docker/build-push-action@v7"
-              with:
-                context: "."
-                push: "false"
-                load: "true"
-                tags: |
-                    struktaltest:latest
-                cache-from: "type=gha,scope=test"
-                cache-to: "type=gha,scope=test,mode=max"
-                build-args: |
-                    BUILDKIT_INLINE_CACHE=1
-
             - name: "Run tests"
               run: |
                   composer run test
@@ -85,4 +69,4 @@ jobs:
             - name: "Dump app logs on failure"
               if: failure()
               run: |
-                docker compose -f docker-compose-test.yml logs app
+                  docker compose -f docker-compose-test.yml logs app
