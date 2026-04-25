@@ -2,6 +2,12 @@
 
 use Playwright\Playwright;
 
+require_once(__DIR__ . "/SystemTestSetup.php");
+
+beforeAll(function() {
+    setupSystemTestData();
+});
+
 test("Index page is reachable", function() {
     $browser = Playwright::firefox();
     $page = $browser->newPage();
