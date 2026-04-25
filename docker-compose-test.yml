@@ -36,8 +36,6 @@ services:
             TZ: "UTC"
         volumes:
             - "./config:/app/config"
-            - "./app-logs:/app/logs"
-            - "./app-files:/app/files"
         ports:
             - "3000:80"
         networks:
