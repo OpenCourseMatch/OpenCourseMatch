@@ -22,7 +22,8 @@ The documentation for the software is available [here](https://github.com/OpenCo
 
 ### Deployment
 
-This section will follow shortly.
+OpenCourseMatch is deployed as a Docker container.
+You can find configurations in the [documentation](https://github.com/OpenCourseMatch/Documentation/blob/main/06-deployment-and-setup.md).
 
 ### Dependencies
 
