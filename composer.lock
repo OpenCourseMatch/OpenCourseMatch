@@ -872,16 +872,16 @@
         },
         {
             "name": "struktal/struktal-csv-reader",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Struktal/struktal-csv-reader.git",
-                "reference": "c37a95f8f2b6999028198980c1dd41917220ac68"
+                "reference": "5d101289debce5f8bc2fa4bf8fbb93987d1bb7af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Struktal/struktal-csv-reader/zipball/c37a95f8f2b6999028198980c1dd41917220ac68",
-                "reference": "c37a95f8f2b6999028198980c1dd41917220ac68",
+                "url": "https://api.github.com/repos/Struktal/struktal-csv-reader/zipball/5d101289debce5f8bc2fa4bf8fbb93987d1bb7af",
+                "reference": "5d101289debce5f8bc2fa4bf8fbb93987d1bb7af",
                 "shasum": ""
             },
             "require": {
@@ -905,9 +905,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Struktal/struktal-csv-reader/issues",
-                "source": "https://github.com/Struktal/struktal-csv-reader/tree/1.1.1"
+                "source": "https://github.com/Struktal/struktal-csv-reader/tree/1.1.2"
             },
-            "time": "2026-05-22T14:37:29+00:00"
+            "time": "2026-05-22T16:04:35+00:00"
         },
         {
             "name": "struktal/struktal-curl",
