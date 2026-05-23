@@ -34,6 +34,8 @@ RUN mkdir -p logs && chown -R nginx:nginx logs && \
     chmod 777 /app/files && \
     chmod 777 /app/template-cache && \
     chmod +x /app/entrypoint-dev.sh
+RUN touch "/app/logs/log-$(date +%Y-%m-%d).log" && \
+    chown nginx:nginx "/app/logs/log-$(date +%Y-%m-%d).log"
 
 # Install npm dependencies
 RUN npm install
